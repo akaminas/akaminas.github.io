@@ -1,0 +1,337 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SystemField from '../components/SystemField.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../data/site';
+
+const projects = (await getCollection('projects', ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${site.url}/#person`,
+  name: site.name,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  jobTitle: site.position,
+  description: site.description,
+  image: `${site.url}/images/portrait-640.jpg`,
+  affiliation: {
+    '@type': 'Organization',
+    name: site.affiliation.name,
+    url: 'https://www.rug.nl/',
+    department: { '@type': 'Organization', name: site.affiliation.unit, url: site.affiliation.url },
+  },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'University of Montpellier' },
+    { '@type': 'CollegeOrUniversity', name: 'University of the Aegean' },
+  ],
+  knowsAbout: [
+    'Complex systems',
+    'Mathematical modelling',
+    'Computational modelling',
+    'Eco-evolutionary dynamics',
+    'Theoretical ecology',
+    'Evolutionary biology',
+    'Stochastic simulation',
+    'Sustainability science',
+  ],
+  identifier: { '@type': 'PropertyValue', propertyID: 'ORCID', value: site.orcidId },
+  sameAs: [site.profiles.orcid, site.profiles.github, site.profiles.scholar, site.profiles.rug, site.profiles.researchgate],
+};
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: site.url,
+  author: { '@id': `${site.url}/#person` },
+};
+---
+
+<Base title="Home" description={site.description} home schema={[personSchema, websiteSchema]} ogType="profile">
+  <section class="hero container">
+    <div class="hero__text">
+      <p class="eyebrow">
+        {site.name} · {site.position}, <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}
+      </p>
+      <h1 class="hero__title">Modelling complex systems.</h1>
+      <p class="lede">
+        I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback and
+        chance: communities of species, evolving populations, and the organisations and economies that depend on them.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="/work/">See the work</a>
+        <a class="button" href="/about/">About me</a>
+      </div>
+    </div>
+    <SystemField class="hero__visual" />
+  </section>
+
+  <section class="section container" aria-labelledby="scope-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <p class="eyebrow">Scope</p>
+        <h2 id="scope-title" class="h-section">One modelling language, several systems</h2>
+      </div>
+      <div class="scope">
+        <ol class="chain" aria-label="From core expertise to applications">
+          <li><span>Complex systems</span></li>
+          <li><span>Mathematical &amp; computational modelling</span></li>
+          <li><span>Ecology &amp; evolution</span></li>
+          <li><span>Sustainability</span></li>
+          <li><span>Social &amp; economic systems</span></li>
+        </ol>
+        <div class="scope__cols">
+          <div>
+            <h3 class="h-small">Core expertise</h3>
+            <p>
+              Mechanistic models of interacting components: dynamical systems, stochastic simulation, population and
+              trait-based models, and networks of interactions. The question is always how structure and randomness
+              at one level produce behaviour at another.
+            </p>
+          </div>
+          <div>
+            <h3 class="h-small">Primary domain</h3>
+            <p>
+              Ecology and evolution. My doctoral research at the University of Groningen models how isolation and
+              limited immigration reshape community assembly, diversification and extinction, with ecological and
+              evolutionary change coupled.
+            </p>
+          </div>
+          <div>
+            <h3 class="h-small">Interdisciplinary applications</h3>
+            <p>
+              Sustainability and socioeconomic systems, where I apply the same systems reasoning to organisations and
+              institutions: a 2026 paper on organisational commitment to sustainability, and policy and reporting
+              work with SDSN Youth Greece and the University of Athens.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--rule container" aria-labelledby="work-title">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="work-title" class="h-section">Case studies</h2>
+      </div>
+      <a class="arrow-link" href="/work/">All projects and talks</a>
+    </div>
+    <div class="cards">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
+
+  <section class="section section--rule container" aria-labelledby="methods-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <p class="eyebrow">Methods</p>
+        <h2 id="methods-title" class="h-section">How the models are built</h2>
+      </div>
+      <div class="stack">
+        <p>
+          The subject changes from project to project; the toolkit does not. Models are formulated mechanistically,
+          studied by stochastic simulation and dynamical-systems analysis, and confronted with data using statistical
+          methods. Simulation engines in C++, analysis and visualisation in R and Python.
+        </p>
+        <ul class="tags" aria-label="Method areas">
+          <li>Eco-evolutionary models</li>
+          <li>Stochastic simulation</li>
+          <li>Dynamical systems &amp; transitions</li>
+          <li>Interaction networks</li>
+          <li>Trait-space &amp; functional diversity</li>
+          <li>Statistical modelling</li>
+          <li>Spatial analysis</li>
+          <li>Data visualisation</li>
+        </ul>
+        <a class="arrow-link" href="/methods/">Methods in detail</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--rule container" aria-labelledby="recent-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <p class="eyebrow">Recent</p>
+        <h2 id="recent-title" class="h-section">2025 – 2026</h2>
+      </div>
+      <ol class="ruled recent">
+        <li>
+          <span class="recent__date">June 2026</span>
+          <span class="recent__what">
+            Talk at the NVTB Annual Schoorl Meeting:{' '}
+            <a href="/work/evolutionary-consequences-of-isolation/"><em>Isolation as a dynamic driver of eco-evolutionary change</em></a>.
+          </span>
+        </li>
+        <li>
+          <span class="recent__date">April 2026</span>
+          <span class="recent__what">
+            Paper published in <em>Circular Economy and Sustainability</em> on{' '}
+            <a href="/publications/#alevizos-2026-ngo-sustainability">organisational commitment to sustainability among Greek NGOs</a>.
+          </span>
+        </li>
+        <li>
+          <span class="recent__date">2026</span>
+          <span class="recent__what">
+            Supervised an MSc research project on{' '}
+            <a href="/work/trait-evolution-in-mutualistic-networks/">trait evolution in mutualistic networks</a> at TRÊS.
+          </span>
+        </li>
+        <li>
+          <span class="recent__date">October 2025</span>
+          <span class="recent__what">
+            Started the PhD <em>The evolutionary consequences of isolation</em> at the University of Groningen as an
+            EVOLVE fellow (EU MSCA COFUND).
+          </span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--rule container" aria-labelledby="contact-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title" class="h-section">Collaboration and supervision</h2>
+      </div>
+      <div class="stack">
+        <p>
+          I am glad to hear from researchers working on eco-evolutionary dynamics, complex systems and quantitative
+          sustainability, and from students interested in modelling projects.
+        </p>
+        <p>
+          <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-7) var(--space-8);
+    align-items: center;
+  }
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-8);
+      padding-block: var(--space-8) var(--space-9);
+      min-height: calc(100dvh - 4rem);
+    }
+  }
+  .hero__title {
+    font-size: var(--step-5);
+    margin-block: var(--space-3) var(--space-5);
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .h-section {
+    font-size: var(--step-2);
+    margin-bottom: 0;
+  }
+  .h-small {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--step-0);
+    margin-bottom: var(--space-2);
+  }
+  .section__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .cards {
+    display: grid;
+    gap: 0 var(--space-7);
+  }
+  @media (min-width: 52rem) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Hierarchy chain: a typographic diagram of the scope, arrows between items */
+  .chain {
+    list-style: none;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) 0;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.02em;
+  }
+  .chain li {
+    display: flex;
+    align-items: center;
+    max-width: none;
+  }
+  .chain li span {
+    padding: 0.3em 0.7em;
+    border: var(--rule) solid var(--line-strong);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .chain li:first-child span {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .chain li + li::before {
+    content: '→';
+    color: var(--muted);
+    padding: 0 0.5em;
+  }
+  .scope__cols {
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (min-width: 52rem) {
+    .scope__cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+  }
+  .scope__cols p {
+    margin: 0;
+    font-size: var(--step--1);
+  }
+  .recent li {
+    display: grid;
+    gap: var(--space-1) var(--space-5);
+  }
+  @media (min-width: 42rem) {
+    .recent li {
+      grid-template-columns: 9rem minmax(0, 1fr);
+    }
+  }
+  .recent__date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    padding-top: 0.25em;
+  }
+  .recent__what {
+    max-width: var(--measure);
+  }
+</style>

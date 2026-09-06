@@ -1,0 +1,249 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Motif from '../../components/Motif.astro';
+import PublicationItem from '../../components/PublicationItem.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const pubs = (await Promise.all(data.publications.map((id) => getEntry('publications', id)))).filter(
+  (p): p is CollectionEntry<'publications'> => Boolean(p),
+);
+const talks = (await Promise.all(data.talks.map((id) => getEntry('talks', id)))).filter(
+  (t): t is CollectionEntry<'talks'> => Boolean(t),
+);
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const idx = all.findIndex((p) => p.id === project.id);
+const next = all[(idx + 1) % all.length];
+
+const statusLabel = { ongoing: 'Ongoing', completed: 'Completed', published: 'Published' } as const;
+const domainLabel = {
+  'ecology-evolution': 'Ecology & evolution',
+  'sustainability-social': 'Sustainability & social systems',
+  'marine-systems': 'Marine systems & monitoring',
+} as const;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: data.title,
+  description: data.summary,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { '@id': `${site.url}/#person` },
+  about: data.methods,
+  ...(data.funding ? { funder: { '@type': 'Organization', name: data.funding } } : {}),
+};
+---
+
+<Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
+  <article>
+    <header class="project-header container">
+      <p class="eyebrow">
+        <a href="/work/">Work</a> · {domainLabel[data.domain]}
+      </p>
+      <div class="project-header__row">
+        <div>
+          <h1>{data.title}</h1>
+          <p class="lede">{data.question}</p>
+        </div>
+        <Motif kind={data.motif} size={120} class="project-header__motif" />
+      </div>
+    </header>
+
+    <div class="container grid-label project-body">
+      <aside class="grid-label__aside">
+        <dl class="meta">
+          <dt>Status</dt>
+          <dd><span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span></dd>
+          <dt>Period</dt>
+          <dd>{data.period}</dd>
+          <dt>Role</dt>
+          <dd>{data.role}</dd>
+          {
+            data.institutions.length > 0 && (
+              <>
+                <dt>Where</dt>
+                <dd>
+                  {data.institutions.map((i) => (
+                    <div>{i}</div>
+                  ))}
+                </dd>
+              </>
+            )
+          }
+          {
+            data.collaborators.length > 0 && (
+              <>
+                <dt>With</dt>
+                <dd>{data.collaborators.join(', ')}</dd>
+              </>
+            )
+          }
+          {
+            data.funding && (
+              <>
+                <dt>Funding</dt>
+                <dd>{data.funding}</dd>
+              </>
+            )
+          }
+          {
+            data.methods.length > 0 && (
+              <>
+                <dt>Methods</dt>
+                <dd>
+                  <ul class="tags">
+                    {data.methods.map((m) => (
+                      <li>{m}</li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )
+          }
+          {
+            data.tools.length > 0 && (
+              <>
+                <dt>Tools</dt>
+                <dd>
+                  <ul class="tags">
+                    {data.tools.map((m) => (
+                      <li>{m}</li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )
+          }
+          {
+            data.links.length > 0 && (
+              <>
+                <dt>Links</dt>
+                <dd>
+                  {data.links.map((l) => (
+                    <div>
+                      <a href={l.url} rel="noopener">
+                        {l.label}
+                      </a>
+                    </div>
+                  ))}
+                </dd>
+              </>
+            )
+          }
+        </dl>
+      </aside>
+
+      <div class="prose">
+        <Content />
+
+        {
+          talks.length > 0 && (
+            <section aria-labelledby="proj-talks">
+              <h2 id="proj-talks">Presentations</h2>
+              <ul class="ruled">
+                {talks.map((t) => (
+                  <li>
+                    <p class="serif" style="font-size: var(--step-1); margin-bottom: var(--space-1)">
+                      {t.data.title}
+                    </p>
+                    <p class="small" style="margin: 0">
+                      {t.data.event}, {t.data.location} ·{' '}
+                      {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+                    </p>
+                    {t.data.authors.length > 1 && (
+                      <p class="muted small" style="margin: 0">
+                        {t.data.authors.join(', ')}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          pubs.length > 0 && (
+            <section aria-labelledby="proj-pubs">
+              <h2 id="proj-pubs">Publications</h2>
+              <ol class="ruled">
+                {pubs.map((p) => (
+                  <PublicationItem pub={p} />
+                ))}
+              </ol>
+            </section>
+          )
+        }
+      </div>
+    </div>
+
+    <nav class="container project-next" aria-label="Next project">
+      <p class="eyebrow">Next</p>
+      <a class="arrow-link" href={`/work/${next.id}/`}>{next.data.title}</a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .project-header {
+    padding-block: var(--space-8) var(--space-6);
+  }
+  .project-header__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+  .project-header h1 {
+    max-width: 16em;
+  }
+  .project-header .lede {
+    margin: 0;
+  }
+  .project-header__motif {
+    display: none;
+  }
+  @media (min-width: 52rem) {
+    .project-header__motif {
+      display: block;
+      margin-top: var(--space-2);
+    }
+  }
+  .project-body {
+    padding-block: var(--space-6) var(--space-8);
+  }
+  .project-body .meta {
+    padding-top: var(--space-4);
+    border-top: var(--rule) solid var(--line);
+  }
+  @media (min-width: 52rem) {
+    .project-body .meta {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+    .project-body .meta dd {
+      margin-bottom: var(--space-3);
+    }
+  }
+  .project-next {
+    padding-block: var(--space-6);
+    border-top: var(--rule) solid var(--line);
+  }
+  .project-next .arrow-link {
+    font-family: var(--font-serif);
+    font-size: var(--step-2);
+  }
+</style>

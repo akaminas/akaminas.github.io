@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Motif from '../components/Motif.astro';
+
+/**
+ * Only methods with documented use in a project, thesis or publication are listed.
+ * Each entry names where the method was used so the claim can be checked.
+ */
+const areas = [
+  {
+    id: 'mechanistic',
+    motif: 'patches',
+    title: 'Mechanistic and eco-evolutionary modelling',
+    text: 'Models built from explicit processes rather than fitted curves: immigration, interaction, diversification and extinction as rates; traits under selection; populations whose dynamics feed back on evolution. Ecological and evolutionary change are treated on the same timescale where the question demands it.',
+    used: [
+      { label: 'The evolutionary consequences of isolation (PhD)', href: '/work/evolutionary-consequences-of-isolation/' },
+      { label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' },
+    ],
+  },
+  {
+    id: 'stochastic',
+    motif: 'field',
+    title: 'Stochastic simulation and numerical experiments',
+    text: 'Individual- and population-level stochastic models studied by simulation when analytical solutions are out of reach. Simulation engines are written in C++ for speed; experiments are designed, run and analysed from R.',
+    used: [
+      { label: 'The evolutionary consequences of isolation (PhD)', href: '/work/evolutionary-consequences-of-isolation/' },
+      { label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' },
+    ],
+  },
+  {
+    id: 'dynamical',
+    motif: 'fold',
+    title: 'Dynamical systems, transitions and resilience',
+    text: 'Equilibria, stability and abrupt transitions. Catastrophe theory for discontinuous community dynamics, and regime-shift analysis of community time series under multiple pressures.',
+    used: [{ label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' }],
+  },
+  {
+    id: 'networks',
+    motif: 'bipartite',
+    title: 'Interaction networks and systems frameworks',
+    text: 'Interactions represented explicitly as networks whose structure depends on traits and feeds back on dynamics; the same systems view applied to organisations and institutions.',
+    used: [
+      { label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' },
+      { label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' },
+    ],
+  },
+  {
+    id: 'trait-space',
+    motif: 'hypervolume',
+    title: 'Trait space, functional diversity and phylogenetics',
+    text: 'n-dimensional hypervolumes to quantify occupied trait space; phylogenetic inference and phylogeny-informed trait imputation to handle incomplete trait data.',
+    used: [{ label: 'Functional diversity of Mediterranean fish communities', href: '/work/functional-diversity-mediterranean-fish/' }],
+  },
+  {
+    id: 'statistics',
+    motif: 'records',
+    title: 'Statistical analysis and model-to-data comparison',
+    text: 'Estimating the effects of pressures from observational data, comparing model expectations with community records, and quantitative analysis of survey and monitoring data.',
+    used: [
+      { label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' },
+      { label: 'Tracking marine invasions with citizen science', href: '/work/citizen-science-marine-invasions/' },
+      { label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' },
+    ],
+  },
+  {
+    id: 'spatial',
+    motif: 'nested',
+    title: 'Spatial analysis, oceanographic models and visualisation',
+    text: 'GIS analysis (QGIS, ArcGIS), satellite imagery, and a year of operational work with oceanographic models and forecasts. Data visualisation and scientific storytelling for climate-change reporting.',
+    used: [
+      { label: 'Hydrographic Service, Hellenic Navy (2024–2025)', href: '/about/#experience' },
+      { label: 'Political Economy of Sustainable Development Lab', href: '/work/sustainability-organisations-as-systems/' },
+    ],
+  },
+] as const;
+
+const tools = [
+  { name: 'C++', note: 'simulation engines' },
+  { name: 'R', note: 'analysis, statistics, visualisation' },
+  { name: 'Python', note: 'analysis, data pipelines, tooling' },
+  { name: 'MATLAB', note: 'basic' },
+  { name: 'QGIS / ArcGIS', note: 'spatial analysis' },
+  { name: 'Git', note: 'version control (this site is built with it)' },
+];
+---
+
+<Base
+  title="Methods"
+  description="Modelling methods used by Alexandros Kaminas: mechanistic eco-evolutionary models, stochastic simulation, dynamical systems and catastrophe theory, interaction networks, trait-space hypervolumes, statistical analysis and spatial methods. C++, R and Python."
+>
+  <PageHeader
+    eyebrow="Methods"
+    title="How the models are built"
+    lede="Every method below is tied to a project where it was actually used. There are no proficiency scores here; the projects are the evidence."
+  />
+
+  <div class="container">
+    <ol class="areas">
+      {
+        areas.map((a) => (
+          <li class="area" id={a.id}>
+            <Motif kind={a.motif} size={72} />
+            <div class="area__body">
+              <h2>{a.title}</h2>
+              <p>{a.text}</p>
+              <p class="area__used">
+                <span class="eyebrow" style="display:inline; margin:0">
+                  Used in
+                </span>
+                {a.used.map((u, i) => (
+                  <Fragment>
+                    {i > 0 ? ' · ' : ' '}
+                    <a href={u.href}>{u.label}</a>
+                  </Fragment>
+                ))}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <section class="section section--rule container" aria-labelledby="tools-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <p class="eyebrow">Tools</p>
+        <h2 id="tools-title" class="h-section">Languages and software</h2>
+      </div>
+      <div>
+        <dl class="tools">
+          {
+            tools.map((t) => (
+              <div class="tools__row">
+                <dt>{t.name}</dt>
+                <dd>{t.note}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="muted small" style="margin-top: var(--space-4)">
+          Also: laboratory sample treatment for pollution analysis and image-based identification (Image-Pro), from
+          marine-science training. Languages: Greek (native), English (C2), French (C1).
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .areas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+  .area {
+    display: grid;
+    gap: var(--space-3) var(--space-6);
+    padding-block: var(--space-6);
+    border-top: var(--rule) solid var(--line);
+    max-width: none;
+  }
+  @media (min-width: 42rem) {
+    .area {
+      grid-template-columns: 72px minmax(0, 1fr);
+    }
+  }
+  .area h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+  .area p {
+    max-width: var(--measure);
+  }
+  .area__used {
+    font-size: var(--step--1);
+    margin: 0;
+  }
+  .h-section {
+    font-size: var(--step-2);
+    margin-bottom: 0;
+  }
+  .tools {
+    margin: 0;
+    display: grid;
+  }
+  .tools__row {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-top: var(--rule) solid var(--line);
+  }
+  .tools__row:last-child {
+    border-bottom: var(--rule) solid var(--line);
+  }
+  .tools dt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+  .tools dd {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

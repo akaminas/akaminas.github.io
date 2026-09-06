@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Motif from './Motif.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  headingLevel?: 'h2' | 'h3';
+}
+const { project, headingLevel = 'h3' } = Astro.props;
+const { data } = project;
+const Heading = headingLevel;
+const domainLabel: Record<typeof data.domain, string> = {
+  'ecology-evolution': 'Ecology & evolution',
+  'sustainability-social': 'Sustainability & social systems',
+  'marine-systems': 'Marine systems & monitoring',
+};
+const statusLabel: Record<typeof data.status, string> = {
+  ongoing: 'Ongoing',
+  completed: 'Completed',
+  published: 'Published',
+};
+---
+
+<article class="project-card">
+  <a class="project-card__link" href={`/work/${project.id}/`}>
+    <div class="project-card__head">
+      <Motif kind={data.motif} size={64} />
+      <span class="eyebrow project-card__domain">{domainLabel[data.domain]}</span>
+    </div>
+    <Heading class="project-card__title">{data.title}</Heading>
+    <p class="project-card__question">{data.question}</p>
+  </a>
+  <div class="project-card__foot">
+    <span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]} · {data.period}</span>
+    {
+      data.methods.length > 0 && (
+        <ul class="tags" aria-label="Methods">
+          {data.methods.slice(0, 3).map((m) => (
+            <li>{m}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-block: var(--space-5) var(--space-5);
+    border-top: var(--rule) solid var(--line);
+    position: relative;
+  }
+  .project-card__link {
+    text-decoration: none;
+    color: inherit;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .project-card__link:hover {
+    color: inherit;
+  }
+  .project-card__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .project-card__domain {
+    margin: 0;
+    text-align: right;
+  }
+  .project-card__title {
+    font-size: var(--step-2);
+    margin: 0;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .project-card__link:hover .project-card__title,
+  .project-card__link:focus-visible .project-card__title {
+    color: var(--accent);
+  }
+  .project-card__question {
+    margin: 0;
+    color: var(--muted);
+    max-width: 40ch;
+    text-wrap: pretty;
+  }
+  .project-card__foot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: auto;
+  }
+</style>
