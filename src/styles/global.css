@@ -1,0 +1,563 @@
+/* ==========================================================================
+   Global styles — see DESIGN_SYSTEM.md for the reasoning behind these tokens.
+   Structure: fonts → tokens → reset → typography → layout primitives →
+   shared components → utilities → motion/print.
+   ========================================================================== */
+
+/* ---------- Self-hosted fonts (IBM Plex, SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
+@font-face {
+  font-family: 'Plex Sans';
+  src: url('/fonts/ibm-plex-sans-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Plex Sans';
+  src: url('/fonts/ibm-plex-sans-latin-wght-italic.woff2') format('woff2-variations');
+  font-weight: 100 700;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Plex Serif';
+  src: url('/fonts/ibm-plex-serif-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Serif';
+  src: url('/fonts/ibm-plex-serif-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Serif';
+  src: url('/fonts/ibm-plex-serif-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Serif';
+  src: url('/fonts/ibm-plex-serif-latin-500-italic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Mono';
+  src: url('/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design tokens ---------- */
+:root {
+  color-scheme: light dark;
+
+  /* Type */
+  --font-sans: 'Plex Sans', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Plex Serif', 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Plex Mono', 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Fluid type scale (min at 360px, max at 1280px). Body never below 17px. */
+  --step--1: clamp(0.88rem, 0.86rem + 0.1vw, 0.94rem);
+  --step-0: clamp(1.0625rem, 1.03rem + 0.15vw, 1.15rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.75vw, 1.9rem);
+  --step-3: clamp(1.85rem, 1.55rem + 1.5vw, 2.7rem);
+  --step-4: clamp(2.4rem, 1.8rem + 3vw, 4.2rem);
+  --step-5: clamp(2.9rem, 1.9rem + 5vw, 6rem);
+
+  /* Spacing (rem-based, 4px grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* Layout */
+  --measure: 66ch;          /* comfortable reading width */
+  --container: 76rem;
+  --radius: 4px;
+  --rule: 1px;
+
+  /* Colour — light ("paper") */
+  --bg: #f4f2ed;
+  --surface: #ebe8e1;
+  --ink: #191b1f;
+  --muted: #5b5f66;
+  --line: #d6d2c9;
+  --line-strong: #b9b4aa;
+  --accent: #a63e16;       /* 5.65:1 on --bg */
+  --accent-soft: #e9c8b7;
+  --focus: #1f4bd8;
+  --canvas-a: #a63e16;
+  --canvas-b: #33363c;
+  --canvas-link: rgba(25, 27, 31, 0.14);
+  --selection: #f0d5c6;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur: 220ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141518;
+    --surface: #1d1f24;
+    --ink: #e9e7e2;
+    --muted: #a8abb2;
+    --line: #2d3036;
+    --line-strong: #454950;
+    --accent: #f0935c;      /* 7.85:1 on --bg */
+    --accent-soft: #4a2a1c;
+    --focus: #8fb0ff;
+    --canvas-a: #f0935c;
+    --canvas-b: #c9ccd2;
+    --canvas-link: rgba(233, 231, 226, 0.13);
+    --selection: #4a2a1c;
+  }
+}
+
+/* ---------- Reset (minimal, opinionated) ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern', 'liga', 'calt';
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+}
+img,
+svg,
+canvas,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+::selection {
+  background: var(--selection);
+}
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  margin: 0 0 var(--space-4);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+h1 {
+  font-size: var(--step-4);
+}
+h2 {
+  font-size: var(--step-3);
+}
+h3 {
+  font-size: var(--step-2);
+  line-height: 1.2;
+}
+h4 {
+  font-size: var(--step-1);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.3;
+}
+p,
+ul,
+ol,
+dl,
+blockquote,
+figure {
+  margin: 0 0 var(--space-4);
+}
+p,
+li {
+  max-width: var(--measure);
+}
+strong {
+  font-weight: 600;
+}
+em {
+  font-style: italic;
+}
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+a:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+small,
+.small {
+  font-size: var(--step--1);
+}
+hr {
+  border: 0;
+  border-top: var(--rule) solid var(--line);
+  margin: var(--space-7) 0;
+}
+code,
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+abbr[title] {
+  text-decoration: underline dotted;
+}
+
+/* Eyebrow labels: mono, small caps-like tracking. Used for section labels and metadata. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+  display: block;
+}
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  max-width: 34em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.muted {
+  color: var(--muted);
+}
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* Prose — long-form content rendered from Markdown */
+.prose {
+  max-width: var(--measure);
+}
+.prose h2 {
+  font-size: var(--step-2);
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: var(--rule) solid var(--line);
+}
+.prose > h2:first-child {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+.prose h3 {
+  font-size: var(--step-1);
+  margin-top: var(--space-6);
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+.prose li + li {
+  margin-top: var(--space-2);
+}
+.prose li::marker {
+  color: var(--muted);
+}
+.prose a {
+  text-decoration-color: var(--accent);
+}
+.prose figure {
+  margin: var(--space-6) 0;
+}
+.prose figcaption {
+  font-size: var(--step--1);
+  color: var(--muted);
+  margin-top: var(--space-2);
+}
+
+/* ---------- Layout primitives ---------- */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+.section {
+  padding-block: var(--space-8);
+}
+.section + .section {
+  padding-top: 0;
+}
+.section--rule {
+  border-top: var(--rule) solid var(--line);
+}
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+.flow > * + * {
+  margin-top: var(--space-6);
+}
+
+/* Two-column editorial grid: label column left, content right (stacks on narrow screens). */
+.grid-label {
+  display: grid;
+  gap: var(--space-4) var(--space-7);
+}
+@media (min-width: 52rem) {
+  .grid-label {
+    grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
+    align-items: start;
+  }
+  .grid-label > .grid-label__aside {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+/* Generic list with rules between items (publications, talks, timeline) */
+.ruled {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ruled > li {
+  padding-block: var(--space-5);
+  border-top: var(--rule) solid var(--line);
+  max-width: none;
+}
+.ruled > li:last-child {
+  border-bottom: var(--rule) solid var(--line);
+}
+
+/* Definition-style metadata */
+.meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  font-size: var(--step--1);
+}
+.meta dt {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-top: 0.2em;
+}
+.meta dd {
+  margin: 0;
+}
+
+/* Tag list (plain labels — never proficiency bars) */
+.tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tags li {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  padding: 0.15em 0.55em;
+  border: var(--rule) solid var(--line);
+  border-radius: 999px;
+  max-width: none;
+}
+
+/* Buttons and text-links with arrows */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 2.75rem;
+  padding: 0.55em 1.1em;
+  border: var(--rule) solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.button:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.button--primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.button--primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  .button--primary:hover {
+    color: #141518;
+  }
+}
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  text-decoration: none;
+  font-weight: 500;
+  min-height: 2.75rem;
+}
+.arrow-link::after {
+  content: '→';
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.arrow-link:hover::after {
+  transform: translateX(0.2em);
+}
+.arrow-link:hover {
+  color: var(--accent);
+}
+
+/* Status label */
+.status {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.status::before {
+  content: '';
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  background: var(--line-strong);
+  vertical-align: 0.05em;
+}
+.status--ongoing::before {
+  background: var(--accent);
+}
+
+/* ---------- Utilities ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100%;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--bg);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 0 0 var(--radius) var(--radius);
+  text-decoration: none;
+  font-weight: 500;
+}
+.skip-link:focus {
+  top: 0;
+}
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .system-field {
+    display: none !important;
+  }
+  a {
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,218 @@
+---
+import { nav, site } from '../data/site';
+
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
+const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="wordmark" href="/" aria-label={`${site.name} — home`}>
+      <span class="wordmark__mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="6" cy="11" r="3.2" fill="currentColor" />
+          <circle cx="16" cy="11" r="3.2" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <path d="M9.2 11h3.6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="1.5 1.5" />
+        </svg>
+      </span>
+      <span class="wordmark__text">{site.name}</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
+      <span class="menu-button__label">Menu</span>
+      <span class="menu-button__icon" aria-hidden="true"><span></span><span></span></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: var(--rule) solid var(--line);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 4rem;
+    flex-wrap: wrap;
+  }
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    letter-spacing: -0.005em;
+    min-height: 2.75rem;
+    color: var(--ink);
+  }
+  .wordmark:hover {
+    color: var(--ink);
+  }
+  .wordmark__mark {
+    color: var(--accent);
+    display: inline-flex;
+  }
+  .wordmark:hover .wordmark__mark {
+    color: var(--ink);
+  }
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+  .site-nav li {
+    max-width: none;
+  }
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 0.7rem;
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.97rem;
+    border-radius: var(--radius);
+    position: relative;
+  }
+  .site-nav a:hover {
+    color: var(--ink);
+  }
+  .site-nav a[aria-current='page'] {
+    color: var(--ink);
+  }
+  .site-nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0.7rem;
+    right: 0.7rem;
+    bottom: 0.45rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  /* Menu button: only shown when JS is available and the viewport is narrow. */
+  .menu-button {
+    display: none;
+    align-items: center;
+    gap: 0.6em;
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    padding: 0 0.75rem;
+    background: transparent;
+    border: var(--rule) solid var(--line-strong);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .menu-button__icon {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 18px;
+  }
+  .menu-button__icon span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out);
+    transform-origin: center;
+  }
+  .menu-button[aria-expanded='true'] .menu-button__icon span:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+  .menu-button[aria-expanded='true'] .menu-button__icon span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  @media (max-width: 47.99rem) {
+    html.js .menu-button {
+      display: inline-flex;
+    }
+    html.js .site-nav {
+      flex-basis: 100%;
+      overflow: hidden;
+    }
+    html.js .site-nav[data-open='false'] {
+      display: none;
+    }
+    html.js .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-2) 0 var(--space-4);
+      border-top: var(--rule) solid var(--line);
+    }
+    html.js .site-nav a {
+      width: 100%;
+      min-height: 3rem;
+      padding-inline: 0.25rem;
+      font-size: 1.05rem;
+    }
+    html.js .site-nav a[aria-current='page']::after {
+      left: 0.25rem;
+      right: auto;
+      width: 1.5rem;
+      bottom: 0.6rem;
+    }
+  }
+</style>
+
+<script>
+  // Progressive enhancement: without JS the navigation is simply visible.
+  document.documentElement.classList.add('js');
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const navEl = document.getElementById('site-nav');
+  if (button && navEl) {
+    button.hidden = false;
+    const mq = window.matchMedia('(max-width: 47.99rem)');
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      navEl.dataset.open = String(open);
+    };
+    const sync = () => {
+      if (mq.matches) setOpen(false);
+      else {
+        navEl.removeAttribute('data-open');
+        button.setAttribute('aria-expanded', 'false');
+      }
+    };
+    sync();
+    mq.addEventListener('change', sync);
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  }
+</script>
