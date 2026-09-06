@@ -22,11 +22,11 @@ const statusLabel: Record<typeof data.status, string> = {
 ---
 
 <article class="project-card">
+  <div class="project-card__head">
+    <Motif kind={data.motif} size={64} />
+    <span class="eyebrow project-card__domain">{domainLabel[data.domain]}</span>
+  </div>
   <a class="project-card__link" href={`/work/${project.id}/`}>
-    <div class="project-card__head">
-      <Motif kind={data.motif} size={64} />
-      <span class="eyebrow project-card__domain">{domainLabel[data.domain]}</span>
-    </div>
     <Heading class="project-card__title">{data.title}</Heading>
     <p class="project-card__question">{data.question}</p>
   </a>
@@ -48,7 +48,7 @@ const statusLabel: Record<typeof data.status, string> = {
   .project-card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-3);
     padding-block: var(--space-5) var(--space-5);
     border-top: var(--rule) solid var(--line);
     position: relative;
