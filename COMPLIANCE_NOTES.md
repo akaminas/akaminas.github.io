@@ -59,10 +59,10 @@ Reviewed the supplied CV against what is published.
 | Item in source CV | Published? | Note |
 | --- | --- | --- |
 | Personal mobile number (+30 …) | **No** | Removed from the web CV (`cv/cv-web.tex`) and never placed in site content. |
-| Email address (kaminas.alex@gmail.com) | Yes | Needed for contact; it is the address the owner uses professionally on his CV. **Owner may prefer the rug.nl address** — change `src/data/site.ts` and `cv/cv-web.tex`. |
+| Email address (kaminas.alex@gmail.com) | Yes | Owner approved publication (2026-09-06). To add a second (rug.nl) address, edit `src/data/site.ts`, the About and Privacy pages, and `cv/cv-web.tex`. |
 | Secondary school and school grade | **No** | Removed from the web CV as unnecessary for a doctoral-level CV and mildly identifying (home town). Owner may restore it. |
 | Home address, date of birth, ID numbers, signature, nationality | Not in source; not published | "Greek (native)" appears as a language skill only. |
-| Student's name (the student) | Yes | Explicitly requested by the owner; supervision of a completed MSc thesis is ordinary academic public information. **Owner to confirm the student is content to be named.** |
+| Supervised student's name | **No** | Owner decided (2026-09-06) not to name the student; the thesis title and year are shown without a name. |
 | Collaborators' names | Yes | Co-authors and supervisors in their professional capacity only. |
 | Photo metadata | Stripped | Artist name, camera and timestamps removed from all published derivatives. |
 | PDF metadata (web CV) | Set deliberately | Title, author, subject only; no producer-embedded personal paths. |
@@ -107,9 +107,9 @@ Trade name, KVK number, VAT ID and address obligations apply to registered busin
 **Implementation choices that reduce exposure:** mailto instead of a form processor; system colour scheme instead of a stored toggle; self-hosted fonts; no analytics at all; DOI links instead of hosted PDFs.
 
 **Requires owner confirmation:**
-1. Photographer's permission for the portrait (and whether to credit by name).
-2. Which email address to publish (Gmail as on the CV, or rug.nl).
-3. That the supervised student agrees to be named.
+1. Owner approved publishing his portrait (2026-09-06), which settles his own portrait/personality right. Photographer's copyright permission is the owner's responsibility to hold; credit can be added to `ASSET_PROVENANCE.md`.
+2. Owner approved publishing his email (2026-09-06). Gmail address is live; add the rug.nl address to `src/data/site.ts` if it should appear alongside.
+3. ~~That the supervised student agrees to be named~~ — resolved: not named.
 4. Post-deployment storage/cookie check on the live `github.io` domain (instructions above), then update the date in this file and in `src/data/site.ts` (`privacyRevised`) if anything differs.
 5. Optional: a screen-reader pass with NVDA.
 

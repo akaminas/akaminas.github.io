@@ -14,6 +14,7 @@ methods:
 tools:
   - C++
   - R
+  - Python
 institutions:
   - University of Groningen — Theoretical Research in Evolutionary Life Sciences (TRÊS)
   - Etienne group (Theoretical and Evolutionary Community Ecology)
@@ -50,7 +51,7 @@ The framework couples four processes that are usually studied separately:
 - **diversification**, the origin of new lineages in place;
 - **extinction**, the loss of lineages.
 
-Evolutionary change acts on the traits that govern these interactions, so ecological and evolutionary dynamics are coupled rather than separated by timescale. The models are stochastic and are studied by simulation, with C++ for the simulation engine and R for analysis.
+Evolutionary change acts on the traits that govern these interactions, so ecological and evolutionary dynamics are coupled rather than separated by timescale. The models are stochastic and are studied by simulation, with C++ for the simulation engine and R and Python for analysis.
 
 ## Status
 

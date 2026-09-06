@@ -91,7 +91,7 @@ Create `src/content/talks/<event-year-keyword>.json` with `title`, `event`, `loc
 
 ### Add a supervised student or teaching role
 
-Create `src/content/teaching/<slug>.md` with `title`, `role`, `institution`, `period`, `kind` (`supervision`, `teaching`, `service`, `outreach`), and for supervision `student`, `thesis`, optionally `project`. The body is a short description of the work.
+Create `src/content/teaching/<slug>.md` with `title`, `role`, `institution`, `period`, `kind` (`supervision`, `teaching`, `service`, `outreach`), and for supervision `thesis`, optionally `student` (only with the student's agreement) and `project`. The body is a short description of the work.
 
 ### Replace the CV
 
