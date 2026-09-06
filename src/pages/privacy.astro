@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+---
+
+<Base
+  title="Privacy"
+  description="Privacy notice for akaminas.github.io: a static site with no cookies, no analytics and no tracking. What the hosting provider (GitHub Pages) logs, what happens when you email me, and your rights."
+>
+  <PageHeader eyebrow="Privacy" title="Privacy notice" lede="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
+
+  <div class="container grid-label" style="padding-bottom: var(--space-8)">
+    <nav class="grid-label__aside" aria-label="On this page">
+      <p class="eyebrow">Contents</p>
+      <ol class="toc">
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#owner">Who is responsible</a></li>
+        <li><a href="#hosting">Hosting and server logs</a></li>
+        <li><a href="#cookies">Cookies and local storage</a></li>
+        <li><a href="#email">If you email me</a></li>
+        <li><a href="#links">External links</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#content">Content and copyright</a></li>
+        <li><a href="#changes">Changes</a></li>
+      </ol>
+    </nav>
+
+    <div class="prose">
+      <h2 id="summary">Summary</h2>
+      <ul>
+        <li>No cookies, no analytics, no advertising, no tracking pixels, no fingerprinting, no session recording.</li>
+        <li>No contact form, no comment system, no embedded social-media widgets, no third-party fonts or scripts.</li>
+        <li>The only data processing that happens when you visit is the hosting provider's own server logging (below).</li>
+        <li>If you email me, I use your address and message to reply, and for nothing else.</li>
+      </ul>
+
+      <h2 id="owner">Who is responsible</h2>
+      <p>
+        This website is published by {site.name}, a researcher based in the Netherlands, in a personal and
+        professional capacity. It is not a business and offers nothing for sale. For anything concerning your
+        personal data on this site, contact me at <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+
+      <h2 id="hosting">Hosting and server logs</h2>
+      <p>
+        The site is a set of static files served by <strong>GitHub Pages</strong>, a service of GitHub, Inc. (San
+        Francisco, USA) and, for users in the EU, GitHub B.V. (Amsterdam). According to GitHub's documentation, when
+        a GitHub Pages site is visited, the visitor's IP address is logged and stored by GitHub for security
+        purposes, whether or not the visitor is signed in to GitHub. GitHub performs this logging for its own
+        purposes under its own privacy statement; I do not receive, see or control these logs, and GitHub does not
+        publish a retention period for them. GitHub states that it relies on EU standard contractual clauses and
+        its certification under the EU-US Data Privacy Framework for transfers of personal data to the United
+        States.
+      </p>
+      <p>
+        Details: <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" rel="noopener">GitHub Pages data collection</a> and the <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement" rel="noopener">GitHub Privacy Statement</a>.
+      </p>
+      <p>
+        To the extent that I am regarded as a controller for this processing, the legal basis is legitimate interest
+        (GDPR Article 6(1)(f)): running a professional website on infrastructure that is kept secure. No other data is
+        collected on my behalf.
+      </p>
+
+      <h2 id="cookies">Cookies and local storage</h2>
+      <p>
+        This site sets <strong>no cookies</strong> and does not use local storage, session storage or IndexedDB. It
+        loads no third-party scripts, fonts, images or embeds; all requests go to this site's own domain. Because
+        nothing is stored on or read from your device, no consent banner is shown: there is nothing to consent to.
+        The colour scheme follows your operating-system preference and is not stored.
+      </p>
+      <p>
+        This was verified on the deployed site in a clean browser profile (see the <a href={`${site.repo}/blob/main/COMPLIANCE_NOTES.md`} rel="noopener">compliance notes</a> in the source repository). If that ever changes, this notice will be updated first.
+      </p>
+
+      <h2 id="email">If you email me</h2>
+      <p>
+        The contact link opens your own email program. When you write to me I receive your email address, anything
+        you include in the message, and the technical headers your mail provider adds. I use these to reply and to
+        keep track of our correspondence, on the basis of your request (GDPR Article 6(1)(b)) or my legitimate
+        interest in answering professional enquiries (Article 6(1)(f)). Messages are kept as long as the
+        correspondence is relevant and then deleted. My mailbox is provided by Google (Gmail); Google's own privacy
+        terms apply to the transport and storage of mail.
+      </p>
+
+      <h2 id="links">External links</h2>
+      <p>
+        The site links to external services: GitHub, ORCID, Google Scholar, ResearchGate, the University of
+        Groningen research portal, DOI resolvers and publishers. These are ordinary links, not embeds; nothing is
+        loaded from them until you choose to follow one. Their privacy policies apply once you leave this site.
+      </p>
+
+      <h2 id="rights">Your rights</h2>
+      <p>
+        Under the GDPR you have the right to access, rectify or erase personal data concerning you, to restrict or
+        object to its processing, and to data portability where applicable. In practice the only personal data I hold
+        about visitors is email correspondence, which I will show you, correct or delete on request. You also have the
+        right to lodge a complaint with a supervisory authority; in the Netherlands this is the{' '}
+        <a href="https://www.autoriteitpersoonsgegevens.nl/en" rel="noopener">Autoriteit Persoonsgegevens</a>.
+        For server logs held by GitHub, please contact GitHub directly through its privacy statement.
+      </p>
+
+      <h2 id="content">Content and copyright</h2>
+      <p>
+        Text, page design and original graphics on this site (including the simulation on the home page and the
+        project drawings) are © {site.name}. Reuse requires permission unless otherwise stated. The portrait
+        photograph remains the copyright of its photographer and is used only on this site. Publications linked from this site
+        belong to their publishers and authors and carry their own licences (most are CC BY 4.0, as marked). The
+        fonts are IBM Plex, used under the SIL Open Font License 1.1. A full provenance list is in the{' '}
+        <a href={`${site.repo}/blob/main/ASSET_PROVENANCE.md`} rel="noopener">source repository</a>.
+      </p>
+
+      <h2 id="changes">Changes</h2>
+      <p>
+        This notice describes what the site does today. If the site's behaviour changes, the notice is revised before
+        the change goes live. Last revised: <time datetime={site.privacyRevised}>{site.privacyRevised}</time>.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .toc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--step--1);
+  }
+  .toc li {
+    max-width: none;
+  }
+  .toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    text-decoration: none;
+    color: var(--muted);
+  }
+  .toc a:hover {
+    color: var(--accent);
+  }
+</style>
