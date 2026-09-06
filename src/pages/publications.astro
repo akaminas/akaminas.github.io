@@ -1,0 +1,109 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { site } from '../data/site';
+
+const pubs = (await getCollection('publications')).sort(
+  (a, b) => b.data.year - a.data.year || a.data.authors[0].localeCompare(b.data.authors[0]),
+);
+const highlights = pubs.filter((p) => p.data.highlight);
+const years = [...new Set(pubs.map((p) => p.data.year))].sort((a, b) => b - a);
+
+const articleSchema = pubs
+  .filter((p) => p.data.status === 'published')
+  .map((p) => ({
+    '@context': 'https://schema.org',
+    '@type': 'ScholarlyArticle',
+    headline: p.data.title,
+    datePublished: String(p.data.year),
+    author: p.data.authors.map((a) => ({ '@type': 'Person', name: a })),
+    ...(p.data.venue ? { isPartOf: { '@type': 'Periodical', name: p.data.venue } } : {}),
+    ...(p.data.doi ? { identifier: `https://doi.org/${p.data.doi}`, url: `https://doi.org/${p.data.doi}` } : {}),
+    ...(p.data.licence === 'CC BY 4.0' ? { license: 'https://creativecommons.org/licenses/by/4.0/' } : {}),
+  }));
+---
+
+<Base
+  title="Publications"
+  description="Peer-reviewed publications by Alexandros Kaminas, 2020–2026: sustainability and circular economy in organisations, citizen science and marine non-indigenous species, fish feeding ecology. With DOIs and licences."
+  schema={articleSchema}
+>
+  <PageHeader
+    eyebrow="Publications"
+    title="Peer-reviewed articles"
+    lede="Eight articles, 2020–2026. Everything listed here is published and peer reviewed; work in progress is described on the project pages instead, and is labelled as such."
+  >
+    <p class="small muted" style="margin-top: var(--space-4)">
+      Also on <a href={site.profiles.scholar} rel="noopener">Google Scholar</a>,{' '}
+      <a href={site.profiles.orcid} rel="me noopener">ORCID</a> and the{' '}
+      <a href={site.profiles.rug} rel="noopener">University of Groningen research portal</a>.
+    </p>
+  </PageHeader>
+
+  <section class="section container" aria-labelledby="sel-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <h2 id="sel-title" class="h-section">Selected</h2>
+        <p class="muted small">Papers where I am first author or the topic is closest to my current work.</p>
+      </div>
+      <ol class="pubs">
+        {highlights.map((p) => <PublicationItem pub={p} />)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--rule container" aria-labelledby="all-title">
+    <div class="grid-label">
+      <div class="grid-label__aside">
+        <h2 id="all-title" class="h-section">All publications</h2>
+        <p class="muted small">By year, most recent first. My name is highlighted in the author lists.</p>
+      </div>
+      <div>
+        {
+          years.map((y) => (
+            <section aria-labelledby={`y-${y}`}>
+              <h3 id={`y-${y}`} class="year">
+                {y}
+              </h3>
+              <ol class="pubs">
+                {pubs
+                  .filter((p) => p.data.year === y)
+                  .map((p) => (
+                    <PublicationItem pub={p} />
+                  ))}
+              </ol>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .h-section {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+  .pubs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pubs > :global(li:last-child) {
+    border-bottom: var(--rule) solid var(--line);
+  }
+  .year {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: var(--space-6) 0 var(--space-2);
+  }
+  section:first-child .year {
+    margin-top: 0;
+  }
+</style>

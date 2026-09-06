@@ -1,0 +1,14 @@
+{
+  "year": 2021,
+  "authors": ["Giovos, I.", "Serena, F.", "Katsada, D.", "Anastasiadis, A.", "Barash, A.", "Charilaou, C.", "Hall-Spencer, J. M.", "Crocetta, F.", "Kaminas, A.", "Kletou, D.", "Maximiadi, M.", "Minasidis, V.", "Moutopoulos, D. K.", "Naasan Aga-Spyridopoulou, R.", "Thasitis, I.", "Kleitou, P."],
+  "title": "Integrating literature, biodiversity databases, and citizen-science to reconstruct the checklist of chondrichthyans in Cyprus",
+  "venue": "Fishes",
+  "volume": "6",
+  "issue": "3",
+  "pages": "24",
+  "doi": "10.3390/fishes6030024",
+  "status": "published",
+  "kind": "article",
+  "licence": "CC BY 4.0",
+  "projects": ["citizen-science-marine-invasions"]
+}

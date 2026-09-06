@@ -1,0 +1,15 @@
+{
+  "year": 2022,
+  "authors": ["Kaminas, A.", "Shokouros-Oskarsson, M.", "Minasidis, V.", "Langeneck, J.", "Kleitou, P.", "Tiralongo, F.", "Crocetta, F."],
+  "title": "Filling gaps via citizen science: Phyllorhiza punctata von Lendenfeld, 1884 (Cnidaria: Scyphozoa: Mastigiidae) in Cyprus",
+  "venue": "BioInvasions Records",
+  "volume": "11",
+  "issue": "3",
+  "pages": "667–675",
+  "doi": "10.3391/bir.2022.11.3.09",
+  "status": "published",
+  "kind": "article",
+  "note": "First-author paper.",
+  "highlight": true,
+  "projects": ["citizen-science-marine-invasions"]
+}

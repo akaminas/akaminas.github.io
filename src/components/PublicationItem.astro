@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+  showProjects?: boolean;
+}
+const { pub } = Astro.props;
+const d = pub.data;
+const statusLabel: Record<typeof d.status, string> = {
+  published: 'Peer-reviewed',
+  accepted: 'Accepted',
+  preprint: 'Preprint',
+  manuscript: 'Manuscript',
+  'in-progress': 'In progress',
+};
+const isMe = (a: string) => /^Kaminas,\s*A\.?$/.test(a.trim());
+const doiUrl = d.doi ? `https://doi.org/${d.doi}` : d.url;
+const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefined, d.pages].filter(Boolean).join(', ');
+---
+
+<li class="pub" id={pub.id}>
+  <div class="pub__meta">
+    <span class="pub__year">{d.year}</span>
+    <span class="status">{statusLabel[d.status]}</span>
+  </div>
+  <div class="pub__body">
+    <p class="pub__title">
+      {doiUrl ? <a href={doiUrl} rel="noopener">{d.title}</a> : d.title}
+    </p>
+    <p class="pub__authors">
+      {
+        d.authors.map((a, i) => (
+          <Fragment>
+            {isMe(a) ? <strong>{a}</strong> : a}
+            {i < d.authors.length - 1 ? ', ' : ''}
+          </Fragment>
+        ))
+      }
+      {d.etAl ? <span class="muted"> … et al. ({d.etAl} authors)</span> : null}
+    </p>
+    {
+      d.venue && (
+        <p class="pub__venue">
+          <em>{d.venue}</em>
+          {rest ? `, ${rest}` : ''}
+        </p>
+      )
+    }
+    <p class="pub__links small">
+      {d.doi && <a href={`https://doi.org/${d.doi}`} rel="noopener">doi:{d.doi}</a>}
+      {d.licence && <span class="muted"> · {d.licence}</span>}
+      {d.note && <span class="muted"> · {d.note}</span>}
+    </p>
+  </div>
+</li>
+
+<style>
+  .pub {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    padding-block: var(--space-5);
+    border-top: var(--rule) solid var(--line);
+    max-width: none;
+  }
+  @media (min-width: 42rem) {
+    .pub {
+      grid-template-columns: 7rem minmax(0, 1fr);
+    }
+  }
+  .pub__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .pub__year {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: 1.2;
+  }
+  .pub__body p {
+    margin: 0;
+    max-width: var(--measure);
+  }
+  .pub__title {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: 1.3;
+    margin-bottom: var(--space-2) !important;
+    text-wrap: pretty;
+  }
+  .pub__title a {
+    text-decoration-color: var(--line-strong);
+  }
+  .pub__title a:hover {
+    text-decoration-color: currentColor;
+  }
+  .pub__authors {
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  .pub__authors strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .pub__venue {
+    font-size: var(--step--1);
+  }
+  .pub__links {
+    margin-top: var(--space-2) !important;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+  "year": 2022,
+  "authors": ["Langeneck, J.", "Minasidis, V.", "Doumpas, N.", "Giovos, I.", "Kaminas, A.", "Kleitou, P.", "Tiralongo, F.", "Crocetta, F."],
+  "title": "Citizen science helps in tracking the range expansions of non-indigenous and neo-native species in Greece and Cyprus",
+  "venue": "Journal of Marine Science and Engineering",
+  "volume": "10",
+  "issue": "2",
+  "pages": "256",
+  "doi": "10.3390/jmse10020256",
+  "status": "published",
+  "kind": "article",
+  "licence": "CC BY 4.0",
+  "highlight": true,
+  "projects": ["citizen-science-marine-invasions"]
+}
