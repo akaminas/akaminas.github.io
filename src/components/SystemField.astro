@@ -1,7 +1,8 @@
 ---
 /**
- * Decorative simulation for the home page. Everything meaningful is in the
- * caption; the canvas itself is hidden from assistive technology.
+ * Decorative simulation for the home page, presented as an annotated figure:
+ * gridlines, axis labels, live readouts and the model equations. Everything
+ * meaningful is in text; the canvas itself is hidden from assistive technology.
  */
 interface Props {
   class?: string;
@@ -11,20 +12,43 @@ const { class: className = '' } = Astro.props;
 
 <figure class:list={['system-field', className]}>
   <div class="system-field__frame">
-    <canvas aria-hidden="true"></canvas>
-    <svg class="system-field__axes" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <line x1="50" y1="4" x2="50" y2="96" vector-effect="non-scaling-stroke" />
+    <svg class="system-field__grid" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <g class="grid-minor">
+        <line x1="25" y1="0" x2="25" y2="100" vector-effect="non-scaling-stroke" />
+        <line x1="75" y1="0" x2="75" y2="100" vector-effect="non-scaling-stroke" />
+        <line x1="0" y1="25" x2="100" y2="25" vector-effect="non-scaling-stroke" />
+        <line x1="0" y1="50" x2="100" y2="50" vector-effect="non-scaling-stroke" />
+        <line x1="0" y1="75" x2="100" y2="75" vector-effect="non-scaling-stroke" />
+      </g>
+      <line class="grid-divider" x1="50" y1="0" x2="50" y2="100" vector-effect="non-scaling-stroke" />
     </svg>
+    <canvas aria-hidden="true"></canvas>
     <span class="system-field__label system-field__label--a" aria-hidden="true">patch A</span>
     <span class="system-field__label system-field__label--b" aria-hidden="true">patch B</span>
-    <span class="system-field__label system-field__label--z" aria-hidden="true">trait z</span>
+    <span class="system-field__label system-field__label--y" aria-hidden="true">trait z</span>
+    <span class="system-field__label system-field__label--x" aria-hidden="true">location x</span>
   </div>
+
+  <div class="system-field__readouts" aria-hidden="true">
+    <span>N = <b data-readout="n">56</b></span>
+    <span>m = <b data-readout="m">0.021</b></span>
+    <span>t = <b data-readout="t">0.0</b></span>
+    <span>migrations = <b data-readout="migrations">0</b></span>
+  </div>
+
   <figcaption class="system-field__caption">
-    <span>
-      Two populations under stabilising selection, drift and rare migration (Ornstein–Uhlenbeck dynamics). Decorative;
-      not a research result.
-    </span>
-    <button type="button" data-toggle aria-pressed="false" hidden>Pause simulation</button>
+    <p class="system-field__model">
+      <span class="eq">d<i>x</i> = −<i>k<sub>x</sub></i>(<i>x</i> − <i>c<sub>p</sub></i>) d<i>t</i> + <i>σ<sub>x</sub></i> d<i>W</i></span>
+      <span class="eq">d<i>z</i> = −<i>k<sub>z</sub></i>(<i>z</i> − <i>θ<sub>p</sub></i>(<i>t</i>)) d<i>t</i> + <i>σ<sub>z</sub></i> d<i>W</i></span>
+      <span class="eq">Pr(<i>p</i> → <i>p</i>′) = <i>m</i> d<i>t</i></span>
+    </p>
+    <p class="system-field__note">
+      <span>
+        Two populations under stabilising selection, drift and rare migration (Ornstein–Uhlenbeck dynamics). A toy model,
+        drawn live; decorative, not a research result.
+      </span>
+      <button type="button" data-toggle aria-pressed="false" hidden>Pause simulation</button>
+    </p>
   </figcaption>
 </figure>
 
@@ -32,73 +56,124 @@ const { class: className = '' } = Astro.props;
   .system-field {
     margin: 0;
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-3);
   }
   .system-field__frame {
     position: relative;
-    aspect-ratio: 4 / 3;
-    border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
+    aspect-ratio: 5 / 4;
+    border-left: var(--rule) solid var(--line-strong);
+    border-bottom: var(--rule) solid var(--line-strong);
     overflow: hidden;
     background: var(--bg);
   }
   @media (max-width: 47.99rem) {
     .system-field__frame {
-      aspect-ratio: 16 / 9;
-      max-height: 15rem;
+      aspect-ratio: 16 / 10;
+      max-height: 16rem;
     }
   }
-  .system-field canvas {
+  .system-field canvas,
+  .system-field__grid {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
-  .system-field__axes {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+  .system-field__grid {
     pointer-events: none;
   }
-  .system-field__axes line {
+  .system-field__grid .grid-minor line {
     stroke: var(--line);
+    stroke-width: 1;
+    opacity: 0.7;
+  }
+  .system-field__grid .grid-divider {
+    stroke: var(--line-strong);
     stroke-dasharray: 3 5;
   }
   .system-field__label {
     position: absolute;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     pointer-events: none;
+    background: var(--bg);
+    padding: 0 0.3em;
   }
   .system-field__label--a {
-    left: 0.75rem;
-    top: 0.6rem;
+    left: 0.6rem;
+    top: 0.5rem;
   }
   .system-field__label--b {
-    right: 0.75rem;
-    top: 0.6rem;
+    right: 0.6rem;
+    top: 0.5rem;
   }
-  .system-field__label--z {
-    left: 0.75rem;
-    bottom: 0.6rem;
+  .system-field__label--y {
+    left: 0.4rem;
+    bottom: 0.5rem;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 0.3em 0;
+  }
+  .system-field__label--x {
+    right: 0.6rem;
+    bottom: 0.4rem;
+  }
+  .system-field__readouts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .system-field__readouts b {
+    font-weight: 400;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
   }
   .system-field__caption {
+    display: grid;
+    gap: var(--space-3);
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  .system-field__model {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    color: var(--ink);
+    max-width: none;
+  }
+  .system-field__model .eq {
+    white-space: nowrap;
+  }
+  .system-field__model i {
+    font-style: italic;
+  }
+  .system-field__model sub {
+    font-size: 0.72em;
+    line-height: 0;
+  }
+  .system-field__note {
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: var(--space-2) var(--space-4);
-    font-size: var(--step--1);
-    color: var(--muted);
+    max-width: none;
   }
-  .system-field__caption span {
-    max-width: 44ch;
+  .system-field__note span {
+    max-width: 46ch;
   }
-  .system-field__caption button {
+  .system-field__note button {
     background: transparent;
     border: var(--rule) solid var(--line-strong);
     border-radius: var(--radius);
@@ -109,7 +184,7 @@ const { class: className = '' } = Astro.props;
     font-size: var(--step--1);
     font-weight: 500;
   }
-  .system-field__caption button:hover {
+  .system-field__note button:hover {
     border-color: var(--ink);
   }
 </style>

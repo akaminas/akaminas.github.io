@@ -82,11 +82,24 @@ export function mountSystemField(root: HTMLElement): void {
   let colourA = '#a63e16';
   let colourB = '#33363c';
   let colourLink = 'rgba(0,0,0,0.12)';
-  let bg = '#f4f2ed';
 
   const centre = [0.27, 0.73]; // patch centres along x
   const theta = [0.42, 0.58]; // initial trait optima
   let t = 0;
+  let migrations = 0;
+  let frames = 0;
+  const readouts = {
+    t: root.querySelector<HTMLElement>('[data-readout="t"]'),
+    mig: root.querySelector<HTMLElement>('[data-readout="migrations"]'),
+    n: root.querySelector<HTMLElement>('[data-readout="n"]'),
+    m: root.querySelector<HTMLElement>('[data-readout="m"]'),
+  };
+  const updateReadouts = () => {
+    if (readouts.t) readouts.t.textContent = t.toFixed(1);
+    if (readouts.mig) readouts.mig.textContent = String(migrations);
+  };
+  if (readouts.n) readouts.n.textContent = String(params.n);
+  if (readouts.m) readouts.m.textContent = (params.m / params.dt).toFixed(3);
 
   const pop: Individual[] = [];
   const reset = () => {
@@ -107,7 +120,6 @@ export function mountSystemField(root: HTMLElement): void {
     colourA = cssVar(root, '--canvas-a', colourA);
     colourB = cssVar(root, '--canvas-b', colourB);
     colourLink = cssVar(root, '--canvas-link', colourLink);
-    bg = cssVar(root, '--bg', bg);
   };
 
   const resize = () => {
@@ -118,8 +130,7 @@ export function mountSystemField(root: HTMLElement): void {
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height);
   };
 
   const step = () => {
@@ -145,14 +156,16 @@ export function mountSystemField(root: HTMLElement): void {
       if (Math.random() < m) {
         ind.p = ind.p === 0 ? 1 : 0;
         ind.age = 0;
+        migrations += 1;
       }
     }
+    frames += 1;
+    if (frames % 10 === 0) updateReadouts();
   };
 
   const draw = () => {
     ctx.globalAlpha = 1;
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height); // transparent: the SVG grid beneath stays visible
 
     const r = params.linkRadius * Math.hypot(width, height);
     // Links (interaction network): pairs in the same patch closer than r.
@@ -251,6 +264,7 @@ export function mountSystemField(root: HTMLElement): void {
   const staticFrame = () => {
     // Burn in the process, then draw once with no trails.
     for (let i = 0; i < 240; i++) step();
+    updateReadouts();
     draw();
   };
 
