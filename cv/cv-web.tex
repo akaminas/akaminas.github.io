@@ -1,0 +1,400 @@
+\documentclass[11pt,a4paper]{article}
+
+% Web version of the CV: private contact details removed; DOIs added.
+% Build: pdflatex cv-web.tex (twice), then copy cv-web.pdf to public/documents/cv-alexandros-kaminas.pdf
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=0.82in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+
+% ---------- Global formatting ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\pagestyle{empty}
+\urlstyle{same}
+
+\hypersetup{
+  pdftitle={Curriculum Vitae -- Alexandros Kaminas},
+  pdfauthor={Alexandros Kaminas},
+  pdfsubject={Curriculum vitae (web version)},
+  pdfkeywords={mathematical modelling, complex systems, ecology, evolution}
+}
+
+% ---------- Section formatting ----------
+\titleformat{\section}
+  {\large\bfseries}
+  {}
+  {0pt}
+  {}
+  [\vspace{1pt}\titlerule]
+
+\titlespacing*{\section}{0pt}{13pt}{7pt}
+
+% ---------- Entry commands ----------
+% #1 Institution / organisation
+% #2 Date
+% #3 Role / degree
+% #4 Description
+\newcommand{\cventry}[4]{%
+  \noindent
+  \parbox[t]{0.74\textwidth}{\textbf{#1}}%
+  \hfill
+  \parbox[t]{0.23\textwidth}{\raggedleft #2}%
+  \par
+  \vspace{1pt}
+  \noindent\textit{#3}\par
+  \vspace{1pt}
+  \noindent #4\par
+  \vspace{6pt}
+}
+
+% #1 Award
+% #2 Issuer / note
+% #3 Date
+\newcommand{\cvaward}[3]{%
+  \noindent
+  \parbox[t]{0.74\textwidth}{%
+    \textbf{#1}\\[-1pt]
+    \textit{#2}%
+  }%
+  \hfill
+  \parbox[t]{0.23\textwidth}{\raggedleft #3}%
+  \par
+  \vspace{5pt}
+}
+
+\newcommand{\publication}[1]{%
+  \noindent #1\par
+  \vspace{5pt}
+}
+
+\begin{document}
+
+% ================================================================
+% Header
+% ================================================================
+\begin{center}
+  {\LARGE\bfseries Alexandros Kaminas}\\[5pt]
+  \href{mailto:kaminas.alex@gmail.com}{kaminas.alex@gmail.com}
+  \quad $\vert$ \quad
+  \href{https://akaminas.github.io}{akaminas.github.io}
+  \quad $\vert$ \quad
+  ORCID \href{https://orcid.org/0000-0002-7928-651X}{0000-0002-7928-651X}
+\end{center}
+
+\vspace{2pt}
+
+% ================================================================
+% Education
+% ================================================================
+\section*{Education}
+
+\cventry
+{University of Groningen, Groningen, Netherlands}
+{Oct 2025 -- Present}
+{PhD Student, The Evolutionary Consequences of Isolation}
+{}
+
+\cventry
+{University of Montpellier, Montpellier, France}
+{Sep 2022 -- Jun 2024}
+{MSc, Applied Ecological and Evolutionary Sciences}
+{Graduated 2nd in class.}
+
+\cventry
+{University of the Aegean, Mytilene, Greece}
+{Sep 2017 -- Dec 2021}
+{BSc, Marine Science}
+{Graduated 1st in class (Top 1\%).}
+
+% ================================================================
+% Honors & Awards
+% ================================================================
+\section*{Honors \& Awards}
+
+\cvaward
+{EVOLVE Fellowship Recipient}
+{EU EVOLVE MSCA COFUND}
+{Oct 2025}
+
+\cvaward
+{IDIL International Student Scholarship}
+{University of Montpellier}
+{Aug 2022}
+
+\cvaward
+{Academic Excellence Award}
+{Greek State Scholarships Foundation (IKY)}
+{Jan 2022}
+
+\cvaward
+{Valedictorian}
+{University of the Aegean; graduated top of the class and delivered the valedictory address}
+{Dec 2021}
+
+\cvaward
+{National Excellence Mention}
+{National excellence mention recipient}
+{Jun 2017}
+
+% ================================================================
+% Research & Professional Experience
+% ================================================================
+\section*{Research \& Professional Experience}
+
+\cventry
+{Hydrographic Service, Hellenic Navy, Athens, Greece}
+{Oct 2024 -- Sep 2025}
+{Meteorology \& Oceanography Officer (METOC)}
+{Worked with oceanographic models, provided forecasts, and processed acoustic data for submarine surveys.}
+
+\cventry
+{UMR MARBEC, Montpellier, France}
+{Jan 2024 -- Jun 2024}
+{Research Intern}
+{Studied regime changes and community reorganization under climate change. Applied stochastic modelling and multi-effects models.}
+
+\cventry
+{UMR MARBEC, S\`ete, France}
+{Jan 2023 -- Jun 2023}
+{Research Intern}
+{Applied n-dimensional hypervolume methods to assess fish community diversity. Conducted phylogenetic inference and trait imputation.}
+
+\cventry
+{UMR MARBEC, S\`ete, France}
+{Sep 2021 -- Dec 2021}
+{Erasmus Research Intern}
+{Analyzed functional diversity under global change using statistical methods.}
+
+\cventry
+{Hellenic Centre for Marine Research, Athens, Greece}
+{Jun 2020 -- Sep 2020}
+{Research Intern}
+{Worked on taxonomy, stomach-content analysis, and diet indices of commercial fish species. Contributed to a peer-reviewed publication.}
+
+\cventry
+{Academic Tutor, Mytilene, Greece}
+{Jan 2018 -- Jun 2021}
+{Tutor in Biology, Geology, Physics, and Chemistry}
+{Supported students in coursework, thesis preparation, and academic skills.}
+
+% ================================================================
+% Academic Roles & Leadership
+% ================================================================
+\section*{Academic Roles \& Leadership}
+
+\cventry
+{Etienne Group, University of Groningen}
+{Oct 2025 -- Present}
+{Research Group Member}
+{Member of the Theoretical \& Evolutionary Community Ecology group within the TR\^ES cluster. Contribute to theoretical modelling on community assembly and evolutionary dynamics.}
+
+\cventry
+{Van Doorn Group, University of Groningen}
+{Oct 2025 -- Present}
+{Research Group Member}
+{Member of the Evolutionary Systems Biology group within the TR\^ES cluster. Work on modelling evolutionary processes and system-level responses.}
+
+\cventry
+{SDSN Youth Greece}
+{May 2025 -- Present}
+{Network Coordinator}
+{Coordinate collaborations and projects advancing the Sustainable Development Goals.}
+
+\cventry
+{Political Economy of Sustainable Development Lab, University of Athens}
+{Jan 2025 -- Present}
+{Research Associate}
+{Work on climate-change reporting, data visualization, and scientific storytelling.}
+
+\cventry
+{Universit\'{e} de Montpellier}
+{Jan 2024 -- Present}
+{International Student Ambassador}
+{Promote study opportunities and contribute to international student outreach, teamwork, and public speaking activities.}
+
+\cventry
+{SDSN Youth Greece}
+{Nov 2023 -- May 2025}
+{Sustainability Research Fellow}
+{Managed sustainability projects and co-authored publications on the Sustainable Development Goals.}
+
+\cventry
+{WGCOMEDA Working Group}
+{2021 -- Present}
+{Working Group Member}
+{Contribute to comparative analysis of Mediterranean and Atlantic ecosystems, biodiversity, and resilience.}
+
+\cventry
+{Hellenic Navy, Athens -- Poros, Greece}
+{Sep 2024 -- Sep 2025}
+{Administration Officer}
+{Managed databases covering more than 600 trainees, modernized administrative systems using Python, and handled sensitive headquarters data.}
+
+\cventry
+{iSea Environmental Organization}
+{2018 -- 2023}
+{Volunteer Research Fellow}
+{Monitored invasive species and elasmobranchs and co-authored peer-reviewed publications.}
+
+\cventry
+{Marine Remote Sensing Club, Lesvos, Greece}
+{2018 -- 2019}
+{Club Member}
+{Participated in the Plastic Litter Project using satellite imaging.}
+
+% ================================================================
+% Supervision & Academic Service
+% ================================================================
+\section*{Supervision \& Academic Service}
+
+\cventry
+{University of Groningen, TR\^ES Group}
+{2026}
+{MSc Research Supervisor}
+{Supervised an MSc research project, \emph{Modelling Trait Evolution in Mutualistically Interacting Networks}.}
+
+\cventry
+{Netherlands Society for Theoretical Biology (NVTB)}
+{2026}
+{Financial Auditor}
+{Conducted the financial audit of NVTB's 2026 finances as part of the society's financial oversight and accountability process.}
+
+\cventry
+{\emph{Heliyon}}
+{Jan 2025 -- Present}
+{Peer Reviewer}
+{Reviewed publications on environmental modelling and mathematics.}
+
+% ================================================================
+% Projects & Initiatives
+% ================================================================
+\section*{Projects \& Initiatives}
+
+\cventry
+{SDG4U -- Sustainable Development Goal 4 for Universities}
+{2024 -- 2025}
+{EU-funded Higher Education Project}
+{Contributed to research, writing, and dissemination activities. \href{https://www.sdg4uproject.eu/team/}{Project team page}.}
+
+\cventry
+{Marine Alien Species Population Density in Greece and Cyprus}
+{2019 -- 2023}
+{Citizen Science Project}
+{Contributed to monitoring alien-species population density in Greece and Cyprus.}
+
+\cventry
+{Is it Alien to you? Share it!!!}
+{2018 -- 2023}
+{Public Engagement \& Citizen Science Project}
+{Contributed to public engagement and alien-species monitoring under a research permit from the Greek Ministry of Environment.}
+
+\cventry
+{MECO Project}
+{2018 -- 2023}
+{Collaborative Research Network}
+{Contributed to a collaborative network for elasmobranch sightings across the Mediterranean.}
+
+% ================================================================
+% Conference Presentations
+% ================================================================
+\section*{Conference Presentations}
+
+\cventry
+{NVTB Annual Schoorl Meeting, Schoorl, Netherlands}
+{Jun 2026}
+{Oral Presentation}
+{\emph{Isolation as a dynamic driver of eco-evolutionary change}.}
+
+\cventry
+{16th AFH Colloquium, S\`ete, France}
+{Jun 2024}
+{Oral Presentation}
+{Presented research on the effects of climate and fishing on Mediterranean communities using catastrophe theory. \emph{Only MSc student project selected for oral presentation}.}
+
+\cventry
+{Hydromedit, Mytilene, Greece}
+{2021}
+{Poster Presentations}
+{Presented two posters on rare-species monitoring through citizen science and the diet composition of \emph{Dentex maroccanus}.}
+
+% ================================================================
+% Selected Publications
+% ================================================================
+\section*{Selected Publications}
+
+\publication{
+Alevizos, A., et al. (2026).
+Assessing organizational commitment to sustainable development and circular economy principles among Greek NGOs: An analysis using organizational culture, institutional isomorphism, and systems frameworks.
+\emph{Circular Economy and Sustainability}, 6(3), 204. \href{https://doi.org/10.1007/s43615-026-00768-8}{doi:10.1007/s43615-026-00768-8}
+}
+
+\publication{
+Ragkousis, M., Zenetos, A., Souissi, J. B., Hoffman, R., Ghanem, R., Ta\c{s}k\i n, E., \ldots{} Kaminas, A. (2023).
+Unpublished Mediterranean and Black Sea records of marine alien species.
+\emph{BioInvasions Records}, 12(2), 339--369. \href{https://doi.org/10.3391/bir.2023.12.2.01}{doi:10.3391/bir.2023.12.2.01}
+}
+
+\publication{
+Minasidis, V., et al. (2023).
+Consumer attitudes toward non-indigenous fish species.
+\emph{Thalassas}, 39(1), 35--53. \href{https://doi.org/10.1007/s41208-022-00486-6}{doi:10.1007/s41208-022-00486-6}
+}
+
+\publication{
+Mina, A., et al. (2023).
+Feeding habits of \emph{Dentex maroccanus}.
+\emph{Animals}, 13(5), 939. \href{https://doi.org/10.3390/ani13050939}{doi:10.3390/ani13050939}
+}
+
+\publication{
+Langeneck, J., et al. (2022).
+Citizen science helps in tracking range expansions of non-indigenous species in Greece and Cyprus.
+\emph{Journal of Marine Science and Engineering}, 10(2), 256. \href{https://doi.org/10.3390/jmse10020256}{doi:10.3390/jmse10020256}
+}
+
+\publication{
+Kaminas, A., et al. (2022).
+Filling gaps via citizen science: \emph{Phyllorhiza punctata} in Cyprus. \emph{BioInvasions Records}, 11(3), 667--675. \href{https://doi.org/10.3391/bir.2022.11.3.09}{doi:10.3391/bir.2022.11.3.09}
+}
+
+\publication{
+Giovos, I., et al. (2021).
+Checklist of Chondrichthyans in Cyprus.
+\emph{Fishes}, 6(3), 24. \href{https://doi.org/10.3390/fishes6030024}{doi:10.3390/fishes6030024}
+}
+
+\publication{
+Giovos, I., et al. (2020).
+First record of Atlantic spadefish in the Mediterranean. \emph{BioInvasions Records}, 9(1), 89--95. \href{https://doi.org/10.3391/bir.2020.9.1.12}{doi:10.3391/bir.2020.9.1.12}
+}
+
+% ================================================================
+% Skills
+% ================================================================
+\section*{Skills}
+
+\textbf{Programming \& quantitative methods}\par
+C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)
+
+\vspace{5pt}
+
+\textbf{Spatial analysis \& imaging}\par
+QGIS/ArcGIS (proficient), Image-Pro V9
+
+\vspace{5pt}
+
+\textbf{Languages}\par
+Greek (native), English (C2), French (C1)
+
+\vspace{5pt}
+
+\textbf{Laboratory}\par
+Sample treatment for pollution analysis, image-based identification
+
+\end{document}
