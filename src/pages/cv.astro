@@ -1,0 +1,202 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+
+const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
+const talks = (await getCollection('talks')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const isMe = (a: string) => /^Kaminas,\s*A\.?$/.test(a.trim());
+
+const rows = {
+  education: [
+    ['Oct 2025 – present', 'PhD student, The Evolutionary Consequences of Isolation', 'University of Groningen'],
+    ['Sep 2022 – Jun 2024', 'MSc, Applied Ecological and Evolutionary Sciences (2nd in class)', 'University of Montpellier'],
+    ['Sep 2017 – Dec 2021', 'BSc, Marine Science (1st in class)', 'University of the Aegean'],
+  ],
+  awards: [
+    ['Oct 2025', 'EVOLVE fellowship', 'EU EVOLVE MSCA COFUND'],
+    ['Aug 2022', 'IDIL international student scholarship', 'University of Montpellier'],
+    ['Jan 2022', 'Academic excellence award', 'Greek State Scholarships Foundation (IKY)'],
+    ['Dec 2021', 'Valedictorian', 'University of the Aegean'],
+    ['Jun 2017', 'National excellence mention', ''],
+  ],
+  experience: [
+    ['Oct 2024 – Sep 2025', 'Meteorology & oceanography officer (METOC)', 'Hydrographic Service, Hellenic Navy, Athens'],
+    ['Jan – Jun 2024', 'Research intern', 'UMR MARBEC, Montpellier'],
+    ['Jan – Jun 2023', 'Research intern', 'UMR MARBEC, Sète'],
+    ['Sep – Dec 2021', 'Erasmus research intern', 'UMR MARBEC, Sète'],
+    ['Jun – Sep 2020', 'Research intern', 'Hellenic Centre for Marine Research, Athens'],
+    ['Jan 2018 – Jun 2021', 'Academic tutor (biology, geology, physics, chemistry)', 'Mytilene'],
+  ],
+  roles: [
+    ['Oct 2025 – present', 'Research group member, Etienne group and Van Doorn group', 'University of Groningen, TRÊS'],
+    ['May 2025 – present', 'Network coordinator', 'SDSN Youth Greece'],
+    ['Jan 2025 – present', 'Research associate', 'Political Economy of Sustainable Development Lab, University of Athens'],
+    ['Jan 2024 – present', 'International student ambassador', 'Université de Montpellier'],
+    ['Nov 2023 – May 2025', 'Sustainability research fellow', 'SDSN Youth Greece'],
+    ['2021 – present', 'Working group member', 'WGCOMEDA'],
+    ['Sep 2024 – Sep 2025', 'Administration officer', 'Hellenic Navy, Athens – Poros'],
+    ['2018 – 2023', 'Volunteer research fellow', 'iSea Environmental Organisation'],
+    ['2018 – 2019', 'Club member, Plastic Litter Project', 'Marine Remote Sensing Club, Lesvos'],
+  ],
+  service: [
+    ['2026', 'MSc research project supervisor', 'University of Groningen, TRÊS'],
+    ['2026', 'Financial auditor', 'Netherlands Society for Theoretical Biology (NVTB)'],
+    ['Jan 2025 – present', 'Peer reviewer', 'Heliyon'],
+  ],
+  projects: [
+    ['2024 – 2025', 'SDG4U — Sustainable Development Goal 4 for Universities (EU-funded)', 'Research, writing, dissemination'],
+    ['2019 – 2023', 'Marine alien species population density in Greece and Cyprus', 'Citizen science'],
+    ['2018 – 2023', 'Is it Alien to you? Share it!!!', 'Public engagement and citizen science'],
+    ['2018 – 2023', 'MECO project', 'Collaborative elasmobranch-sightings network'],
+  ],
+};
+---
+
+<Base
+  title="Curriculum vitae"
+  description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, roles, supervision, presentations and publications. PDF available for download."
+>
+  <PageHeader eyebrow="CV" title="Curriculum vitae">
+    <p style="margin-top: var(--space-4)">
+      <a class="button button--primary" href={site.cvPath} download>Download PDF</a>
+      <span class="muted small" style="margin-left: var(--space-3)">Web version, without private contact details.</span>
+    </p>
+  </PageHeader>
+
+  <div class="container cv">
+    {
+      (
+        [
+          ['Education', rows.education],
+          ['Fellowships and awards', rows.awards],
+          ['Research and professional experience', rows.experience],
+          ['Academic roles and affiliations', rows.roles],
+          ['Supervision and academic service', rows.service],
+          ['Projects and initiatives', rows.projects],
+        ] as const
+      ).map(([title, list]) => (
+        <section class="cv__section" aria-labelledby={`cv-${title.replace(/\W+/g, '-').toLowerCase()}`}>
+          <h2 id={`cv-${title.replace(/\W+/g, '-').toLowerCase()}`}>{title}</h2>
+          <ol class="ruled cv__rows">
+            {list.map(([when, what, where]) => (
+              <li>
+                <span class="cv__when">{when}</span>
+                <span class="cv__what">
+                  {what}
+                  {where && <span class="cv__where">{where}</span>}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+
+    <section class="cv__section" aria-labelledby="cv-talks">
+      <h2 id="cv-talks">Conference presentations</h2>
+      <ol class="ruled cv__rows">
+        {
+          talks.map((t) => (
+            <li>
+              <span class="cv__when">{t.data.date.slice(0, 4)}</span>
+              <span class="cv__what">
+                <em>{t.data.title}</em>. {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+                <span class="cv__where">
+                  {t.data.event}, {t.data.location}
+                </span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="cv__section" aria-labelledby="cv-pubs">
+      <h2 id="cv-pubs">Publications</h2>
+      <ol class="ruled cv__rows">
+        {
+          pubs.map((p) => (
+            <li>
+              <span class="cv__when">{p.data.year}</span>
+              <span class="cv__what">
+                {p.data.authors.map((a, i) => (
+                  <Fragment>
+                    {isMe(a) ? <strong>{a}</strong> : a}
+                    {i < p.data.authors.length - 1 ? ', ' : ''}
+                  </Fragment>
+                ))}
+                {p.data.etAl ? ` … et al.` : ''} ({p.data.year}). {p.data.title}. <em>{p.data.venue}</em>
+                {p.data.volume ? `, ${p.data.volume}` : ''}
+                {p.data.issue ? `(${p.data.issue})` : ''}
+                {p.data.pages ? `, ${p.data.pages}` : ''}.
+                {p.data.doi && (
+                  <span class="cv__where">
+                    <a href={`https://doi.org/${p.data.doi}`} rel="noopener">
+                      doi:{p.data.doi}
+                    </a>
+                  </span>
+                )}
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="cv__section" aria-labelledby="cv-skills">
+      <h2 id="cv-skills">Skills</h2>
+      <dl class="meta cv__skills">
+        <dt>Programming</dt>
+        <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
+        <dt>Spatial</dt>
+        <dd>QGIS / ArcGIS, Image-Pro</dd>
+        <dt>Languages</dt>
+        <dd>Greek (native), English (C2), French (C1)</dd>
+        <dt>Laboratory</dt>
+        <dd>Sample treatment for pollution analysis, image-based identification</dd>
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cv {
+    padding-bottom: var(--space-8);
+    display: grid;
+    gap: var(--space-7);
+  }
+  .cv__section h2 {
+    font-size: var(--step-1);
+    margin-bottom: var(--space-2);
+  }
+  .cv__rows li {
+    display: grid;
+    gap: var(--space-1) var(--space-5);
+    padding-block: var(--space-3);
+  }
+  @media (min-width: 42rem) {
+    .cv__rows li {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+  .cv__when {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    padding-top: 0.3em;
+  }
+  .cv__what {
+    max-width: var(--measure);
+  }
+  .cv__where {
+    display: block;
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  .cv__skills {
+    font-size: var(--step-0);
+  }
+</style>

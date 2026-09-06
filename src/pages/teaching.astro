@@ -1,0 +1,114 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const entries = (await getCollection('teaching')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
+
+const groups = [
+  { kind: 'supervision', title: 'Supervision', intro: 'Guiding quantitative modelling projects from question to analysis.' },
+  { kind: 'teaching', title: 'Teaching', intro: 'Tutoring and instruction.' },
+  { kind: 'service', title: 'Academic service', intro: 'Peer review and society roles.' },
+  { kind: 'outreach', title: 'Outreach', intro: 'Public speaking and student outreach.' },
+] as const;
+---
+
+<Base
+  title="Teaching and supervision"
+  description="Teaching and supervision by Alexandros Kaminas: MSc research project supervision at the University of Groningen (TRÊS), tutoring in biology, geology, physics and chemistry, peer review and academic service."
+>
+  <PageHeader
+    eyebrow="Teaching & supervision"
+    title="Supervising modelling work"
+    lede="Supervision is where the modelling toolkit gets passed on: framing a question so that a model can answer it, choosing a structure the data can support, and reading the results critically."
+  />
+
+  {
+    groups.map((g) => {
+      const items = rendered.filter(({ e }) => e.data.kind === g.kind);
+      if (items.length === 0) return null;
+      return (
+        <section class="section container" aria-labelledby={`t-${g.kind}`}>
+          <div class="grid-label">
+            <div class="grid-label__aside">
+              <h2 id={`t-${g.kind}`} class="h-section">
+                {g.title}
+              </h2>
+              <p class="muted small">{g.intro}</p>
+            </div>
+            <ol class="ruled">
+              {items.map(({ e, Content }) => (
+                <li class="entry">
+                  <div class="entry__meta">
+                    <span class="entry__period">{e.data.period}</span>
+                  </div>
+                  <div class="entry__body">
+                    <h3 class="entry__title">
+                      {e.data.project ? <a href={`/work/${e.data.project}/`}>{e.data.title}</a> : e.data.title}
+                    </h3>
+                    <p class="entry__role">
+                      {e.data.role} · {e.data.institution}
+                    </p>
+                    {e.data.student && (
+                      <dl class="meta entry__student">
+                        <dt>Student</dt>
+                        <dd>{e.data.student}</dd>
+                        {e.data.thesis && (
+                          <>
+                            <dt>Thesis</dt>
+                            <dd>
+                              <em>{e.data.thesis}</em>
+                            </dd>
+                          </>
+                        )}
+                      </dl>
+                    )}
+                    <div class="prose small">
+                      <Content />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      );
+    })
+  }
+</Base>
+
+<style>
+  .h-section {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+  .entry {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+  }
+  @media (min-width: 42rem) {
+    .entry {
+      grid-template-columns: 7rem minmax(0, 1fr);
+    }
+  }
+  .entry__period {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: 1.2;
+  }
+  .entry__title {
+    font-size: var(--step-1);
+    margin-bottom: var(--space-1);
+  }
+  .entry__role {
+    font-size: var(--step--1);
+    margin-bottom: var(--space-3);
+  }
+  .entry__student {
+    margin-bottom: var(--space-3);
+  }
+  .entry__body .prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
