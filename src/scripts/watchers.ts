@@ -12,7 +12,8 @@
  *   lower corners on narrow screens, never over the header.
  * - Cheap: a handful of DOM nodes, CSS transforms, and a requestAnimationFrame loop
  *   that runs only while an eye is on screen.
- * - Original drawing: a pale disc, two thin concentric iris rings, a round pupil, one glint.
+ * - Original drawing, generated per appearance: a brush-edged pale shape with a single
+ *   dark irregular pupil, in the manner of an ink sketch.
  */
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -31,6 +32,31 @@ interface Eye {
 }
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
+
+/**
+ * A closed, smoothly curved but irregular shape around an ellipse (cx, cy, rx, ry):
+ * `n` points with radial jitter of ±`jitter`, joined by quadratic curves through
+ * the midpoints so the edge reads as a loaded brush stroke rather than a polygon.
+ */
+function brushShape(cx: number, cy: number, rx: number, ry: number, n: number, jitter: number): string {
+  const pts: Array<[number, number]> = [];
+  const phase = rand(0, Math.PI * 2);
+  for (let i = 0; i < n; i++) {
+    const a = phase + (i / n) * Math.PI * 2 + rand(-0.12, 0.12);
+    const k = 1 + rand(-jitter, jitter);
+    pts.push([cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k]);
+  }
+  const mid = (a: [number, number], b: [number, number]): [number, number] => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  let d = '';
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[i];
+    const p1 = pts[(i + 1) % n];
+    const m = mid(p0, p1);
+    if (i === 0) d += `M${mid(pts[n - 1], p0).map((v) => v.toFixed(2)).join(' ')} `;
+    d += `Q${p0[0].toFixed(2)} ${p0[1].toFixed(2)} ${m[0].toFixed(2)} ${m[1].toFixed(2)} `;
+  }
+  return d + 'Z';
+}
 
 export function mountWatchers(layer: HTMLElement): void {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -110,61 +136,55 @@ export function mountWatchers(layer: HTMLElement): void {
     svg.setAttribute('viewBox', '0 0 120 120');
     svg.classList.add('watcher__eye');
 
-    // A circular eye: pale disc, thin concentric iris rings, round pupil, one glint.
-    // The whole disc squashes vertically to blink.
+    // Brush-drawn eye: an irregular pale shape with a rough edge and a single dark,
+    // slightly irregular pupil. Every eye is generated fresh, so no two are alike.
     const lids = document.createElementNS(SVG_NS, 'g');
     lids.classList.add('watcher__lids');
+    const tilted = document.createElementNS(SVG_NS, 'g');
+    tilted.setAttribute('transform', `rotate(${rand(-14, 14).toFixed(1)} 60 60)`);
+    lids.appendChild(tilted);
+
+    const shapeD = brushShape(60, 60, rand(36, 42), rand(20, 26), 18, 0.17);
     const clipId = `w${Math.random().toString(36).slice(2, 8)}`;
     const clip = document.createElementNS(SVG_NS, 'clipPath');
     clip.setAttribute('id', clipId);
-    const clipShape = document.createElementNS(SVG_NS, 'circle');
-    clipShape.setAttribute('cx', '60');
-    clipShape.setAttribute('cy', '60');
-    clipShape.setAttribute('r', '34');
+    const clipShape = document.createElementNS(SVG_NS, 'path');
+    clipShape.setAttribute('d', shapeD);
     clip.appendChild(clipShape);
     const defs = document.createElementNS(SVG_NS, 'defs');
     defs.appendChild(clip);
     svg.appendChild(defs);
 
-    const sclera = document.createElementNS(SVG_NS, 'circle');
-    sclera.setAttribute('cx', '60');
-    sclera.setAttribute('cy', '60');
-    sclera.setAttribute('r', '34');
+    const sclera = document.createElementNS(SVG_NS, 'path');
+    sclera.setAttribute('d', shapeD);
     sclera.classList.add('watcher__sclera');
+
+    // One or two stray brush flecks beside the shape.
+    const flecks = document.createElementNS(SVG_NS, 'g');
+    const nFlecks = Math.random() < 0.6 ? 1 : 2;
+    for (let i = 0; i < nFlecks; i++) {
+      const a = rand(0, Math.PI * 2);
+      const fx = 60 + Math.cos(a) * rand(42, 50);
+      const fy = 60 + Math.sin(a) * rand(26, 32);
+      const fleck = document.createElementNS(SVG_NS, 'path');
+      fleck.setAttribute('d', brushShape(fx, fy, rand(2, 4.5), rand(1.2, 2.6), 7, 0.3));
+      fleck.classList.add('watcher__sclera');
+      flecks.appendChild(fleck);
+    }
 
     const clipped = document.createElementNS(SVG_NS, 'g');
     clipped.setAttribute('clip-path', `url(#${clipId})`);
     const pupil = document.createElementNS(SVG_NS, 'g');
     pupil.setAttribute('transform', 'translate(60 60)');
     clipped.appendChild(pupil);
-    const irisOuter = document.createElementNS(SVG_NS, 'circle');
-    irisOuter.setAttribute('r', '19');
-    irisOuter.classList.add('watcher__iris');
-    const irisInner = document.createElementNS(SVG_NS, 'circle');
-    irisInner.setAttribute('r', '13.5');
-    irisInner.classList.add('watcher__iris', 'watcher__iris--inner');
-    const core = document.createElementNS(SVG_NS, 'circle');
-    core.setAttribute('r', '7.5');
+    const core = document.createElementNS(SVG_NS, 'path');
+    core.setAttribute('d', brushShape(0, 0, rand(7.5, 9.5), rand(6, 8), 9, 0.22));
     core.classList.add('watcher__pupil');
-    const glint = document.createElementNS(SVG_NS, 'circle');
-    glint.setAttribute('r', '1.9');
-    glint.setAttribute('cx', '-3.2');
-    glint.setAttribute('cy', '-3.2');
-    glint.classList.add('watcher__glint');
-    pupil.appendChild(irisOuter);
-    pupil.appendChild(irisInner);
     pupil.appendChild(core);
-    pupil.appendChild(glint);
 
-    const outline = document.createElementNS(SVG_NS, 'circle');
-    outline.setAttribute('cx', '60');
-    outline.setAttribute('cy', '60');
-    outline.setAttribute('r', '34');
-    outline.classList.add('watcher__outline');
-
-    lids.appendChild(sclera);
-    lids.appendChild(clipped);
-    lids.appendChild(outline);
+    tilted.appendChild(sclera);
+    tilted.appendChild(flecks);
+    tilted.appendChild(clipped);
     svg.appendChild(lids);
     root.appendChild(svg);
     layer.appendChild(root);
@@ -209,11 +229,11 @@ export function mountWatchers(layer: HTMLElement): void {
       const dy = pointer.y - e.cy;
       const d = Math.hypot(dx, dy) || 1;
       const reach = Math.min(1, d / 420);
-      tx = (dx / d) * 13 * reach;
-      ty = (dy / d) * 13 * reach;
+      tx = (dx / d) * 20 * reach;
+      ty = (dy / d) * 9 * reach;
     } else {
-      tx = 10 * Math.sin(age / 900);
-      ty = 7 * Math.cos(age / 1300);
+      tx = 14 * Math.sin(age / 900);
+      ty = 5 * Math.cos(age / 1300);
     }
     e.pupil.setAttribute('transform', `translate(${60 + tx} ${60 + ty})`);
 

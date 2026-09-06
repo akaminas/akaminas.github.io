@@ -56,6 +56,7 @@
     overflow: visible;
   }
   .watcher__lids {
+    transform-box: view-box;
     transform-origin: 60px 60px;
     transform: scaleY(0);
     transition: transform 420ms cubic-bezier(0.2, 0.9, 0.25, 1) 320ms;
@@ -75,41 +76,20 @@
     fill: var(--watch-sclera);
     opacity: 0.94;
   }
-  .watcher__outline {
-    fill: none;
-    stroke: var(--watch-line);
-    stroke-width: 1.4;
-  }
-  .watcher__iris {
-    fill: none;
-    stroke: var(--watch-line);
-    stroke-width: 1.1;
-    opacity: 0.85;
-  }
-  .watcher__iris--inner {
-    stroke-width: 0.8;
-    opacity: 0.55;
-  }
   .watcher__pupil {
     fill: var(--watch-pupil);
-  }
-  .watcher__glint {
-    fill: var(--watch-sclera);
-    opacity: 0.9;
   }
 
   :root {
     --watch-pool: #191b1f;
     --watch-sclera: #f4f2ed;
-    --watch-line: #191b1f;
-    --watch-pupil: #191b1f;
+    --watch-pupil: #7a2a10;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --watch-pool: #08090b;
-      --watch-sclera: #e9e7e2;
-      --watch-line: #08090b;
-      --watch-pupil: #08090b;
+      --watch-sclera: #ebe8e1;
+      --watch-pupil: #6e250d;
     }
   }
   @media (prefers-reduced-motion: reduce), print {
