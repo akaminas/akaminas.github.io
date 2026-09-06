@@ -12,7 +12,7 @@
  *   lower corners on narrow screens, never over the header.
  * - Cheap: a handful of DOM nodes, CSS transforms, and a requestAnimationFrame loop
  *   that runs only while an eye is on screen.
- * - Original drawing: a lens-shaped lid, a ring iris and a round pupil. Nothing more.
+ * - Original drawing: a pale disc, two thin concentric iris rings, a round pupil, one glint.
  */
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -81,15 +81,15 @@ export function mountWatchers(layer: HTMLElement): void {
     if (zones.length > 0) {
       const z = zones[Math.floor(Math.random() * zones.length)];
       const size = z.size;
-      if (vh - top - pad - size * 0.6 <= 0) return null;
-      return { x: rand(z.x0, z.x1 - size), y: rand(top, vh - pad - size * 0.6), size };
+      if (vh - top - pad - size <= 0) return null;
+      return { x: rand(z.x0, z.x1 - size), y: rand(top, vh - pad - size), size };
     }
     // No usable margin (narrow screen): a small eye in a lower corner, where the
     // content column is usually empty (list rows end short of the edge).
     if (vh - top < 320) return null;
     const size = minSize;
     const x = Math.random() < 0.5 ? pad : vw - pad - size;
-    return { x, y: rand(vh * 0.62, vh - pad - size * 0.6), size };
+    return { x, y: rand(vh * 0.6, vh - pad - size), size };
   };
 
   const build = (wanted: number): Eye | null => {
@@ -99,7 +99,7 @@ export function mountWatchers(layer: HTMLElement): void {
     const root = document.createElement('div');
     root.className = 'watcher';
     root.style.width = `${size}px`;
-    root.style.height = `${size * 0.6}px`;
+    root.style.height = `${size}px`;
     root.style.transform = `translate(${spot.x}px, ${spot.y}px)`;
 
     const pool = document.createElement('div');
@@ -107,48 +107,59 @@ export function mountWatchers(layer: HTMLElement): void {
     root.appendChild(pool);
 
     const svg = document.createElementNS(SVG_NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 200 120');
+    svg.setAttribute('viewBox', '0 0 120 120');
     svg.classList.add('watcher__eye');
 
-    // Lens-shaped opening, drawn as two arcs; the lids scale vertically to blink.
+    // A circular eye: pale disc, thin concentric iris rings, round pupil, one glint.
+    // The whole disc squashes vertically to blink.
     const lids = document.createElementNS(SVG_NS, 'g');
     lids.classList.add('watcher__lids');
     const clipId = `w${Math.random().toString(36).slice(2, 8)}`;
     const clip = document.createElementNS(SVG_NS, 'clipPath');
     clip.setAttribute('id', clipId);
-    const clipShape = document.createElementNS(SVG_NS, 'path');
-    clipShape.setAttribute('d', 'M30 60 Q100 8 170 60 Q100 112 30 60 Z');
+    const clipShape = document.createElementNS(SVG_NS, 'circle');
+    clipShape.setAttribute('cx', '60');
+    clipShape.setAttribute('cy', '60');
+    clipShape.setAttribute('r', '34');
     clip.appendChild(clipShape);
     const defs = document.createElementNS(SVG_NS, 'defs');
     defs.appendChild(clip);
     svg.appendChild(defs);
 
-    const sclera = document.createElementNS(SVG_NS, 'path');
-    sclera.setAttribute('d', 'M30 60 Q100 8 170 60 Q100 112 30 60 Z');
+    const sclera = document.createElementNS(SVG_NS, 'circle');
+    sclera.setAttribute('cx', '60');
+    sclera.setAttribute('cy', '60');
+    sclera.setAttribute('r', '34');
     sclera.classList.add('watcher__sclera');
 
     const clipped = document.createElementNS(SVG_NS, 'g');
     clipped.setAttribute('clip-path', `url(#${clipId})`);
     const pupil = document.createElementNS(SVG_NS, 'g');
-    pupil.setAttribute('transform', 'translate(100 60)');
+    pupil.setAttribute('transform', 'translate(60 60)');
     clipped.appendChild(pupil);
-    const iris = document.createElementNS(SVG_NS, 'circle');
-    iris.setAttribute('r', '22');
-    iris.classList.add('watcher__iris');
+    const irisOuter = document.createElementNS(SVG_NS, 'circle');
+    irisOuter.setAttribute('r', '19');
+    irisOuter.classList.add('watcher__iris');
+    const irisInner = document.createElementNS(SVG_NS, 'circle');
+    irisInner.setAttribute('r', '13.5');
+    irisInner.classList.add('watcher__iris', 'watcher__iris--inner');
     const core = document.createElementNS(SVG_NS, 'circle');
-    core.setAttribute('r', '9');
+    core.setAttribute('r', '7.5');
     core.classList.add('watcher__pupil');
     const glint = document.createElementNS(SVG_NS, 'circle');
-    glint.setAttribute('r', '2.2');
-    glint.setAttribute('cx', '-5');
-    glint.setAttribute('cy', '-5');
+    glint.setAttribute('r', '1.9');
+    glint.setAttribute('cx', '-3.2');
+    glint.setAttribute('cy', '-3.2');
     glint.classList.add('watcher__glint');
-    pupil.appendChild(iris);
+    pupil.appendChild(irisOuter);
+    pupil.appendChild(irisInner);
     pupil.appendChild(core);
     pupil.appendChild(glint);
 
-    const outline = document.createElementNS(SVG_NS, 'path');
-    outline.setAttribute('d', 'M30 60 Q100 8 170 60 Q100 112 30 60 Z');
+    const outline = document.createElementNS(SVG_NS, 'circle');
+    outline.setAttribute('cx', '60');
+    outline.setAttribute('cy', '60');
+    outline.setAttribute('r', '34');
     outline.classList.add('watcher__outline');
 
     lids.appendChild(sclera);
@@ -164,7 +175,7 @@ export function mountWatchers(layer: HTMLElement): void {
       pupil,
       lids,
       cx: spot.x + size / 2,
-      cy: spot.y + size * 0.3,
+      cy: spot.y + size / 2,
       born: now,
       life: rand(2500, 5000),
       blinkAt: now + rand(900, 2200),
@@ -198,13 +209,13 @@ export function mountWatchers(layer: HTMLElement): void {
       const dy = pointer.y - e.cy;
       const d = Math.hypot(dx, dy) || 1;
       const reach = Math.min(1, d / 420);
-      tx = (dx / d) * 34 * reach;
-      ty = (dy / d) * 16 * reach;
+      tx = (dx / d) * 13 * reach;
+      ty = (dy / d) * 13 * reach;
     } else {
-      tx = 24 * Math.sin(age / 900);
-      ty = 8 * Math.cos(age / 1300);
+      tx = 10 * Math.sin(age / 900);
+      ty = 7 * Math.cos(age / 1300);
     }
-    e.pupil.setAttribute('transform', `translate(${100 + tx} ${60 + ty})`);
+    e.pupil.setAttribute('transform', `translate(${60 + tx} ${60 + ty})`);
 
     // Blink: close and open, then schedule the next one.
     if (!e.blinking && now >= e.blinkAt) {
