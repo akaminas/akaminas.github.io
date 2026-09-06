@@ -29,7 +29,7 @@ import { site } from '../data/site';
     <div class="prose">
       <h2 id="summary">Summary</h2>
       <ul>
-        <li>No cookies, no analytics, no advertising, no tracking pixels, no fingerprinting, no session recording.</li>
+        <li>No cookies, no analytics, no advertising, no tracking pixels, no fingerprinting, no session recording. One optional browser-storage entry if you use the light/dark toggle (see below).</li>
         <li>No contact form, no comment system, no embedded social-media widgets, no third-party fonts or scripts.</li>
         <li>The only data processing that happens when you visit is the hosting provider's own server logging (below).</li>
         <li>If you email me, I use your address and message to reply, and for nothing else.</li>
@@ -64,10 +64,17 @@ import { site } from '../data/site';
 
       <h2 id="cookies">Cookies and local storage</h2>
       <p>
-        This site sets <strong>no cookies</strong> and does not use local storage, session storage or IndexedDB. It
-        loads no third-party scripts, fonts, images or embeds; all requests go to this site's own domain. Because
-        nothing is stored on or read from your device, no consent banner is shown: there is nothing to consent to.
-        The colour scheme follows your operating-system preference and is not stored.
+        This site sets <strong>no cookies</strong> and does not use session storage or IndexedDB. It loads no
+        third-party scripts, fonts, images or embeds; all requests go to this site's own domain.
+      </p>
+      <p>
+        The colour scheme follows your operating-system preference. If you use the sun/moon button in the header to
+        choose the other scheme, that choice is kept in your browser's local storage under a single entry named
+        <code>theme</code>, which records only the scheme name and the time you chose it. It is stored only while
+        your choice differs from your system setting (switching back removes it), it expires after 180 days, it
+        contains nothing that identifies you, and it never leaves your browser. Nothing else is stored, and nothing
+        is stored at all unless you use that button. Because this is a preference you set yourself, no consent
+        banner is shown.
       </p>
       <p>
         This was verified on the deployed site in a clean browser profile (see the <a href={`${site.repo}/blob/main/COMPLIANCE_NOTES.md`} rel="noopener">compliance notes</a> in the source repository). If that ever changes, this notice will be updated first.

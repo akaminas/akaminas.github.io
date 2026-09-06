@@ -48,10 +48,10 @@ src/
   content/teaching/*.md        Supervision, teaching, service, outreach
   data/site.ts                 Name, email, affiliation, profile links, navigation
   layouts/Base.astro           <head>, metadata, header/footer
-  components/                  Header, Footer, ProjectCard, PublicationItem, Motif, SystemField, Watchers, PageHeader
+  components/                  Header, Footer, ProjectCard, PublicationItem, Motif, SystemField, PageHeader
   pages/                       Routes (index, work, methods, publications, teaching, about, cv, privacy, 404)
-  scripts/system-field.ts      Home-page simulation
-  scripts/watchers.ts          Decorative eyes that surface in the margins (timing and behaviour are set at the top of the file)
+  scripts/system-field.ts      Home-page simulation (adaptive landscape; model and parameters at the top of the file)
+  scripts/theme.ts             Colour-scheme toggle (storage rules in the file header)
   styles/global.css            Tokens, typography, layout primitives
 ```
 

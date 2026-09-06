@@ -33,7 +33,7 @@ None. No third-party logos (university, funder, journal, conference, society) ar
 | `public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` | Two-patch glyph (filled dot, ring, dashed link). Raster versions generated from the SVG by `scripts/make-assets.mjs`. |
 | `public/og.png` | Social preview, rendered from `scripts/og.html` (text + glyph, self-hosted fonts). |
 | `src/components/Motif.astro` | Seven line drawings used on project cards and pages. |
-| `src/scripts/system-field.ts` | Home-page simulation (drawn live on a canvas). |
+| `src/scripts/system-field.ts` | Home-page simulation: adaptive-landscape contours and climbing populations, drawn live on a canvas from the model in the file. |
 | `public/documents/cv-alexandros-kaminas.pdf` | Web version of the CV, compiled from `cv/cv-web.tex`. Contains no third-party material. |
 
 ## Publications

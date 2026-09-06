@@ -103,9 +103,9 @@
   --accent: #a63e16;       /* 5.65:1 on --bg */
   --accent-soft: #e9c8b7;
   --focus: #1f4bd8;
-  --canvas-a: #a63e16;
-  --canvas-b: #33363c;
-  --canvas-link: rgba(25, 27, 31, 0.14);
+  --canvas-contour: #8b9189;   /* landscape contours: muted sage grey */
+  --canvas-pop: #4a5661;       /* population means: muted slate */
+  --canvas-shift: #b06a4b;     /* recent peak shift: muted terracotta */
   --selection: #f0d5c6;
 
   /* Motion */
@@ -114,8 +114,10 @@
   --dur: 220ms;
 }
 
+/* Dark ("slate"): follows the system preference unless a light theme was chosen
+   with the header toggle; an explicit dark choice applies regardless. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #141518;
     --surface: #1d1f24;
     --ink: #e9e7e2;
@@ -125,11 +127,31 @@
     --accent: #f0935c;      /* 7.85:1 on --bg */
     --accent-soft: #4a2a1c;
     --focus: #8fb0ff;
-    --canvas-a: #f0935c;
-    --canvas-b: #c9ccd2;
-    --canvas-link: rgba(233, 231, 226, 0.13);
+    --canvas-contour: #5f666d;
+    --canvas-pop: #c2c7cc;
+    --canvas-shift: #cf8f6b;
     --selection: #4a2a1c;
+    color-scheme: dark;
   }
+}
+:root[data-theme='dark'] {
+  --bg: #141518;
+  --surface: #1d1f24;
+  --ink: #e9e7e2;
+  --muted: #a8abb2;
+  --line: #2d3036;
+  --line-strong: #454950;
+  --accent: #f0935c;      /* 7.85:1 on --bg */
+  --accent-soft: #4a2a1c;
+  --focus: #8fb0ff;
+  --canvas-contour: #5f666d;
+  --canvas-pop: #c2c7cc;
+  --canvas-shift: #cf8f6b;
+  --selection: #4a2a1c;
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
 }
 
 /* ---------- Reset (minimal, opinionated) ---------- */

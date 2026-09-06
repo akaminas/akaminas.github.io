@@ -5,11 +5,11 @@ The site belongs to a modeller of complex systems. The design language is taken 
 ## Principles
 
 1. **Hierarchy through type, not boxes.** One serif for headings, one sans for text, one mono for labels, all from a single family (IBM Plex). Sections are separated by hairline rules, not cards.
-2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, migrants in the simulation, hover states. Everything else is ink on paper.
+2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, a population that has just shifted peak in the simulation (in a muted terracotta), hover states. Everything else is ink on paper.
 3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page simulation is a real, tiny model rather than decorative particles.
 4. **Nothing is only visual.** The simulation is captioned and labelled decorative; every claim on the methods page is linked to the project where the method was used; publication status is written out.
 5. **Progressive enhancement.** Navigation, content and layout work without JavaScript. JavaScript adds the mobile menu toggle and the simulation, and both fail silently.
-6. **Meaningful motion only.** (The watchers are the one indulgence: rare, short, silent, and in the margins.) Transitions are 140–220 ms and limited to colour and small transforms. The simulation stops when off-screen, when the tab is hidden, when the visitor pauses it, and never starts under `prefers-reduced-motion` (a static frame is drawn instead).
+6. **Meaningful motion only.** Transitions are 140–220 ms and limited to colour and small transforms. The simulation stops when off-screen, when the tab is hidden, when the visitor pauses it, and never starts under `prefers-reduced-motion` (a static frame is drawn instead).
 
 The attached Apple document turned out to be the *Apple Style Guide* (editorial), not the Human Interface Guidelines. Its transferable advice was applied to copy rather than layout: consistent terminology across pages, active voice, plain language, no idioms, jargon defined at first use.
 
@@ -27,7 +27,7 @@ Fluid type scale (`--step--1` … `--step-5`), clamped between 360 px and 1280 p
 
 ## Colour
 
-Light ("paper") and dark ("slate") schemes follow `prefers-color-scheme`; there is no toggle because storing a choice would require local storage, and the site stores nothing.
+Light ("paper") and dark ("slate") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
@@ -37,8 +37,9 @@ Light ("paper") and dark ("slate") schemes follow `prefers-color-scheme`; there 
 | `--line` / `--line-strong` | `#d6d2c9` / `#b9b4aa` | `#2d3036` / `#454950` | rules, borders (non-text) |
 | `--accent` | `#a63e16` | `#f0935c` | signal only (5.65:1 / 7.85:1) |
 | `--focus` | `#1f4bd8` | `#8fb0ff` | focus ring |
+| `--canvas-contour` / `--canvas-pop` / `--canvas-shift` | `#8b9189` / `#4a5661` / `#b06a4b` | `#5f666d` / `#c2c7cc` / `#cf8f6b` | simulation only: landscape contours (muted sage grey), population means (muted slate), recent peak shift (muted terracotta); non-text, drawn with alpha |
 
-All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status dots are always accompanied by a word, patches in the simulation are also separated spatially and labelled.
+All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status dots are always accompanied by a word; in the simulation a peak shift is also shown by the population's trail and a brief enlargement.
 
 ## Spacing and layout
 
@@ -50,12 +51,11 @@ All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast rat
 
 ## Components
 
-- **Header**: wordmark (two-patch glyph + name), primary nav with underline active state (`aria-current="page"`). Below 48 rem, JS reveals a labelled "Menu" button (`aria-expanded`, `aria-controls`, Escape closes and returns focus). Without JS the list is simply visible.
+- **Header**: wordmark (two-patch glyph + name), primary nav with underline active state (`aria-current="page"`), and the colour-scheme toggle (icon button, 44 px target, shown only with JS; after the nav in DOM and layout on desktop, on the first row beside the menu button on narrow screens). Below 48 rem, JS reveals a labelled "Menu" button (`aria-expanded`, `aria-controls`, Escape closes and returns focus). Without JS the list is simply visible.
 - **Project card**: motif + domain label, linked title and question, status + period, up to three method tags. The link wraps only the title and question so the accessible name is clean.
 - **Publication item**: year and status column; linked title (DOI), authors with the owner highlighted, venue, DOI and licence in mono.
 - **Motif**: seven original SVG drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, drawn in `currentColor` with one accent dot.
-- **SystemField**: the home simulation (see `src/scripts/system-field.ts` for the model). Canvas is `aria-hidden`; the figure caption states what it is and that it is decorative; a real `<button aria-pressed>` pauses it.
-- **Watchers**: an abstract brush-drawn eye (an irregular pale shape with a rough edge, one or two stray flecks, and a single dark irregular pupil in a deep rust tone; every shape is generated fresh) that surfaces from a soft round ink pool in the page margin, follows the pointer, blinks once or twice and sinks back. One at a time; first after 10–25 s, then every 25–70 s; 2.5–5 s each; sized to the free margin (76–180 px); lower corners only on narrow screens; never over the header or the text column; never under reduced motion. The drawing is procedural and original, in the manner of an ink sketch, so it reads as a motif rather than a face or a jump-scare.
+- **SystemField**: the home simulation, an adaptive landscape (contours of log mean fitness, three Gaussian peaks that drift, rise and sink) with isolated populations climbing it by Lande's equation in their own locally offset environment (see `src/scripts/system-field.ts` for the model and numerics). Deterministic gradient flow, so all motion is smooth and slow; muted colours (contours, slate population dots with a soft halo and short trails, terracotta for a recent peak shift). Canvas is `aria-hidden`; the figure caption states the equations, what it is and that it is decorative; a real `<button aria-pressed>` pauses it.
 - **Tags**: mono labels in hairline pills. Never proficiency bars or percentages.
 - **Buttons**: 44 px minimum height, 1 px border; primary is filled ink. Hover changes border/background, never only colour of text.
 
