@@ -1,0 +1,40 @@
+# Build output and caches
+dist/
+.astro/
+node_modules/
+*.log
+npm-debug.log*
+
+# Environment files (there should be none, but never commit them)
+.env
+.env.*
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Local reference material must never enter this repository.
+# Keep it in a sibling folder (e.g. ..\Website_References) — these rules are a second line of defence.
+reference/
+references/
+private/
+source_material/
+Website_References/
+*.pdf
+!public/documents/cv-alexandros-kaminas.pdf
+
+# LaTeX build files for the web CV
+cv/*.aux
+cv/*.log
+cv/*.out
+cv/*.fls
+cv/*.fdb_latexmk
+cv/*.synctex.gz
+
+# Test artefacts
+test-results/
+screenshots/
+lighthouse/
