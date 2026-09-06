@@ -2,7 +2,7 @@
 
 Professional website of **Alexandros Kaminas** — mathematical and computational modelling of complex systems. Live at <https://akaminas.github.io>.
 
-Static site built with [Astro](https://astro.build), semantic HTML, hand-written CSS and two small scripts. No framework runtime, no analytics, no cookies, no third-party requests. Deployed to GitHub Pages by GitHub Actions on every push to `main`.
+Static site built with [Astro](https://astro.build), semantic HTML, hand-written CSS and three small scripts. No framework runtime, no analytics, no cookies, no third-party requests. Deployed to GitHub Pages by GitHub Actions on every push to `main`.
 
 Companion documents: [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) (visual system and rules), [`ASSET_PROVENANCE.md`](ASSET_PROVENANCE.md) (licences of every non-original asset), [`COMPLIANCE_NOTES.md`](COMPLIANCE_NOTES.md) (privacy, cookies, accessibility, copyright, legal review).
 
@@ -48,9 +48,10 @@ src/
   content/teaching/*.md        Supervision, teaching, service, outreach
   data/site.ts                 Name, email, affiliation, profile links, navigation
   layouts/Base.astro           <head>, metadata, header/footer
-  components/                  Header, Footer, ProjectCard, PublicationItem, Motif, SystemField, PageHeader
+  components/                  Header, Footer, ProjectCard, PublicationItem, Motif, SystemField, Watchers, PageHeader
   pages/                       Routes (index, work, methods, publications, teaching, about, cv, privacy, 404)
   scripts/system-field.ts      Home-page simulation
+  scripts/watchers.ts          Decorative eyes that surface in the margins (timing and behaviour are set at the top of the file)
   styles/global.css            Tokens, typography, layout primitives
 ```
 

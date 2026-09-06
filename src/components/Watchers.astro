@@ -1,0 +1,121 @@
+---
+/**
+ * Decorative layer for the "watchers" (see src/scripts/watchers.ts).
+ * Renders nothing until the script adds an eye; hidden from assistive technology
+ * and from pointer interaction. Disabled under prefers-reduced-motion and in print.
+ */
+---
+
+<div class="watchers" aria-hidden="true" data-watchers></div>
+
+<style is:global>
+  .watchers {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .watcher {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform, opacity;
+    opacity: 0;
+    transition: opacity 900ms var(--ease-out);
+  }
+  .watcher.is-up {
+    opacity: 1;
+  }
+  .watcher.is-down {
+    opacity: 0;
+    transition: opacity 700ms ease-in;
+  }
+  /* The ink pool: a soft-edged dark ellipse that the eye surfaces from. */
+  .watcher__pool {
+    position: absolute;
+    inset: -18% -10%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, var(--watch-pool) 44%, transparent 70%);
+    opacity: 0.94;
+    transform: scale(0.72);
+    transition: transform 1100ms var(--ease-out);
+  }
+  .watcher.is-up .watcher__pool {
+    transform: scale(1);
+  }
+  .watcher.is-down .watcher__pool {
+    transform: scale(0.8);
+    transition: transform 800ms ease-in;
+  }
+  .watcher__eye {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .watcher__lids {
+    transform-origin: 100px 60px;
+    transform: scaleY(0);
+    transition: transform 420ms cubic-bezier(0.2, 0.9, 0.25, 1) 320ms;
+  }
+  .watcher.is-up .watcher__lids {
+    transform: scaleY(1);
+  }
+  .watcher.is-down .watcher__lids {
+    transform: scaleY(0);
+    transition: transform 260ms ease-in;
+  }
+  .watcher__lids.is-blink {
+    transform: scaleY(0.06);
+    transition: transform 90ms ease-in;
+  }
+  .watcher__sclera {
+    fill: var(--watch-sclera);
+  }
+  .watcher__outline {
+    fill: none;
+    stroke: var(--watch-line);
+    stroke-width: 1.4;
+  }
+  .watcher__iris {
+    fill: none;
+    stroke: var(--watch-line);
+    stroke-width: 1.2;
+    opacity: 0.9;
+  }
+  .watcher__pupil {
+    fill: var(--watch-pupil);
+  }
+  .watcher__glint {
+    fill: var(--watch-sclera);
+    opacity: 0.9;
+  }
+
+  :root {
+    --watch-pool: #191b1f;
+    --watch-sclera: #f4f2ed;
+    --watch-line: #191b1f;
+    --watch-pupil: #191b1f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --watch-pool: #08090b;
+      --watch-sclera: #e9e7e2;
+      --watch-line: #08090b;
+      --watch-pupil: #08090b;
+    }
+  }
+  @media (prefers-reduced-motion: reduce), print {
+    .watchers {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { mountWatchers } from '../scripts/watchers';
+  const layer = document.querySelector<HTMLElement>('[data-watchers]');
+  if (layer) mountWatchers(layer);
+</script>

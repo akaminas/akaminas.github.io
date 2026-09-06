@@ -9,7 +9,7 @@ The site belongs to a modeller of complex systems. The design language is taken 
 3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page simulation is a real, tiny model rather than decorative particles.
 4. **Nothing is only visual.** The simulation is captioned and labelled decorative; every claim on the methods page is linked to the project where the method was used; publication status is written out.
 5. **Progressive enhancement.** Navigation, content and layout work without JavaScript. JavaScript adds the mobile menu toggle and the simulation, and both fail silently.
-6. **Meaningful motion only.** Transitions are 140–220 ms and limited to colour and small transforms. The simulation stops when off-screen, when the tab is hidden, when the visitor pauses it, and never starts under `prefers-reduced-motion` (a static frame is drawn instead).
+6. **Meaningful motion only.** (The watchers are the one indulgence: rare, short, silent, and in the margins.) Transitions are 140–220 ms and limited to colour and small transforms. The simulation stops when off-screen, when the tab is hidden, when the visitor pauses it, and never starts under `prefers-reduced-motion` (a static frame is drawn instead).
 
 The attached Apple document turned out to be the *Apple Style Guide* (editorial), not the Human Interface Guidelines. Its transferable advice was applied to copy rather than layout: consistent terminology across pages, active voice, plain language, no idioms, jargon defined at first use.
 
@@ -55,6 +55,7 @@ All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast rat
 - **Publication item**: year and status column; linked title (DOI), authors with the owner highlighted, venue, DOI and licence in mono.
 - **Motif**: seven original SVG drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, drawn in `currentColor` with one accent dot.
 - **SystemField**: the home simulation (see `src/scripts/system-field.ts` for the model). Canvas is `aria-hidden`; the figure caption states what it is and that it is decorative; a real `<button aria-pressed>` pauses it.
+- **Watchers**: an abstract eye (lens-shaped lid, ring iris, round pupil, one glint) that surfaces from a soft ink pool in the page margin, follows the pointer, blinks once or twice and sinks back. One at a time; first after 10–25 s, then every 25–70 s; 2.5–5 s each; sized to the free margin (76–180 px); lower corners only on narrow screens; never over the header or the text column; never under reduced motion. The drawing is original and deliberately minimal so it reads as a sleek motif, not a character or a jump-scare.
 - **Tags**: mono labels in hairline pills. Never proficiency bars or percentages.
 - **Buttons**: 44 px minimum height, 1 px border; primary is filled ink. Hover changes border/background, never only colour of text.
 

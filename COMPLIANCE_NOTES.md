@@ -11,7 +11,7 @@ Working notes on privacy, cookies, accessibility, copyright and Dutch/EU law for
 
 ## Privacy architecture (what the site actually does)
 
-- Fully static HTML/CSS with two small inline scripts (mobile menu toggle; home-page canvas simulation). No frameworks loaded at runtime.
+- Fully static HTML/CSS with three small inline scripts (mobile menu toggle; home-page canvas simulation; the decorative "watchers" on every page). No frameworks loaded at runtime.
 - No analytics, advertising, tracking pixels, fingerprinting, session replay, A/B testing or error reporting.
 - No contact form, comments, newsletter, search backend or embeds. Contact is a `mailto:` link.
 - No third-party requests at all: fonts, images, icons and scripts are served from the site's own origin. External profiles (GitHub, ORCID, Google Scholar, ResearchGate, RUG portal) are plain links.
@@ -29,7 +29,7 @@ Run on 2026-09-06 with Playwright against the production build (`npm run build &
 | `localStorage` / `sessionStorage` entries | 0 / 0 |
 | IndexedDB databases | 0 |
 | Requests to hosts other than the site's own origin | 0 |
-| Inline/external scripts | 2 inline (menu, simulation), 0 external |
+| Inline/external scripts | 3 inline (menu, simulation, watchers), 0 external |
 
 **To repeat after deployment** (the hosting layer can differ from local preview): open `https://akaminas.github.io` in a fresh private window, then in DevTools check Application → Cookies / Local storage / Session storage / IndexedDB, and Network → filter by domain. Expected: no cookies, empty storage, all requests to `akaminas.github.io`. Record the date and result here. GitHub has not published a Pages-specific statement about cookies on `*.github.io`; the local audit shows the site itself sets none, and the post-deployment check is what confirms the hosting layer.
 
@@ -81,6 +81,7 @@ Reviewed the supplied CV against what is published.
 
 - Target: WCAG 2.2 Level AA. Implementation is described in `DESIGN_SYSTEM.md`.
 - Automated: axe-core 4.x with tags wcag2a/aa, wcag21a/aa, wcag22aa, best-practice — **0 violations** on 11 pages × 2 viewports × 2 colour schemes (2026-09-06).
+- Moving content (WCAG 2.2.2): the home simulation has a pause button and stops under reduced motion. The "watchers" (an abstract eye that surfaces in the page margin, follows the pointer and blinks) are limited to one at a time, 2.5–5 s each, so no instance reaches the five-second threshold that would require a pause control; they never appear under `prefers-reduced-motion`, in print, or while the tab is hidden, and they are `aria-hidden` with `pointer-events: none`.
 - Manual: keyboard walkthrough of every page (skip link → wordmark → nav → content; visible 3 px focus ring on all stops; mobile menu opens with Enter, closes with Escape and returns focus; simulation pause button operable); 200 % zoom equivalent (720 px viewport) without horizontal scrolling; reduced-motion mode verified (no animation frames requested, static frame drawn); dark and light schemes contrast-checked numerically.
 - Screen reader: not tested with a real screen reader in this environment. Structure was verified via the accessibility tree (landmarks, headings, accessible names). **Recommended:** one pass with NVDA (Windows) on the deployed site.
 - Legal applicability: the European Accessibility Act (Directive 2019/882) covers specified products and services placed on the market by economic operators (e-commerce, banking, transport, e-books, telecoms…), with a micro-enterprise exemption; Dutch government guidance frames it in terms of businesses above size thresholds. A non-commercial personal research site is outside its scope. Accessibility here is a design commitment, not a legal obligation. Sources: <https://eur-lex.europa.eu/eli/dir/2019/882/oj/eng>; <https://business.gov.nl/regulations/rules-for-accessibility-eaa/>; <https://www.w3.org/TR/WCAG22/>.
