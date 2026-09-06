@@ -1,0 +1,120 @@
+---
+/**
+ * Decorative simulation for the home page. Everything meaningful is in the
+ * caption; the canvas itself is hidden from assistive technology.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<figure class:list={['system-field', className]}>
+  <div class="system-field__frame">
+    <canvas aria-hidden="true"></canvas>
+    <svg class="system-field__axes" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <line x1="50" y1="4" x2="50" y2="96" vector-effect="non-scaling-stroke" />
+    </svg>
+    <span class="system-field__label system-field__label--a" aria-hidden="true">patch A</span>
+    <span class="system-field__label system-field__label--b" aria-hidden="true">patch B</span>
+    <span class="system-field__label system-field__label--z" aria-hidden="true">trait z</span>
+  </div>
+  <figcaption class="system-field__caption">
+    <span>
+      Two populations under stabilising selection, drift and rare migration (Ornstein–Uhlenbeck dynamics). Decorative;
+      not a research result.
+    </span>
+    <button type="button" data-toggle aria-pressed="false" hidden>Pause simulation</button>
+  </figcaption>
+</figure>
+
+<style>
+  .system-field {
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .system-field__frame {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: var(--rule) solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  @media (max-width: 47.99rem) {
+    .system-field__frame {
+      aspect-ratio: 16 / 9;
+      max-height: 15rem;
+    }
+  }
+  .system-field canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .system-field__axes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .system-field__axes line {
+    stroke: var(--line);
+    stroke-dasharray: 3 5;
+  }
+  .system-field__label {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .system-field__label--a {
+    left: 0.75rem;
+    top: 0.6rem;
+  }
+  .system-field__label--b {
+    right: 0.75rem;
+    top: 0.6rem;
+  }
+  .system-field__label--z {
+    left: 0.75rem;
+    bottom: 0.6rem;
+  }
+  .system-field__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  .system-field__caption span {
+    max-width: 44ch;
+  }
+  .system-field__caption button {
+    background: transparent;
+    border: var(--rule) solid var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--ink);
+    min-height: 2.75rem;
+    padding: 0 0.8rem;
+    cursor: pointer;
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+  .system-field__caption button:hover {
+    border-color: var(--ink);
+  }
+</style>
+
+<script>
+  import { mountSystemField } from '../scripts/system-field';
+  document.querySelectorAll<HTMLElement>('.system-field').forEach(mountSystemField);
+</script>
