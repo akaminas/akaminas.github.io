@@ -6,11 +6,13 @@ Every non-original asset deployed with the site, with its licence and the reason
 
 | Local file(s) | Creator | Source | Licence | Attribution | Modified | Permission basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| `public/fonts/ibm-plex-sans-latin-wght-normal.woff2`, `…-italic.woff2` | IBM Corp. (Mike Abbink, Bold Monday) | npm `@fontsource-variable/ibm-plex-sans` 5.3.0, built from <https://github.com/IBM/plex> | SIL Open Font License 1.1 | Not required for use; licence text shipped as `public/fonts/LICENSE-IBM-Plex-OFL.txt` | Subset to Latin by Fontsource (no other changes) | OFL §1 permits use, bundling and redistribution in web pages; reserved font name "Plex" is not used as the family name in CSS |
-| `public/fonts/ibm-plex-serif-latin-{400,500}-{normal,italic}.woff2` | IBM Corp. | npm `@fontsource/ibm-plex-serif` 5.3.0, from <https://github.com/IBM/plex> | SIL OFL 1.1 | As above | Latin subset | As above |
-| `public/fonts/ibm-plex-mono-latin-400-normal.woff2` | IBM Corp. | npm `@fontsource/ibm-plex-mono` 5.3.0, from <https://github.com/IBM/plex> | SIL OFL 1.1 | As above | Latin subset | As above |
+| `public/fonts/newsreader-latin-400-{normal,italic}.woff2` | Google Fonts (Production Type, David Jonathan Ross) | <https://github.com/google/fonts/tree/main/ofl/newsreader>, fetched via the Google Fonts CSS2 API | SIL Open Font License 1.1 | Not required for use; licence text shipped as `public/fonts/LICENSE-Newsreader-OFL.txt` | Subset to Latin by Google Fonts (no other changes) | OFL §1 permits use, bundling and redistribution in web pages; the CSS family name used, "Editorial Serif", is a local alias, not the reserved font name |
+| `public/fonts/public-sans-latin-wght-{normal,italic}.woff2` | USWDS / 18F, distributed via Google Fonts | <https://github.com/google/fonts/tree/main/ofl/publicsans>, fetched via the Google Fonts CSS2 API | SIL OFL 1.1 | As above; licence text shipped as `public/fonts/LICENSE-PublicSans-OFL.txt` | Latin subset; variable weight axis (100–900) | As above; local alias "Civic Sans" |
+| `public/fonts/jetbrains-mono-latin-400-normal.woff2` | JetBrains s.r.o. | <https://github.com/google/fonts/tree/main/ofl/jetbrainsmono>, fetched via the Google Fonts CSS2 API | SIL OFL 1.1 | As above; licence text shipped as `public/fonts/LICENSE-JetBrainsMono-OFL.txt` | Latin subset | As above; local alias "Grid Mono" |
 
-Licence file: `public/fonts/LICENSE-IBM-Plex-OFL.txt` (copied from the package; header lists IBM Plex Serif faces, the OFL text is identical for all Plex families). Verified against <https://github.com/IBM/plex/blob/master/LICENSE.txt> on 2026-09-06.
+Licence files: `public/fonts/LICENSE-{Newsreader,PublicSans,JetBrainsMono}-OFL.txt`, each fetched from the corresponding `ofl/` directory of <https://github.com/google/fonts> on 2026-09-07, confirming all three ship under the OFL (not Apache or UFL) in Google's own repository.
+
+IBM Plex (the previous typeface) was replaced on 2026-09-07 because it had become a common default in AI-generated and templated sites, undermining the intent of a deliberately chosen typeface; its files and licence were removed from `public/fonts/`.
 
 No font from the supplied Apple material was used. Apple's San Francisco typefaces are proprietary and were not considered.
 

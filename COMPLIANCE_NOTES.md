@@ -70,7 +70,7 @@ Reviewed the supplied CV against what is published.
 
 ## Copyright audit
 
-- Fonts: IBM Plex, SIL OFL 1.1, self-hosted with licence file. Compliant.
+- Fonts: Newsreader, Public Sans, JetBrains Mono, SIL OFL 1.1, self-hosted with licence files. Compliant.
 - Graphics: all original (favicon, motifs, simulation, OG image). No third-party logos or stock imagery.
 - Portrait: **pending** — photographer permission to be confirmed by the owner (see `ASSET_PROVENANCE.md`). Under Dutch Auteurswet art. 19 a person portrayed in a commissioned portrait may reproduce it, but the photographer holds copyright; documenting consent avoids any doubt.
 - Publications: linked by DOI only; no publisher PDFs or figures reproduced.

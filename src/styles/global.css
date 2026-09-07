@@ -4,57 +4,46 @@
    shared components → utilities → motion/print.
    ========================================================================== */
 
-/* ---------- Self-hosted fonts (IBM Plex, SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
+/* ---------- Self-hosted fonts (Newsreader, Public Sans, JetBrains Mono — SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
 @font-face {
-  font-family: 'Plex Sans';
-  src: url('/fonts/ibm-plex-sans-latin-wght-normal.woff2') format('woff2-variations');
-  font-weight: 100 700;
+  font-family: 'Editorial Serif';
+  src: url('/fonts/newsreader-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Plex Sans';
-  src: url('/fonts/ibm-plex-sans-latin-wght-italic.woff2') format('woff2-variations');
-  font-weight: 100 700;
+  font-family: 'Editorial Serif';
+  src: url('/fonts/newsreader-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
   font-style: italic;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Plex Serif';
-  src: url('/fonts/ibm-plex-serif-latin-400-normal.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Civic Sans';
+  src: url('/fonts/public-sans-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Plex Serif';
-  src: url('/fonts/ibm-plex-serif-latin-400-italic.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Civic Sans';
+  src: url('/fonts/public-sans-latin-wght-italic.woff2') format('woff2-variations');
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Plex Serif';
-  src: url('/fonts/ibm-plex-serif-latin-500-normal.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Plex Serif';
-  src: url('/fonts/ibm-plex-serif-latin-500-italic.woff2') format('woff2');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Plex Mono';
-  src: url('/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+  font-family: 'Grid Mono';
+  src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* ---------- Design tokens ---------- */
@@ -62,9 +51,9 @@
   color-scheme: light dark;
 
   /* Type */
-  --font-sans: 'Plex Sans', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: 'Plex Serif', 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
-  --font-mono: 'Plex Mono', 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-sans: 'Civic Sans', 'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Editorial Serif', 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Grid Mono', 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
   /* Fluid type scale (min at 360px, max at 1280px). Body never below 17px. */
   --step--1: clamp(0.88rem, 0.86rem + 0.1vw, 0.94rem);

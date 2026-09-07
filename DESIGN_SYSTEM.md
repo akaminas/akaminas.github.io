@@ -4,7 +4,7 @@ The site belongs to a modeller of complex systems. The design language is taken 
 
 ## Principles
 
-1. **Hierarchy through type, not boxes.** One serif for headings, one sans for text, one mono for labels, all from a single family (IBM Plex). Sections are separated by hairline rules, not cards.
+1. **Hierarchy through type, not boxes.** One serif for headings (Newsreader), one sans for text (Public Sans), one mono for labels (JetBrains Mono). Sections are separated by hairline rules, not cards.
 2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, a population that has just shifted peak in the simulation (in a muted terracotta), hover states. Everything else is ink on paper.
 3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page simulation is a real, tiny model rather than decorative particles.
 4. **Nothing is only visual.** The simulation is captioned and labelled decorative; every claim on the methods page is linked to the project where the method was used; publication status is written out.
@@ -17,11 +17,11 @@ The attached Apple document turned out to be the *Apple Style Guide* (editorial)
 
 | Role | Face | Weights | Notes |
 | --- | --- | --- | --- |
-| Headings, publication titles, dates | IBM Plex Serif | 400, 500 (+ italics) | `letter-spacing: -0.012em`, `text-wrap: balance` |
-| Body, UI | IBM Plex Sans (variable) | 100–700 axis; 400/500/600 used | 17–18.4 px body, line-height 1.6 |
-| Labels, metadata, tags | IBM Plex Mono | 400 | Uppercase, 0.06–0.08 em tracking, 0.74–0.84 rem |
+| Headings, publication titles, dates | Newsreader | 400 (+ italic) | `letter-spacing: -0.012em`, `text-wrap: balance` |
+| Body, UI | Public Sans (variable) | 100–900 axis; 400/500/600 used | 17–18.4 px body, line-height 1.6 |
+| Labels, metadata, tags | JetBrains Mono | 400 | Uppercase, 0.06–0.08 em tracking, 0.74–0.84 rem |
 
-All fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (SIL OFL 1.1; see `ASSET_PROVENANCE.md`). Two files are preloaded (sans regular, serif regular); the rest load with `font-display: swap`. No remote font requests.
+All fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (SIL OFL 1.1; see `ASSET_PROVENANCE.md`). Two files are preloaded (sans regular, serif regular); the rest load with `font-display: swap`. No remote font requests. Chosen deliberately over IBM Plex, which has become a common default across AI-generated and templated sites.
 
 Fluid type scale (`--step--1` … `--step-5`), clamped between 360 px and 1280 px viewports. Reading measure is 66ch. Paragraphs never exceed it; lists and tables are exempt.
 
