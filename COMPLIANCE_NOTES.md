@@ -11,7 +11,7 @@ Working notes on privacy, cookies, accessibility, copyright and Dutch/EU law for
 
 ## Privacy architecture (what the site actually does)
 
-- Fully static HTML/CSS with three small inline scripts (mobile menu and colour-scheme toggle; a pre-paint reader for the stored colour-scheme choice; home-page canvas simulation). No frameworks loaded at runtime.
+- Fully static HTML/CSS with two small inline scripts (mobile menu and colour-scheme toggle; a pre-paint reader for the stored colour-scheme choice). No frameworks loaded at runtime. The home-page figure is SVG generated at build time, so it ships no script at all.
 - No analytics, advertising, tracking pixels, fingerprinting, session replay, A/B testing or error reporting.
 - No contact form, comments, newsletter, search backend or embeds. Contact is a `mailto:` link.
 - No third-party requests at all: fonts, images, icons and scripts are served from the site's own origin. External profiles (GitHub, ORCID, Google Scholar, ResearchGate, RUG portal) are plain links.
@@ -29,7 +29,7 @@ Run on 2026-09-06 with Playwright against the production build (`npm run build &
 | `localStorage` / `sessionStorage` entries | 0 / 0 without using the toggle; 1 / 0 (`theme`) after choosing the non-system scheme, removed again on toggling back (verified) |
 | IndexedDB databases | 0 |
 | Requests to hosts other than the site's own origin | 0 |
-| Inline/external scripts | 3 inline (menu + theme toggle, theme pre-paint reader, simulation), 0 external |
+| Inline/external scripts | 2 inline (menu + theme toggle, theme pre-paint reader), 0 external |
 
 **To repeat after deployment** (the hosting layer can differ from local preview): open `https://akaminas.github.io` in a fresh private window, then in DevTools check Application → Cookies / Local storage / Session storage / IndexedDB, and Network → filter by domain. Expected: no cookies, empty storage (unless you have used the theme toggle, in which case exactly one `localStorage` key, `theme`), all requests to `akaminas.github.io`. Record the date and result here. GitHub has not published a Pages-specific statement about cookies on `*.github.io`; the local audit shows the site itself sets none, and the post-deployment check is what confirms the hosting layer.
 
@@ -70,8 +70,8 @@ Reviewed the supplied CV against what is published.
 
 ## Copyright audit
 
-- Fonts: Newsreader, Public Sans, JetBrains Mono, SIL OFL 1.1, self-hosted with licence files. Compliant.
-- Graphics: all original (favicon, motifs, simulation, OG image). No third-party logos or stock imagery.
+- Fonts: Google Sans Flex, JetBrains Mono, SIL OFL 1.1, self-hosted with licence files. For Google Sans Flex the OFL was confirmed from the Google Fonts family metadata endpoint and the font's own name table rather than from the `google/fonts` repository, which does not carry the family; see `ASSET_PROVENANCE.md`. Compliant.
+- Graphics: all original (favicon, motifs, home-page phylogenetic network, OG image). The network is a seeded schematic, not a reproduction of anyone's data or figure, and its caption says so. No third-party logos or stock imagery.
 - Portrait: **pending** — photographer permission to be confirmed by the owner (see `ASSET_PROVENANCE.md`). Under Dutch Auteurswet art. 19 a person portrayed in a commissioned portrait may reproduce it, but the photographer holds copyright; documenting consent avoids any doubt.
 - Publications: linked by DOI only; no publisher PDFs or figures reproduced.
 - Supplied reference material (Apple Style Guide, source CV, photo original) is not in the repository and not deployed.
@@ -81,8 +81,8 @@ Reviewed the supplied CV against what is published.
 
 - Target: WCAG 2.2 Level AA. Implementation is described in `DESIGN_SYSTEM.md`.
 - Automated: axe-core 4.x with tags wcag2a/aa, wcag21a/aa, wcag22aa, best-practice — **0 violations** on 11 pages × 2 viewports × 2 colour schemes (2026-09-06).
-- Moving content (WCAG 2.2.2): the home simulation (the only moving content on the site) has a pause button and stops under reduced motion; its motion is smooth gradient flow with no flicker. The earlier decorative "watchers" were removed on 2026-09-06.
-- Manual: keyboard walkthrough of every page (skip link → wordmark → nav → content; visible 3 px focus ring on all stops; mobile menu opens with Enter, closes with Escape and returns focus; simulation pause button operable); 200 % zoom equivalent (720 px viewport) without horizontal scrolling; reduced-motion mode verified (no animation frames requested, static frame drawn); dark and light schemes contrast-checked numerically.
+- Moving content (WCAG 2.2.2): not applicable — the site has no moving, blinking or auto-updating content. The home-page canvas simulation was replaced by a static SVG figure on 2026-09-10; the earlier decorative "watchers" were removed on 2026-09-06.
+- Manual: keyboard walkthrough of every page (skip link → wordmark → nav → content; visible 3 px focus ring on all stops; mobile menu opens with Enter, closes with Escape and returns focus); 200 % zoom equivalent (720 px viewport) without horizontal scrolling; dark and light schemes contrast-checked numerically. Re-run needed after the 2026-09-10 typeface and palette change.
 - Screen reader: not tested with a real screen reader in this environment. Structure was verified via the accessibility tree (landmarks, headings, accessible names). **Recommended:** one pass with NVDA (Windows) on the deployed site.
 - Legal applicability: the European Accessibility Act (Directive 2019/882) covers specified products and services placed on the market by economic operators (e-commerce, banking, transport, e-books, telecoms…), with a micro-enterprise exemption; Dutch government guidance frames it in terms of businesses above size thresholds. A non-commercial personal research site is outside its scope. Accessibility here is a design commitment, not a legal obligation. Sources: <https://eur-lex.europa.eu/eli/dir/2019/882/oj/eng>; <https://business.gov.nl/regulations/rules-for-accessibility-eaa/>; <https://www.w3.org/TR/WCAG22/>.
 

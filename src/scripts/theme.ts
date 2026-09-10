@@ -13,7 +13,8 @@
  *   src/layouts/Base.astro) before first paint, to avoid a flash of the wrong
  *   scheme. Keep KEY and TTL_DAYS in sync with that script.
  *
- * Emits a `themechange` event on `document` so canvases can re-read their colours.
+ * Everything else on the page recolours from the custom properties in
+ * src/styles/global.css, so no other script needs to be told about the change.
  */
 
 export const KEY = 'theme';
@@ -40,7 +41,7 @@ const store = (theme: Theme): void => {
 const applyMeta = (theme: Theme): void => {
   // Keep the browser chrome colour in step with an explicit choice.
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
-    m.content = theme === 'dark' ? '#141518' : '#f4f2ed';
+    m.content = theme === 'dark' ? '#141518' : '#f6f7f8';
     m.removeAttribute('media');
   });
 };
@@ -60,7 +61,6 @@ export function mountThemeToggle(button: HTMLButtonElement): void {
     store(theme);
     applyMeta(theme);
     render();
-    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
   };
 
   button.hidden = false;
@@ -74,6 +74,5 @@ export function mountThemeToggle(button: HTMLButtonElement): void {
       store(theme);
     }
     render();
-    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
   });
 }

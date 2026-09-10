@@ -1,4 +1,6 @@
-Copyright 2015 The Public Sans Project Authors (https://github.com/uswds/public-sans)
+Copyright 2015 Google LLC. All Rights Reserved.
+(copyright and licence URL as recorded in the font's own name table;
+Google Fonts lists this family under the SIL Open Font License 1.1)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

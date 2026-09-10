@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import SystemField from '../components/SystemField.astro';
+import PhyloNetwork from '../components/PhyloNetwork.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../data/site';
 
@@ -74,7 +74,7 @@ const websiteSchema = {
         <a href={site.profiles.rug} rel="noopener">research.rug.nl</a>
       </p>
     </div>
-    <SystemField class="hero__visual" />
+    <PhyloNetwork class="hero__visual" />
   </section>
 
   <section class="section container" aria-labelledby="scope-title">

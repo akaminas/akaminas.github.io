@@ -35,7 +35,7 @@ const currentPath = Astro.url.pathname;
     <link rel="canonical" href={canonical} />
     <meta name="author" content={site.name} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f2ed" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7f8" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141518" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
             document.documentElement.setAttribute('data-theme', o.v);
             var metas = document.getElementsByName('theme-color');
             for (var i = 0; i < metas.length; i++) {
-              metas[i].setAttribute('content', o.v === 'dark' ? '#141518' : '#f4f2ed');
+              metas[i].setAttribute('content', o.v === 'dark' ? '#141518' : '#f6f7f8');
               metas[i].removeAttribute('media');
             }
           } else {
@@ -68,8 +68,7 @@ const currentPath = Astro.url.pathname;
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <link rel="preload" href="/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/google-sans-flex-latin-wght-slnt.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />

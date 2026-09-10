@@ -4,12 +4,12 @@ The site belongs to a modeller of complex systems. The design language is taken 
 
 ## Principles
 
-1. **Hierarchy through type, not boxes.** One serif for headings (Newsreader), one sans for text (Public Sans), one mono for labels (JetBrains Mono). Sections are separated by hairline rules, not cards.
-2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, a population that has just shifted peak in the simulation (in a muted terracotta), hover states. Everything else is ink on paper.
-3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page simulation is a real, tiny model rather than decorative particles.
-4. **Nothing is only visual.** The simulation is captioned and labelled decorative; every claim on the methods page is linked to the project where the method was used; publication status is written out.
-5. **Progressive enhancement.** Navigation, content and layout work without JavaScript. JavaScript adds the mobile menu toggle and the simulation, and both fail silently.
-6. **Meaningful motion only.** Transitions are 140–220 ms and limited to colour and small transforms. The simulation stops when off-screen, when the tab is hidden, when the visitor pauses it, and never starts under `prefers-reduced-motion` (a static frame is drawn instead).
+1. **Hierarchy through type, not boxes.** One text family throughout (Google Sans Flex, variable), with hierarchy carried by weight, size and tracking rather than by a second typeface; one mono for labels (JetBrains Mono). Sections are separated by hairline rules, not cards.
+2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, the reticulation edges in the home-page network, hover states. Everything else is ink on a neutral ground — the light scheme is a faintly cool grey-white with no warm cast.
+3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page figure is a phylogenetic network — a figure of the kind the work itself produces, not decorative particles.
+4. **Nothing is only visual.** The network figure is captioned, and the caption says plainly that it is a schematic rather than data; every claim on the methods page is linked to the project where the method was used; publication status is written out.
+5. **Progressive enhancement.** Navigation, content and layout work without JavaScript. The only client-side JavaScript is the mobile menu toggle and the colour-scheme toggle; both fail silently.
+6. **Meaningful motion only.** Transitions are 140–220 ms and limited to colour and small transforms. Nothing on the site animates by itself.
 
 The attached Apple document turned out to be the *Apple Style Guide* (editorial), not the Human Interface Guidelines. Its transferable advice was applied to copy rather than layout: consistent terminology across pages, active voice, plain language, no idioms, jargon defined at first use.
 
@@ -17,36 +17,40 @@ The attached Apple document turned out to be the *Apple Style Guide* (editorial)
 
 | Role | Face | Weights | Notes |
 | --- | --- | --- | --- |
-| Headings, publication titles, dates | Newsreader | 400 (+ italic) | `letter-spacing: -0.012em`, `text-wrap: balance` |
-| Body, UI | Public Sans (variable) | 100–900 axis; 400/500/600 used | 17–18.4 px body, line-height 1.6 |
+| Headings, publication titles, dates | Google Sans Flex | 500 | `letter-spacing: -0.02em` (−0.012em at record sizes), `text-wrap: balance` |
+| Body, UI | Google Sans Flex | 400/500/600 | 17–18.4 px body, line-height 1.6 |
 | Labels, metadata, tags | JetBrains Mono | 400 | Uppercase, 0.06–0.08 em tracking, 0.74–0.84 rem |
 
-All fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (SIL OFL 1.1; see `ASSET_PROVENANCE.md`). Two files are preloaded (sans regular, serif regular); the rest load with `font-display: swap`. No remote font requests. Chosen deliberately over IBM Plex, which has become a common default across AI-generated and templated sites.
+Google Sans Flex is one variable face carrying a weight axis (1–1000) and a slant axis. It is declared with `font-style: oblique 0deg 10deg`, so `<em>` resolves to a true oblique instead of a synthesised skew. One family covers headings and text; the `.display` utility is weight and tracking, not a second face.
+
+All fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (SIL OFL 1.1; see `ASSET_PROVENANCE.md`). The text face is preloaded; the mono loads with `font-display: swap`. No remote font requests. Chosen deliberately over IBM Plex, and over the serif/sans display pairing it replaced — both have become common defaults across AI-generated and templated sites.
 
 Fluid type scale (`--step--1` … `--step-5`), clamped between 360 px and 1280 px viewports. Reading measure is 66ch. Paragraphs never exceed it; lists and tables are exempt.
 
 ## Colour
 
-Light ("paper") and dark ("slate") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
+Light ("chalk") and dark ("slate") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#f4f2ed` | `#141518` | page |
-| `--ink` | `#191b1f` | `#e9e7e2` | text (15.4:1 / 14.8:1) |
-| `--muted` | `#5b5f66` | `#a8abb2` | secondary text (5.7:1 / 7.9:1) |
-| `--line` / `--line-strong` | `#d6d2c9` / `#b9b4aa` | `#2d3036` / `#454950` | rules, borders (non-text) |
-| `--accent` | `#a63e16` | `#f0935c` | signal only (5.65:1 / 7.85:1) |
+| `--bg` | `#f6f7f8` | `#141518` | page |
+| `--ink` | `#17191c` | `#e9e7e2` | text (16.4:1 / 14.8:1) |
+| `--muted` | `#565b63` | `#a8abb2` | secondary text (6.4:1 / 7.9:1) |
+| `--line` / `--line-strong` | `#dde0e4` / `#b4b9c0` | `#2d3036` / `#454950` | rules, borders (non-text) |
+| `--accent` | `#115e59` | `#5ec8bd` | signal only (7.07:1 / 9.10:1) |
 | `--focus` | `#1f4bd8` | `#8fb0ff` | focus ring |
-| `--canvas-contour` / `--canvas-pop` / `--canvas-shift` | `#8b9189` / `#4a5661` / `#b06a4b` | `#5f666d` / `#c2c7cc` / `#cf8f6b` | simulation only: landscape contours (muted sage grey), population means (muted slate), recent peak shift (muted terracotta); non-text, drawn with alpha |
+| `--tree-edge` / `--tree-cloud` | `#4b5560` / `#7d8792` | `#b9bfc6` / `#79838d` | network figure only: consensus lineages, and the discordant histories behind them (non-text, drawn with alpha) |
 
-All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status dots are always accompanied by a word; in the simulation a peak shift is also shown by the population's trail and a brief enlargement.
+The light scheme is deliberately neutral — a faintly cool grey-white rather than the warm off-white it replaced — so the single accent does all the signalling and nothing else reads as decoration.
+
+All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status dots are always accompanied by a word; in the network figure the reticulations are also distinguished by being dashed and arrow-headed.
 
 ## Spacing and layout
 
 - 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (7 rem). Section padding is `--space-8` (4.5 rem).
 - Container `min(100% − 2·gutter, 76rem)`; gutter `clamp(1.25rem, 4vw, 3rem)`.
 - The editorial grid `.grid-label` puts a sticky label column (10–16 rem) beside content from 52 rem upwards and stacks below.
-- Lists of records (publications, talks, timeline) use `.ruled`: hairline rules between items, a serif date/year column, content column.
+- Lists of records (publications, talks, timeline) use `.ruled`: hairline rules between items, a medium-weight date/year column, content column.
 - Breakpoints: 42 rem (two-column records), 48 rem (mobile menu ↔ inline nav), 52 rem (label grid, two-column cards), 60 rem (hero side-by-side), 64 rem (two-column cards on Work).
 
 ## Components
@@ -55,7 +59,7 @@ All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast rat
 - **Project card**: motif + domain label, linked title and question, status + period, up to three method tags. The link wraps only the title and question so the accessible name is clean.
 - **Publication item**: year and status column; linked title (DOI), authors with the owner highlighted, venue, DOI and licence in mono.
 - **Motif**: seven original SVG drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, drawn in `currentColor` with one accent dot.
-- **SystemField**: the home simulation, an adaptive landscape (contours of log mean fitness, three Gaussian peaks that drift, rise and sink) with isolated populations climbing it by Lande's equation in their own locally offset environment (see `src/scripts/system-field.ts` for the model and numerics). Deterministic gradient flow, so all motion is smooth and slow; muted colours (contours, slate population dots with a soft halo and short trails, terracotta for a recent peak shift). Canvas is `aria-hidden`; the figure caption states the equations, what it is and that it is decorative; a real `<button aria-pressed>` pauses it.
+- **PhyloNetwork**: the home-page figure, a schematic phylogenetic network drawn as static SVG. Three layers: a pale cloud of seventy discordant gene histories (the species tree resampled with jittered divergence times and nearest-neighbour-interchange moves, tip positions held fixed, so conflicting histories cross — the densitree convention); the consensus species tree over it as a slanted cladogram; and two dashed accent arrows for reticulation, the gene flow that makes it a network rather than a tree. Everything is generated at build time from a seeded PRNG, so the figure is identical on every build; there is no client-side JavaScript, no canvas and no animation. The SVG is `aria-hidden` and the caption carries the meaning, including that it is a schematic and not data.
 - **Tags**: mono labels in hairline pills. Never proficiency bars or percentages.
 - **Buttons**: 44 px minimum height, 1 px border; primary is filled ink. Hover changes border/background, never only colour of text.
 
@@ -64,7 +68,7 @@ All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast rat
 - Hover: colour shift to accent and/or underline; arrow links translate the arrow 0.2 em.
 - Focus: 3 px focus ring in `--focus` with 3 px offset on every interactive element (`:focus-visible`).
 - Targets: ≥ 44 × 44 CSS px for nav links, buttons and footer links; inline text links are exempt as permitted by WCAG 2.2 SC 2.5.8.
-- Reduced motion: all transitions and animations collapse to ~0 ms; the simulation renders one static frame and hides its play/pause button.
+- Reduced motion: all transitions collapse to ~0 ms. There is nothing else to stop — no element animates on its own.
 - Sticky header uses a translucent background with backdrop blur; falls back to the solid background where unsupported.
 
 ## Accessibility principles
