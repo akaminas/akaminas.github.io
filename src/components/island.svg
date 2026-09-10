@@ -1,6 +1,7 @@
 <svg class="island" viewBox="0 0 1200 780" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">
 <title id="island-title">An island of white houses, drawn as a toy-brick model</title>
 <desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, three figures, gulls and a boat. Each part links to a section of the site: the sea to marine work, the island to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, and the houses to the pages.</desc>
+<style>.hot__label{display:none}.hot__pill{fill:#2b2260;stroke:#d9c4f5;stroke-width:1.5}.hot__text{fill:#f4eefb}</style>
 <defs>
 <pattern id="st0" patternUnits="userSpaceOnUse" width="1" height="1" patternTransform="matrix(17.32 10 -17.32 10 600 62)"><rect width="1" height="1" fill="#589fd7"/><circle cx="0.64" cy="0.64" r="0.29" fill="#3781bc"/><circle cx="0.5" cy="0.5" r="0.29" fill="#6caadc"/></pattern>
 <pattern id="st1" patternUnits="userSpaceOnUse" width="1" height="1" patternTransform="matrix(17.32 10 -17.32 10 600 54)"><rect width="1" height="1" fill="#ebd190"/><circle cx="0.64" cy="0.64" r="0.29" fill="#d1b571"/><circle cx="0.5" cy="0.5" r="0.29" fill="#eed69d"/></pattern>

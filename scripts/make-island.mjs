@@ -448,6 +448,7 @@ const svg =
   `<svg class="island" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">\n` +
   `<title id="island-title">An island of white houses, drawn as a toy-brick model</title>\n` +
   `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, three figures, gulls and a boat. Each part links to a section of the site: the sea to marine work, the island to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, and the houses to the pages.</desc>\n` +
+  `<style>.hot__label{display:none}.hot__pill{fill:#2b2260;stroke:#d9c4f5;stroke-width:1.5}.hot__text{fill:#f4eefb}</style>\n` +
   `<defs>\n${defs.join('\n')}\n</defs>\n${body}\n</svg>\n`;
 
 const out = path.resolve(new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'), 'src/components/island.svg');
