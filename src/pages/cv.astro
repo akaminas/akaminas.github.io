@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import { site } from '../data/site';
 
 const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
@@ -52,6 +53,15 @@ const rows = {
     ['2018 – 2023', 'MECO project', 'Collaborative elasmobranch-sightings network'],
   ],
 };
+
+const groups = [
+  { id: 'education', label: 'Education', title: 'Education', list: rows.education },
+  { id: 'awards', label: 'Awards', title: 'Fellowships and awards', list: rows.awards },
+  { id: 'experience', label: 'Experience', title: 'Research and professional experience', list: rows.experience },
+  { id: 'roles', label: 'Roles', title: 'Academic roles and affiliations', list: rows.roles },
+  { id: 'service', label: 'Service', title: 'Supervision and academic service', list: rows.service },
+  { id: 'projects', label: 'Projects', title: 'Projects and initiatives', list: rows.projects },
+] as const;
 ---
 
 <Base
@@ -59,134 +69,107 @@ const rows = {
   description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, roles, supervision, presentations and publications. PDF available for download."
 >
   <PageHeader eyebrow="CV" title="Curriculum vitae">
-    <p style="margin-top: var(--space-4)">
+    <p class="cv__download">
       <a class="button button--primary" href={site.cvPath} download>Download PDF</a>
-      <span class="muted small" style="margin-left: var(--space-3)">Web version, without private contact details.</span>
+      <span class="muted small">Web version, without private contact details.</span>
     </p>
   </PageHeader>
 
-  <div class="container cv">
-    {
-      (
-        [
-          ['Education', rows.education],
-          ['Fellowships and awards', rows.awards],
-          ['Research and professional experience', rows.experience],
-          ['Academic roles and affiliations', rows.roles],
-          ['Supervision and academic service', rows.service],
-          ['Projects and initiatives', rows.projects],
-        ] as const
-      ).map(([title, list]) => (
-        <section class="cv__section" aria-labelledby={`cv-${title.replace(/\W+/g, '-').toLowerCase()}`}>
-          <h2 id={`cv-${title.replace(/\W+/g, '-').toLowerCase()}`}>{title}</h2>
-          <ol class="ruled cv__rows">
-            {list.map(([when, what, where]) => (
-              <li>
-                <span class="cv__when">{when}</span>
-                <span class="cv__what">
-                  {what}
-                  {where && <span class="cv__where">{where}</span>}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
-      ))
-    }
-
-    <section class="cv__section" aria-labelledby="cv-talks">
-      <h2 id="cv-talks">Conference presentations</h2>
-      <ol class="ruled cv__rows">
-        {
-          talks.map((t) => (
+  {
+    groups.map((g) => (
+      <Section id={`cv-${g.id}`} label={g.label} title={g.title} tight>
+        <ol class="ledger cv__rows">
+          {g.list.map(([when, what, where]) => (
             <li>
-              <span class="cv__when">{t.data.date.slice(0, 4)}</span>
+              <span class="ledger__when">{when}</span>
               <span class="cv__what">
-                <em>{t.data.title}</em>. {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+                {what}
+                {where && <span class="cv__where">{where}</span>}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </Section>
+    ))
+  }
+
+  <Section id="cv-talks" label="Talks" title="Conference presentations" tight>
+    <ol class="ledger cv__rows">
+      {
+        talks.map((t) => (
+          <li>
+            <span class="ledger__when">{t.data.date.slice(0, 4)}</span>
+            <span class="cv__what">
+              <em>{t.data.title}</em>. {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+              <span class="cv__where">
+                {t.data.event}, {t.data.location}
+              </span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section id="cv-pubs" label="Publications" title="Publications" tight>
+    <ol class="ledger cv__rows">
+      {
+        pubs.map((p) => (
+          <li>
+            <span class="ledger__when">{p.data.year}</span>
+            <span class="cv__what">
+              {p.data.authors.map((a, i) => (
+                <Fragment>
+                  {isMe(a) ? <strong>{a}</strong> : a}
+                  {i < p.data.authors.length - 1 ? ', ' : ''}
+                </Fragment>
+              ))}
+              {p.data.etAl ? ` … et al.` : ''} ({p.data.year}). {p.data.title}. <em>{p.data.venue}</em>
+              {p.data.volume ? `, ${p.data.volume}` : ''}
+              {p.data.issue ? `(${p.data.issue})` : ''}
+              {p.data.pages ? `, ${p.data.pages}` : ''}.
+              {p.data.doi && (
                 <span class="cv__where">
-                  {t.data.event}, {t.data.location}
+                  <a href={`https://doi.org/${p.data.doi}`} rel="noopener">
+                    doi:{p.data.doi}
+                  </a>
                 </span>
-              </span>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
+              )}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
 
-    <section class="cv__section" aria-labelledby="cv-pubs">
-      <h2 id="cv-pubs">Publications</h2>
-      <ol class="ruled cv__rows">
-        {
-          pubs.map((p) => (
-            <li>
-              <span class="cv__when">{p.data.year}</span>
-              <span class="cv__what">
-                {p.data.authors.map((a, i) => (
-                  <Fragment>
-                    {isMe(a) ? <strong>{a}</strong> : a}
-                    {i < p.data.authors.length - 1 ? ', ' : ''}
-                  </Fragment>
-                ))}
-                {p.data.etAl ? ` … et al.` : ''} ({p.data.year}). {p.data.title}. <em>{p.data.venue}</em>
-                {p.data.volume ? `, ${p.data.volume}` : ''}
-                {p.data.issue ? `(${p.data.issue})` : ''}
-                {p.data.pages ? `, ${p.data.pages}` : ''}.
-                {p.data.doi && (
-                  <span class="cv__where">
-                    <a href={`https://doi.org/${p.data.doi}`} rel="noopener">
-                      doi:{p.data.doi}
-                    </a>
-                  </span>
-                )}
-              </span>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-
-    <section class="cv__section" aria-labelledby="cv-skills">
-      <h2 id="cv-skills">Skills</h2>
-      <dl class="meta cv__skills">
-        <dt>Programming</dt>
-        <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
-        <dt>Spatial</dt>
-        <dd>QGIS / ArcGIS, Image-Pro</dd>
-        <dt>Languages</dt>
-        <dd>Greek (native), English (C2), French (C1)</dd>
-        <dt>Laboratory</dt>
-        <dd>Sample treatment for pollution analysis, image-based identification</dd>
-      </dl>
-    </section>
-  </div>
+  <Section id="cv-skills" label="Skills" title="Skills" tight>
+    <dl class="spec cv__skills">
+      <dt>Programming</dt>
+      <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
+      <dt>Spatial</dt>
+      <dd>QGIS / ArcGIS, Image-Pro</dd>
+      <dt>Languages</dt>
+      <dd>Greek (native), English (C2), French (C1)</dd>
+      <dt>Laboratory</dt>
+      <dd>Sample treatment for pollution analysis, image-based identification</dd>
+    </dl>
+  </Section>
 </Base>
 
 <style>
-  .cv {
-    padding-bottom: var(--space-8);
-    display: grid;
-    gap: var(--space-7);
+  .cv__download {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+    max-width: none;
   }
-  .cv__section h2 {
-    font-size: var(--step-1);
-    margin-bottom: var(--space-2);
+  .cv__rows {
+    --ledger-col: 11rem;
   }
-  .cv__rows li {
-    display: grid;
-    gap: var(--space-1) var(--space-5);
+  .cv__rows > li {
     padding-block: var(--space-3);
-  }
-  @media (min-width: 42rem) {
-    .cv__rows li {
-      grid-template-columns: 11rem minmax(0, 1fr);
-    }
-  }
-  .cv__when {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    padding-top: 0.3em;
   }
   .cv__what {
     max-width: var(--measure);

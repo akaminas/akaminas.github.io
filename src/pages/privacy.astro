@@ -2,6 +2,18 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
+
+const contents = [
+  ['summary', 'Summary'],
+  ['owner', 'Who is responsible'],
+  ['hosting', 'Hosting and server logs'],
+  ['cookies', 'Cookies and local storage'],
+  ['email', 'If you email me'],
+  ['links', 'External links'],
+  ['rights', 'Your rights'],
+  ['content', 'Content and copyright'],
+  ['changes', 'Changes'],
+] as const;
 ---
 
 <Base
@@ -10,19 +22,17 @@ import { site } from '../data/site';
 >
   <PageHeader eyebrow="Privacy" title="Privacy notice" lede="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
 
-  <div class="container grid-label" style="padding-bottom: var(--space-8)">
-    <nav class="grid-label__aside" aria-label="On this page">
-      <p class="eyebrow">Contents</p>
+  <div class="container privacy dim">
+    <nav class="privacy__toc" aria-label="On this page">
+      <p class="label">Contents</p>
       <ol class="toc">
-        <li><a href="#summary">Summary</a></li>
-        <li><a href="#owner">Who is responsible</a></li>
-        <li><a href="#hosting">Hosting and server logs</a></li>
-        <li><a href="#cookies">Cookies and local storage</a></li>
-        <li><a href="#email">If you email me</a></li>
-        <li><a href="#links">External links</a></li>
-        <li><a href="#rights">Your rights</a></li>
-        <li><a href="#content">Content and copyright</a></li>
-        <li><a href="#changes">Changes</a></li>
+        {
+          contents.map(([id, label]) => (
+            <li>
+              <a href={`#${id}`}>{label}</a>
+            </li>
+          ))
+        }
       </ol>
     </nav>
 
@@ -127,14 +137,45 @@ import { site } from '../data/site';
 </Base>
 
 <style>
+  .privacy {
+    display: grid;
+    gap: var(--space-6) var(--space-7);
+    padding-block: var(--space-6) var(--space-8);
+  }
+  @media (min-width: 52rem) {
+    .privacy {
+      grid-template-columns: var(--margin-col) minmax(0, 1fr);
+      padding-block: var(--space-7) var(--space-9);
+    }
+    .privacy__toc {
+      position: sticky;
+      top: 5.25rem;
+      align-self: start;
+    }
+  }
+  /* The contents list numbers itself the same way the headings do. */
   .toc {
     list-style: none;
     margin: 0;
     padding: 0;
     font-size: var(--step--1);
+    counter-reset: toc;
   }
   .toc li {
     max-width: none;
+    counter-increment: toc;
+    display: flex;
+    gap: 0.6em;
+    align-items: baseline;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: var(--ann-s);
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    flex: none;
+    padding-top: 0.15em;
   }
   .toc a {
     display: inline-flex;

@@ -24,6 +24,7 @@ const talks = (await Promise.all(data.talks.map((id) => getEntry('talks', id))))
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const idx = all.findIndex((p) => p.id === project.id);
 const next = all[(idx + 1) % all.length];
+const plateNo = String(idx + 1).padStart(2, '0');
 
 const statusLabel = { ongoing: 'Ongoing', completed: 'Completed', published: 'Published' } as const;
 const domainLabel = {
@@ -46,26 +47,32 @@ const schema = {
 
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
   <article>
-    <header class="project-header container">
-      <p class="eyebrow">
-        <a href="/work/">Work</a> · {domainLabel[data.domain]}
-      </p>
-      <div class="project-header__row">
-        <div>
-          <h1>{data.title}</h1>
-          <p class="lede">{data.question}</p>
-        </div>
-        <Motif kind={data.motif} size={120} class="project-header__motif" />
+    <header class="sheet-head container project-head">
+      <div class="project-head__text">
+        <p class="label">
+          <a href="/work/">Work</a> · {domainLabel[data.domain]} · <span class="num">Pl. {plateNo}</span>
+        </p>
+        <h1>{data.title}</h1>
+        <p class="lede">{data.question}</p>
       </div>
+      <figure class="plate project-head__plate">
+        <div class="plate__head">
+          <span class="num">Pl. {plateNo}</span>
+          <span>{data.motif}</span>
+        </div>
+        <div class="project-head__fig">
+          <Motif kind={data.motif} size={120} />
+        </div>
+      </figure>
     </header>
 
-    <div class="container grid-label project-body">
-      <aside class="grid-label__aside">
-        <dl class="meta">
+    <div class="container project-body dim">
+      <aside class="project-body__aside">
+        <dl class="spec spec--stacked">
           <dt>Status</dt>
           <dd><span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span></dd>
           <dt>Period</dt>
-          <dd>{data.period}</dd>
+          <dd class="mono">{data.period}</dd>
           <dt>Role</dt>
           <dd>{data.role}</dd>
           {
@@ -101,7 +108,7 @@ const schema = {
               <>
                 <dt>Methods</dt>
                 <dd>
-                  <ul class="tags">
+                  <ul class="chips">
                     {data.methods.map((m) => (
                       <li>{m}</li>
                     ))}
@@ -115,7 +122,7 @@ const schema = {
               <>
                 <dt>Tools</dt>
                 <dd>
-                  <ul class="tags">
+                  <ul class="chips">
                     {data.tools.map((m) => (
                       <li>{m}</li>
                     ))}
@@ -150,21 +157,18 @@ const schema = {
           talks.length > 0 && (
             <section aria-labelledby="proj-talks">
               <h2 id="proj-talks">Presentations</h2>
-              <ul class="ruled">
+              <ul class="ledger project-talks">
                 {talks.map((t) => (
                   <li>
-                    <p class="display" style="font-size: var(--step-1); margin-bottom: var(--space-1)">
-                      {t.data.title}
-                    </p>
-                    <p class="small" style="margin: 0">
-                      {t.data.event}, {t.data.location} ·{' '}
-                      {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
-                    </p>
-                    {t.data.authors.length > 1 && (
-                      <p class="muted small" style="margin: 0">
-                        {t.data.authors.join(', ')}
+                    <span class="ledger__when">{t.data.date}</span>
+                    <div>
+                      <p class="ledger__title">{t.data.title}</p>
+                      <p class="ledger__where">
+                        {t.data.event}, {t.data.location} ·{' '}
+                        {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
                       </p>
-                    )}
+                      {t.data.authors.length > 1 && <p class="ledger__note">{t.data.authors.join(', ')}</p>}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -174,9 +178,9 @@ const schema = {
 
         {
           pubs.length > 0 && (
-            <section aria-labelledby="proj-pubs">
+            <section aria-labelledby="proj-pubs" class="register-group">
               <h2 id="proj-pubs">Publications</h2>
-              <ol class="ruled">
+              <ol class="register">
                 {pubs.map((p) => (
                   <PublicationItem pub={p} />
                 ))}
@@ -187,59 +191,73 @@ const schema = {
       </div>
     </div>
 
-    <nav class="container project-next" aria-label="Next project">
-      <p class="eyebrow">Next</p>
-      <a class="arrow-link" href={`/work/${next.id}/`}>{next.data.title}</a>
+    <nav class="container project-next dim" aria-label="Next project">
+      <p class="label">Next · Pl. {String(((idx + 1) % all.length) + 1).padStart(2, '0')}</p>
+      <a class="arrow-link project-next__link" href={`/work/${next.id}/`}>{next.data.title}</a>
     </nav>
   </article>
 </Base>
 
 <style>
-  .project-header {
-    padding-block: var(--space-8) var(--space-6);
-  }
-  .project-header__row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  .project-head {
+    display: grid;
     gap: var(--space-6);
+    align-items: start;
   }
-  .project-header h1 {
+  @media (min-width: 52rem) {
+    .project-head {
+      grid-template-columns: minmax(0, 1fr) 14rem;
+      gap: var(--space-8);
+    }
+  }
+  .project-head h1 {
     max-width: 16em;
   }
-  .project-header .lede {
+  .project-head .lede {
     margin: 0;
   }
-  .project-header__motif {
+  .project-head__plate {
     display: none;
   }
   @media (min-width: 52rem) {
-    .project-header__motif {
-      display: block;
+    .project-head__plate {
+      display: flex;
       margin-top: var(--space-2);
     }
   }
+  .project-head__fig {
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+    background-image:
+      linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
+      linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
+    background-size: 1rem 1rem;
+    background-position: center;
+  }
   .project-body {
+    display: grid;
+    gap: var(--space-6) var(--space-7);
     padding-block: var(--space-6) var(--space-8);
   }
-  .project-body .meta {
-    padding-top: var(--space-4);
-    border-top: var(--rule) solid var(--line);
-  }
   @media (min-width: 52rem) {
-    .project-body .meta {
-      grid-template-columns: 1fr;
-      gap: var(--space-1);
+    .project-body {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      padding-block: var(--space-7) var(--space-9);
     }
-    .project-body .meta dd {
-      margin-bottom: var(--space-3);
+    .project-body__aside {
+      position: sticky;
+      top: 5.25rem;
     }
+  }
+  .project-talks {
+    --ledger-col: 6rem;
+    margin-top: var(--space-4);
   }
   .project-next {
-    padding-block: var(--space-6);
-    border-top: var(--rule) solid var(--line);
+    padding-block: var(--space-6) var(--space-7);
   }
-  .project-next .arrow-link {
+  .project-next__link {
     letter-spacing: -0.018em;
     font-size: var(--step-2);
   }

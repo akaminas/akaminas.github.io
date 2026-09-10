@@ -1,13 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
 import PhyloNetwork from '../components/PhyloNetwork.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../data/site';
 
-const projects = (await getCollection('projects', ({ data }) => data.featured)).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+// Plate numbers follow the full project order, so a plate keeps its number on every page.
+const plateNo = new Map(all.map((p, i) => [p.id, i + 1]));
+const projects = all.filter((p) => p.data.featured);
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -54,7 +56,7 @@ const websiteSchema = {
 <Base title="Home" description={site.description} home schema={[personSchema, websiteSchema]} ogType="profile">
   <section class="hero container">
     <div class="hero__text">
-      <p class="eyebrow">
+      <p class="label">
         {site.name} · {site.position}, <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}
       </p>
       <h1 class="hero__title">Modelling complex systems.</h1>
@@ -68,167 +70,136 @@ const websiteSchema = {
       </div>
       <p class="hero__ids">
         <a href={site.profiles.orcid} rel="me noopener">orcid {site.orcidId}</a>
-        <span aria-hidden="true">·</span>
         <a href={site.profiles.github} rel="me noopener">github.com/akaminas</a>
-        <span aria-hidden="true">·</span>
         <a href={site.profiles.rug} rel="noopener">research.rug.nl</a>
       </p>
     </div>
-    <PhyloNetwork class="hero__visual" />
+    <PhyloNetwork class="hero__plate" />
   </section>
 
-  <section class="section container" aria-labelledby="scope-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Scope</p>
-        <h2 id="scope-title" class="h-section">One modelling language, several systems</h2>
+  <Section id="scope" label="Scope" title="One modelling language, several systems">
+    <ol class="chain" aria-label="From core expertise to applications">
+      <li><span>Complex systems</span></li>
+      <li><span>Mathematical &amp; computational modelling</span></li>
+      <li><span>Ecology &amp; evolution</span></li>
+      <li><span>Sustainability</span></li>
+      <li><span>Social &amp; economic systems</span></li>
+    </ol>
+    <div class="scope">
+      <div class="scope__col">
+        <h3 class="scope__h">Core expertise</h3>
+        <p>
+          Mechanistic models of interacting components: dynamical systems, stochastic simulation, population and
+          trait-based models, and networks of interactions. The question is always how structure and randomness at
+          one level produce behaviour at another.
+        </p>
       </div>
-      <div class="scope">
-        <ol class="chain" aria-label="From core expertise to applications">
-          <li><span>Complex systems</span></li>
-          <li><span>Mathematical &amp; computational modelling</span></li>
-          <li><span>Ecology &amp; evolution</span></li>
-          <li><span>Sustainability</span></li>
-          <li><span>Social &amp; economic systems</span></li>
-        </ol>
-        <div class="scope__cols">
-          <div>
-            <h3 class="h-small">Core expertise</h3>
-            <p>
-              Mechanistic models of interacting components: dynamical systems, stochastic simulation, population and
-              trait-based models, and networks of interactions. The question is always how structure and randomness
-              at one level produce behaviour at another.
-            </p>
-          </div>
-          <div>
-            <h3 class="h-small">Primary domain</h3>
-            <p>
-              Ecology and evolution. My doctoral research at the University of Groningen models how isolation and
-              limited immigration reshape community assembly, diversification and extinction, with ecological and
-              evolutionary change coupled.
-            </p>
-          </div>
-          <div>
-            <h3 class="h-small">Interdisciplinary applications</h3>
-            <p>
-              Sustainability and socioeconomic systems, where I apply the same systems reasoning to organisations and
-              institutions: a 2026 paper on organisational commitment to sustainability, and policy and reporting
-              work with SDSN Youth Greece and the University of Athens.
-            </p>
-          </div>
-        </div>
+      <div class="scope__col">
+        <h3 class="scope__h">Primary domain</h3>
+        <p>
+          Ecology and evolution. My doctoral research at the University of Groningen models how isolation and limited
+          immigration reshape community assembly, diversification and extinction, with ecological and evolutionary
+          change coupled.
+        </p>
+      </div>
+      <div class="scope__col">
+        <h3 class="scope__h">Interdisciplinary applications</h3>
+        <p>
+          Sustainability and socioeconomic systems, where I apply the same systems reasoning to organisations and
+          institutions: a 2026 paper on organisational commitment to sustainability, and policy and reporting work
+          with SDSN Youth Greece and the University of Athens.
+        </p>
       </div>
     </div>
-  </section>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="work-title">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">Selected work</p>
-        <h2 id="work-title" class="h-section">Case studies</h2>
-      </div>
+  <Section id="work" label="Selected work" note="Case studies. Plate numbers follow the full list of projects.">
+    <div class="sec__head">
+      <h2 id="work-title">Case studies</h2>
       <a class="arrow-link" href="/work/">All projects and talks</a>
     </div>
-    <div class="cards">
-      {projects.map((p) => <ProjectCard project={p} />)}
+    <div class="plates">
+      {projects.map((p) => <ProjectCard project={p} no={plateNo.get(p.id) as number} />)}
     </div>
-  </section>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="methods-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Methods</p>
-        <h2 id="methods-title" class="h-section">How the models are built</h2>
-      </div>
-      <div class="stack">
-        <p>
-          The subject changes from project to project; the toolkit does not. Models are formulated mechanistically,
-          studied by stochastic simulation and dynamical-systems analysis, and confronted with data using statistical
-          methods. Simulation engines in C++, analysis and visualisation in R and Python.
-        </p>
-        <ul class="tags" aria-label="Method areas">
-          <li>Eco-evolutionary models</li>
-          <li>Stochastic simulation</li>
-          <li>Dynamical systems &amp; transitions</li>
-          <li>Interaction networks</li>
-          <li>Trait-space &amp; functional diversity</li>
-          <li>Statistical modelling</li>
-          <li>Spatial analysis</li>
-          <li>Data visualisation</li>
-        </ul>
-        <a class="arrow-link" href="/methods/">Methods in detail</a>
-      </div>
+  <Section id="methods" label="Methods" title="How the models are built">
+    <div class="stack">
+      <p>
+        The subject changes from project to project; the toolkit does not. Models are formulated mechanistically,
+        studied by stochastic simulation and dynamical-systems analysis, and confronted with data using statistical
+        methods. Simulation engines in C++, analysis and visualisation in R and Python.
+      </p>
+      <ul class="chips" aria-label="Method areas">
+        <li>Eco-evolutionary models</li>
+        <li>Stochastic simulation</li>
+        <li>Dynamical systems &amp; transitions</li>
+        <li>Interaction networks</li>
+        <li>Trait-space &amp; functional diversity</li>
+        <li>Statistical modelling</li>
+        <li>Spatial analysis</li>
+        <li>Data visualisation</li>
+      </ul>
+      <a class="arrow-link" href="/methods/">Methods in detail</a>
     </div>
-  </section>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="recent-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Recent</p>
-        <h2 id="recent-title" class="h-section">2025 – 2026</h2>
-      </div>
-      <ol class="ruled recent">
-        <li>
-          <span class="recent__date">June 2026</span>
-          <span class="recent__what">
-            Talk at the NVTB Annual Schoorl Meeting:{' '}
-            <a href="/work/evolutionary-consequences-of-isolation/"><em>Isolation as a dynamic driver of eco-evolutionary change</em></a>.
-          </span>
-        </li>
-        <li>
-          <span class="recent__date">April 2026</span>
-          <span class="recent__what">
-            Paper published in <em>Circular Economy and Sustainability</em> on{' '}
-            <a href="/publications/#alevizos-2026-ngo-sustainability">organisational commitment to sustainability among Greek NGOs</a>.
-          </span>
-        </li>
-        <li>
-          <span class="recent__date">2026</span>
-          <span class="recent__what">
-            Supervised an MSc research project on{' '}
-            <a href="/work/trait-evolution-in-mutualistic-networks/">trait evolution in mutualistic networks</a> at TRÊS.
-          </span>
-        </li>
-        <li>
-          <span class="recent__date">October 2025</span>
-          <span class="recent__what">
-            Started the PhD <em>The evolutionary consequences of isolation</em> at the University of Groningen as an
-            EVOLVE fellow (EU MSCA COFUND).
-          </span>
-        </li>
-      </ol>
-    </div>
-  </section>
+  <Section id="recent" label="Recent" title="2025 – 2026">
+    <ol class="ledger recent">
+      <li>
+        <span class="ledger__when">2026-06</span>
+        <span class="recent__what">
+          Talk at the NVTB Annual Schoorl Meeting:{' '}
+          <a href="/work/evolutionary-consequences-of-isolation/"><em>Isolation as a dynamic driver of eco-evolutionary change</em></a>.
+        </span>
+      </li>
+      <li>
+        <span class="ledger__when">2026-04</span>
+        <span class="recent__what">
+          Paper published in <em>Circular Economy and Sustainability</em> on{' '}
+          <a href="/publications/#alevizos-2026-ngo-sustainability">organisational commitment to sustainability among Greek NGOs</a>.
+        </span>
+      </li>
+      <li>
+        <span class="ledger__when">2026</span>
+        <span class="recent__what">
+          Supervised an MSc research project on{' '}
+          <a href="/work/trait-evolution-in-mutualistic-networks/">trait evolution in mutualistic networks</a> at TRÊS.
+        </span>
+      </li>
+      <li>
+        <span class="ledger__when">2025-10</span>
+        <span class="recent__what">
+          Started the PhD <em>The evolutionary consequences of isolation</em> at the University of Groningen as an
+          EVOLVE fellow (EU MSCA COFUND).
+        </span>
+      </li>
+    </ol>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="contact-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Contact</p>
-        <h2 id="contact-title" class="h-section">Collaboration and supervision</h2>
-      </div>
-      <div class="stack">
-        <p>
-          I am glad to hear from researchers working on eco-evolutionary dynamics, complex systems and quantitative
-          sustainability, and from students interested in modelling projects.
-        </p>
-        <p>
-          <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
-        </p>
-      </div>
+  <Section id="contact" label="Contact" title="Collaboration and supervision">
+    <div class="stack">
+      <p>
+        I am glad to hear from researchers working on eco-evolutionary dynamics, complex systems and quantitative
+        sustainability, and from students interested in modelling projects.
+      </p>
+      <p>
+        <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
     </div>
-  </section>
+  </Section>
 </Base>
 
 <style>
   .hero {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
     padding-block: var(--space-7) var(--space-8);
     align-items: center;
   }
   @media (min-width: 60rem) {
     .hero {
-      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
       gap: var(--space-9);
       padding-block: var(--space-8) var(--space-9);
       min-height: calc(100dvh - 4rem);
@@ -236,13 +207,13 @@ const websiteSchema = {
   }
   @media (min-width: 80rem) {
     .hero {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 6fr);
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     }
   }
   .hero__title {
-    font-size: clamp(3rem, 1.6rem + 6vw, 7rem);
+    font-size: clamp(3rem, 1.6rem + 6vw, 6.6rem);
     margin-block: var(--space-3) var(--space-5);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
     line-height: 0.98;
   }
   .hero__actions {
@@ -254,13 +225,13 @@ const websiteSchema = {
   .hero__ids {
     margin: var(--space-6) 0 0;
     font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.03em;
+    font-size: var(--ann);
+    letter-spacing: 0.04em;
     color: var(--muted);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.25rem 0.75rem;
+    gap: 0.25rem 1rem;
     max-width: none;
   }
   .hero__ids a {
@@ -268,6 +239,14 @@ const websiteSchema = {
     display: inline-flex;
     align-items: center;
     min-height: 2.25rem;
+  }
+  .hero__ids a::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: var(--rule);
+    background: var(--line-strong);
+    margin-right: 0.5rem;
   }
   .hero__ids a:hover {
     color: var(--accent);
@@ -279,39 +258,9 @@ const websiteSchema = {
       align-items: flex-start;
       gap: 0;
     }
-    .hero__ids span {
-      display: none;
-    }
-  }
-  .h-section {
-    font-size: var(--step-2);
-    margin-bottom: 0;
-  }
-  .h-small {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: var(--step-0);
-    margin-bottom: var(--space-2);
-  }
-  .section__head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-4);
-    margin-bottom: var(--space-4);
-  }
-  .cards {
-    display: grid;
-    gap: 0 var(--space-7);
-  }
-  @media (min-width: 52rem) {
-    .cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
-  /* Hierarchy chain: a typographic diagram of the scope, arrows between items */
+  /* Chain: a typographic diagram of the scope, arrows between mono labels. */
   .chain {
     list-style: none;
     margin: 0 0 var(--space-6);
@@ -321,8 +270,9 @@ const websiteSchema = {
     align-items: center;
     gap: var(--space-2) 0;
     font-family: var(--font-mono);
-    font-size: 0.84rem;
-    letter-spacing: 0.02em;
+    font-size: var(--ann);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .chain li {
     display: flex;
@@ -330,9 +280,8 @@ const websiteSchema = {
     max-width: none;
   }
   .chain li span {
-    padding: 0.3em 0.7em;
+    padding: 0.35em 0.7em;
     border: var(--rule) solid var(--line-strong);
-    border-radius: 999px;
     white-space: nowrap;
   }
   .chain li:first-child span {
@@ -342,38 +291,32 @@ const websiteSchema = {
   }
   .chain li + li::before {
     content: '→';
-    color: var(--muted);
+    color: var(--accent);
     padding: 0 0.5em;
   }
-  .scope__cols {
+  .scope {
     display: grid;
     gap: var(--space-5);
   }
   @media (min-width: 52rem) {
-    .scope__cols {
+    .scope {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-6);
     }
   }
-  .scope__cols p {
+  .scope__h {
+    font-size: var(--step-0);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: var(--rule) solid var(--line);
+  }
+  .scope__col p {
     margin: 0;
     font-size: var(--step--1);
   }
-  .recent li {
-    display: grid;
-    gap: var(--space-1) var(--space-5);
-  }
-  @media (min-width: 42rem) {
-    .recent li {
-      grid-template-columns: 9rem minmax(0, 1fr);
-    }
-  }
-  .recent__date {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    padding-top: 0.25em;
+  .recent {
+    --ledger-col: 7rem;
   }
   .recent__what {
     max-width: var(--measure);

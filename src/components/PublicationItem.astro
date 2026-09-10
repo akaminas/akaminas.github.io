@@ -1,9 +1,12 @@
 ---
+/**
+ * One entry of a register: the [n] reference on the left (from the
+ * `.register` counter), then title, authors, venue and identifiers.
+ */
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   pub: CollectionEntry<'publications'>;
-  showProjects?: boolean;
 }
 const { pub } = Astro.props;
 const d = pub.data;
@@ -20,10 +23,7 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
 ---
 
 <li class="pub" id={pub.id}>
-  <div class="pub__meta">
-    <span class="pub__year">{d.year}</span>
-    <span class="status">{statusLabel[d.status]}</span>
-  </div>
+  <span class="register__ref" aria-hidden="true"></span>
   <div class="pub__body">
     <p class="pub__title">
       {doiUrl ? <a href={doiUrl} rel="noopener">{d.title}</a> : d.title}
@@ -47,38 +47,17 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
         </p>
       )
     }
-    <p class="pub__links small">
+    <p class="pub__ids">
+      <span>{d.year}</span>
+      <span>{statusLabel[d.status]}</span>
       {d.doi && <a href={`https://doi.org/${d.doi}`} rel="noopener">doi:{d.doi}</a>}
-      {d.licence && <span class="muted"> · {d.licence}</span>}
-      {d.note && <span class="muted"> · {d.note}</span>}
+      {d.licence && <span>{d.licence}</span>}
+      {d.note && <span>{d.note}</span>}
     </p>
   </div>
 </li>
 
 <style>
-  .pub {
-    display: grid;
-    gap: var(--space-2) var(--space-6);
-    padding-block: var(--space-5);
-    border-top: var(--rule) solid var(--line);
-    max-width: none;
-  }
-  @media (min-width: 42rem) {
-    .pub {
-      grid-template-columns: 7rem minmax(0, 1fr);
-    }
-  }
-  .pub__meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .pub__year {
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    font-size: var(--step-1);
-    line-height: 1.2;
-  }
   .pub__body p {
     margin: 0;
     max-width: var(--measure);
@@ -108,9 +87,21 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
   .pub__venue {
     font-size: var(--step--1);
   }
-  .pub__links {
+  .pub__ids {
     margin-top: var(--space-2) !important;
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: var(--ann);
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.6rem;
+  }
+  .pub__ids > * + *::before {
+    content: '·';
+    margin-right: 0.6rem;
+  }
+  .pub__ids a {
+    text-decoration-color: var(--line);
   }
 </style>

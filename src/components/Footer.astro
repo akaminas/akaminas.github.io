@@ -1,68 +1,150 @@
 ---
+/**
+ * The title block: the bordered grid of labelled cells that closes every
+ * engineering drawing. Every cell carries a real fact — who drew the sheet,
+ * where they work, which sheet this is, when it was built, how to reach them.
+ * Registration marks sit in two opposite corners.
+ */
 import { site } from '../data/site';
+
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
 const year = new Date().getFullYear();
+const built = new Date().toISOString().slice(0, 10);
 ---
 
-<footer class="site-footer">
-  <div class="container site-footer__inner">
-    <p class="site-footer__id">
-      <span class="display">{site.name}</span>
-      <span class="muted"> · {site.affiliation.name}</span>
-    </p>
-    <ul class="site-footer__links" aria-label="Contact and profiles">
-      <li><a href={`mailto:${site.email}`}>Email</a></li>
-      <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-      <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
-      <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href={site.repo} rel="noopener">Source</a></li>
-    </ul>
-    <p class="site-footer__note muted small">
+<footer class="title-block">
+  <div class="container">
+    <div class="title-block__frame">
+      <dl class="title-block__grid">
+        <div class="title-block__cell">
+          <dt>Drawn by</dt>
+          <dd class="display">{site.name}</dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Affiliation</dt>
+          <dd>
+            <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}
+          </dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Sheet</dt>
+          <dd class="mono">{currentPath}</dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Built</dt>
+          <dd class="mono"><time datetime={built}>{built}</time></dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Contact</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Profiles</dt>
+          <dd>
+            <ul class="inline-list" aria-label="Profiles">
+              <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
+              <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
+              <li><a href={site.profiles.scholar} rel="noopener">Scholar</a></li>
+              <li><a href={site.profiles.rug} rel="noopener">RUG</a></li>
+              <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
+            </ul>
+          </dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Source</dt>
+          <dd><a href={site.repo} rel="noopener">github.com/akaminas/akaminas.github.io</a></dd>
+        </div>
+        <div class="title-block__cell">
+          <dt>Notes</dt>
+          <dd>
+            <a href="/privacy/">Privacy</a> · no cookies, no analytics
+          </dd>
+        </div>
+      </dl>
+    </div>
+    <p class="title-block__note small muted">
       © {year} {site.name}. Text and original graphics on this site are mine; publications and fonts carry their own
-      licences (see the <a href="/privacy/#content">privacy and content notes</a>). No cookies, no analytics.
+      licences (see the <a href="/privacy/#content">privacy and content notes</a>).
     </p>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    border-top: var(--rule) solid var(--line);
-    padding-block: var(--space-6) var(--space-7);
+  .title-block {
     margin-top: var(--space-8);
+    padding-block: var(--space-6) var(--space-7);
   }
-  .site-footer__inner {
+  .title-block__frame {
+    position: relative;
+    padding: 0.85rem;
+  }
+  /* Registration marks in two opposite corners of the block. */
+  .title-block__frame::before,
+  .title-block__frame::after {
+    content: '';
+    position: absolute;
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 0 solid var(--line-strong);
+  }
+  .title-block__frame::before {
+    top: 0;
+    left: 0;
+    border-top-width: var(--rule);
+    border-left-width: var(--rule);
+  }
+  .title-block__frame::after {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: var(--rule);
+    border-right-width: var(--rule);
+  }
+  .title-block__grid {
+    margin: 0;
     display: grid;
-    gap: var(--space-4);
+    gap: var(--rule);
+    background: var(--line-strong);
+    border: var(--rule) solid var(--line-strong);
   }
-  .site-footer__id {
-    margin: 0;
-    font-size: var(--step-0);
+  @media (min-width: 40rem) {
+    .title-block__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
-  .site-footer__links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem var(--space-4);
+  @media (min-width: 64rem) {
+    .title-block__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
-  .site-footer__links li {
-    max-width: none;
+  .title-block__cell {
+    background: var(--bg);
+    padding: 0.7rem 0.9rem 0.8rem;
+    min-width: 0;
   }
-  .site-footer__links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    text-decoration: none;
+  .title-block__cell dt {
+    font-family: var(--font-mono);
+    font-size: var(--ann-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--muted);
-    font-weight: 500;
+    margin-bottom: 0.3rem;
   }
-  .site-footer__links a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-  }
-  .site-footer__note {
+  .title-block__cell dd {
     margin: 0;
-    max-width: 60ch;
+    font-size: var(--step--1);
+    overflow-wrap: anywhere;
+  }
+  .title-block__cell a {
+    text-decoration-color: var(--line);
+  }
+  .title-block__cell abbr {
+    text-decoration: none;
+  }
+  .title-block__note {
+    margin: var(--space-4) 0 0;
+    max-width: 64ch;
   }
 </style>

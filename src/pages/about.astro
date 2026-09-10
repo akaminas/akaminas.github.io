@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import { site } from '../data/site';
 
 const experience = [
@@ -102,18 +103,22 @@ const awards = [
 >
   <PageHeader eyebrow="About" title="Alexandros Kaminas" />
 
-  <section class="container about">
-    <div class="about__portrait">
+  <section class="container about" aria-label="Introduction">
+    <figure class="plate about__portrait">
+      <div class="plate__head">
+        <span class="num">Fig. 01</span>
+        <span>Portrait</span>
+      </div>
       <picture>
         <source
           type="image/avif"
           srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w"
-          sizes="(min-width: 52rem) 20rem, 60vw"
+          sizes="(min-width: 52rem) 18rem, 60vw"
         />
         <source
           type="image/webp"
           srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w"
-          sizes="(min-width: 52rem) 20rem, 60vw"
+          sizes="(min-width: 52rem) 18rem, 60vw"
         />
         <img
           src="/images/portrait-640.jpg"
@@ -124,8 +129,9 @@ const awards = [
           decoding="async"
         />
       </picture>
-    </div>
-    <div class="about__text prose">
+      <figcaption class="plate__caption">{site.name}, {site.location}.</figcaption>
+    </figure>
+    <div class="about__text prose prose--plain">
       <p class="lede">
         I develop mathematical and computational models of complex systems. My primary field is ecology and
         evolution; the same tools travel to sustainability and socioeconomic questions.
@@ -157,96 +163,72 @@ const awards = [
     </div>
   </section>
 
-  <section class="section section--rule container" id="experience" aria-labelledby="exp-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Experience</p>
-        <h2 id="exp-title" class="h-section">Positions and roles</h2>
-      </div>
-      <ol class="ruled timeline">
-        {
-          experience.map((e) => (
-            <li>
-              <span class="timeline__period">{e.period}</span>
-              <div>
-                <p class="timeline__title">{e.title}</p>
-                <p class="timeline__where">{e.where}</p>
-                <p class="muted small">{e.note}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  <Section id="experience" label="Experience" title="Positions and roles">
+    <ol class="ledger timeline">
+      {
+        experience.map((e) => (
+          <li>
+            <span class="ledger__when">{e.period}</span>
+            <div>
+              <p class="ledger__title">{e.title}</p>
+              <p class="ledger__where">{e.where}</p>
+              <p class="ledger__note">{e.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
 
-  <section class="section section--rule container" id="education" aria-labelledby="edu-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Education</p>
-        <h2 id="edu-title" class="h-section">Degrees</h2>
-      </div>
-      <ol class="ruled timeline">
-        {
-          education.map((e) => (
-            <li>
-              <span class="timeline__period">{e.period}</span>
-              <div>
-                <p class="timeline__title">{e.degree}</p>
-                <p class="timeline__where">{e.where}</p>
-                {e.note && <p class="muted small">{e.note}</p>}
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  <Section id="education" label="Education" title="Degrees">
+    <ol class="ledger timeline">
+      {
+        education.map((e) => (
+          <li>
+            <span class="ledger__when">{e.period}</span>
+            <div>
+              <p class="ledger__title">{e.degree}</p>
+              <p class="ledger__where">{e.where}</p>
+              {e.note && <p class="ledger__note">{e.note}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
 
-  <section class="section section--rule container" id="awards" aria-labelledby="aw-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Recognition</p>
-        <h2 id="aw-title" class="h-section">Fellowships and awards</h2>
-      </div>
-      <ol class="ruled timeline">
-        {
-          awards.map((a) => (
-            <li>
-              <span class="timeline__period">{a.year}</span>
-              <div>
-                <p class="timeline__title">{a.what}</p>
-                <p class="timeline__where">{a.by}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  <Section id="awards" label="Recognition" title="Fellowships and awards">
+    <ol class="ledger timeline">
+      {
+        awards.map((a) => (
+          <li>
+            <span class="ledger__when">{a.year}</span>
+            <div>
+              <p class="ledger__title">{a.what}</p>
+              <p class="ledger__where">{a.by}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
 
-  <section class="section section--rule container" id="contact" aria-labelledby="contact-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Contact</p>
-        <h2 id="contact-title" class="h-section">Get in touch</h2>
-      </div>
-      <div class="stack">
-        <p>
-          Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
-          student projects, and modelling work with institutes and organisations.
-        </p>
-        <p><a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a></p>
-        <ul class="profiles" aria-label="Profiles">
-          <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-          <li><a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a></li>
-          <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
-          <li><a href={site.profiles.rug} rel="noopener">University of Groningen profile</a></li>
-          <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
-        </ul>
-      </div>
+  <Section id="contact" label="Contact" title="Get in touch">
+    <div class="stack">
+      <p>
+        Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
+        student projects, and modelling work with institutes and organisations.
+      </p>
+      <p><a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a></p>
+      <ul class="profiles" aria-label="Profiles">
+        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
+        <li><a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a></li>
+        <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
+        <li><a href={site.profiles.rug} rel="noopener">University of Groningen profile</a></li>
+        <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
+      </ul>
     </div>
-  </section>
+  </Section>
 </Base>
 
 <style>
@@ -257,49 +239,25 @@ const awards = [
   }
   @media (min-width: 52rem) {
     .about {
-      grid-template-columns: 20rem minmax(0, 1fr);
+      grid-template-columns: 18rem minmax(0, 1fr);
       gap: var(--space-8);
       align-items: start;
     }
   }
+  .about__portrait {
+    width: min(100%, 18rem);
+  }
   .about__portrait img {
-    width: min(100%, 20rem);
-    border-radius: var(--radius);
+    width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    filter: grayscale(0.15);
+    filter: grayscale(0.2);
   }
   .about__text .lede {
     margin-bottom: var(--space-5);
   }
-  .h-section {
-    font-size: var(--step-2);
-    margin-bottom: 0;
-  }
-  .timeline li {
-    display: grid;
-    gap: var(--space-1) var(--space-5);
-  }
-  @media (min-width: 42rem) {
-    .timeline li {
-      grid-template-columns: 11rem minmax(0, 1fr);
-    }
-  }
-  .timeline__period {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    padding-top: 0.3em;
-  }
-  .timeline p {
-    margin: 0;
-  }
-  .timeline__title {
-    font-weight: 500;
-  }
-  .timeline__where {
-    font-size: var(--step--1);
+  .timeline {
+    --ledger-col: 11rem;
   }
   .profiles {
     list-style: none;

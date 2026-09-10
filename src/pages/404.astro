@@ -5,20 +5,45 @@ import Motif from '../components/Motif.astro';
 
 <Base title="Page not found" description="The page you asked for does not exist on this site.">
   <section class="container nf">
-    <Motif kind="records" size={96} />
-    <p class="eyebrow">404</p>
-    <h1>No such page</h1>
-    <p class="lede">The address may be out of date. Everything on the site is reachable from the menu.</p>
-    <p><a class="arrow-link" href="/">Back to the home page</a></p>
+    <figure class="plate nf__plate">
+      <div class="plate__head">
+        <span class="num">Sheet —</span>
+        <span>Not found</span>
+      </div>
+      <div class="nf__fig">
+        <Motif kind="records" size={96} />
+      </div>
+    </figure>
+    <div>
+      <p class="label">404</p>
+      <h1>No such page</h1>
+      <p class="lede">The address may be out of date. Everything on the site is reachable from the menu.</p>
+      <p><a class="arrow-link" href="/">Back to the home page</a></p>
+    </div>
   </section>
 </Base>
 
 <style>
   .nf {
     padding-block: var(--space-9);
-    max-width: 40rem;
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
   }
-  .nf .motif {
-    margin-bottom: var(--space-5);
+  @media (min-width: 42rem) {
+    .nf {
+      grid-template-columns: 12rem minmax(0, 40rem);
+      gap: var(--space-8);
+    }
+  }
+  .nf__fig {
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+    background-image:
+      linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
+      linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
+    background-size: 1rem 1rem;
+    background-position: center;
   }
 </style>

@@ -200,7 +200,12 @@ const reticulations = [
 ];
 ---
 
-<figure class:list={['phylo', className]}>
+<figure class:list={['plate', 'phylo', className]}>
+  <div class="plate__head">
+    <span class="num">Fig. 01</span>
+    <span>Phylogenetic network · schematic</span>
+  </div>
+  <div class="phylo__body">
   <svg viewBox={`0 0 ${W} ${H}`} aria-hidden="true" focusable="false">
     <defs>
       <marker id="phylo-arrow" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="6" markerHeight="6" orient="auto">
@@ -231,8 +236,9 @@ const reticulations = [
       <text x={X1} y={AXIS_Y + 21} text-anchor="end">present</text>
     </g>
   </svg>
+  </div>
 
-  <figcaption class="phylo__caption">
+  <figcaption class="plate__caption">
     Schematic phylogenetic network. The dark tree is a species history; the pale lines behind it are seventy gene
     histories that disagree with it and with each other, and the dashed arrows are gene flow between
     lineages.
@@ -240,10 +246,8 @@ const reticulations = [
 </figure>
 
 <style>
-  .phylo {
-    margin: 0;
-    display: grid;
-    gap: var(--space-4);
+  .phylo__body {
+    padding: var(--space-4) var(--space-4) var(--space-3);
   }
   .phylo svg {
     width: 100%;
@@ -306,11 +310,5 @@ const reticulations = [
     .phylo__axis text {
       font-size: 15px;
     }
-  }
-  .phylo__caption {
-    font-size: var(--step--1);
-    line-height: 1.55;
-    color: var(--muted);
-    max-width: 52ch;
   }
 </style>

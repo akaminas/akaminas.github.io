@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import PublicationItem from '../components/PublicationItem.astro';
 import { site } from '../data/site';
 
@@ -35,75 +36,56 @@ const articleSchema = pubs
     title="Peer-reviewed articles"
     lede="Eight articles, 2020–2026. Everything listed here is published and peer reviewed; work in progress is described on the project pages instead, and is labelled as such."
   >
-    <p class="small muted" style="margin-top: var(--space-4)">
+    <p class="small muted pubs__also">
       Also on <a href={site.profiles.scholar} rel="noopener">Google Scholar</a>,{' '}
       <a href={site.profiles.orcid} rel="me noopener">ORCID</a> and the{' '}
       <a href={site.profiles.rug} rel="noopener">University of Groningen research portal</a>.
     </p>
   </PageHeader>
 
-  <section class="section container" aria-labelledby="sel-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <h2 id="sel-title" class="h-section">Selected</h2>
-        <p class="muted small">Papers where I am first author or the topic is closest to my current work.</p>
-      </div>
-      <ol class="pubs">
+  <Section
+    id="selected"
+    label="Selected"
+    title="Selected"
+    note="Papers where I am first author or the topic is closest to my current work."
+  >
+    <div class="register-group">
+      <ol class="register">
         {highlights.map((p) => <PublicationItem pub={p} />)}
       </ol>
     </div>
-  </section>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="all-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <h2 id="all-title" class="h-section">All publications</h2>
-        <p class="muted small">By year, most recent first. My name is highlighted in the author lists.</p>
-      </div>
-      <div>
-        {
-          years.map((y) => (
-            <section aria-labelledby={`y-${y}`}>
-              <h3 id={`y-${y}`} class="year">
-                {y}
-              </h3>
-              <ol class="pubs">
-                {pubs
-                  .filter((p) => p.data.year === y)
-                  .map((p) => (
-                    <PublicationItem pub={p} />
-                  ))}
-              </ol>
-            </section>
-          ))
-        }
-      </div>
+  <Section id="all" label="Register" title="All publications" note="By year, most recent first. My name is highlighted in the author lists.">
+    <div class="register-group">
+      {
+        years.map((y) => (
+          <section aria-labelledby={`y-${y}`}>
+            <h3 id={`y-${y}`} class="register__year">
+              {y}
+            </h3>
+            <ol class="register">
+              {pubs
+                .filter((p) => p.data.year === y)
+                .map((p) => (
+                  <PublicationItem pub={p} />
+                ))}
+            </ol>
+          </section>
+        ))
+      }
     </div>
-  </section>
+  </Section>
 </Base>
 
 <style>
-  .h-section {
-    font-size: var(--step-2);
-    margin-bottom: var(--space-2);
+  .pubs__also {
+    margin-top: var(--space-4);
   }
-  .pubs {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .register__year {
+    font-weight: 400;
   }
-  .pubs > :global(li:last-child) {
-    border-bottom: var(--rule) solid var(--line);
-  }
-  .year {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: var(--space-6) 0 var(--space-2);
-  }
-  section:first-child .year {
+  section:first-child > .register__year {
     margin-top: 0;
   }
 </style>

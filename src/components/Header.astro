@@ -1,4 +1,10 @@
 ---
+/**
+ * The index strip at the top of every sheet: wordmark, navigation as a row of
+ * numbered mono tabs, and the colour-scheme toggle. Behaviour is unchanged
+ * from the previous header (menu button and toggle appear only with JS, the
+ * list is simply visible without it); only the drawing changed.
+ */
 import { nav, site } from '../data/site';
 
 interface Props {
@@ -27,17 +33,18 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </button>
 
     <nav id="site-nav" class="site-nav" aria-label="Primary">
-      <ul>
+      <ol>
         {
-          nav.map((item) => (
+          nav.map((item, i) => (
             <li>
               <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                {item.label}
+                <span class="site-nav__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span>{item.label}</span>
               </a>
             </li>
           ))
         }
-      </ul>
+      </ol>
     </nav>
 
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" hidden>
@@ -62,10 +69,10 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
     -webkit-backdrop-filter: saturate(140%) blur(10px);
     backdrop-filter: saturate(140%) blur(10px);
-    border-bottom: var(--rule) solid var(--line);
+    border-bottom: var(--rule) solid var(--line-strong);
   }
   .site-header__inner {
     display: flex;
@@ -81,8 +88,8 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     gap: 0.6em;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.15rem;
-    letter-spacing: -0.005em;
+    font-size: 1.1rem;
+    letter-spacing: -0.012em;
     min-height: 2.75rem;
     color: var(--ink);
   }
@@ -96,12 +103,14 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   .wordmark:hover .wordmark__mark {
     color: var(--ink);
   }
-  .site-nav ul {
+
+  /* Navigation: numbered mono tabs, the way sheets are indexed. */
+  .site-nav ol {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 0.25rem;
+    gap: 0.15rem;
     flex-wrap: wrap;
   }
   .site-nav li {
@@ -109,28 +118,41 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   }
   .site-nav a {
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
+    gap: 0.45em;
     min-height: 2.75rem;
-    padding: 0 0.7rem;
+    padding: 0.75rem 0.65rem 0;
     text-decoration: none;
     color: var(--muted);
-    font-weight: 500;
-    font-size: 0.97rem;
-    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: var(--ann);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     position: relative;
+  }
+  .site-nav__no {
+    font-size: var(--ann-s);
+    color: var(--line-strong);
+    letter-spacing: 0.04em;
   }
   .site-nav a:hover {
     color: var(--ink);
   }
+  .site-nav a:hover .site-nav__no {
+    color: var(--accent);
+  }
   .site-nav a[aria-current='page'] {
     color: var(--ink);
+  }
+  .site-nav a[aria-current='page'] .site-nav__no {
+    color: var(--accent);
   }
   .site-nav a[aria-current='page']::after {
     content: '';
     position: absolute;
-    left: 0.7rem;
-    right: 0.7rem;
-    bottom: 0.45rem;
+    left: 0.65rem;
+    right: 0.65rem;
+    bottom: 0.5rem;
     height: 2px;
     background: var(--accent);
   }
@@ -145,7 +167,6 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     padding: 0;
     background: transparent;
     border: var(--rule) solid transparent;
-    border-radius: var(--radius);
     color: var(--muted);
     cursor: pointer;
   }
@@ -171,9 +192,11 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     padding: 0 0.75rem;
     background: transparent;
     border: var(--rule) solid var(--line-strong);
-    border-radius: var(--radius);
     cursor: pointer;
-    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: var(--ann);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .menu-button__icon {
     display: inline-flex;
@@ -225,7 +248,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
       padding: 0 0.7rem;
     }
     .wordmark {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
     }
     html.js .site-nav {
       flex-basis: 100%;
@@ -234,7 +257,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     html.js .site-nav[data-open='false'] {
       display: none;
     }
-    html.js .site-nav ul {
+    html.js .site-nav ol {
       flex-direction: column;
       gap: 0;
       padding: var(--space-2) 0 var(--space-4);
@@ -243,8 +266,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     html.js .site-nav a {
       width: 100%;
       min-height: 3rem;
-      padding-inline: 0.25rem;
-      font-size: 1.05rem;
+      padding: 0.9rem 0.25rem 0;
     }
     html.js .site-nav a[aria-current='page']::after {
       left: 0.25rem;

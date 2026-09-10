@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import Motif from '../components/Motif.astro';
 
 /**
@@ -95,57 +96,52 @@ const tools = [
     lede="Every method below is tied to a project where it was actually used."
   />
 
-  <div class="container">
+  <Section id="areas" label="Areas" note="Seven method areas, each with the projects where it was used.">
     <ol class="areas">
       {
-        areas.map((a) => (
+        areas.map((a, i) => (
           <li class="area" id={a.id}>
-            <Motif kind={a.motif} size={72} />
+            <div class="area__fig">
+              <Motif kind={a.motif} size={72} />
+              <span class="num area__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            </div>
             <div class="area__body">
-              <h2>{a.title}</h2>
+              <h2 class="area__title">{a.title}</h2>
               <p>{a.text}</p>
               <p class="area__used">
-                <span class="eyebrow" style="display:inline; margin:0">
-                  Used in
+                <span class="label area__used-label">Used in</span>
+                <span class="area__used-list">
+                  {a.used.map((u, i) => (
+                    <Fragment>
+                      {i > 0 ? ' · ' : ''}
+                      <a href={u.href}>{u.label}</a>
+                    </Fragment>
+                  ))}
                 </span>
-                {a.used.map((u, i) => (
-                  <Fragment>
-                    {i > 0 ? ' · ' : ' '}
-                    <a href={u.href}>{u.label}</a>
-                  </Fragment>
-                ))}
               </p>
             </div>
           </li>
         ))
       }
     </ol>
-  </div>
+  </Section>
 
-  <section class="section section--rule container" aria-labelledby="tools-title">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <p class="eyebrow">Tools</p>
-        <h2 id="tools-title" class="h-section">Languages and software</h2>
-      </div>
-      <div>
-        <dl class="tools">
-          {
-            tools.map((t) => (
-              <div class="tools__row">
-                <dt>{t.name}</dt>
-                <dd>{t.note}</dd>
-              </div>
-            ))
-          }
-        </dl>
-        <p class="muted small" style="margin-top: var(--space-4)">
-          Also: laboratory sample treatment for pollution analysis and image-based identification (Image-Pro), from
-          marine-science training. Languages: Greek (native), English (C2), French (C1).
-        </p>
-      </div>
-    </div>
-  </section>
+  <Section id="tools" label="Tools" title="Languages and software">
+    <dl class="tools">
+      {
+        tools.map((t) => (
+          <div class="tools__row">
+            <dt>{t.name}</dt>
+            <dd>{t.note}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="muted small tools__note">
+      Also: laboratory sample treatment for pollution analysis and image-based identification (Image-Pro), from
+      marine-science training. Languages: Greek (native), English (C2), French (C1).
+    </p>
+  </Section>
 </Base>
 
 <style>
@@ -154,20 +150,27 @@ const tools = [
     margin: 0;
     padding: 0;
     display: grid;
+    border-top: var(--rule) solid var(--line);
   }
   .area {
     display: grid;
     gap: var(--space-3) var(--space-6);
     padding-block: var(--space-6);
-    border-top: var(--rule) solid var(--line);
+    border-bottom: var(--rule) solid var(--line);
     max-width: none;
   }
   @media (min-width: 42rem) {
     .area {
-      grid-template-columns: 72px minmax(0, 1fr);
+      grid-template-columns: 6rem minmax(0, 1fr);
     }
   }
-  .area h2 {
+  .area__fig {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .area__title {
     font-size: var(--step-2);
     margin-bottom: var(--space-2);
   }
@@ -177,31 +180,39 @@ const tools = [
   .area__used {
     font-size: var(--step--1);
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    align-items: baseline;
   }
-  .h-section {
-    font-size: var(--step-2);
-    margin-bottom: 0;
+  .area__used-label {
+    display: inline;
+    margin: 0;
+    white-space: nowrap;
   }
   .tools {
     margin: 0;
     display: grid;
+    border-top: var(--rule) solid var(--line);
   }
   .tools__row {
     display: grid;
     grid-template-columns: 8rem minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: var(--space-3);
-    border-top: var(--rule) solid var(--line);
-  }
-  .tools__row:last-child {
     border-bottom: var(--rule) solid var(--line);
   }
   .tools dt {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: var(--ann);
+    letter-spacing: 0.04em;
+    padding-top: 0.3em;
   }
   .tools dd {
     margin: 0;
     color: var(--muted);
+  }
+  .tools__note {
+    margin-top: var(--space-4);
   }
 </style>

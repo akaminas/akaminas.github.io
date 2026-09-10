@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 
 const entries = (await getCollection('teaching')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
@@ -29,74 +30,48 @@ const groups = [
       const items = rendered.filter(({ e }) => e.data.kind === g.kind);
       if (items.length === 0) return null;
       return (
-        <section class="section container" aria-labelledby={`t-${g.kind}`}>
-          <div class="grid-label">
-            <div class="grid-label__aside">
-              <h2 id={`t-${g.kind}`} class="h-section">
-                {g.title}
-              </h2>
-              <p class="muted small">{g.intro}</p>
-            </div>
-            <ol class="ruled">
-              {items.map(({ e, Content }) => (
-                <li class="entry">
-                  <div class="entry__meta">
-                    <span class="entry__period">{e.data.period}</span>
+        <Section id={`t-${g.kind}`} label={g.title} title={g.title} note={g.intro}>
+          <ol class="ledger entries">
+            {items.map(({ e, Content }) => (
+              <li class="entry">
+                <span class="ledger__when">{e.data.period}</span>
+                <div class="entry__body">
+                  <h3 class="entry__title">
+                    {e.data.project ? <a href={`/work/${e.data.project}/`}>{e.data.title}</a> : e.data.title}
+                  </h3>
+                  <p class="entry__role">
+                    {e.data.role} · {e.data.institution}
+                  </p>
+                  {e.data.student && (
+                    <dl class="spec entry__student">
+                      <dt>Student</dt>
+                      <dd>{e.data.student}</dd>
+                      {e.data.thesis && (
+                        <>
+                          <dt>Thesis</dt>
+                          <dd>
+                            <em>{e.data.thesis}</em>
+                          </dd>
+                        </>
+                      )}
+                    </dl>
+                  )}
+                  <div class="prose prose--plain small entry__text">
+                    <Content />
                   </div>
-                  <div class="entry__body">
-                    <h3 class="entry__title">
-                      {e.data.project ? <a href={`/work/${e.data.project}/`}>{e.data.title}</a> : e.data.title}
-                    </h3>
-                    <p class="entry__role">
-                      {e.data.role} · {e.data.institution}
-                    </p>
-                    {e.data.student && (
-                      <dl class="meta entry__student">
-                        <dt>Student</dt>
-                        <dd>{e.data.student}</dd>
-                        {e.data.thesis && (
-                          <>
-                            <dt>Thesis</dt>
-                            <dd>
-                              <em>{e.data.thesis}</em>
-                            </dd>
-                          </>
-                        )}
-                      </dl>
-                    )}
-                    <div class="prose small">
-                      <Content />
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Section>
       );
     })
   }
 </Base>
 
 <style>
-  .h-section {
-    font-size: var(--step-2);
-    margin-bottom: var(--space-2);
-  }
-  .entry {
-    display: grid;
-    gap: var(--space-2) var(--space-6);
-  }
-  @media (min-width: 42rem) {
-    .entry {
-      grid-template-columns: 7rem minmax(0, 1fr);
-    }
-  }
-  .entry__period {
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    font-size: var(--step-1);
-    line-height: 1.2;
+  .entries {
+    --ledger-col: 7rem;
   }
   .entry__title {
     font-size: var(--step-1);
@@ -104,12 +79,15 @@ const groups = [
   }
   .entry__role {
     font-size: var(--step--1);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-3) !important;
   }
   .entry__student {
     margin-bottom: var(--space-3);
   }
-  .entry__body .prose :global(p:last-child) {
+  .entry__text :global(p) {
+    margin-bottom: var(--space-3);
+  }
+  .entry__text :global(p:last-child) {
     margin-bottom: 0;
   }
 </style>

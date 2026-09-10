@@ -2,36 +2,37 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import Section from '../../components/Section.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+// Plate numbers follow the full project order, so a plate keeps its number on every page.
+const plateNo = new Map(projects.map((p, i) => [p.id, i + 1]));
 const talks = (await getCollection('talks')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const groups = [
   {
     key: 'ecology-evolution',
+    label: 'Ecology',
     title: 'Ecology and evolution',
     intro:
       'The primary domain. Eco-evolutionary models of community assembly, trait evolution and regime shifts, from doctoral research to MSc work.',
   },
   {
     key: 'sustainability-social',
+    label: 'Sustainability',
     title: 'Sustainability and social systems',
     intro: 'Systems reasoning applied to organisations, institutions and policy.',
   },
   {
     key: 'marine-systems',
+    label: 'Marine',
     title: 'Marine systems and monitoring',
     intro: 'Earlier empirical work: species monitoring and citizen science in the eastern Mediterranean.',
   },
 ] as const;
 
 const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar: 'Seminar' } as const;
-const fmtDate = (iso: string) => {
-  const [y, m] = iso.split('-');
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return m ? `${months[Number(m) - 1]} ${y}` : y;
-};
 ---
 
 <Base
@@ -49,91 +50,47 @@ const fmtDate = (iso: string) => {
       const items = projects.filter((p) => p.data.domain === g.key);
       if (items.length === 0) return null;
       return (
-        <section class="section container" aria-labelledby={`g-${g.key}`}>
-          <div class="grid-label">
-            <div class="grid-label__aside">
-              <h2 id={`g-${g.key}`} class="group-title">
-                {g.title}
-              </h2>
-              <p class="muted small">{g.intro}</p>
-            </div>
-            <div class="cards">
-              {items.map((p) => (
-                <ProjectCard project={p} />
-              ))}
-            </div>
+        <Section id={`g-${g.key}`} label={g.label} title={g.title} intro={g.intro}>
+          <div class="plates">
+            {items.map((p) => (
+              <ProjectCard project={p} no={plateNo.get(p.id) as number} />
+            ))}
           </div>
-        </section>
+        </Section>
       );
     })
   }
 
-  <section class="section section--rule container" aria-labelledby="talks-title" id="talks">
-    <div class="grid-label">
-      <div class="grid-label__aside">
-        <h2 id="talks-title" class="group-title">Talks and posters</h2>
-        <p class="muted small">Conference presentations, most recent first.</p>
-      </div>
-      <ol class="ruled talks">
-        {
-          talks.map((t) => (
-            <li>
-              <div class="talk__meta">
-                <span class="talk__date">{fmtDate(t.data.date)}</span>
-                <span class="status">{typeLabel[t.data.type]}</span>
-              </div>
-              <div class="talk__body">
-                <p class="talk__title">
-                  {t.data.project ? <a href={`/work/${t.data.project}/`}>{t.data.title}</a> : t.data.title}
-                </p>
-                <p class="talk__event">
-                  {t.data.event} · {t.data.location}
-                </p>
-                {t.data.authors.length > 1 && <p class="talk__authors muted small">{t.data.authors.join(', ')}</p>}
-                {t.data.abstract && <p class="small">{t.data.abstract}</p>}
-                {t.data.note && <p class="muted small">{t.data.note}</p>}
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  <Section id="talks" label="Talks" title="Talks and posters" note="Conference presentations, most recent first.">
+    <ol class="ledger talks">
+      {
+        talks.map((t) => (
+          <li>
+            <span class="ledger__when">
+              {t.data.date}
+              <span class="ledger__tag">{typeLabel[t.data.type]}</span>
+            </span>
+            <div class="talk__body">
+              <p class="talk__title">
+                {t.data.project ? <a href={`/work/${t.data.project}/`}>{t.data.title}</a> : t.data.title}
+              </p>
+              <p class="talk__event">
+                {t.data.event} · {t.data.location}
+              </p>
+              {t.data.authors.length > 1 && <p class="muted small">{t.data.authors.join(', ')}</p>}
+              {t.data.abstract && <p class="small talk__abstract">{t.data.abstract}</p>}
+              {t.data.note && <p class="muted small">{t.data.note}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
 </Base>
 
 <style>
-  .group-title {
-    font-size: var(--step-2);
-    margin-bottom: var(--space-2);
-  }
-  .cards {
-    display: grid;
-    gap: 0 var(--space-7);
-  }
-  @media (min-width: 64rem) {
-    .cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  .talks li {
-    display: grid;
-    gap: var(--space-2) var(--space-6);
-  }
-  @media (min-width: 42rem) {
-    .talks li {
-      grid-template-columns: 7rem minmax(0, 1fr);
-    }
-  }
-  .talk__meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .talk__date {
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    font-size: var(--step-1);
-    line-height: 1.2;
+  .talks {
+    --ledger-col: 8rem;
   }
   .talk__body p {
     margin: 0 0 var(--space-1);
@@ -147,5 +104,8 @@ const fmtDate = (iso: string) => {
   }
   .talk__event {
     font-size: var(--step--1);
+  }
+  .talk__abstract {
+    margin-top: var(--space-2) !important;
   }
 </style>
