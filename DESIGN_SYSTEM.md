@@ -1,12 +1,12 @@
 # Design system
 
-A pastel, illustrated personal site in the manner of an interactive academic homepage: a soft lavender bar over warm off-white paper, mono headings, a slab-serif text face, Greek-flag blue for links and a purple accent. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
+A pastel, illustrated personal site in the manner of an interactive academic homepage: a soft lavender bar over warm off-white paper, brush-lettered headings, a rounded humanist text face, Greek-flag blue for links and a purple accent. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
 
 ## Principles
 
-1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island and its gulls to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
+1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
 2. **White and blue, on lavender and cream.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The page around it is pastel: lavender bar, cream paper, purple accents. Nothing is neon.
-3. **Two faces.** Headings, navigation, labels and dates are Roboto Mono; text is Roboto Slab. Hierarchy comes from size and weight, not from a third face.
+3. **Two faces, one of them handwritten.** Headings, the wordmark and the home tagline are Caveat Brush, a brush-marker script that reads as a hand-lettered sign; everything else — text, navigation, labels, dates, buttons — is Nunito, a rounded humanist sans, at 400 for text and 600–700 for the interface. The brush face is never used below heading size.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
 
@@ -14,10 +14,12 @@ A pastel, illustrated personal site in the manner of an interactive academic hom
 
 | Role | Face | Size / weight | Notes |
 | --- | --- | --- | --- |
-| Headings, navigation, labels, dates, buttons | Roboto Mono | fluid scale, 500 (headings), 400 (labels) | `letter-spacing: −0.01em` on headings |
-| Body | Roboto Slab | 17–18 px, 400/700 | line-height 1.7, measure 68ch |
+| Headings, wordmark, home tagline | Caveat Brush | display scale `--disp-1` … `--disp-4` (≈ 2.7–3.8 rem for H1), 400 | line-height 1.15, no tracking |
+| Body | Nunito | 17–18 px, 400, italic for emphasis | line-height 1.65, measure 68ch |
+| Navigation, labels, dates, chips, buttons, footer, island labels | Nunito | 0.9–1 rem, 600–700 | |
+| Code | system monospace | 0.9 em | not self-hosted |
 
-Both fonts are self-hosted from `public/fonts/` as Latin-subset variable WOFF2 (Roboto Slab: Apache 2.0; Roboto Mono: SIL OFL 1.1; see `ASSET_PROVENANCE.md`), preloaded, `font-display: swap`. No remote font requests.
+Both fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (Caveat Brush static 400; Nunito variable 200–1000, upright and italic; both SIL OFL 1.1; see `ASSET_PROVENANCE.md`), preloaded, `font-display: swap`. No remote font requests. Patrick Hand and Kalam were tried in the same position and set aside: Patrick Hand is thinner and reads as a schoolbook hand, Kalam is closer to a pen than a brush; Caveat Brush has the weight to sit over the island.
 
 ## Colour
 
@@ -43,7 +45,7 @@ All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never
 
 ## The island
 
-`scripts/make-island.mjs` draws `src/components/island.svg` from a few isometric primitives (plates, bricks, cylinders, domes) in world units of studs, with a 2:1 isometric projection and a painter's-order sort. Studs are an SVG `<pattern>` per colour and height, aligned to the stud grid. `src/components/Island.astro` inlines the SVG and adds the CSS: each link group (`<a class="hot">`) lifts by 8 px (`hot--lift`) or brightens (`hot--glow`, for the sea and the island) on hover and focus, and reveals a label (`.hot__label`) styled as the badge. The SVG root is `role="group"` with a title and description; each link has an `aria-label`, and the labels inside are `aria-hidden`. The figure is 63 kB of static SVG and ships no script.
+`scripts/make-island.mjs` draws `src/components/island.svg` from a few isometric primitives (plates, bricks, cylinders, domes) in world units of studs, with a 2:1 isometric projection and a painter's-order sort. Studs are an SVG `<pattern>` per colour and height, aligned to the stud grid. `src/components/Island.astro` inlines the SVG and adds the CSS: each link group (`<a class="hot">`) lifts by 8 px (`hot--lift`) or brightens (`hot--glow`, for the sea and the island) on hover and focus, and reveals a label (`.hot__label`) styled as the badge. The SVG root is `role="group"` with a title and description; each link has an `aria-label`, and the labels inside are `aria-hidden`. The figure is about 80 kB of static SVG and ships no script.
 
 To change the island, edit the scene section of the script and run `node scripts/make-island.mjs`.
 
@@ -57,7 +59,7 @@ To change the island, edit the scene section of the script and run `node scripts
 ## Components
 
 - **Header** — the lavender bar: name, navigation (active item bold and underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
-- **Footer** — name, position and affiliation, email, profile links, privacy, source, "Built with Astro", copyright line.
+- **Footer** — name, position and affiliation, email, profile links, and the copyright line, which links to the privacy notice.
 - **PageHeader** — H1, optional lede, slot.
 - **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.
 - **Island** — see above.

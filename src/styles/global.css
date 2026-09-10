@@ -2,28 +2,36 @@
    Global styles — see DESIGN_SYSTEM.md.
 
    A pastel, illustrated personal site: a soft lavender bar over warm off-white
-   paper, mono headings, a slab-serif text face, Greek-flag blue for links and
-   a purple accent. The home page carries an interactive island drawn as a
+   paper, brush-lettered headings (Caveat Brush), a rounded humanist text face
+   (Nunito), Greek-flag blue for links and a purple accent. The home page carries an interactive island drawn as a
    toy-brick model (src/components/Island.astro).
 
    Structure: fonts → tokens → reset → typography → layout → lists → controls
    → cards → prose → utilities → motion/print.
    ========================================================================== */
 
-/* ---------- Self-hosted fonts (Roboto Slab, Apache 2.0; Roboto Mono, SIL OFL 1.1 — see ASSET_PROVENANCE.md) ---------- */
+/* ---------- Self-hosted fonts (Caveat Brush, Nunito — SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
 @font-face {
-  font-family: 'Roboto Slab';
-  src: url('/fonts/roboto-slab-latin-wght.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Caveat Brush';
+  src: url('/fonts/caveat-brush-latin-400.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Roboto Mono';
-  src: url('/fonts/roboto-mono-latin-wght.woff2') format('woff2');
-  font-weight: 100 700;
+  font-family: 'Nunito';
+  src: url('/fonts/nunito-latin-wght.woff2') format('woff2');
+  font-weight: 200 1000;
   font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('/fonts/nunito-latin-wght-italic.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-style: italic;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
@@ -32,8 +40,16 @@
 :root {
   color-scheme: light dark;
 
-  --font-body: 'Roboto Slab', Georgia, 'Times New Roman', serif;
-  --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-display: 'Caveat Brush', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-ui: var(--font-body);
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Display sizes for the brush headings, which need to run larger than text. */
+  --disp-1: clamp(2.7rem, 2rem + 2.6vw, 3.8rem);
+  --disp-2: clamp(2.1rem, 1.7rem + 1.4vw, 2.8rem);
+  --disp-3: clamp(1.6rem, 1.4rem + 0.6vw, 1.9rem);
+  --disp-4: clamp(1.35rem, 1.25rem + 0.4vw, 1.55rem);
 
   /* Type scale (gently fluid). Body never below 17px. */
   --step--1: clamp(0.9rem, 0.88rem + 0.1vw, 0.95rem);
@@ -161,7 +177,7 @@ body {
   background: var(--bg);
   font-family: var(--font-body);
   font-size: var(--step-0);
-  line-height: 1.7;
+  line-height: 1.65;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -203,27 +219,26 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
   color: var(--heading);
   margin: 0 0 var(--space-4);
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 h1 {
-  font-size: var(--step-4);
-  font-weight: 500;
+  font-size: var(--disp-1);
 }
 h2 {
-  font-size: var(--step-3);
+  font-size: var(--disp-2);
 }
 h3 {
-  font-size: var(--step-1);
+  font-size: var(--disp-3);
 }
 h4 {
-  font-size: var(--step-0);
+  font-size: var(--disp-4);
 }
 p,
 ul,
@@ -266,7 +281,7 @@ hr {
 }
 code,
 kbd {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.9em;
   background: var(--surface);
   padding: 0.1em 0.35em;
@@ -277,7 +292,8 @@ abbr[title] {
 }
 
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   color: var(--muted);
   margin: 0 0 var(--space-2);
@@ -285,8 +301,9 @@ abbr[title] {
   max-width: none;
 }
 .mono {
-  font-family: var(--font-mono);
-  font-size: 0.92em;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95em;
 }
 .lede {
   font-size: var(--step-1);
@@ -382,7 +399,8 @@ abbr[title] {
   }
 }
 .ledger__when {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   color: var(--muted);
   padding-top: 0.15em;
@@ -403,7 +421,8 @@ abbr[title] {
   margin-top: var(--space-1);
 }
 .ledger__tag {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   color: var(--accent);
   display: block;
@@ -424,8 +443,8 @@ abbr[title] {
   padding-top: 0;
 }
 .register__year {
-  font-family: var(--font-mono);
-  font-size: var(--step-0);
+  font-family: var(--font-display);
+  font-size: var(--disp-3);
   color: var(--accent);
   margin: var(--space-6) 0 var(--space-3);
 }
@@ -443,7 +462,8 @@ abbr[title] {
   gap: var(--space-2);
 }
 .chips li {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   color: var(--accent);
   background: var(--accent-soft);
@@ -462,7 +482,8 @@ abbr[title] {
   font-size: var(--step--1);
 }
 .spec dt {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   color: var(--muted);
   padding-top: 0.1em;
 }
@@ -506,8 +527,8 @@ abbr[title] {
   background: transparent;
   color: var(--accent);
   text-decoration: none;
-  font-family: var(--font-mono);
-  font-weight: 500;
+  font-family: var(--font-ui);
+  font-weight: 700;
   font-size: var(--step--1);
   cursor: pointer;
   transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
@@ -530,7 +551,8 @@ abbr[title] {
   align-items: center;
   gap: 0.45em;
   text-decoration: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 700;
   font-size: var(--step--1);
   min-height: 2.75rem;
 }
@@ -544,7 +566,8 @@ abbr[title] {
 
 /* Status: a coloured dot and a word, never the dot alone. */
 .status {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   color: var(--muted);
   white-space: nowrap;
@@ -575,7 +598,8 @@ abbr[title] {
   background: var(--badge);
   color: var(--badge-ink);
   box-shadow: 0 0 0 2px var(--badge-gold), 0 0 0 5px var(--badge);
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 600;
   font-size: var(--step--1);
   max-width: none;
 }
@@ -617,7 +641,7 @@ abbr[title] {
   max-width: var(--measure);
 }
 .prose h2 {
-  font-size: var(--step-2);
+  font-size: var(--disp-2);
   margin-top: var(--space-6);
   padding-bottom: var(--space-2);
   border-bottom: var(--rule) solid var(--line);
@@ -626,7 +650,7 @@ abbr[title] {
   margin-top: 0;
 }
 .prose h3 {
-  font-size: var(--step-1);
+  font-size: var(--disp-3);
   margin-top: var(--space-5);
 }
 .prose ul,
@@ -670,7 +694,8 @@ abbr[title] {
   padding: var(--space-3) var(--space-4);
   border-radius: 0 0 var(--radius-s) var(--radius-s);
   text-decoration: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
+  font-weight: 700;
 }
 .skip-link:focus {
   top: 0;

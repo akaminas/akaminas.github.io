@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://akaminas.github.io/sitemap-index.xml

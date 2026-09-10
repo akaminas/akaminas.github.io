@@ -70,7 +70,7 @@ Reviewed the supplied CV against what is published.
 
 ## Copyright audit
 
-- Fonts: Roboto Slab (Apache License 2.0) and Roboto Mono (SIL OFL 1.1), self-hosted with licence files fetched from the `google/fonts` repository; see `ASSET_PROVENANCE.md`. Compliant.
+- Fonts: Caveat Brush and Nunito, both SIL OFL 1.1, self-hosted with licence files fetched from the `google/fonts` repository; see `ASSET_PROVENANCE.md`. Compliant.
 - Graphics: all original (favicon, motifs, home-page island, OG image). The island is drawn from generic geometric primitives in the manner of a toy-brick model; it reproduces no trademarked product, set, logo or minifigure design, and the site does not use any brand name for it (the word "LEGO" does not appear on the site). No third-party logos or stock imagery.
 - Portrait: **pending** — photographer permission to be confirmed by the owner (see `ASSET_PROVENANCE.md`). Under Dutch Auteurswet art. 19 a person portrayed in a commissioned portrait may reproduce it, but the photographer holds copyright; documenting consent avoids any doubt.
 - Publications: linked by DOI only; no publisher PDFs or figures reproduced.

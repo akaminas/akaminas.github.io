@@ -1,7 +1,7 @@
 ---
 /**
  * The foot of every page: who this is and where they work, how to reach
- * them, profiles, the source, the privacy notice and the copyright line.
+ * them, profiles, and the copyright line (which links to the privacy notice).
  */
 import { site } from '../data/site';
 
@@ -25,11 +25,6 @@ const year = new Date().getFullYear();
         <li><a href={site.profiles.rug} rel="noopener">RUG profile</a></li>
         <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
       </ul>
-      <ul class="site-footer__links" aria-label="Site">
-        <li><a href="/privacy/">Privacy</a> · no cookies, no analytics</li>
-        <li><a href={site.repo} rel="noopener">Source on GitHub</a></li>
-        <li>Built with <a href="https://astro.build" rel="noopener">Astro</a></li>
-      </ul>
     </div>
     <p class="site-footer__copy small muted">
       © {year} {site.name}. Text and original graphics on this site are mine; publications and fonts carry their own
@@ -43,7 +38,7 @@ const year = new Date().getFullYear();
     margin-top: var(--space-8);
     padding-block: var(--space-6) var(--space-7);
     border-top: var(--rule) solid var(--line);
-    font-family: var(--font-mono);
+    font-family: var(--font-ui);
     font-size: var(--step--1);
   }
   .site-footer__inner {

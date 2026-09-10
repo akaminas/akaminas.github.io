@@ -65,7 +65,8 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     z-index: 50;
     background: var(--bar);
     color: var(--bar-ink);
-    font-family: var(--font-mono);
+    font-family: var(--font-ui);
+    font-weight: 600;
   }
   .site-header__inner {
     display: flex;
@@ -77,8 +78,9 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   .wordmark {
     color: var(--bar-ink);
     text-decoration: none;
-    font-size: 1.15rem;
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
@@ -246,7 +248,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
       padding: 0 0.7rem;
     }
     .wordmark {
-      font-size: 1.02rem;
+      font-size: 1.5rem;
     }
   }
 </style>

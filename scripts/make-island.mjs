@@ -10,7 +10,7 @@
  * behaviour is CSS on the link groups (lift + label on hover and focus).
  *
  * Link groups (class "hot") map parts of the model to parts of the site:
- * the sea to marine work, the island and its gulls to island ecology, the
+ * the sea to marine work, the island, its gulls and the pelican to island ecology, the
  * three figures to social systems, the wind turbine to sustainability, and
  * each house to a page.
  */
@@ -225,6 +225,7 @@ island += box(6, 6, 2.6, 7, 6, PLATE, C.grassDark);
 // boulders
 island += box(4.5, 23, 1.0, 2, 2, 0.9, C.stone, { flat: true });
 island += box(26.5, 26, 1.0, 2, 1.5, 0.7, C.stone, { flat: true });
+island += box(18.6, 26.8, 1.4, 2.8, 2.4, 0.9, C.stone, { flat: true });
 
 // olive trees: trunk + leafy dome
 function tree(x, y, z, r = 1.1) {
@@ -233,25 +234,31 @@ function tree(x, y, z, r = 1.1) {
 island += tree(6, 17.5, 1.4, 1.0);
 island += tree(25.5, 25.5, 1.4, 1.1);
 island += tree(19, 6, 1.4, 0.9);
-island += tree(27.8, 12.5, 1.4, 0.8);
+island += tree(26.8, 6.6, 1.0, 0.8);
 
-// gulls (screen space); one perched on the boulder
-function gull(X, Y, s = 1, flip = false) {
-  const t = `translate(${f1(X)} ${f1(Y)}) scale(${flip ? -s : s} ${s})`;
-  return (
-    `<g transform="${t}">` +
-    `<path d="M-16,-2 Q-8,-11 0,-2 Q8,-11 16,-2" fill="none" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/>` +
-    `<path d="M-16,-2 Q-8,-11 0,-2 Q8,-11 16,-2" fill="none" stroke="#8c8c88" stroke-width="1" stroke-linecap="round" opacity="0.5"/>` +
-    `<ellipse cx="0" cy="0" rx="5" ry="3.2" fill="#ffffff" stroke="#8c8c88" stroke-width="0.8"/>` +
-    `<circle cx="4.5" cy="-1.2" r="2.6" fill="#ffffff" stroke="#8c8c88" stroke-width="0.8"/>` +
-    `<path d="M6.8,-1.4 l4.2,1 -4.2,1.2 z" fill="${C.orange}"/>` +
-    `<circle cx="5" cy="-2" r="0.7" fill="#222"/>` +
-    `</g>`
-  );
+// gulls, brick-built: a body brick, flat wing plates with grey tips, a round
+// head and an orange beak. `s` scales the bird about its origin; the bird
+// faces +x (front-right).
+const GREY = '#8c8c88';
+function brickGull(x, y, z, s = 1) {
+  const b = (dx, dy, dz, w, d, h, c) => box(x + dx * s, y + dy * s, z + dz * s, w * s, d * s, h * s, c, { flat: true });
+  let g = '';
+  g += b(0.2, -1.1, 0.45, 0.7, 0.6, 0.12, C.white); // left wing, outer (raised)
+  g += b(0.2, -1.4, 0.55, 0.7, 0.35, 0.12, GREY); // left tip
+  g += b(0.2, -0.55, 0.3, 0.7, 0.6, 0.12, C.white); // left wing, inner
+  g += b(-0.35, 0.1, 0.1, 0.35, 0.3, 0.1, C.white); // tail
+  g += b(0, 0, 0, 1.1, 0.5, 0.45, C.white); // body
+  g += b(0.2, 0.5, 0.3, 0.7, 0.6, 0.12, C.white); // right wing, inner
+  g += b(0.2, 1.05, 0.45, 0.7, 0.6, 0.12, C.white); // right wing, outer (raised)
+  g += b(0.2, 1.6, 0.55, 0.7, 0.35, 0.12, GREY); // right tip
+  g += cylinder(x + 1.15 * s, y + 0.25 * s, z + 0.2 * s, 0.3 * s, 0.45 * s, C.white); // head
+  g += b(1.45, 0.12, 0.35, 0.4, 0.25, 0.15, C.orange); // beak
+  g += `<circle cx="${f1(px(x + 1.3 * s, y + 0.25 * s) + 2 * s)}" cy="${f1(py(x + 1.3 * s, y + 0.25 * s, z + 0.5 * s))}" r="${f1(0.9 * s)}" fill="#222"/>`;
+  return g;
 }
-let gulls = gull(px(2, 22), py(2, 22, 6.5), 1.7) + gull(px(7, 3), py(7, 3, 7), 1.4, true) + gull(px(31, 13), py(31, 13, 7.5), 1.6) + gull(px(29, 31), py(29, 31, 5), 1.3, true) + gull(px(15, 2), py(15, 2, 4.5), 1.1);
-// perched gull on the front boulder
-gulls += `<g transform="translate(${f1(px(5.5, 24))} ${f1(py(5.5, 24, 2.0))}) scale(1.5)"><ellipse cx="0" cy="0" rx="5" ry="3.4" fill="#fff" stroke="#8c8c88" stroke-width="0.8"/><circle cx="4.5" cy="-2.2" r="2.6" fill="#fff" stroke="#8c8c88" stroke-width="0.8"/><path d="M6.8,-2.4 l4,1 -4,1.2 z" fill="${C.orange}"/><circle cx="5" cy="-3" r="0.7" fill="#222"/><path d="M-4,3 v2.5 M-1,3 v2.5" stroke="${C.orange}" stroke-width="1.2"/></g>`;
+let gulls = brickGull(3, 21, 6.5, 1.3) + brickGull(8, 2.5, 7, 1.1) + brickGull(30.5, 12, 7.5, 1.25) + brickGull(28, 30, 5, 1.05) + brickGull(15, 1.5, 4.5, 0.9);
+// one perched on the front-left boulder
+gulls += brickGull(4.5, 23.5, 1.9, 1.0);
 
 add(-900, hot({ id: 'island', href: '/work/#g-ecology-evolution', name: 'Island ecology and evolution', parts: island + gulls, lx: px(17, 30.5), ly: py(17, 30.5, 1.4) - 14, mode: 'glow' }));
 
@@ -327,7 +334,7 @@ function cube(x, y, z, w, d, h, opts = {}) {
 
 // Sustainability: a wind turbine and a small solar array on the back terrace.
 {
-  const x = 24.5, y = 7.5, z = 1.4;
+  const x = 24.5, y = 8.5, z = 1.4;
   let s = box(x - 1, y - 1, z, 2, 2, 0.35, C.stone, { flat: true });
   s += cylinder(x, y, z + 0.35, 0.34, 8.5, C.white);
   const cx = px(x, y), cy = py(x, y, z + 8.85);
@@ -339,7 +346,7 @@ function cube(x, y, z, w, d, h, opts = {}) {
   }
   // solar array: tilted dark panels on the ground beside the mast
   for (let i = 0; i < 3; i++) {
-    const sx = x + 1.5, sy = y - 0.5 + i * 1.5;
+    const sx = x + 1.8, sy = y + 1 + i * 1.5;
     s += `<polygon points="${pt(sx, sy, z)} ${pt(sx, sy + 1.3, z)} ${pt(sx + 1.8, sy + 1.3, z + 1.0)} ${pt(sx + 1.8, sy, z + 1.0)}" fill="${C.panel}" stroke="#7f92b3" stroke-width="0.8"/>`;
   }
   add(x + y - 4, hot({ id: 'sustainability', href: '/work/sustainability-organisations-as-systems/', name: 'Sustainability', parts: s, lx: cx, ly: cy - 62 }));
@@ -425,6 +432,27 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
   add(13 + 25.5, hot({ id: 'people', href: '/work/#g-sustainability-social', name: 'Social and economic systems', parts: s, lx: px(10, 23.5), ly: py(10, 23.5, 5.6) - 8 }));
 }
 
+// -- Pelican, brick-built and larger than the gulls, standing on the boulder.
+{
+  const x = 18.9, y = 27.2, z = 2.3, s = 1.55;
+  const b = (dx, dy, dz, w, d, h, c) => box(x + dx * s, y + dy * s, z + dz * s, w * s, d * s, h * s, c, { flat: true });
+  let g = '';
+  g += b(0.85, 0.05, 0, 0.5, 0.28, 0.22, C.orange); // left foot
+  g += b(0.85, 0.5, 0, 0.5, 0.28, 0.22, C.orange); // right foot
+  g += b(-0.5, -0.1, 0.25, 1.6, 1.0, 0.8, C.white); // body
+  g += b(-0.5, -0.35, 0.7, 1.1, 0.3, 0.2, C.white); // left folded wing
+  g += b(-0.5, -0.35, 0.7, 0.35, 0.3, 0.2, GREY);
+  g += b(-0.5, 0.85, 0.7, 1.1, 0.3, 0.2, C.white); // right folded wing
+  g += b(-0.5, 0.85, 0.7, 0.35, 0.3, 0.2, GREY);
+  g += b(-0.75, 0.2, 0.55, 0.3, 0.4, 0.15, C.white); // tail
+  g += cylinder(x + 0.85 * s, y + 0.4 * s, z + 1.0 * s, 0.26 * s, 0.75 * s, C.white); // neck
+  g += cylinder(x + 0.85 * s, y + 0.4 * s, z + 1.75 * s, 0.45 * s, 0.55 * s, C.white); // head
+  g += b(1.15, 0.22, 1.95, 1.35, 0.36, 0.18, C.orange); // upper beak
+  g += b(1.15, 0.22, 1.65, 0.9, 0.36, 0.3, '#f5b04a'); // pouch
+  g += `<circle cx="${f1(px(x + 1.1 * s, y + 0.4 * s) + 3)}" cy="${f1(py(x + 1.1 * s, y + 0.4 * s, z + 2.1 * s))}" r="1.6" fill="#222"/>`;
+  add(x + y + 1, hot({ id: 'pelican', href: '/work/#g-ecology-evolution', name: 'Island ecology and evolution', parts: g, lx: px(x + 0.6, y + 0.4), ly: py(x + 0.6, y + 0.4, z + 2.4 * s) - 6 }));
+}
+
 // -- Pier and boat (part of the marine link).
 {
   let s = '';
@@ -447,7 +475,7 @@ const body = items.map((i) => i.svg).join('\n');
 const svg =
   `<svg class="island" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">\n` +
   `<title id="island-title">An island of white houses, drawn as a toy-brick model</title>\n` +
-  `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, three figures, gulls and a boat. Each part links to a section of the site: the sea to marine work, the island to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, and the houses to the pages.</desc>\n` +
+  `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, three figures, gulls, a pelican and a boat. Each part links to a section of the site: the sea to marine work, the island, its gulls and the pelican to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, and the houses to the pages.</desc>\n` +
   `<style>.hot__label{display:none}.hot__pill{fill:#2b2260;stroke:#d9c4f5;stroke-width:1.5}.hot__text{fill:#f4eefb}</style>\n` +
   `<defs>\n${defs.join('\n')}\n</defs>\n${body}\n</svg>\n`;
 

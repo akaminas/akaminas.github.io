@@ -3,20 +3,21 @@
   Social preview image template (1200×630). Render to public/og.png with a headless browser, e.g.:
     npx playwright screenshot --viewport-size=1200,630 scripts/og.html public/og.png
   (or open in a browser at 1200×630 and take a screenshot).
-  Same look as the site: lavender bar, cream paper, mono name, slab text, and the island. Uses the same self-hosted fonts.
+  Same look as the site: lavender bar, cream paper, brush-lettered name, rounded text, and the island. Uses the same self-hosted fonts.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <style>
-      @font-face { font-family: 'Roboto Slab'; src: url('../public/fonts/roboto-slab-latin-wght.woff2') format('woff2'); font-weight: 100 900; }
-      @font-face { font-family: 'Roboto Mono'; src: url('../public/fonts/roboto-mono-latin-wght.woff2') format('woff2'); font-weight: 100 700; }
-      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #fbf6ef; color: #2a2440; font-family: 'Roboto Slab', Georgia, serif; }
-      .bar { height: 64px; background: #cbbfe6; color: #3f2a73; font-family: 'Roboto Mono', monospace; font-size: 22px; display: flex; align-items: center; padding: 0 56px; gap: 40px; }
+      @font-face { font-family: 'Nunito'; src: url('../public/fonts/nunito-latin-wght.woff2') format('woff2'); font-weight: 200 1000; }
+      @font-face { font-family: 'Caveat Brush'; src: url('../public/fonts/caveat-brush-latin-400.woff2') format('woff2'); font-weight: 400; }
+      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #fbf6ef; color: #2a2440; font-family: 'Nunito', sans-serif; }
+      .bar { height: 64px; background: #cbbfe6; color: #3f2a73; font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 21px; display: flex; align-items: center; padding: 0 56px; gap: 40px; }
+      .bar span:first-child { font-family: 'Caveat Brush', cursive; font-weight: 400; font-size: 30px; }
       .bar span + span { opacity: 0.85; font-size: 19px; }
       .wrap { position: relative; padding: 48px 56px 0; }
-      h1 { font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 58px; margin: 0 0 8px; color: #33256b; letter-spacing: -0.01em; }
-      p.role { font-family: 'Roboto Mono', monospace; font-size: 18px; color: #625a7a; margin: 0 0 26px; }
+      h1 { font-family: 'Caveat Brush', cursive; font-weight: 400; font-size: 78px; margin: 0 0 8px; color: #33256b; letter-spacing: -0.01em; }
+      p.role { font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 19px; color: #625a7a; margin: 0 0 26px; }
       p.lede { font-size: 24px; line-height: 1.45; max-width: 520px; margin: 0; }
       .island { position: absolute; right: -50px; top: 10px; width: 600px; }
       .island img { width: 100%; }
