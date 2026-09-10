@@ -6,7 +6,7 @@ A pastel, illustrated personal site in the manner of an interactive academic hom
 
 1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
 2. **White and blue, on lavender and cream.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The page around it is pastel: lavender bar, cream paper, purple accents. Nothing is neon.
-3. **Two faces, one of them handwritten.** Headings, the wordmark and the home tagline are Caveat Brush, a brush-marker script that reads as a hand-lettered sign; everything else — text, navigation, labels, dates, buttons — is Nunito, a rounded humanist sans, at 400 for text and 600–700 for the interface. The brush face is never used below heading size.
+3. **Two faces, one of them handwritten.** Headings, the wordmark, the navigation and the home tagline are Caveat Brush, a brush-marker script that reads as a hand-lettered sign; everything else — text, navigation, labels, dates, buttons — is Nunito, a rounded humanist sans, at 400 for text and 600–700 for the interface. The brush face is never used below heading size.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
 
@@ -14,9 +14,9 @@ A pastel, illustrated personal site in the manner of an interactive academic hom
 
 | Role | Face | Size / weight | Notes |
 | --- | --- | --- | --- |
-| Headings, wordmark, home tagline | Caveat Brush | display scale `--disp-1` … `--disp-4` (≈ 2.7–3.8 rem for H1), 400 | line-height 1.15, no tracking |
+| Headings, wordmark, navigation, home tagline | Caveat Brush | display scale `--disp-1` … `--disp-4` (≈ 2.7–3.8 rem for H1), 400 | line-height 1.15, no tracking |
 | Body | Nunito | 17–18 px, 400, italic for emphasis | line-height 1.65, measure 68ch |
-| Navigation, labels, dates, chips, buttons, footer, island labels | Nunito | 0.9–1 rem, 600–700 | |
+| Labels, dates, chips, buttons, footer, island labels | Nunito | 0.9–1 rem, 600–700 | |
 | Code | system monospace | 0.9 em | not self-hosted |
 
 Both fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (Caveat Brush static 400; Nunito variable 200–1000, upright and italic; both SIL OFL 1.1; see `ASSET_PROVENANCE.md`), preloaded, `font-display: swap`. No remote font requests. Patrick Hand and Kalam were tried in the same position and set aside: Patrick Hand is thinner and reads as a schoolbook hand, Kalam is closer to a pen than a brush; Caveat Brush has the weight to sit over the island.
@@ -41,7 +41,7 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 
 The island itself uses fixed toy-brick colours (sea `#3d8fd1`, sand `#e8c97e`, grass `#63b04a`, white `#f6f4ef`, blue `#2a5fbf`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
-All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never carries information alone: the status dot always sits beside a word, the active navigation item is also bold and underlined, and every island part has a text label and a key entry.
+All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never carries information alone: the status dot always sits beside a word, the active navigation item is also underlined, and every island part has a text label and a key entry.
 
 ## The island
 
@@ -58,7 +58,7 @@ To change the island, edit the scene section of the script and run `node scripts
 
 ## Components
 
-- **Header** — the lavender bar: name, navigation (active item bold and underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
+- **Header** — the lavender bar: name, navigation (active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
 - **Footer** — name, position and affiliation, email, profile links, and the copyright line, which links to the privacy notice.
 - **PageHeader** — H1, optional lede, slot.
 - **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.

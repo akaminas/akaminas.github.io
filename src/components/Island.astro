@@ -9,7 +9,7 @@ import svg from './island.svg?raw';
 
 const key = [
   { what: 'The sea and the boat', to: 'Marine systems', href: '/work/#g-marine-systems' },
-  { what: 'The island, its gulls and the pelican', to: 'Island ecology and evolution', href: '/work/#g-ecology-evolution' },
+  { what: 'The island, its gulls and the pelican on the pier', to: 'Island ecology and evolution', href: '/work/#g-ecology-evolution' },
   { what: 'The three figures', to: 'Social and economic systems', href: '/work/#g-sustainability-social' },
   { what: 'The wind turbine', to: 'Sustainability', href: '/work/sustainability-organisations-as-systems/' },
   { what: 'The windmill', to: 'Methods', href: '/methods/' },
@@ -42,8 +42,12 @@ const key = [
     margin: 0;
   }
   .island-wrap {
-    width: min(100%, 72rem);
+    /* 2.5 % wider than its column, centred, never wider than the viewport minus the gutters. */
+    width: min(102.5%, 100vw - 2 * var(--gutter));
     margin-inline: auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .island-wrap :global(svg) {
     width: 100%;
