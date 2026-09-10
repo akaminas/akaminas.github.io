@@ -20,8 +20,7 @@ const groups = [
   description="Teaching and supervision by Alexandros Kaminas: MSc research project supervision at the University of Groningen (TRÊS), tutoring in biology, geology, physics and chemistry, peer review and academic service."
 >
   <PageHeader
-    eyebrow="Teaching & supervision"
-    title="Supervising modelling work"
+    title="Teaching and supervision"
     lede="Supervision is where the modelling toolkit gets passed on: framing a question so that a model can answer it, choosing a structure the data can support, and reading the results critically."
   />
 
@@ -30,7 +29,7 @@ const groups = [
       const items = rendered.filter(({ e }) => e.data.kind === g.kind);
       if (items.length === 0) return null;
       return (
-        <Section id={`t-${g.kind}`} label={g.title} title={g.title} note={g.intro}>
+        <Section id={`t-${g.kind}`} title={g.title} intro={g.intro}>
           <ol class="ledger entries">
             {items.map(({ e, Content }) => (
               <li class="entry">
@@ -56,7 +55,7 @@ const groups = [
                       )}
                     </dl>
                   )}
-                  <div class="prose prose--plain small entry__text">
+                  <div class="prose small entry__text">
                     <Content />
                   </div>
                 </div>
@@ -74,7 +73,6 @@ const groups = [
     --ledger-col: 7rem;
   }
   .entry__title {
-    font-size: var(--step-1);
     margin-bottom: var(--space-1);
   }
   .entry__role {

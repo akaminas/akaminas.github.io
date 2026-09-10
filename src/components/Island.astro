@@ -1,0 +1,119 @@
+---
+/**
+ * The home-page island: a static SVG model (src/components/island.svg,
+ * drawn by scripts/make-island.mjs) whose parts are links. Hovering or
+ * focusing a part lifts it and shows its label; there is no JavaScript.
+ * A key under the figure repeats every link in plain text.
+ */
+import svg from './island.svg?raw';
+
+const key = [
+  { what: 'The sea and the boat', to: 'Marine systems', href: '/work/#g-marine-systems' },
+  { what: 'The island and its gulls', to: 'Island ecology and evolution', href: '/work/#g-ecology-evolution' },
+  { what: 'The three figures', to: 'Social and economic systems', href: '/work/#g-sustainability-social' },
+  { what: 'The wind turbine', to: 'Sustainability', href: '/work/sustainability-organisations-as-systems/' },
+  { what: 'The windmill', to: 'Methods', href: '/methods/' },
+  { what: 'The chapel', to: 'Publications', href: '/publications/' },
+  { what: 'The big house', to: 'Projects', href: '/work/' },
+  { what: 'The house with the awning', to: 'Teaching', href: '/teaching/' },
+  { what: 'The house with the stair', to: 'About me', href: '/about/' },
+  { what: 'The house by the pier', to: 'Curriculum vitae', href: '/cv/' },
+];
+---
+
+<figure class="island-fig">
+  <div class="island-wrap" set:html={svg} />
+  <figcaption class="island-key">
+    <span class="island-key__lead">Where the parts lead:</span>
+    <ul>
+      {
+        key.map((k) => (
+          <li>
+            {k.what} → <a href={k.href}>{k.to}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </figcaption>
+</figure>
+
+<style>
+  .island-fig {
+    margin: 0;
+  }
+  .island-wrap {
+    width: min(100%, 72rem);
+    margin-inline: auto;
+  }
+  .island-wrap :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+    font-family: var(--font-mono);
+  }
+  .island-wrap :global(.hot) {
+    cursor: pointer;
+    outline: none;
+  }
+  .island-wrap :global(.hot__body) {
+    transition: transform var(--dur) var(--ease-out), filter var(--dur) var(--ease-out);
+  }
+  .island-wrap :global(.hot--lift:hover .hot__body),
+  .island-wrap :global(.hot--lift:focus-visible .hot__body) {
+    transform: translateY(-8px);
+  }
+  .island-wrap :global(.hot--glow:hover .hot__body),
+  .island-wrap :global(.hot--glow:focus-visible .hot__body) {
+    filter: brightness(1.07);
+  }
+  .island-wrap :global(.hot__label) {
+    display: block;
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+  }
+  .island-wrap :global(.hot:hover .hot__label),
+  .island-wrap :global(.hot:focus-visible .hot__label) {
+    opacity: 1;
+  }
+  .island-wrap :global(.hot__pill) {
+    fill: var(--badge);
+    stroke: var(--badge-gold);
+    stroke-width: 1.5;
+  }
+  .island-wrap :global(.hot__text) {
+    fill: var(--badge-ink);
+  }
+  .island-key {
+    margin: var(--space-4) auto 0;
+    width: min(100%, 60rem);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    align-items: baseline;
+  }
+  .island-key__lead {
+    color: var(--heading);
+  }
+  .island-key ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+  }
+  .island-key li {
+    max-width: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .island-wrap :global(.hot--lift:hover .hot__body),
+    .island-wrap :global(.hot--lift:focus-visible .hot__body) {
+      transform: none;
+      filter: brightness(1.07);
+    }
+  }
+</style>

@@ -1,30 +1,28 @@
 /* ==========================================================================
-   Global styles — see DESIGN_SYSTEM.md for the reasoning behind these tokens.
+   Global styles — see DESIGN_SYSTEM.md.
 
-   The visual language is the drawing sheet: blue paper with a faint drafting
-   grid, near-navy ink, and iron-red annotation. Pages are sheets, sections are
-   numbered zones, figures are plates, the footer is a title block.
+   A pastel, illustrated personal site: a soft lavender bar over warm off-white
+   paper, mono headings, a slab-serif text face, Greek-flag blue for links and
+   a purple accent. The home page carries an interactive island drawn as a
+   toy-brick model (src/components/Island.astro).
 
-   Structure: fonts → tokens → reset → typography → annotation layer →
-   layout → lists → controls → plates → prose → utilities → motion/print.
+   Structure: fonts → tokens → reset → typography → layout → lists → controls
+   → cards → prose → utilities → motion/print.
    ========================================================================== */
 
-/* ---------- Self-hosted fonts (Google Sans Flex, JetBrains Mono — SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
-/* One variable face carries the whole text palette: weight 1–1000 and a slant
-   axis, so `font-style: italic` resolves to a true oblique rather than a
-   synthesised skew. */
+/* ---------- Self-hosted fonts (Roboto Slab, Apache 2.0; Roboto Mono, SIL OFL 1.1 — see ASSET_PROVENANCE.md) ---------- */
 @font-face {
-  font-family: 'Google Sans Flex';
-  src: url('/fonts/google-sans-flex-latin-wght-slnt.woff2') format('woff2');
-  font-weight: 1 1000;
-  font-style: oblique 0deg 10deg;
+  font-family: 'Roboto Slab';
+  src: url('/fonts/roboto-slab-latin-wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Grid Mono';
-  src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Roboto Mono';
+  src: url('/fonts/roboto-mono-latin-wght.woff2') format('woff2');
+  font-weight: 100 700;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -34,23 +32,16 @@
 :root {
   color-scheme: light dark;
 
-  /* Type. One text family; hierarchy comes from weight, size and tracking.
-     Mono is the annotation layer: labels, numbers, dates, the title block. */
-  --font-sans: 'Google Sans Flex', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'Grid Mono', 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-body: 'Roboto Slab', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
-  /* Fluid type scale (min at 360px, max at 1280px). Body never below 17px. */
-  --step--1: clamp(0.88rem, 0.86rem + 0.1vw, 0.94rem);
-  --step-0: clamp(1.0625rem, 1.03rem + 0.15vw, 1.15rem);
-  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.4rem);
-  --step-2: clamp(1.45rem, 1.3rem + 0.75vw, 1.9rem);
-  --step-3: clamp(1.85rem, 1.55rem + 1.5vw, 2.7rem);
-  --step-4: clamp(2.4rem, 1.8rem + 3vw, 4.2rem);
-  --step-5: clamp(2.9rem, 1.9rem + 5vw, 6rem);
-
-  /* Annotation sizes (mono) */
-  --ann: 0.74rem;
-  --ann-s: 0.68rem;
+  /* Type scale (gently fluid). Body never below 17px. */
+  --step--1: clamp(0.9rem, 0.88rem + 0.1vw, 0.95rem);
+  --step-0: clamp(1.0625rem, 1.03rem + 0.15vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.1rem + 0.3vw, 1.3rem);
+  --step-2: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);
+  --step-3: clamp(1.6rem, 1.4rem + 1vw, 2.1rem);
+  --step-4: clamp(2rem, 1.6rem + 1.8vw, 2.8rem);
 
   /* Spacing (rem-based, 4px grid) */
   --space-1: 0.25rem;
@@ -61,34 +52,38 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4.5rem;
-  --space-9: 7rem;
-  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --space-9: 6rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
 
   /* Layout */
-  --measure: 64ch;          /* comfortable reading width */
-  --container: 78rem;
-  --margin-col: 9rem;       /* the annotated left margin of a section */
+  --measure: 68ch;
+  --container: 46rem; /* the reading column */
+  --wide: 72rem; /* the island and card grids */
+  --radius: 10px;
+  --radius-s: 6px;
   --rule: 1px;
-  --grid-size: 2rem;        /* pitch of the drafting grid on the sheet */
 
-  /* Colour — light ("cyanotype"): a ground tinted a definite cool blue rather
-     than an off-white, near-navy ink, and one iron-red accent. The pairing is
-     taken from technical drawings and printed scientific plates: blue paper,
-     red annotation. */
-  --bg: #e6ecf1;
-  --surface: #dce4eb;
-  --ink: #101f2b;          /* 14.07:1 on --bg */
-  --muted: #47586a;        /* 6.14:1 on --bg */
-  --line: #c3d0db;
-  --line-strong: #8599ab;
-  --accent: #a8321c;       /* 5.62:1 on --bg */
-  --accent-soft: #edd2c8;
-  --on-accent: #ffffff;    /* 6.69:1 on --accent */
-  --focus: #1231c9;
-  --tree-edge: #2f4a5e;    /* network: consensus lineages */
-  --tree-cloud: #6d879c;   /* network: discordant histories behind it (drawn with alpha) */
-  --selection: #f2d6cd;
-  --grid: color-mix(in srgb, var(--ink) 7%, transparent);
+  /* Colour — light: warm off-white paper, a lavender bar, deep purple
+     headings, Greek-flag blue links, a purple accent. */
+  --bg: #fbf6ef;
+  --surface: #f3ecf9;
+  --bar: #cbbfe6;
+  --bar-ink: #3f2a73;
+  --ink: #2a2440;         /* 12.6:1 on --bg */
+  --heading: #33256b;     /* 10.9:1 on --bg */
+  --muted: #625a7a;       /* 6.0:1 on --bg */
+  --line: #e4dbee;
+  --line-strong: #c4b8d9;
+  --link: #1d5fb4;        /* Greek-flag blue; 5.9:1 on --bg */
+  --accent: #7a4fb5;      /* purple; 5.7:1 on --bg */
+  --accent-soft: #ebe3f7;
+  --on-accent: #ffffff;
+  --sea: #3d8fd1;
+  --badge: #2b2260;
+  --badge-ink: #f4eefb;
+  --badge-gold: #d9c4f5;
+  --focus: #1d5fb4;
+  --selection: #dcd0f2;
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -96,50 +91,58 @@
   --dur: 220ms;
 }
 
-/* Dark ("negative"): the cyanotype proper — pale lines on Prussian blue.
-   Follows the system preference unless a light theme was chosen with the
-   header toggle; an explicit dark choice applies regardless. */
+/* Dark: the same hues at night. Follows the system preference unless a light
+   theme was chosen with the header toggle; an explicit dark choice applies
+   regardless. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0e1a26;
-    --surface: #142434;
-    --ink: #dbe6f0;
-    --muted: #9fb4c6;
-    --line: #22364a;
-    --line-strong: #3e5872;
-    --accent: #f0916f;      /* 7.6:1 on --bg */
-    --accent-soft: #43241a;
-    --on-accent: #0e1a26;
-    --focus: #8fb0ff;
-    --tree-edge: #b3c7d8;
-    --tree-cloud: #6f8aa2;
-    --selection: #43241a;
-    --grid: color-mix(in srgb, var(--ink) 6%, transparent);
+    --bg: #1a1726;
+    --surface: #241f34;
+    --bar: #2e2650;
+    --bar-ink: #e6dcf8;
+    --ink: #ece7f5;
+    --heading: #efe7ff;
+    --muted: #b3abc7;
+    --line: #342d4a;
+    --line-strong: #4d4468;
+    --link: #8fbaf0;
+    --accent: #c9b3ee;
+    --accent-soft: #35295a;
+    --on-accent: #1a1726;
+    --badge: #e6dcf8;
+    --badge-ink: #1a1726;
+    --badge-gold: #5a3fa0;
+    --focus: #8fbaf0;
+    --selection: #45386e;
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #0e1a26;
-  --surface: #142434;
-  --ink: #dbe6f0;
-  --muted: #9fb4c6;
-  --line: #22364a;
-  --line-strong: #3e5872;
-  --accent: #f0916f;      /* 7.6:1 on --bg */
-  --accent-soft: #43241a;
-  --on-accent: #0e1a26;
-  --focus: #8fb0ff;
-  --tree-edge: #b3c7d8;
-  --tree-cloud: #6f8aa2;
-  --selection: #43241a;
-  --grid: color-mix(in srgb, var(--ink) 6%, transparent);
+  --bg: #1a1726;
+  --surface: #241f34;
+  --bar: #2e2650;
+  --bar-ink: #e6dcf8;
+  --ink: #ece7f5;
+  --heading: #efe7ff;
+  --muted: #b3abc7;
+  --line: #342d4a;
+  --line-strong: #4d4468;
+  --link: #8fbaf0;
+  --accent: #c9b3ee;
+  --accent-soft: #35295a;
+  --on-accent: #1a1726;
+  --badge: #e6dcf8;
+  --badge-ink: #1a1726;
+  --badge-gold: #5a3fa0;
+  --focus: #8fbaf0;
+  --selection: #45386e;
   color-scheme: dark;
 }
 :root[data-theme='light'] {
   color-scheme: light;
 }
 
-/* ---------- Reset (minimal, opinionated) ---------- */
+/* ---------- Reset ---------- */
 *,
 *::before,
 *::after {
@@ -155,27 +158,18 @@ body {
   margin: 0;
   min-height: 100dvh;
   color: var(--ink);
-  /* The sheet: paper with a faint drafting grid. Aligned to the top-left so
-     the lines stay put as the page scrolls. */
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
-    linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
-  background-size: var(--grid-size) var(--grid-size);
-  background-position: -1px -1px;
-  font-family: var(--font-sans);
+  background: var(--bg);
+  font-family: var(--font-body);
   font-size: var(--step-0);
-  line-height: 1.6;
+  line-height: 1.7;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'kern', 'liga', 'calt';
   display: flex;
   flex-direction: column;
 }
 main {
   flex: 1 0 auto;
-  counter-reset: sec;
 }
 img,
 svg,
@@ -198,6 +192,7 @@ textarea {
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
+  border-radius: 2px;
 }
 :focus:not(:focus-visible) {
   outline: none;
@@ -208,29 +203,27 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.022em;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--heading);
   margin: 0 0 var(--space-4);
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 h1 {
   font-size: var(--step-4);
-  letter-spacing: -0.03em;
+  font-weight: 500;
 }
 h2 {
   font-size: var(--step-3);
 }
 h3 {
-  font-size: var(--step-2);
-  line-height: 1.2;
+  font-size: var(--step-1);
 }
 h4 {
-  font-size: var(--step-1);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
+  font-size: var(--step-0);
 }
 p,
 ul,
@@ -245,18 +238,18 @@ li {
   max-width: var(--measure);
 }
 strong {
-  font-weight: 600;
+  font-weight: 700;
 }
 em {
   font-style: italic;
 }
 a {
-  color: inherit;
+  color: var(--link);
   text-decoration: underline;
-  text-decoration-color: var(--line-strong);
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  transition: text-decoration-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  text-underline-offset: 0.18em;
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
 }
 a:hover {
   color: var(--accent);
@@ -268,63 +261,41 @@ small,
 }
 hr {
   border: 0;
-  border-top: var(--rule) solid var(--line-strong);
+  border-top: var(--rule) solid var(--line);
   margin: var(--space-7) 0;
 }
 code,
 kbd {
   font-family: var(--font-mono);
-  font-size: 0.92em;
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
 }
 abbr[title] {
   text-decoration: underline dotted;
 }
 
-/* ---------- Annotation layer ----------
-   Everything that reads as a drafter's note rather than as text: mono,
-   small, tracked, uppercase. `.num` is a number in the accent — a zone
-   marker, a plate number, a reference. */
 .label {
   font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--step--1);
   color: var(--muted);
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-2);
   display: block;
   max-width: none;
 }
-.label a {
-  text-decoration: none;
-}
-.label a:hover {
-  text-decoration: underline;
-}
-.num {
-  font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.86em;
-  letter-spacing: 0.02em;
+  font-size: 0.92em;
 }
 .lede {
   font-size: var(--step-1);
-  line-height: 1.45;
-  max-width: 34em;
-  color: var(--ink);
+  line-height: 1.55;
+  max-width: 36em;
   text-wrap: pretty;
 }
 .muted {
   color: var(--muted);
-}
-.display {
-  font-weight: 500;
-  letter-spacing: -0.012em;
 }
 
 /* ---------- Layout ---------- */
@@ -332,151 +303,68 @@ abbr[title] {
   width: min(100% - 2 * var(--gutter), var(--container));
   margin-inline: auto;
 }
+.container--wide {
+  width: min(100% - 2 * var(--gutter), var(--wide));
+}
 .stack > * + * {
   margin-top: var(--space-4);
 }
-.flow > * + * {
-  margin-top: var(--space-6);
-}
 
-/* Dimension line: a rule with a tick at each end, the way a drawing marks an
-   extent. Used as the top edge of every section and of the page header. */
-.dim {
-  position: relative;
-  border-top: var(--rule) solid var(--line-strong);
+/* Page head: title and lede at the top of every page but the home page. */
+.page-head {
+  padding-block: var(--space-7) var(--space-4);
 }
-.dim::before,
-.dim::after {
-  content: '';
-  position: absolute;
-  top: -5px;
-  width: var(--rule);
-  height: 9px;
-  background: var(--line-strong);
+.page-head h1 {
+  margin-bottom: var(--space-3);
 }
-.dim::before {
-  left: 0;
-}
-.dim::after {
-  right: 0;
-}
-
-/* Sheet head: the title area of a page. */
-.sheet-head {
-  padding-block: var(--space-8) var(--space-6);
-}
-.sheet-head h1 {
-  max-width: 18em;
-  margin-bottom: var(--space-4);
-}
-.sheet-head .lede {
+.page-head .lede {
   margin-bottom: 0;
+  color: var(--muted);
 }
-.sheet-head > * + .lede {
-  margin-top: var(--space-4);
+.page-head > * + .lede {
+  margin-top: var(--space-3);
 }
 
-/* Section: a numbered zone of the sheet. The left margin carries the zone
-   number (counter, in the accent) and a short label; the body carries the
-   heading and content. Stacks on narrow screens. */
+/* Section: a heading with a hairline under it, then content. */
 .sec {
-  position: relative;
-  display: grid;
-  gap: var(--space-4) var(--space-7);
-  padding-block: var(--space-6) var(--space-8);
-  counter-increment: sec;
+  padding-block: var(--space-6) var(--space-5);
 }
-.sec--tight {
-  padding-block: var(--space-6);
+.sec > h2,
+.sec__title {
+  padding-bottom: var(--space-2);
+  border-bottom: var(--rule) solid var(--line);
+  margin-bottom: var(--space-5);
 }
-@media (min-width: 52rem) {
-  .sec {
-    grid-template-columns: var(--margin-col) minmax(0, 1fr);
-    padding-block: var(--space-7) var(--space-9);
-  }
-  .sec--tight {
-    padding-block: var(--space-7);
-  }
-  .sec__margin {
-    position: sticky;
-    top: 5.25rem;
-  }
-}
-.sec__margin {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2) var(--space-3);
-}
-@media (min-width: 52rem) {
-  .sec__margin {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: var(--space-1);
-  }
-  .sec__note {
-    flex-basis: auto;
-    max-width: 100%;
-    align-self: stretch;
-  }
-}
-.sec__no {
-  font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-.sec__no::before {
-  content: counter(sec, decimal-leading-zero);
-}
-.sec__label {
-  font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.sec__intro {
   color: var(--muted);
-}
-.sec__note {
-  font-size: var(--step--1);
-  color: var(--muted);
-  margin: var(--space-2) 0 0;
-  max-width: 24ch;
-  flex-basis: 100%;
-}
-.sec__body > h2:first-child,
-.sec__body > .sec__title {
-  font-size: var(--step-2);
-  margin: 0 0 var(--space-4);
-}
-.sec__body > .sec__intro {
-  color: var(--muted);
-  margin: calc(-1 * var(--space-2)) 0 var(--space-5);
-  max-width: 48ch;
+  margin: calc(-1 * var(--space-3)) 0 var(--space-5);
   text-wrap: pretty;
 }
 .sec__head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--space-3) var(--space-5);
+  align-items: baseline;
+  gap: var(--space-2) var(--space-5);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--rule) solid var(--line);
   margin-bottom: var(--space-5);
 }
 .sec__head > * {
   margin: 0;
 }
+.sec__head > h2 {
+  border: 0;
+  padding: 0;
+}
 
 /* ---------- Lists ---------- */
 
-/* Ledger: dated rows — a period column and a content column, hairlines
-   between rows, a small tick before each date like a scale mark. */
+/* Ledger: dated rows — a period column and a content column. */
 .ledger {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: var(--rule) solid var(--line);
 }
 .ledger > li {
   display: grid;
@@ -485,6 +373,9 @@ abbr[title] {
   border-bottom: var(--rule) solid var(--line);
   max-width: none;
 }
+.ledger > li:first-child {
+  padding-top: 0;
+}
 @media (min-width: 42rem) {
   .ledger > li {
     grid-template-columns: var(--ledger-col, 10rem) minmax(0, 1fr);
@@ -492,27 +383,16 @@ abbr[title] {
 }
 .ledger__when {
   font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.04em;
+  font-size: var(--step--1);
   color: var(--muted);
-  padding-top: 0.4em;
-  font-variant-numeric: tabular-nums;
-}
-.ledger__when::before {
-  content: '';
-  display: inline-block;
-  width: 0.6rem;
-  height: var(--rule);
-  background: var(--line-strong);
-  margin-right: 0.55rem;
-  vertical-align: 0.3em;
+  padding-top: 0.15em;
 }
 .ledger p {
   margin: 0;
 }
 .ledger__title {
-  font-weight: 500;
-  letter-spacing: -0.008em;
+  font-weight: 700;
+  color: var(--heading);
 }
 .ledger__where {
   font-size: var(--step--1);
@@ -524,58 +404,36 @@ abbr[title] {
 }
 .ledger__tag {
   font-family: var(--font-mono);
-  font-size: var(--ann-s);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-size: var(--step--1);
+  color: var(--accent);
   display: block;
-  margin-top: var(--space-1);
 }
 
-/* Register: numbered entries, [1], [2], … — the convention of a reference
-   list. The counter lives on `.register-group` so numbering can run across
-   several lists (publications grouped by year). */
-.register-group {
-  counter-reset: ref;
-}
+/* Register: a plain reference list. */
 .register {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: var(--rule) solid var(--line);
 }
 .register > li {
-  counter-increment: ref;
-  display: grid;
-  gap: var(--space-1) var(--space-4);
-  grid-template-columns: 3rem minmax(0, 1fr);
   padding-block: var(--space-4);
   border-bottom: var(--rule) solid var(--line);
   max-width: none;
 }
-.register__ref {
-  font-family: var(--font-mono);
-  font-size: var(--ann);
-  color: var(--muted);
-  padding-top: 0.45em;
-  font-variant-numeric: tabular-nums;
-}
-.register__ref::before {
-  content: '[' counter(ref) ']';
+.register > li:first-child {
+  padding-top: 0;
 }
 .register__year {
   font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  margin: var(--space-6) 0 var(--space-2);
-  display: block;
+  font-size: var(--step-0);
+  color: var(--accent);
+  margin: var(--space-6) 0 var(--space-3);
 }
 .register__year:first-child {
   margin-top: 0;
 }
 
-/* Chips: plain labels, square, mono. Never proficiency bars. */
+/* Chips: rounded pastel tags. Never proficiency bars. */
 .chips {
   list-style: none;
   padding: 0;
@@ -586,17 +444,16 @@ abbr[title] {
 }
 .chips li {
   font-family: var(--font-mono);
-  font-size: var(--ann-s);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 0.25em 0.55em;
-  border: var(--rule) solid var(--line-strong);
+  font-size: var(--step--1);
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.15em 0.7em;
+  border-radius: 999px;
   max-width: none;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* Spec: a specification block — key/value pairs, mono keys. */
+/* Spec: key/value pairs. */
 .spec {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
@@ -606,11 +463,8 @@ abbr[title] {
 }
 .spec dt {
   font-family: var(--font-mono);
-  font-size: var(--ann-s);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--muted);
-  padding-top: 0.3em;
+  padding-top: 0.1em;
 }
 .spec dd {
   margin: 0;
@@ -623,7 +477,6 @@ abbr[title] {
   margin-bottom: var(--space-3);
 }
 
-/* Inline list separated by middle dots */
 .inline-list {
   list-style: none;
   margin: 0;
@@ -647,64 +500,62 @@ abbr[title] {
   align-items: center;
   gap: 0.5em;
   min-height: 2.75rem;
-  padding: 0.55em 1.1em;
-  border: var(--rule) solid var(--ink);
+  padding: 0.5em 1.2em;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
   background: transparent;
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: none;
+  font-family: var(--font-mono);
   font-weight: 500;
+  font-size: var(--step--1);
   cursor: pointer;
   transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
 .button:hover {
-  border-color: var(--accent);
+  background: var(--accent-soft);
   color: var(--accent);
 }
 .button--primary {
-  background: var(--ink);
-  color: var(--bg);
-  border-color: var(--ink);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 .button--primary:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
+  background: var(--link);
+  border-color: var(--link);
+  color: #ffffff;
 }
 .arrow-link {
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
   text-decoration: none;
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
   min-height: 2.75rem;
 }
 .arrow-link::after {
   content: '→';
-  color: var(--accent);
   transition: transform var(--dur-fast) var(--ease-out);
 }
 .arrow-link:hover::after {
   transform: translateX(0.25em);
 }
-.arrow-link:hover {
-  color: var(--accent);
-}
 
-/* Status: a square marker and a word, never the marker alone. */
+/* Status: a coloured dot and a word, never the dot alone. */
 .status {
   font-family: var(--font-mono);
-  font-size: var(--ann-s);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--step--1);
   color: var(--muted);
   white-space: nowrap;
 }
 .status::before {
   content: '';
   display: inline-block;
-  width: 0.55em;
-  height: 0.55em;
-  margin-right: 0.55em;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  margin-right: 0.45em;
   background: var(--line-strong);
   vertical-align: 0.05em;
 }
@@ -712,102 +563,71 @@ abbr[title] {
   background: var(--accent);
 }
 
-/* ---------- Plates ----------
-   A framed figure with a header strip: the plate number on the left, a
-   caption label on the right. Used for the home figure, project cards and
-   the portrait. Inside a `.plates` grid the frames share hairlines: each
-   plate keeps its own border and drops the edge its neighbour already
-   draws, so an odd plate count leaves the empty cell empty. */
-.plate {
-  border: var(--rule) solid var(--line-strong);
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  min-width: 0;
-}
-.plate__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-3);
-  padding: 0.45rem 0.8rem;
-  border-bottom: var(--rule) solid var(--line-strong);
+/* Badge: the dark rounded strip used for a highlighted line (the reference
+   site's award badge); text inside is mono. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em 0.75em;
+  padding: 0.45em 1em;
+  border-radius: var(--radius-s);
+  background: var(--badge);
+  color: var(--badge-ink);
+  box-shadow: 0 0 0 2px var(--badge-gold), 0 0 0 5px var(--badge);
   font-family: var(--font-mono);
-  font-size: var(--ann-s);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.plate__head .num {
-  font-size: inherit;
-}
-.plate__body {
-  padding: var(--space-4);
-}
-.plate__caption {
-  padding: var(--space-3) 0.8rem;
-  border-top: var(--rule) solid var(--line);
   font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--muted);
   max-width: none;
 }
-.plates {
+.badge strong {
+  color: var(--badge-gold);
+}
+.badge a {
+  color: var(--badge-ink);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+.card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+.cards {
   display: grid;
-  gap: 0;
+  gap: var(--space-4);
 }
-.plates > .plate + .plate {
-  border-top: 0;
-}
-@media (min-width: 52rem) {
-  .plates {
+@media (min-width: 42rem) {
+  .cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .plates > .plate + .plate {
-    border-top: var(--rule) solid var(--line-strong);
-  }
-  .plates > .plate:nth-child(even) {
-    border-left: 0;
-  }
-  .plates > .plate:nth-child(n + 3) {
-    border-top: 0;
   }
 }
 
-/* ---------- Prose — long-form content rendered from Markdown ----------
-   Second-level headings are numbered automatically, as clauses of a
-   specification. */
+/* ---------- Prose — long-form content rendered from Markdown ---------- */
 .prose {
   max-width: var(--measure);
-  counter-reset: clause;
 }
 .prose h2 {
   font-size: var(--step-2);
-  margin-top: var(--space-7);
-  padding-top: var(--space-4);
-  border-top: var(--rule) solid var(--line);
-  counter-increment: clause;
-  display: flex;
-  align-items: baseline;
-  gap: 0.8em;
-}
-.prose h2::before {
-  content: counter(clause, decimal-leading-zero);
-  font-family: var(--font-mono);
-  font-size: var(--ann);
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  flex: none;
+  margin-top: var(--space-6);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--rule) solid var(--line);
 }
 .prose > h2:first-child {
   margin-top: 0;
-  border-top: 0;
-  padding-top: 0;
 }
 .prose h3 {
   font-size: var(--step-1);
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
 }
 .prose ul,
 .prose ol {
@@ -819,9 +639,6 @@ abbr[title] {
 .prose li::marker {
   color: var(--accent);
 }
-.prose a {
-  text-decoration-color: var(--accent);
-}
 .prose figure {
   margin: var(--space-6) 0;
 }
@@ -829,12 +646,6 @@ abbr[title] {
   font-size: var(--step--1);
   color: var(--muted);
   margin-top: var(--space-2);
-}
-.prose--plain h2 {
-  counter-increment: none;
-}
-.prose--plain h2::before {
-  content: none;
 }
 
 /* ---------- Utilities ---------- */
@@ -854,11 +665,12 @@ abbr[title] {
   left: var(--space-4);
   top: -100%;
   z-index: 100;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--badge);
+  color: var(--badge-ink);
   padding: var(--space-3) var(--space-4);
+  border-radius: 0 0 var(--radius-s) var(--radius-s);
   text-decoration: none;
-  font-weight: 500;
+  font-family: var(--font-mono);
 }
 .skip-link:focus {
   top: 0;
@@ -891,10 +703,8 @@ abbr[title] {
   .skip-link {
     display: none !important;
   }
-  .sec__margin {
-    position: static;
-  }
   a {
     text-decoration: none;
+    color: inherit;
   }
 }

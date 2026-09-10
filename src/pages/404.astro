@@ -5,15 +5,9 @@ import Motif from '../components/Motif.astro';
 
 <Base title="Page not found" description="The page you asked for does not exist on this site.">
   <section class="container nf">
-    <figure class="plate nf__plate">
-      <div class="plate__head">
-        <span class="num">Sheet —</span>
-        <span>Not found</span>
-      </div>
-      <div class="nf__fig">
-        <Motif kind="records" size={96} />
-      </div>
-    </figure>
+    <div class="nf__fig" aria-hidden="true">
+      <Motif kind="records" size={72} />
+    </div>
     <div>
       <p class="label">404</p>
       <h1>No such page</h1>
@@ -25,25 +19,25 @@ import Motif from '../components/Motif.astro';
 
 <style>
   .nf {
-    padding-block: var(--space-9);
+    padding-block: var(--space-8);
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-5);
     align-items: start;
   }
   @media (min-width: 42rem) {
     .nf {
-      grid-template-columns: 12rem minmax(0, 40rem);
-      gap: var(--space-8);
+      grid-template-columns: 6rem minmax(0, 40rem);
+      gap: var(--space-6);
     }
   }
   .nf__fig {
+    color: var(--accent);
+    background: var(--surface);
+    border: var(--rule) solid var(--line);
+    border-radius: var(--radius);
+    width: 6rem;
+    height: 6rem;
     display: grid;
     place-items: center;
-    padding: var(--space-5);
-    background-image:
-      linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
-      linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
-    background-size: 1rem 1rem;
-    background-position: center;
   }
 </style>

@@ -24,7 +24,6 @@ const talks = (await Promise.all(data.talks.map((id) => getEntry('talks', id))))
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const idx = all.findIndex((p) => p.id === project.id);
 const next = all[(idx + 1) % all.length];
-const plateNo = String(idx + 1).padStart(2, '0');
 
 const statusLabel = { ongoing: 'Ongoing', completed: 'Completed', published: 'Published' } as const;
 const domainLabel = {
@@ -47,26 +46,20 @@ const schema = {
 
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
   <article>
-    <header class="sheet-head container project-head">
+    <header class="page-head container project-head">
+      <div class="project-head__fig" aria-hidden="true">
+        <Motif kind={data.motif} size={80} />
+      </div>
       <div class="project-head__text">
         <p class="label">
-          <a href="/work/">Work</a> · {domainLabel[data.domain]} · <span class="num">Pl. {plateNo}</span>
+          <a href="/work/">Work</a> · {domainLabel[data.domain]}
         </p>
         <h1>{data.title}</h1>
         <p class="lede">{data.question}</p>
       </div>
-      <figure class="plate project-head__plate">
-        <div class="plate__head">
-          <span class="num">Pl. {plateNo}</span>
-          <span>{data.motif}</span>
-        </div>
-        <div class="project-head__fig">
-          <Motif kind={data.motif} size={120} />
-        </div>
-      </figure>
     </header>
 
-    <div class="container project-body dim">
+    <div class="container project-body">
       <aside class="project-body__aside">
         <dl class="spec spec--stacked">
           <dt>Status</dt>
@@ -178,7 +171,7 @@ const schema = {
 
         {
           pubs.length > 0 && (
-            <section aria-labelledby="proj-pubs" class="register-group">
+            <section aria-labelledby="proj-pubs">
               <h2 id="proj-pubs">Publications</h2>
               <ol class="register">
                 {pubs.map((p) => (
@@ -191,8 +184,8 @@ const schema = {
       </div>
     </div>
 
-    <nav class="container project-next dim" aria-label="Next project">
-      <p class="label">Next · Pl. {String(((idx + 1) % all.length) + 1).padStart(2, '0')}</p>
+    <nav class="container project-next" aria-label="Next project">
+      <p class="label">Next project</p>
       <a class="arrow-link project-next__link" href={`/work/${next.id}/`}>{next.data.title}</a>
     </nav>
   </article>
@@ -201,64 +194,59 @@ const schema = {
 <style>
   .project-head {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-4) var(--space-5);
     align-items: start;
   }
-  @media (min-width: 52rem) {
+  @media (min-width: 42rem) {
     .project-head {
-      grid-template-columns: minmax(0, 1fr) 14rem;
-      gap: var(--space-8);
+      grid-template-columns: 5.5rem minmax(0, 1fr);
     }
   }
-  .project-head h1 {
-    max-width: 16em;
+  .project-head__fig {
+    color: var(--accent);
+    background: var(--surface);
+    border: var(--rule) solid var(--line);
+    border-radius: var(--radius);
+    width: 5.5rem;
+    height: 5.5rem;
+    display: grid;
+    place-items: center;
   }
   .project-head .lede {
     margin: 0;
   }
-  .project-head__plate {
-    display: none;
-  }
-  @media (min-width: 52rem) {
-    .project-head__plate {
-      display: flex;
-      margin-top: var(--space-2);
-    }
-  }
-  .project-head__fig {
-    display: grid;
-    place-items: center;
-    padding: var(--space-5);
-    background-image:
-      linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
-      linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
-    background-size: 1rem 1rem;
-    background-position: center;
-  }
   .project-body {
     display: grid;
     gap: var(--space-6) var(--space-7);
-    padding-block: var(--space-6) var(--space-8);
+    padding-block: var(--space-5) var(--space-7);
   }
   @media (min-width: 52rem) {
     .project-body {
-      grid-template-columns: 15rem minmax(0, 1fr);
-      padding-block: var(--space-7) var(--space-9);
+      grid-template-columns: 14rem minmax(0, 1fr);
     }
     .project-body__aside {
       position: sticky;
-      top: 5.25rem;
+      top: 5rem;
     }
   }
+  .project-body__aside {
+    background: var(--surface);
+    border: var(--rule) solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+    align-self: start;
+  }
   .project-talks {
-    --ledger-col: 6rem;
     margin-top: var(--space-4);
   }
+  .project-talks li {
+    --ledger-col: 6rem;
+  }
   .project-next {
-    padding-block: var(--space-6) var(--space-7);
+    padding-block: var(--space-5) var(--space-6);
+    border-top: var(--rule) solid var(--line);
   }
   .project-next__link {
-    letter-spacing: -0.018em;
-    font-size: var(--step-2);
+    font-size: var(--step-1);
   }
 </style>

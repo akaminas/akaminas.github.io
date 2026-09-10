@@ -90,26 +90,21 @@ const tools = [
   title="Methods"
   description="Modelling methods used by Alexandros Kaminas: mechanistic eco-evolutionary models, stochastic simulation, dynamical systems and catastrophe theory, interaction networks, trait-space hypervolumes, statistical analysis and spatial methods. C++, R and Python."
 >
-  <PageHeader
-    eyebrow="Methods"
-    title="How the models are built"
-    lede="Every method below is tied to a project where it was actually used."
-  />
+  <PageHeader title="How the models are built" lede="Every method below is tied to a project where it was actually used." />
 
-  <Section id="areas" label="Areas" note="Seven method areas, each with the projects where it was used.">
+  <Section id="areas" title="Method areas" intro="Seven method areas, each with the projects where it was used.">
     <ol class="areas">
       {
-        areas.map((a, i) => (
+        areas.map((a) => (
           <li class="area" id={a.id}>
             <div class="area__fig">
-              <Motif kind={a.motif} size={72} />
-              <span class="num area__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <Motif kind={a.motif} size={64} />
             </div>
             <div class="area__body">
-              <h2 class="area__title">{a.title}</h2>
+              <h3 class="area__title">{a.title}</h3>
               <p>{a.text}</p>
               <p class="area__used">
-                <span class="label area__used-label">Used in</span>
+                <span class="area__used-label">Used in</span>
                 <span class="area__used-list">
                   {a.used.map((u, i) => (
                     <Fragment>
@@ -126,7 +121,7 @@ const tools = [
     </ol>
   </Section>
 
-  <Section id="tools" label="Tools" title="Languages and software">
+  <Section id="tools" title="Languages and software">
     <dl class="tools">
       {
         tools.map((t) => (
@@ -150,28 +145,26 @@ const tools = [
     margin: 0;
     padding: 0;
     display: grid;
-    border-top: var(--rule) solid var(--line);
   }
   .area {
     display: grid;
-    gap: var(--space-3) var(--space-6);
-    padding-block: var(--space-6);
+    gap: var(--space-3) var(--space-5);
+    padding-block: var(--space-5);
     border-bottom: var(--rule) solid var(--line);
     max-width: none;
   }
+  .area:first-child {
+    padding-top: 0;
+  }
   @media (min-width: 42rem) {
     .area {
-      grid-template-columns: 6rem minmax(0, 1fr);
+      grid-template-columns: 5rem minmax(0, 1fr);
     }
   }
   .area__fig {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
+    color: var(--accent);
   }
   .area__title {
-    font-size: var(--step-2);
     margin-bottom: var(--space-2);
   }
   .area p {
@@ -186,14 +179,13 @@ const tools = [
     align-items: baseline;
   }
   .area__used-label {
-    display: inline;
-    margin: 0;
+    font-family: var(--font-mono);
+    color: var(--muted);
     white-space: nowrap;
   }
   .tools {
     margin: 0;
     display: grid;
-    border-top: var(--rule) solid var(--line);
   }
   .tools__row {
     display: grid;
@@ -204,9 +196,8 @@ const tools = [
   }
   .tools dt {
     font-family: var(--font-mono);
-    font-size: var(--ann);
-    letter-spacing: 0.04em;
-    padding-top: 0.3em;
+    font-weight: 700;
+    color: var(--heading);
   }
   .tools dd {
     margin: 0;

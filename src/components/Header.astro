@@ -1,9 +1,8 @@
 ---
 /**
- * The index strip at the top of every sheet: wordmark, navigation as a row of
- * numbered mono tabs, and the colour-scheme toggle. Behaviour is unchanged
- * from the previous header (menu button and toggle appear only with JS, the
- * list is simply visible without it); only the drawing changed.
+ * The bar at the top of every page: name, navigation, profile links and the
+ * colour-scheme toggle. The menu button and the toggle appear only with JS;
+ * without it the navigation is simply visible.
  */
 import { nav, site } from '../data/site';
 
@@ -15,17 +14,8 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 ---
 
 <header class="site-header">
-  <div class="container site-header__inner">
-    <a class="wordmark" href="/" aria-label={`${site.name} — home`}>
-      <span class="wordmark__mark" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <circle cx="6" cy="11" r="3.2" fill="currentColor" />
-          <circle cx="16" cy="11" r="3.2" fill="none" stroke="currentColor" stroke-width="1.5" />
-          <path d="M9.2 11h3.6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="1.5 1.5" />
-        </svg>
-      </span>
-      <span class="wordmark__text">{site.name}</span>
-    </a>
+  <div class="container container--wide site-header__inner">
+    <a class="wordmark" href="/" aria-current={currentPath === '/' ? 'page' : undefined}>{site.name}</a>
 
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
       <span class="menu-button__label">Menu</span>
@@ -33,32 +23,36 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </button>
 
     <nav id="site-nav" class="site-nav" aria-label="Primary">
-      <ol>
+      <ul>
         {
-          nav.map((item, i) => (
+          nav.map((item) => (
             <li>
               <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                <span class="site-nav__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span>{item.label}</span>
+                {item.label}
               </a>
             </li>
           ))
         }
-      </ol>
+      </ul>
+      <ul class="site-nav__profiles" aria-label="Profiles">
+        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
+        <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
+        <li><a href={site.profiles.scholar} rel="noopener">Scholar</a></li>
+      </ul>
     </nav>
 
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" hidden>
       <svg class="theme-toggle__sun" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-        <circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.5" />
+        <circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.6" />
         <path
           d="M9 1.5v2.2M9 14.3v2.2M1.5 9h2.2M14.3 9h2.2M3.7 3.7l1.55 1.55M12.75 12.75l1.55 1.55M3.7 14.3l1.55-1.55M12.75 5.25l1.55-1.55"
           stroke="currentColor"
-          stroke-width="1.5"
+          stroke-width="1.6"
           stroke-linecap="round"
         />
       </svg>
       <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-        <path d="M11.2 2.4a6.6 6.6 0 1 0 4.4 9.6 5.4 5.4 0 0 1-4.4-9.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M11.2 2.4a6.6 6.6 0 1 0 4.4 9.6 5.4 5.4 0 0 1-4.4-9.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
       </svg>
     </button>
   </div>
@@ -69,48 +63,47 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--bg) 90%, transparent);
-    -webkit-backdrop-filter: saturate(140%) blur(10px);
-    backdrop-filter: saturate(140%) blur(10px);
-    border-bottom: var(--rule) solid var(--line-strong);
+    background: var(--bar);
+    color: var(--bar-ink);
+    font-family: var(--font-mono);
   }
   .site-header__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-4);
-    min-height: 4rem;
+    min-height: 3.75rem;
     flex-wrap: wrap;
   }
   .wordmark {
+    color: var(--bar-ink);
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 0.6em;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1.1rem;
-    letter-spacing: -0.012em;
     min-height: 2.75rem;
-    color: var(--ink);
+    margin-right: var(--space-2);
   }
   .wordmark:hover {
-    color: var(--ink);
-  }
-  .wordmark__mark {
-    color: var(--accent);
-    display: inline-flex;
-  }
-  .wordmark:hover .wordmark__mark {
-    color: var(--ink);
+    color: var(--bar-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
   }
 
-  /* Navigation: numbered mono tabs, the way sheets are indexed. */
-  .site-nav ol {
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+  }
+  .site-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 0.15rem;
+    gap: 0.1rem;
     flex-wrap: wrap;
   }
   .site-nav li {
@@ -118,46 +111,33 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   }
   .site-nav a {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.45em;
+    align-items: center;
     min-height: 2.75rem;
-    padding: 0.75rem 0.65rem 0;
+    padding: 0 0.6rem;
     text-decoration: none;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: var(--ann);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    position: relative;
-  }
-  .site-nav__no {
-    font-size: var(--ann-s);
-    color: var(--line-strong);
-    letter-spacing: 0.04em;
+    color: var(--bar-ink);
+    font-size: 1rem;
+    border-radius: var(--radius-s);
   }
   .site-nav a:hover {
-    color: var(--ink);
-  }
-  .site-nav a:hover .site-nav__no {
-    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
   }
   .site-nav a[aria-current='page'] {
-    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
   }
-  .site-nav a[aria-current='page'] .site-nav__no {
-    color: var(--accent);
+  .site-nav__profiles {
+    margin-left: auto !important;
   }
-  .site-nav a[aria-current='page']::after {
-    content: '';
-    position: absolute;
-    left: 0.65rem;
-    right: 0.65rem;
-    bottom: 0.5rem;
-    height: 2px;
-    background: var(--accent);
+  .site-nav__profiles a {
+    font-size: var(--step--1);
+    opacity: 0.85;
   }
 
-  /* Theme toggle: shown only when JS is available (it does nothing without it). */
   .theme-toggle {
     display: inline-flex;
     align-items: center;
@@ -166,13 +146,13 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     min-width: 2.75rem;
     padding: 0;
     background: transparent;
-    border: var(--rule) solid transparent;
-    color: var(--muted);
+    border: 0;
+    border-radius: var(--radius-s);
+    color: var(--bar-ink);
     cursor: pointer;
   }
   .theme-toggle:hover {
-    color: var(--ink);
-    border-color: var(--line-strong);
+    background: color-mix(in srgb, var(--bar-ink) 12%, transparent);
   }
   .theme-toggle__moon,
   .theme-toggle[data-state='dark'] .theme-toggle__sun {
@@ -182,7 +162,6 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     display: block;
   }
 
-  /* Menu button: only shown when JS is available and the viewport is narrow. */
   .menu-button {
     display: none;
     align-items: center;
@@ -191,12 +170,11 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     min-width: 2.75rem;
     padding: 0 0.75rem;
     background: transparent;
-    border: var(--rule) solid var(--line-strong);
+    border: 2px solid color-mix(in srgb, var(--bar-ink) 35%, transparent);
+    border-radius: var(--radius-s);
+    color: var(--bar-ink);
     cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: var(--ann);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: var(--step--1);
   }
   .menu-button__icon {
     display: inline-flex;
@@ -208,8 +186,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     display: block;
     height: 2px;
     background: currentColor;
-    transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out);
-    transform-origin: center;
+    transition: transform var(--dur) var(--ease-out);
   }
   .menu-button[aria-expanded='true'] .menu-button__icon span:first-child {
     transform: translateY(3.5px) rotate(45deg);
@@ -221,18 +198,39 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   @media (max-width: 47.99rem) {
     html.js .menu-button {
       display: inline-flex;
-    }
-    /* Row 1: wordmark, then menu and theme toggle at the right; row 2: the navigation. */
-    html.js .site-nav {
-      order: 10;
-    }
-    html.js .menu-button {
       margin-left: auto;
       margin-right: var(--space-1);
     }
+    html.js .site-nav {
+      order: 10;
+      flex-basis: 100%;
+    }
+    html.js .site-nav[data-open='false'] {
+      display: none;
+    }
+    html.js .site-nav {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: var(--space-2) 0 var(--space-4);
+      border-top: var(--rule) solid color-mix(in srgb, var(--bar-ink) 20%, transparent);
+    }
+    html.js .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+    html.js .site-nav__profiles {
+      margin-left: 0 !important;
+      margin-top: var(--space-2) !important;
+      border-top: var(--rule) solid color-mix(in srgb, var(--bar-ink) 20%, transparent);
+      padding-top: var(--space-2);
+    }
+    html.js .site-nav a {
+      width: 100%;
+      min-height: 3rem;
+      padding: 0 0.25rem;
+    }
   }
-  /* Very narrow screens: the menu button keeps its accessible name but shows only the icon,
-     so the wordmark, theme toggle and menu fit on one line. */
   @media (max-width: 26rem) {
     .menu-button__label {
       position: absolute;
@@ -249,30 +247,6 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     }
     .wordmark {
       font-size: 1.02rem;
-    }
-    html.js .site-nav {
-      flex-basis: 100%;
-      overflow: hidden;
-    }
-    html.js .site-nav[data-open='false'] {
-      display: none;
-    }
-    html.js .site-nav ol {
-      flex-direction: column;
-      gap: 0;
-      padding: var(--space-2) 0 var(--space-4);
-      border-top: var(--rule) solid var(--line);
-    }
-    html.js .site-nav a {
-      width: 100%;
-      min-height: 3rem;
-      padding: 0.9rem 0.25rem 0;
-    }
-    html.js .site-nav a[aria-current='page']::after {
-      left: 0.25rem;
-      right: auto;
-      width: 1.5rem;
-      bottom: 0.6rem;
     }
   }
 </style>

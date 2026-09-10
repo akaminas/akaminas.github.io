@@ -1,0 +1,39 @@
+
+> akaminas.github.io@1.0.0 build
+> astro build
+
+[2m14:13:39[22m [34m[content][39m Syncing content
+[2m14:13:39[22m [34m[content][39m Synced content
+[2m14:13:39[22m [34m[types][39m Generated [2m585ms[22m
+[2m14:13:39[22m [34m[build][39m output: [34m"static"[39m
+[2m14:13:39[22m [34m[build][39m mode: [34m"static"[39m
+[2m14:13:39[22m [34m[build][39m directory: [34m/home/runner/work/akaminas.github.io/akaminas.github.io/dist/[39m
+[2m14:13:39[22m [34m[build][39m Collecting build info...
+[2m14:13:39[22m [34m[build][39m [32m✓ Completed in 631ms.[39m
+[2m14:13:39[22m [34m[build][39m Building static entrypoints...
+[2m14:13:39[22m [34m[vite][39m [32m✓ built in 201ms[39m
+[2m14:13:39[22m [34m[vite][39m [32m✓ built in 18ms[39m
+[2m14:13:39[22m [34m[build][39m Rearranging server assets...
+
+[42m[30m generating static routes [39m[49m
+[2m14:13:39[22m   [34m├─[39m [2m/404.html[22m [2m(+11ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/about/index.html[22m [2m(+5ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/cv/index.html[22m [2m(+9ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/methods/index.html[22m [2m(+3ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/privacy/index.html[22m [2m(+2ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/publications/index.html[22m [2m(+4ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/teaching/index.html[22m [2m(+3ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/citizen-science-marine-invasions/index.html[22m [2m(+7ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/evolutionary-consequences-of-isolation/index.html[22m [2m(+2ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/functional-diversity-mediterranean-fish/index.html[22m [2m(+2ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/regime-shifts-mediterranean-communities/index.html[22m [2m(+2ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/sustainability-organisations-as-systems/index.html[22m [2m(+2ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/trait-evolution-in-mutualistic-networks/index.html[22m [2m(+1ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/work/index.html[22m [2m(+4ms)[22m 
+[2m14:13:39[22m   [34m├─[39m [2m/index.html[22m [2m(+3ms)[22m 
+[2m14:13:39[22m [32m✓ Completed in 83ms.
+[39m
+[2m14:13:39[22m [34m[build][39m [32m✓ Completed in 336ms.[39m
+[2m14:13:39[22m [34m[@astrojs/sitemap][39m `sitemap-index.xml` created at `dist`
+[2m14:13:39[22m [34m[build][39m 15 page(s) built in [1m979ms[22m
+[2m14:13:39[22m [34m[build][39m [1mComplete![22m

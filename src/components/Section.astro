@@ -1,36 +1,23 @@
 ---
 /**
- * A numbered zone of the sheet. The number comes from a CSS counter on
- * <main>, so zones number themselves in document order; the left margin
- * carries it with a short label, the body carries the heading and content.
- * The top edge is a dimension line (rule with end ticks).
+ * A titled section: heading with a hairline under it, an optional
+ * introduction, then content.
  */
 interface Props {
   id: string;
-  /** Short mono label for the margin, e.g. "Scope". */
-  label: string;
-  /** Heading for the body; the section is labelled by it. */
   title?: string;
   /** One-sentence introduction under the heading. */
   intro?: string;
-  /** Small note under the margin label. */
-  note?: string;
-  tight?: boolean;
+  /** Widen to the island/card width instead of the reading column. */
+  wide?: boolean;
   class?: string;
 }
-const { id, label, title, intro, note, tight = false, class: className = '' } = Astro.props;
+const { id, title, intro, wide = false, class: className = '' } = Astro.props;
 const titleId = `${id}-title`;
 ---
 
-<section class:list={['container', 'sec', 'dim', { 'sec--tight': tight }, className]} id={id} aria-labelledby={title ? titleId : undefined}>
-  <div class="sec__margin">
-    <span class="sec__no" aria-hidden="true"></span>
-    <span class="sec__label">{label}</span>
-    {note && <p class="sec__note">{note}</p>}
-  </div>
-  <div class="sec__body">
-    {title && <h2 id={titleId}>{title}</h2>}
-    {intro && <p class="sec__intro">{intro}</p>}
-    <slot />
-  </div>
+<section class:list={['container', 'sec', { 'container--wide': wide }, className]} id={id} aria-labelledby={title ? titleId : undefined}>
+  {title && <h2 id={titleId}>{title}</h2>}
+  {intro && <p class="sec__intro">{intro}</p>}
+  <slot />
 </section>

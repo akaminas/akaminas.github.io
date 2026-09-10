@@ -101,24 +101,20 @@ const awards = [
   description="About Alexandros Kaminas: PhD researcher in theoretical and evolutionary ecology at the University of Groningen (TRÊS), trained in marine science (Aegean) and ecological and evolutionary sciences (Montpellier); background in sustainability policy and marine monitoring."
   ogType="profile"
 >
-  <PageHeader eyebrow="About" title="Alexandros Kaminas" />
+  <PageHeader title="About me" />
 
   <section class="container about" aria-label="Introduction">
-    <figure class="plate about__portrait">
-      <div class="plate__head">
-        <span class="num">Fig. 01</span>
-        <span>Portrait</span>
-      </div>
+    <figure class="about__portrait">
       <picture>
         <source
           type="image/avif"
           srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w"
-          sizes="(min-width: 52rem) 18rem, 60vw"
+          sizes="(min-width: 42rem) 15rem, 60vw"
         />
         <source
           type="image/webp"
           srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w"
-          sizes="(min-width: 52rem) 18rem, 60vw"
+          sizes="(min-width: 42rem) 15rem, 60vw"
         />
         <img
           src="/images/portrait-640.jpg"
@@ -129,9 +125,9 @@ const awards = [
           decoding="async"
         />
       </picture>
-      <figcaption class="plate__caption">{site.name}, {site.location}.</figcaption>
+      <figcaption class="small muted">{site.name}, {site.location}.</figcaption>
     </figure>
-    <div class="about__text prose prose--plain">
+    <div class="about__text prose">
       <p class="lede">
         I develop mathematical and computational models of complex systems. My primary field is ecology and
         evolution; the same tools travel to sustainability and socioeconomic questions.
@@ -163,7 +159,7 @@ const awards = [
     </div>
   </section>
 
-  <Section id="experience" label="Experience" title="Positions and roles">
+  <Section id="experience" title="Positions and roles">
     <ol class="ledger timeline">
       {
         experience.map((e) => (
@@ -180,7 +176,7 @@ const awards = [
     </ol>
   </Section>
 
-  <Section id="education" label="Education" title="Degrees">
+  <Section id="education" title="Degrees">
     <ol class="ledger timeline">
       {
         education.map((e) => (
@@ -197,7 +193,7 @@ const awards = [
     </ol>
   </Section>
 
-  <Section id="awards" label="Recognition" title="Fellowships and awards">
+  <Section id="awards" title="Fellowships and awards">
     <ol class="ledger timeline">
       {
         awards.map((a) => (
@@ -213,7 +209,7 @@ const awards = [
     </ol>
   </Section>
 
-  <Section id="contact" label="Contact" title="Get in touch">
+  <Section id="contact" title="Get in touch">
     <div class="stack">
       <p>
         Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
@@ -234,27 +230,31 @@ const awards = [
 <style>
   .about {
     display: grid;
-    gap: var(--space-6);
-    padding-bottom: var(--space-8);
+    gap: var(--space-5) var(--space-7);
+    padding-bottom: var(--space-4);
   }
-  @media (min-width: 52rem) {
+  @media (min-width: 42rem) {
     .about {
-      grid-template-columns: 18rem minmax(0, 1fr);
-      gap: var(--space-8);
+      grid-template-columns: 15rem minmax(0, 1fr);
       align-items: start;
     }
   }
   .about__portrait {
-    width: min(100%, 18rem);
+    width: min(100%, 15rem);
+    margin: 0;
   }
   .about__portrait img {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    filter: grayscale(0.2);
+    border-radius: var(--radius);
+  }
+  .about__portrait figcaption {
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
   }
   .about__text .lede {
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
   }
   .timeline {
     --ledger-col: 11rem;
@@ -266,6 +266,8 @@ const awards = [
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
   }
   .profiles li {
     max-width: none;
