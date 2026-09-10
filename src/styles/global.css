@@ -414,6 +414,10 @@ abbr[title] {
     align-items: flex-start;
     gap: var(--space-1);
   }
+  .sec__note {
+    max-width: 100%;
+    align-self: stretch;
+  }
 }
 .sec__no {
   font-family: var(--font-mono);
@@ -709,7 +713,9 @@ abbr[title] {
 /* ---------- Plates ----------
    A framed figure with a header strip: the plate number on the left, a
    caption label on the right. Used for the home figure, project cards and
-   the portrait. Inside a `.plates` grid the frames share hairlines. */
+   the portrait. Inside a `.plates` grid the frames share hairlines: each
+   plate keeps its own border and drops the edge its neighbour already
+   draws, so an odd plate count leaves the empty cell empty. */
 .plate {
   border: var(--rule) solid var(--line-strong);
   background: var(--bg);
@@ -747,16 +753,23 @@ abbr[title] {
 }
 .plates {
   display: grid;
-  gap: var(--rule);
-  background: var(--line-strong);
-  border: var(--rule) solid var(--line-strong);
+  gap: 0;
 }
-.plates > .plate {
-  border: 0;
+.plates > .plate + .plate {
+  border-top: 0;
 }
 @media (min-width: 52rem) {
   .plates {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .plates > .plate + .plate {
+    border-top: var(--rule) solid var(--line-strong);
+  }
+  .plates > .plate:nth-child(even) {
+    border-left: 0;
+  }
+  .plates > .plate:nth-child(n + 3) {
+    border-top: 0;
   }
 }
 
