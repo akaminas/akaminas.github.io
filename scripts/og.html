@@ -3,65 +3,32 @@
   Social preview image template (1200×630). Render to public/og.png with a headless browser, e.g.:
     npx playwright screenshot --viewport-size=1200,630 scripts/og.html public/og.png
   (or open in a browser at 1200×630 and take a screenshot).
-  Drawn as a sheet, like the site: drafting grid, plate frame, title block. Uses the same self-hosted fonts.
+  Same look as the site: lavender bar, cream paper, mono name, slab text, and the island. Uses the same self-hosted fonts.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <style>
-      @font-face { font-family: 'Google Sans Flex'; src: url('../public/fonts/google-sans-flex-latin-wght-slnt.woff2') format('woff2'); font-weight: 1 1000; }
-      @font-face { font-family: 'Grid Mono'; src: url('../public/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
-      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; color: #101f2b;
-        background-color: #e6ecf1;
-        background-image: linear-gradient(rgba(16, 31, 43, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 31, 43, 0.07) 1px, transparent 1px);
-        background-size: 32px 32px; background-position: -1px -1px; }
-      .wrap { position: relative; width: 1200px; height: 630px; padding: 56px 72px; box-sizing: border-box; font-family: 'Google Sans Flex', sans-serif; }
-      .mono { font-family: 'Grid Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
-      .label { font-size: 18px; color: #47586a; margin: 0 0 26px; }
-      h1 { font-weight: 500; font-size: 92px; line-height: 1; letter-spacing: -0.035em; margin: 0 0 28px; max-width: 720px; }
-      p.lede { font-size: 26px; line-height: 1.35; max-width: 600px; margin: 0; color: #101f2b; }
-      .plate { position: absolute; right: 72px; top: 118px; width: 300px; border: 1px solid #8599ab; background: #e6ecf1; margin: 0; }
-      .plate__head { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #8599ab; font-size: 13px; color: #47586a; }
-      .plate__head .num { color: #a8321c; }
-      .plate__fig { padding: 28px; display: grid; place-items: center;
-        background-image: linear-gradient(rgba(16, 31, 43, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 31, 43, 0.07) 1px, transparent 1px);
-        background-size: 16px 16px; background-position: center; }
-      .block { position: absolute; left: 72px; right: 72px; bottom: 56px; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #8599ab; border: 1px solid #8599ab; }
-      .cell { background: #e6ecf1; padding: 10px 14px 12px; }
-      .cell dt { font-size: 12px; color: #47586a; margin: 0 0 4px; }
-      .cell dd { margin: 0; font-size: 17px; }
-      .cell dd.mono { font-size: 15px; text-transform: none; letter-spacing: 0.02em; }
+      @font-face { font-family: 'Roboto Slab'; src: url('../public/fonts/roboto-slab-latin-wght.woff2') format('woff2'); font-weight: 100 900; }
+      @font-face { font-family: 'Roboto Mono'; src: url('../public/fonts/roboto-mono-latin-wght.woff2') format('woff2'); font-weight: 100 700; }
+      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #fbf6ef; color: #2a2440; font-family: 'Roboto Slab', Georgia, serif; }
+      .bar { height: 64px; background: #cbbfe6; color: #3f2a73; font-family: 'Roboto Mono', monospace; font-size: 22px; display: flex; align-items: center; padding: 0 56px; gap: 40px; }
+      .bar span + span { opacity: 0.85; font-size: 19px; }
+      .wrap { position: relative; padding: 48px 56px 0; }
+      h1 { font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 58px; margin: 0 0 8px; color: #33256b; letter-spacing: -0.01em; }
+      p.role { font-family: 'Roboto Mono', monospace; font-size: 18px; color: #625a7a; margin: 0 0 26px; }
+      p.lede { font-size: 24px; line-height: 1.45; max-width: 520px; margin: 0; }
+      .island { position: absolute; right: -40px; top: -30px; width: 640px; }
+      .island img { width: 100%; }
     </style>
   </head>
   <body>
+    <div class="bar"><span>Alexandros Kaminas</span><span>Work · Methods · Publications · Teaching · About · CV</span></div>
     <div class="wrap">
-      <p class="label mono">Alexandros Kaminas · PhD researcher · University of Groningen</p>
-      <h1>Modelling complex systems.</h1>
-      <p class="lede">Mathematical and computational models of ecological, evolutionary and socioeconomic dynamics.</p>
-
-      <figure class="plate">
-        <div class="plate__head mono"><span class="num">Pl. 01</span><span>Patches</span></div>
-        <div class="plate__fig">
-          <svg width="200" height="200" viewBox="0 0 96 96" fill="none" aria-hidden="true">
-            <circle cx="28" cy="48" r="20" stroke="#101f2b" stroke-width="0.9" opacity="0.75"/>
-            <circle cx="70" cy="48" r="16" stroke="#101f2b" stroke-width="0.9" opacity="0.75"/>
-            <g fill="#101f2b">
-              <circle cx="22" cy="42" r="1.8"/><circle cx="31" cy="52" r="1.8"/><circle cx="35" cy="41" r="1.8"/>
-              <circle cx="25" cy="56" r="1.8"/><circle cx="66" cy="44" r="1.8"/><circle cx="73" cy="53" r="1.8"/>
-              <circle cx="18" cy="50" r="1.8"/><circle cx="29" cy="46" r="1.8"/><circle cx="70" cy="40" r="1.8"/>
-            </g>
-            <path d="M48 48 H54" stroke="#101f2b" stroke-width="0.9" stroke-dasharray="1.5 1.5"/>
-            <circle cx="76" cy="41" r="2" fill="#a8321c"/>
-          </svg>
-        </div>
-      </figure>
-
-      <dl class="block">
-        <div class="cell"><dt class="mono">Drawn by</dt><dd>Alexandros Kaminas</dd></div>
-        <div class="cell"><dt class="mono">Affiliation</dt><dd>TRÊS, University of Groningen</dd></div>
-        <div class="cell"><dt class="mono">Sheet</dt><dd class="mono">akaminas.github.io</dd></div>
-        <div class="cell"><dt class="mono">Field</dt><dd>Eco-evolutionary dynamics</dd></div>
-      </dl>
+      <h1>Alexandros Kaminas</h1>
+      <p class="role">PhD researcher · TRÊS, University of Groningen</p>
+      <p class="lede">Modelling complex systems: eco-evolutionary dynamics, community assembly and regime shifts, with applications to sustainability and socioeconomic systems.</p>
+      <div class="island"><img src="../src/components/island.svg" alt="" /></div>
     </div>
   </body>
 </html>

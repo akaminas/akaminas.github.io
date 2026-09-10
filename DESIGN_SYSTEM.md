@@ -1,92 +1,85 @@
 # Design system
 
-The site belongs to a modeller of complex systems, and it is drawn the way that work is drawn: as a set of sheets. The visual language is the technical drawing and the printed scientific plate — blue paper with a faint drafting grid, near-navy ink, iron-red annotation, plates with numbered header strips, numbered zones, and a title block at the foot of every sheet. Everything else is typography and space.
+A pastel, illustrated personal site in the manner of an interactive academic homepage: a soft lavender bar over warm off-white paper, mono headings, a slab-serif text face, Greek-flag blue for links and a purple accent. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
 
 ## Principles
 
-1. **A sheet, not a page.** Every page is a drawing sheet: the drafting grid sits behind everything, the header is the index strip, sections are numbered zones with an annotated left margin, and the footer is a title block whose cells carry real facts (who drew it, where they work, which sheet, when it was built, how to reach them).
-2. **Two layers of type.** Text is one variable family (Google Sans Flex); hierarchy comes from weight, size and tracking, never from a second text face. The annotation layer — labels, numbers, dates, the title block, the navigation — is mono (JetBrains Mono), small, tracked and uppercase, so it reads as a drafter's note rather than as prose.
-3. **One accent, for annotation only.** Iron red marks what a drafter would mark in red: zone numbers, plate numbers, clause numbers, the active tab, the "ongoing" status, reticulations in the home figure, hover. Nothing decorative is red.
-4. **Figures are plates.** The home network, the project cards and the portrait share one frame: a header strip with a plate number on the left and a caption label on the right, a figure area on finer graph paper where there is a drawing, and a caption below. Plates in a grid share hairlines.
-5. **Nothing is only visual.** Every number is a real count (zones, plates, clauses, references); every plate has a caption; the home figure says it is a schematic; every method is linked to the project where it was used; publication status is written out.
-6. **Progressive enhancement, no motion.** Navigation, content and layout work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle, and both fail silently. Nothing animates by itself; transitions are 140–220 ms and limited to colour and small transforms.
+1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island and its gulls to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
+2. **White and blue, on lavender and cream.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The page around it is pastel: lavender bar, cream paper, purple accents. Nothing is neon.
+3. **Two faces.** Headings, navigation, labels and dates are Roboto Mono; text is Roboto Slab. Hierarchy comes from size and weight, not from a third face.
+4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
+5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
 
 ## Typography
 
 | Role | Face | Size / weight | Notes |
 | --- | --- | --- | --- |
-| Headings | Google Sans Flex | fluid scale, 500 | `letter-spacing: −0.022em` (−0.03em on H1), `text-wrap: balance` |
-| Body, UI | Google Sans Flex | 17–18.4 px, 400/500/600 | line-height 1.6, measure 64ch |
-| Annotation: labels, numbers, dates, nav, title block | JetBrains Mono | 0.68–0.74 rem | uppercase, 0.06–0.1 em tracking, tabular numerals |
+| Headings, navigation, labels, dates, buttons | Roboto Mono | fluid scale, 500 (headings), 400 (labels) | `letter-spacing: −0.01em` on headings |
+| Body | Roboto Slab | 17–18 px, 400/700 | line-height 1.7, measure 68ch |
 
-Google Sans Flex is one variable face carrying a weight axis (1–1000) and a slant axis, declared with `font-style: oblique 0deg 10deg` so `<em>` resolves to a true oblique. Both fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (SIL OFL 1.1; see `ASSET_PROVENANCE.md`); the text face is preloaded, the mono loads with `font-display: swap`. No remote font requests.
-
-Fluid type scale (`--step--1` … `--step-5`), clamped between 360 px and 1280 px viewports. Annotation sizes are fixed (`--ann`, `--ann-s`).
+Both fonts are self-hosted from `public/fonts/` as Latin-subset variable WOFF2 (Roboto Slab: Apache 2.0; Roboto Mono: SIL OFL 1.1; see `ASSET_PROVENANCE.md`), preloaded, `font-display: swap`. No remote font requests.
 
 ## Colour
 
-Light ("cyanotype") and dark ("negative") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
+Light and dark schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#e6ecf1` | `#0e1a26` | the sheet |
-| `--surface` | `#dce4eb` | `#142434` | raised ground |
-| `--ink` | `#101f2b` | `#dbe6f0` | text (14.1:1 / 14.9:1) |
-| `--muted` | `#47586a` | `#9fb4c6` | secondary text and annotation (6.1:1 / 8.6:1) |
-| `--line` / `--line-strong` | `#c3d0db` / `#8599ab` | `#22364a` / `#3e5872` | hairlines; frames, dimension lines, the grid of the title block |
-| `--accent` | `#a8321c` | `#f0916f` | annotation only (5.62:1 / 7.6:1) |
-| `--on-accent` | `#ffffff` | `#0e1a26` | text on a filled accent |
-| `--focus` | `#1231c9` | `#8fb0ff` | focus ring (7.6:1 / 8.5:1 against the sheet) |
-| `--grid` | ink at 7 % | ink at 6 % | the drafting grid, 2 rem pitch (1 rem inside plate figure areas) |
-| `--tree-edge` / `--tree-cloud` | `#2f4a5e` / `#6d879c` | `#b3c7d8` / `#6f8aa2` | home figure only: consensus lineages and the discordant histories behind them |
+| `--bg` | `#fbf6ef` | `#1a1726` | paper |
+| `--surface` | `#f3ecf9` | `#241f34` | cards, asides |
+| `--bar` / `--bar-ink` | `#cbbfe6` / `#3f2a73` | `#2e2650` / `#e6dcf8` | the header bar and its text |
+| `--ink` | `#2a2440` | `#ece7f5` | text (12.6:1 on paper) |
+| `--heading` | `#33256b` | `#efe7ff` | headings (10.9:1) |
+| `--muted` | `#625a7a` | `#b3abc7` | secondary text (6.0:1) |
+| `--link` | `#1d5fb4` | `#8fbaf0` | links (Greek-flag blue; 5.9:1) |
+| `--accent` / `--accent-soft` | `#7a4fb5` / `#ebe3f7` | `#c9b3ee` / `#35295a` | purple accent: buttons, chips, active states, the "ongoing" dot |
+| `--badge` / `--badge-ink` / `--badge-gold` | `#2b2260` / `#f4eefb` / `#d9c4f5` | `#e6dcf8` / `#1a1726` / `#5a3fa0` | the dark rounded badge and the island's hover labels |
+| `--line` / `--line-strong` | `#e4dbee` / `#c4b8d9` | `#342d4a` / `#4d4468` | hairlines, card borders |
+| `--focus` | `#1d5fb4` | `#8fbaf0` | focus ring |
 
-The light scheme is a cyanotype positive — blue paper, navy ink, red annotation; the dark scheme is the negative — pale lines on Prussian blue. Both carry the same blue cast, so the toggle changes the light level and not the identity. Two off-whites were tried and rejected before this: a warm beige, which read as templated, and a neutral cool grey, which read as a default rather than a choice.
+The island itself uses fixed toy-brick colours (sea `#3d8fd1`, sand `#e8c97e`, grass `#63b04a`, white `#f6f4ef`, blue `#2a5fbf`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
-All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status markers always sit beside a word; the reticulations in the home figure are also dashed and arrow-headed; the active navigation tab is also underlined.
+All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never carries information alone: the status dot always sits beside a word, the active navigation item is also bold and underlined, and every island part has a text label and a key entry.
 
-## The sheet
+## The island
 
-- **Grid.** `body` carries the drafting grid as two `linear-gradient` layers at a 2 rem pitch, anchored to the top-left so it stays put on scroll. Plate figure areas use a 1 rem pitch. The grid is removed in print.
-- **Dimension lines.** `.dim` draws a rule with a 9 px tick at each end, the way a drawing marks an extent. It is the top edge of every section, of the project body and of the privacy notice.
-- **Zones.** `Section.astro` renders a numbered zone: a left margin (`--margin-col`, 9 rem, sticky from 52 rem) with the zone number from a CSS counter on `<main>` (`counter(sec, decimal-leading-zero)`, in the accent) and a mono label, then the body with the heading. Zones number themselves in document order, so a page never carries a stale number.
-- **Plates.** `.plate` is the frame; `.plate__head` the strip (plate number left, label right); `.plate__caption` the caption. `.plates` is a grid of plates sharing 1 px hairlines (`gap: 1px` over a `--line-strong` background).
-- **Clauses.** `.prose h2` numbers itself (`counter(clause)`) in the accent, so Markdown project bodies read as numbered specifications (01 Question, 02 System, …). `.prose--plain` turns the numbering off for pages that are not specifications.
-- **Registers and ledgers.** `.register` numbers entries `[1]`, `[2]` … with a counter that lives on `.register-group`, so numbering runs across publications grouped by year. `.ledger` is the dated row: a mono period column with a scale tick, hairlines between rows.
-- **Title block.** `Footer.astro` renders a bordered grid of labelled cells — Drawn by, Affiliation, Sheet (the current path), Built (the build date), Contact, Profiles, Source, Notes — with registration marks in two opposite corners.
-- **Index strip.** `Header.astro` renders the wordmark, the navigation as numbered mono tabs (`01 Work … 06 CV`, active tab in ink with a red underline), and the theme toggle. Behaviour (mobile menu, Escape, focus return, no-JS fallback) is unchanged from the previous site.
+`scripts/make-island.mjs` draws `src/components/island.svg` from a few isometric primitives (plates, bricks, cylinders, domes) in world units of studs, with a 2:1 isometric projection and a painter's-order sort. Studs are an SVG `<pattern>` per colour and height, aligned to the stud grid. `src/components/Island.astro` inlines the SVG and adds the CSS: each link group (`<a class="hot">`) lifts by 8 px (`hot--lift`) or brightens (`hot--glow`, for the sea and the island) on hover and focus, and reveals a label (`.hot__label`) styled as the badge. The SVG root is `role="group"` with a title and description; each link has an `aria-label`, and the labels inside are `aria-hidden`. The figure is 63 kB of static SVG and ships no script.
 
-## Spacing and layout
+To change the island, edit the scene section of the script and run `node scripts/make-island.mjs`.
 
-- 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (7 rem).
-- Container `min(100% − 2·gutter, 78rem)`; gutter `clamp(1.25rem, 4vw, 3rem)`.
-- Corners are square everywhere: there is no `border-radius` in the system.
-- Breakpoints: 42 rem (ledger columns), 48 rem (mobile menu ↔ inline nav), 52 rem (zone margin column, two-column plates), 60 rem (hero side by side), 64 rem (four-column title block).
+## Layout
+
+- Reading column `--container` (46 rem); island and card grids `--wide` (72 rem). Gutter `clamp(1rem, 4vw, 2.5rem)`.
+- 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
+- Corners: `--radius` 10 px on cards, portraits and asides; `--radius-s` 6 px on badges; pills on buttons and chips.
+- Breakpoints: 42 rem (ledger columns, two-column cards, portrait beside text), 48 rem (mobile menu ↔ inline nav, footer columns), 52 rem (project aside beside prose, three scope columns).
 
 ## Components
 
-- **Header** — see "Index strip".
-- **Footer** — see "Title block".
-- **PageHeader** — the sheet head: mono label, H1, lede, and a slot for anything under it.
-- **Section** — a numbered zone; props `id`, `label`, `title`, `intro`, `note`, `tight`.
-- **ProjectCard** — a project as a plate: header strip (`Pl. 03`, domain), the motif on graph paper, title and question as one link, and a two-column specification (status, period, methods). Plate numbers follow the full project order, so a plate keeps its number on every page.
-- **PublicationItem** — one register entry: `[n]`, title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, status, DOI, licence, note).
-- **PhyloNetwork** — the home figure as Plate/Fig. 01: a schematic phylogenetic network drawn as static SVG at build time (a species tree over a cloud of seventy discordant gene histories, with two reticulation arrows in the accent). No client-side JavaScript, no canvas, no animation; `aria-hidden` with the meaning in the caption.
+- **Header** — the lavender bar: name, navigation (active item bold and underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
+- **Footer** — name, position and affiliation, email, profile links, privacy, source, "Built with Astro", copyright line.
+- **PageHeader** — H1, optional lede, slot.
+- **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.
+- **Island** — see above.
+- **ProjectCard** — a card: the project's line drawing and domain, title and question as one link, a meta line (status, period, first methods).
+- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, status, DOI, licence, note).
 - **Motif** — seven original line drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, in `currentColor` with one accent dot.
-- **Chips** — square mono labels for methods and tools. Never proficiency bars.
-- **Buttons** — square, 1 px ink border, 44 px minimum height; primary is filled ink. Hover changes border/background to the accent, never only the text colour.
-- **Status** — a square marker and a word; the marker is red for "ongoing".
+- **Chips** — rounded pastel tags for methods and tools. Never proficiency bars.
+- **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
+- **Badge** — the dark rounded strip with a pale outline, for one highlighted line.
+- **Status** — a coloured dot and a word; purple for "ongoing".
+- **Ledger** — dated rows: a mono period column and a content column, hairlines between rows.
 
 ## Interaction and motion rules
 
-- Hover: colour shift to the accent and/or underline; arrow links translate the arrow 0.25 em.
-- Focus: 3 px focus ring in `--focus` with 3 px offset on every interactive element (`:focus-visible`).
+- Hover: links shift to the accent; cards lift 2 px; island parts lift 8 px or brighten and show their label.
+- Focus: 3 px focus ring in `--focus` with 3 px offset on every interactive element (`:focus-visible`), including the island's links.
 - Targets: ≥ 44 × 44 CSS px for nav links, buttons and footer links; inline text links are exempt as permitted by WCAG 2.2 SC 2.5.8.
-- Reduced motion: all transitions collapse to ~0 ms. There is nothing else to stop.
-- Sticky header uses a translucent background with backdrop blur; falls back to the solid background where unsupported.
+- Reduced motion: transitions collapse to ~0 ms; the island's lift becomes a brightening.
+- Sticky header, opaque.
 
 ## Accessibility principles
 
 - Landmarks on every page: skip link, `header`, `nav` (labelled), `main`, `footer`; sections are labelled by their headings.
-- Generated numbers (zones, plates, clauses, references) are decorative repetitions of document order and are `aria-hidden` or CSS-generated, never the only carrier of meaning.
-- Every plate has a text caption; every figure area is `aria-hidden`.
-- The drafting grid is far below the contrast threshold at which it could be mistaken for content (ink at 6–7 %).
+- The island is a group of named links with a description; the same links are repeated in text in the key under it, so nothing depends on hovering or on seeing the drawing.
+- Every image has alt text or is `aria-hidden` with its meaning in text.

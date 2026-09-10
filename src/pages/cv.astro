@@ -55,12 +55,12 @@ const rows = {
 };
 
 const groups = [
-  { id: 'education', label: 'Education', title: 'Education', list: rows.education },
-  { id: 'awards', label: 'Awards', title: 'Fellowships and awards', list: rows.awards },
-  { id: 'experience', label: 'Experience', title: 'Research and professional experience', list: rows.experience },
-  { id: 'roles', label: 'Roles', title: 'Academic roles and affiliations', list: rows.roles },
-  { id: 'service', label: 'Service', title: 'Supervision and academic service', list: rows.service },
-  { id: 'projects', label: 'Projects', title: 'Projects and initiatives', list: rows.projects },
+  { id: 'education', title: 'Education', list: rows.education },
+  { id: 'awards', title: 'Fellowships and awards', list: rows.awards },
+  { id: 'experience', title: 'Research and professional experience', list: rows.experience },
+  { id: 'roles', title: 'Academic roles and affiliations', list: rows.roles },
+  { id: 'service', title: 'Supervision and academic service', list: rows.service },
+  { id: 'projects', title: 'Projects and initiatives', list: rows.projects },
 ] as const;
 ---
 
@@ -68,7 +68,7 @@ const groups = [
   title="Curriculum vitae"
   description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, roles, supervision, presentations and publications. PDF available for download."
 >
-  <PageHeader eyebrow="CV" title="Curriculum vitae">
+  <PageHeader title="Curriculum vitae">
     <p class="cv__download">
       <a class="button button--primary" href={site.cvPath} download>Download PDF</a>
       <span class="muted small">Web version, without private contact details.</span>
@@ -77,7 +77,7 @@ const groups = [
 
   {
     groups.map((g) => (
-      <Section id={`cv-${g.id}`} label={g.label} title={g.title} tight>
+      <Section id={`cv-${g.id}`} title={g.title}>
         <ol class="ledger cv__rows">
           {g.list.map(([when, what, where]) => (
             <li>
@@ -93,7 +93,7 @@ const groups = [
     ))
   }
 
-  <Section id="cv-talks" label="Talks" title="Conference presentations" tight>
+  <Section id="cv-talks" title="Conference presentations">
     <ol class="ledger cv__rows">
       {
         talks.map((t) => (
@@ -111,7 +111,7 @@ const groups = [
     </ol>
   </Section>
 
-  <Section id="cv-pubs" label="Publications" title="Publications" tight>
+  <Section id="cv-pubs" title="Publications">
     <ol class="ledger cv__rows">
       {
         pubs.map((p) => (
@@ -142,7 +142,7 @@ const groups = [
     </ol>
   </Section>
 
-  <Section id="cv-skills" label="Skills" title="Skills" tight>
+  <Section id="cv-skills" title="Skills">
     <dl class="spec cv__skills">
       <dt>Programming</dt>
       <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
@@ -158,7 +158,7 @@ const groups = [
 
 <style>
   .cv__download {
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
     display: flex;
     flex-wrap: wrap;
     align-items: center;

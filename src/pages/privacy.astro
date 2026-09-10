@@ -20,9 +20,9 @@ const contents = [
   title="Privacy"
   description="Privacy notice for akaminas.github.io: a static site with no cookies, no analytics and no tracking. What the hosting provider (GitHub Pages) logs, what happens when you email me, and your rights."
 >
-  <PageHeader eyebrow="Privacy" title="Privacy notice" lede="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
+  <PageHeader title="Privacy notice" lede="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
 
-  <div class="container privacy dim">
+  <div class="container privacy">
     <nav class="privacy__toc" aria-label="On this page">
       <p class="label">Contents</p>
       <ol class="toc">
@@ -119,11 +119,11 @@ const contents = [
 
       <h2 id="content">Content and copyright</h2>
       <p>
-        Text, page design and original graphics on this site (including the network figure on the home page and the
+        Text, page design and original graphics on this site (including the island on the home page and the
         project drawings) are © {site.name}. Reuse requires permission unless otherwise stated. The portrait
         photograph remains the copyright of its photographer and is used only on this site. Publications linked from this site
         belong to their publishers and authors and carry their own licences (most are CC BY 4.0, as marked). The
-        fonts are Google Sans Flex and JetBrains Mono, used under the SIL Open Font License 1.1. A full provenance list is in the{' '}
+        fonts are Roboto Slab (Apache License 2.0) and Roboto Mono (SIL Open Font License 1.1). A full provenance list is in the{' '}
         <a href={`${site.repo}/blob/main/ASSET_PROVENANCE.md`} rel="noopener">source repository</a>.
       </p>
 
@@ -140,42 +140,28 @@ const contents = [
   .privacy {
     display: grid;
     gap: var(--space-6) var(--space-7);
-    padding-block: var(--space-6) var(--space-8);
+    padding-block: var(--space-4) var(--space-7);
   }
   @media (min-width: 52rem) {
     .privacy {
-      grid-template-columns: var(--margin-col) minmax(0, 1fr);
-      padding-block: var(--space-7) var(--space-9);
+      grid-template-columns: 11rem minmax(0, 1fr);
+      padding-block: var(--space-5) var(--space-8);
     }
     .privacy__toc {
       position: sticky;
-      top: 5.25rem;
+      top: 5rem;
       align-self: start;
     }
   }
-  /* The contents list numbers itself the same way the headings do. */
   .toc {
     list-style: none;
     margin: 0;
     padding: 0;
     font-size: var(--step--1);
-    counter-reset: toc;
+    font-family: var(--font-mono);
   }
   .toc li {
     max-width: none;
-    counter-increment: toc;
-    display: flex;
-    gap: 0.6em;
-    align-items: baseline;
-  }
-  .toc li::before {
-    content: counter(toc, decimal-leading-zero);
-    font-family: var(--font-mono);
-    font-size: var(--ann-s);
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    flex: none;
-    padding-top: 0.15em;
   }
   .toc a {
     display: inline-flex;

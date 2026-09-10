@@ -6,27 +6,22 @@ import Section from '../../components/Section.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-// Plate numbers follow the full project order, so a plate keeps its number on every page.
-const plateNo = new Map(projects.map((p, i) => [p.id, i + 1]));
 const talks = (await getCollection('talks')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const groups = [
   {
     key: 'ecology-evolution',
-    label: 'Ecology',
     title: 'Ecology and evolution',
     intro:
       'The primary domain. Eco-evolutionary models of community assembly, trait evolution and regime shifts, from doctoral research to MSc work.',
   },
   {
     key: 'sustainability-social',
-    label: 'Sustainability',
     title: 'Sustainability and social systems',
     intro: 'Systems reasoning applied to organisations, institutions and policy.',
   },
   {
     key: 'marine-systems',
-    label: 'Marine',
     title: 'Marine systems and monitoring',
     intro: 'Earlier empirical work: species monitoring and citizen science in the eastern Mediterranean.',
   },
@@ -40,7 +35,6 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
   description="Research projects by Alexandros Kaminas presented as modelling case studies: eco-evolutionary dynamics of isolation, trait evolution in mutualistic networks, regime shifts, functional diversity, sustainability systems and citizen science. Plus conference talks."
 >
   <PageHeader
-    eyebrow="Work"
     title="Projects as modelling problems"
     lede="Each project is described by its question, the system, the model structure and what came out of it."
   />
@@ -50,10 +44,10 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
       const items = projects.filter((p) => p.data.domain === g.key);
       if (items.length === 0) return null;
       return (
-        <Section id={`g-${g.key}`} label={g.label} title={g.title} intro={g.intro}>
-          <div class="plates">
+        <Section id={`g-${g.key}`} title={g.title} intro={g.intro} wide>
+          <div class="cards">
             {items.map((p) => (
-              <ProjectCard project={p} no={plateNo.get(p.id) as number} />
+              <ProjectCard project={p} />
             ))}
           </div>
         </Section>
@@ -61,7 +55,7 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
     })
   }
 
-  <Section id="talks" label="Talks" title="Talks and posters" note="Conference presentations, most recent first.">
+  <Section id="talks" title="Talks and posters" intro="Conference presentations, most recent first.">
     <ol class="ledger talks">
       {
         talks.map((t) => (
@@ -96,10 +90,7 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
     margin: 0 0 var(--space-1);
   }
   .talk__title {
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    font-size: var(--step-1);
-    line-height: 1.3;
+    font-weight: 700;
     text-wrap: pretty;
   }
   .talk__event {

@@ -1,19 +1,16 @@
 ---
 /**
- * A project as a plate: numbered header strip, the project's line drawing on
- * a figure area of finer graph paper, the title and question, and a small
- * specification table. Inside a `.plates` grid, plates share hairlines.
+ * A project as a card: its drawing, domain, title and question, and a line
+ * with status, period and the first methods.
  */
 import type { CollectionEntry } from 'astro:content';
 import Motif from './Motif.astro';
 
 interface Props {
   project: CollectionEntry<'projects'>;
-  /** Plate number as shown in the header strip. */
-  no: number;
   headingLevel?: 'h2' | 'h3';
 }
-const { project, no, headingLevel = 'h3' } = Astro.props;
+const { project, headingLevel = 'h3' } = Astro.props;
 const { data } = project;
 const Heading = headingLevel;
 const domainLabel: Record<typeof data.domain, string> = {
@@ -28,108 +25,70 @@ const statusLabel: Record<typeof data.status, string> = {
 };
 ---
 
-<article class="plate project-plate">
-  <div class="plate__head">
-    <span class="num">Pl. {String(no).padStart(2, '0')}</span>
-    <span>{domainLabel[data.domain]}</span>
+<article class="card project-card">
+  <div class="project-card__top">
+    <Motif kind={data.motif} size={56} />
+    <span class="project-card__domain">{domainLabel[data.domain]}</span>
   </div>
-  <div class="project-plate__fig">
-    <Motif kind={data.motif} size={96} />
-  </div>
-  <div class="project-plate__body">
-    <a class="project-plate__link" href={`/work/${project.id}/`}>
-      <Heading class="project-plate__title">{data.title}</Heading>
-      <p class="project-plate__question">{data.question}</p>
-    </a>
-  </div>
-  <dl class="project-plate__spec">
-    <div>
-      <dt>Status</dt>
-      <dd><span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span></dd>
-    </div>
-    <div>
-      <dt>Period</dt>
-      <dd class="mono">{data.period}</dd>
-    </div>
-    {
-      data.methods.length > 0 && (
-        <div class="project-plate__spec-wide">
-          <dt>Methods</dt>
-          <dd>{data.methods.slice(0, 3).join(' · ')}</dd>
-        </div>
-      )
-    }
-  </dl>
+  <a class="project-card__link" href={`/work/${project.id}/`}>
+    <Heading class="project-card__title">{data.title}</Heading>
+    <p class="project-card__question">{data.question}</p>
+  </a>
+  <p class="project-card__meta">
+    <span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span>
+    <span class="mono">{data.period}</span>
+    {data.methods.length > 0 && <span class="muted">{data.methods.slice(0, 3).join(' · ')}</span>}
+  </p>
 </article>
 
 <style>
-  .project-plate__fig {
-    display: grid;
-    place-items: center;
-    padding: var(--space-5) var(--space-4);
-    border-bottom: var(--rule) solid var(--line);
-    /* A finer graph paper for the figure area of the plate. */
-    background-image:
-      linear-gradient(var(--grid) var(--rule), transparent var(--rule)),
-      linear-gradient(90deg, var(--grid) var(--rule), transparent var(--rule));
-    background-size: 1rem 1rem;
-    background-position: center;
+  .project-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
   }
-  .project-plate__body {
-    padding: var(--space-4) 0.8rem var(--space-4);
-    flex: 1 0 auto;
+  .project-card__domain {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--muted);
+    text-align: right;
   }
-  .project-plate__link {
+  .project-card__link {
     text-decoration: none;
     color: inherit;
     display: grid;
     gap: var(--space-2);
+    flex: 1 0 auto;
   }
-  .project-plate__link:hover {
+  .project-card__link:hover {
     color: inherit;
   }
-  .project-plate__title {
-    font-size: var(--step-1);
+  .project-card__title {
     margin: 0;
     transition: color var(--dur-fast) var(--ease-out);
   }
-  .project-plate__link:hover .project-plate__title,
-  .project-plate__link:focus-visible .project-plate__title {
+  .project-card__link:hover .project-card__title,
+  .project-card__link:focus-visible .project-card__title {
     color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
   }
-  .project-plate__question {
+  .project-card__question {
     margin: 0;
     color: var(--muted);
     font-size: var(--step--1);
-    max-width: 44ch;
     text-wrap: pretty;
   }
-  .project-plate__spec {
+  .project-card__meta {
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--rule);
-    background: var(--line);
+    padding-top: var(--space-3);
     border-top: var(--rule) solid var(--line);
-  }
-  .project-plate__spec > div {
-    background: var(--bg);
-    padding: 0.55rem 0.8rem 0.65rem;
-    min-width: 0;
-  }
-  .project-plate__spec-wide {
-    grid-column: 1 / -1;
-  }
-  .project-plate__spec dt {
-    font-family: var(--font-mono);
-    font-size: var(--ann-s);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.2rem;
-  }
-  .project-plate__spec dd {
-    margin: 0;
     font-size: var(--step--1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    max-width: none;
   }
 </style>

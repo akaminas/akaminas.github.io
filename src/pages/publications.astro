@@ -32,9 +32,8 @@ const articleSchema = pubs
   schema={articleSchema}
 >
   <PageHeader
-    eyebrow="Publications"
-    title="Peer-reviewed articles"
-    lede="Eight articles, 2020–2026. Everything listed here is published and peer reviewed; work in progress is described on the project pages instead, and is labelled as such."
+    title="Publications"
+    lede="Eight peer-reviewed articles, 2020–2026. Everything listed here is published and peer reviewed; work in progress is described on the project pages instead, and is labelled as such."
   >
     <p class="small muted pubs__also">
       Also on <a href={site.profiles.scholar} rel="noopener">Google Scholar</a>,{' '}
@@ -43,49 +42,35 @@ const articleSchema = pubs
     </p>
   </PageHeader>
 
-  <Section
-    id="selected"
-    label="Selected"
-    title="Selected"
-    note="Papers where I am first author or the topic is closest to my current work."
-  >
-    <div class="register-group">
-      <ol class="register">
-        {highlights.map((p) => <PublicationItem pub={p} />)}
-      </ol>
-    </div>
+  <Section id="selected" title="Selected" intro="Papers where I am first author or the topic is closest to my current work.">
+    <ol class="register">
+      {highlights.map((p) => <PublicationItem pub={p} />)}
+    </ol>
   </Section>
 
-  <Section id="all" label="Register" title="All publications" note="By year, most recent first. My name is highlighted in the author lists.">
-    <div class="register-group">
-      {
-        years.map((y) => (
-          <section aria-labelledby={`y-${y}`}>
-            <h3 id={`y-${y}`} class="register__year">
-              {y}
-            </h3>
-            <ol class="register">
-              {pubs
-                .filter((p) => p.data.year === y)
-                .map((p) => (
-                  <PublicationItem pub={p} />
-                ))}
-            </ol>
-          </section>
-        ))
-      }
-    </div>
+  <Section id="all" title="All publications" intro="By year, most recent first. My name is highlighted in the author lists.">
+    {
+      years.map((y) => (
+        <section aria-labelledby={`y-${y}`}>
+          <h3 id={`y-${y}`} class="register__year">
+            {y}
+          </h3>
+          <ol class="register">
+            {pubs
+              .filter((p) => p.data.year === y)
+              .map((p) => (
+                <PublicationItem pub={p} />
+              ))}
+          </ol>
+        </section>
+      ))
+    }
   </Section>
 </Base>
 
 <style>
   .pubs__also {
-    margin-top: var(--space-4);
-  }
-  .register__year {
-    font-weight: 400;
-  }
-  section:first-child > .register__year {
-    margin-top: 0;
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
   }
 </style>
