@@ -61,19 +61,23 @@
   --radius: 4px;
   --rule: 1px;
 
-  /* Colour — light ("chalk"): a neutral, faintly cool grey-white, no warm cast */
-  --bg: #f6f7f8;
-  --surface: #edeff1;
-  --ink: #17191c;
-  --muted: #565b63;        /* 6.37:1 on --bg */
-  --line: #dde0e4;
-  --line-strong: #b4b9c0;
-  --accent: #115e59;       /* 7.07:1 on --bg */
-  --accent-soft: #cfe0dd;
-  --focus: #1f4bd8;
-  --tree-edge: #4b5560;    /* network: consensus lineages */
-  --tree-cloud: #7d8792;   /* network: discordant histories behind it (drawn with alpha) */
-  --selection: #cfe0dd;
+  /* Colour — light ("cyanotype"): a ground tinted a definite cool blue rather
+     than an off-white, near-navy ink, and one iron-red accent. The pairing is
+     taken from technical drawings and printed scientific plates: blue paper,
+     red annotation. */
+  --bg: #e6ecf1;
+  --surface: #dae3ea;
+  --ink: #101f2b;          /* 14.07:1 on --bg */
+  --muted: #47586a;        /* 6.14:1 on --bg */
+  --line: #c3d0db;
+  --line-strong: #8599ab;
+  --accent: #a8321c;       /* 5.62:1 on --bg */
+  --accent-soft: #edd2c8;
+  --on-accent: #ffffff;    /* 6.69:1 on --accent */
+  --focus: #1231c9;
+  --tree-edge: #2f4a5e;    /* network: consensus lineages */
+  --tree-cloud: #6d879c;   /* network: discordant histories behind it (drawn with alpha) */
+  --selection: #f2d6cd;
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -85,34 +89,36 @@
    with the header toggle; an explicit dark choice applies regardless. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #141518;
-    --surface: #1d1f24;
-    --ink: #e9e7e2;
-    --muted: #a8abb2;
-    --line: #2d3036;
-    --line-strong: #454950;
-    --accent: #5ec8bd;      /* 9.10:1 on --bg */
-    --accent-soft: #163b38;
+    --bg: #10161c;
+    --surface: #19212a;
+    --ink: #e3e9ee;
+    --muted: #a3aeb8;
+    --line: #262f39;
+    --line-strong: #414d59;
+    --accent: #f0916f;      /* 7.79:1 on --bg */
+    --accent-soft: #43241a;
+    --on-accent: #10161c;   /* 7.79:1 on --accent */
     --focus: #8fb0ff;
-    --tree-edge: #b9bfc6;
-    --tree-cloud: #79838d;
-    --selection: #163b38;
+    --tree-edge: #b6c2cc;
+    --tree-cloud: #76889a;
+    --selection: #43241a;
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #141518;
-  --surface: #1d1f24;
-  --ink: #e9e7e2;
-  --muted: #a8abb2;
-  --line: #2d3036;
-  --line-strong: #454950;
-  --accent: #5ec8bd;      /* 9.10:1 on --bg */
-  --accent-soft: #163b38;
+  --bg: #10161c;
+  --surface: #19212a;
+  --ink: #e3e9ee;
+  --muted: #a3aeb8;
+  --line: #262f39;
+  --line-strong: #414d59;
+  --accent: #f0916f;      /* 7.79:1 on --bg */
+  --accent-soft: #43241a;
+  --on-accent: #10161c;   /* 7.79:1 on --accent */
   --focus: #8fb0ff;
-  --tree-edge: #b9bfc6;
-  --tree-cloud: #79838d;
-  --selection: #163b38;
+  --tree-edge: #b6c2cc;
+  --tree-cloud: #76889a;
+  --selection: #43241a;
   color-scheme: dark;
 }
 :root[data-theme='light'] {
@@ -439,12 +445,7 @@ abbr[title] {
 .button--primary:hover {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-  .button--primary:hover {
-    color: #141518;
-  }
+  color: var(--on-accent);
 }
 .arrow-link {
   display: inline-flex;

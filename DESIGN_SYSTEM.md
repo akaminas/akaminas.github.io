@@ -5,7 +5,7 @@ The site belongs to a modeller of complex systems. The design language is taken 
 ## Principles
 
 1. **Hierarchy through type, not boxes.** One text family throughout (Google Sans Flex, variable), with hierarchy carried by weight, size and tracking rather than by a second typeface; one mono for labels (JetBrains Mono). Sections are separated by hairline rules, not cards.
-2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, the reticulation edges in the home-page network, hover states. Everything else is ink on a neutral ground — the light scheme is a faintly cool grey-white with no warm cast.
+2. **Restraint.** One accent colour, used only for signal: the active nav marker, the "ongoing" status dot, the reticulation edges in the home-page network, hover states. Everything else is ink on paper — and the paper is blue. The light scheme takes its pairing from technical drawings and printed scientific plates: a ground tinted a definite cool blue rather than an off-white, near-navy ink, and iron red for annotation.
 3. **The modelling language persists, the subject changes.** Every project has a small line drawing in the same grammar (dots = entities, lines = interactions or paths, dashes = limited flow). The home-page figure is a phylogenetic network — a figure of the kind the work itself produces, not decorative particles.
 4. **Nothing is only visual.** The network figure is captioned, and the caption says plainly that it is a schematic rather than data; every claim on the methods page is linked to the project where the method was used; publication status is written out.
 5. **Progressive enhancement.** Navigation, content and layout work without JavaScript. The only client-side JavaScript is the mobile menu toggle and the colour-scheme toggle; both fail silently.
@@ -29,19 +29,23 @@ Fluid type scale (`--step--1` … `--step-5`), clamped between 360 px and 1280 p
 
 ## Colour
 
-Light ("chalk") and dark ("slate") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
+Light ("cyanotype") and dark ("slate") schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#f6f7f8` | `#141518` | page |
-| `--ink` | `#17191c` | `#e9e7e2` | text (16.4:1 / 14.8:1) |
-| `--muted` | `#565b63` | `#a8abb2` | secondary text (6.4:1 / 7.9:1) |
-| `--line` / `--line-strong` | `#dde0e4` / `#b4b9c0` | `#2d3036` / `#454950` | rules, borders (non-text) |
-| `--accent` | `#115e59` | `#5ec8bd` | signal only (7.07:1 / 9.10:1) |
-| `--focus` | `#1f4bd8` | `#8fb0ff` | focus ring |
-| `--tree-edge` / `--tree-cloud` | `#4b5560` / `#7d8792` | `#b9bfc6` / `#79838d` | network figure only: consensus lineages, and the discordant histories behind them (non-text, drawn with alpha) |
+| `--bg` | `#e6ecf1` | `#10161c` | page |
+| `--surface` | `#dae3ea` | `#19212a` | raised ground |
+| `--ink` | `#101f2b` | `#e3e9ee` | text (14.1:1 / 14.9:1) |
+| `--muted` | `#47586a` | `#a3aeb8` | secondary text (6.1:1 / 8.1:1) |
+| `--line` / `--line-strong` | `#c3d0db` / `#8599ab` | `#262f39` / `#414d59` | rules, borders (non-text) |
+| `--accent` | `#a8321c` | `#f0916f` | signal only (5.62:1 / 7.79:1) |
+| `--on-accent` | `#ffffff` | `#10161c` | text on a filled accent (6.69:1 / 7.79:1) |
+| `--focus` | `#1231c9` | `#8fb0ff` | focus ring (7.64:1 / 8.51:1 against the page) |
+| `--tree-edge` / `--tree-cloud` | `#2f4a5e` / `#6d879c` | `#b6c2cc` / `#76889a` | network figure only: consensus lineages, and the discordant histories behind them (non-text, drawn with alpha) |
 
-The light scheme is deliberately neutral — a faintly cool grey-white rather than the warm off-white it replaced — so the single accent does all the signalling and nothing else reads as decoration.
+Both schemes carry the same faint blue cast, so the toggle changes the light level and not the identity. The light scheme is a cyanotype: blue paper, near-navy ink, iron-red annotation. Two off-whites were tried and rejected before it — the original warm beige, which read as templated, and a neutral cool grey-white, which read as a default rather than a choice.
+
+`--on-accent` exists because a filled accent needs different text in each scheme; it replaced a `prefers-color-scheme` override that gave the wrong colour whenever a visitor forced the light theme on a dark system.
 
 All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes; contrast ratios were computed, not eyeballed. Colour never carries information alone: status dots are always accompanied by a word; in the network figure the reticulations are also distinguished by being dashed and arrow-headed.
 

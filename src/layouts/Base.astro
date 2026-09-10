@@ -35,8 +35,8 @@ const currentPath = Astro.url.pathname;
     <link rel="canonical" href={canonical} />
     <meta name="author" content={site.name} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7f8" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141518" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#e6ecf1" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#10161c" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>
       // Apply a stored theme choice before first paint. Reads one localStorage key
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
             document.documentElement.setAttribute('data-theme', o.v);
             var metas = document.getElementsByName('theme-color');
             for (var i = 0; i < metas.length; i++) {
-              metas[i].setAttribute('content', o.v === 'dark' ? '#141518' : '#f6f7f8');
+              metas[i].setAttribute('content', o.v === 'dark' ? '#10161c' : '#e6ecf1');
               metas[i].removeAttribute('media');
             }
           } else {
