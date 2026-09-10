@@ -411,10 +411,12 @@ abbr[title] {
 @media (min-width: 52rem) {
   .sec__margin {
     flex-direction: column;
+    flex-wrap: nowrap;
     align-items: flex-start;
     gap: var(--space-1);
   }
   .sec__note {
+    flex-basis: auto;
     max-width: 100%;
     align-self: stretch;
   }
