@@ -79,27 +79,35 @@
   --radius-s: 6px;
   --rule: 1px;
 
-  /* Colour — light: warm off-white paper, a lavender bar, deep purple
-     headings, Greek-flag blue links, a purple accent. */
-  --bg: #fbf6ef;
-  --surface: #f3ecf9;
-  --bar: #cbbfe6;
-  --bar-ink: #3f2a73;
-  --ink: #2a2440;         /* 12.6:1 on --bg */
-  --heading: #33256b;     /* 10.9:1 on --bg */
-  --muted: #625a7a;       /* 6.0:1 on --bg */
-  --line: #e4dbee;
-  --line-strong: #c4b8d9;
-  --link: #1d5fb4;        /* Greek-flag blue; 5.9:1 on --bg */
-  --accent: #7a4fb5;      /* purple; 5.7:1 on --bg */
-  --accent-soft: #ebe3f7;
-  --on-accent: #ffffff;
-  --sea: #3d8fd1;
-  --badge: #2b2260;
-  --badge-ink: #f4eefb;
-  --badge-gold: #d9c4f5;
-  --focus: #1d5fb4;
-  --selection: #dcd0f2;
+  /* Colour — "Aegean": the island's own palette. The bar is the pale sky above
+     the sea plate, the headings are the blue of the domes, the paper is cream,
+     and the one warm note is a terracotta that the island itself does not use,
+     so buttons and the "ongoing" marker stand out against the model.
+
+     A second palette, "Sand", is defined below and is switched on by setting
+     data-palette="sand" on <html> in src/layouts/Base.astro. When switching,
+     also change the two theme-color values in Base.astro (the meta tags and
+     the inline pre-paint script), the two in src/scripts/theme.ts, the two in
+     public/site.webmanifest, the tile colour in public/favicon.svg (then
+     re-render the icons), and the colours in scripts/og.html. */
+  --bg: #fbf7ef;                  /* paper */
+  --surface: #e8f0f8;             /* cards, asides */
+  --bar: #b9d8ef;                 /* the header bar */
+  --bar-ink: #123a63;             /* text on the bar */
+  --ink: #22303f;                 /* body text */
+  --heading: #0f3f6b;             /* headings */
+  --muted: #4d6076;               /* secondary text */
+  --line: #dde7f0;                /* hairlines */
+  --line-strong: #b0c5d8;         /* stronger hairlines */
+  --link: #125a9e;                /* links */
+  --accent: #a74826;              /* buttons, chips, "ongoing" */
+  --accent-soft: #fbe3d8;         /* chip and button grounds */
+  --on-accent: #ffffff;           /* text on a filled accent */
+  --badge: #0f3050;               /* the dark strip and the island labels */
+  --badge-ink: #eef6fc;           /* text on the badge */
+  --badge-gold: #9fd0f0;          /* emphasis on the badge */
+  --focus: #125a9e;               /* focus ring */
+  --selection: #cfe6f7;           /* text selection */
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -107,55 +115,121 @@
   --dur: 220ms;
 }
 
-/* Dark: the same hues at night. Follows the system preference unless a light
-   theme was chosen with the header toggle; an explicit dark choice applies
-   regardless. */
+/* Dark: the same island at night — deep sea navy, pale sky text. Follows the
+   system preference unless a light theme was chosen with the header toggle. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #1a1726;
-    --surface: #241f34;
-    --bar: #2e2650;
-    --bar-ink: #e6dcf8;
-    --ink: #ece7f5;
-    --heading: #efe7ff;
-    --muted: #b3abc7;
-    --line: #342d4a;
-    --line-strong: #4d4468;
-    --link: #8fbaf0;
-    --accent: #c9b3ee;
-    --accent-soft: #35295a;
-    --on-accent: #1a1726;
-    --badge: #e6dcf8;
-    --badge-ink: #1a1726;
-    --badge-gold: #5a3fa0;
-    --focus: #8fbaf0;
-    --selection: #45386e;
+    --bg: #101f2e;
+    --surface: #18293b;
+    --bar: #17324f;
+    --bar-ink: #dceaf7;
+    --ink: #e3edf6;
+    --heading: #eaf3fb;
+    --muted: #a5bacd;
+    --line: #233850;
+    --line-strong: #3b5a7a;
+    --link: #8fc0f0;
+    --accent: #f09a72;
+    --accent-soft: #3a2419;
+    --on-accent: #101f2e;
+    --badge: #dceaf7;
+    --badge-ink: #101f2e;
+    --badge-gold: #2d6aa1;
+    --focus: #8fc0f0;
+    --selection: #2a4a68;
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #1a1726;
-  --surface: #241f34;
-  --bar: #2e2650;
-  --bar-ink: #e6dcf8;
-  --ink: #ece7f5;
-  --heading: #efe7ff;
-  --muted: #b3abc7;
-  --line: #342d4a;
-  --line-strong: #4d4468;
-  --link: #8fbaf0;
-  --accent: #c9b3ee;
-  --accent-soft: #35295a;
-  --on-accent: #1a1726;
-  --badge: #e6dcf8;
-  --badge-ink: #1a1726;
-  --badge-gold: #5a3fa0;
-  --focus: #8fbaf0;
-  --selection: #45386e;
+  --bg: #101f2e;
+  --surface: #18293b;
+  --bar: #17324f;
+  --bar-ink: #dceaf7;
+  --ink: #e3edf6;
+  --heading: #eaf3fb;
+  --muted: #a5bacd;
+  --line: #233850;
+  --line-strong: #3b5a7a;
+  --link: #8fc0f0;
+  --accent: #f09a72;
+  --accent-soft: #3a2419;
+  --on-accent: #101f2e;
+  --badge: #dceaf7;
+  --badge-ink: #101f2e;
+  --badge-gold: #2d6aa1;
+  --focus: #8fc0f0;
+  --selection: #2a4a68;
   color-scheme: dark;
 }
 :root[data-theme='light'] {
   color-scheme: light;
+}
+
+/* ---------- Alternative palette: "Sand" ----------
+   Warm apricot ground against the cool island; blue and orange are
+   complements, so the model stands further off the page. Switch it on with
+   data-palette="sand" on <html> (see the note above the tokens). */
+:root[data-palette='sand'] {
+  --bg: #fdf8f0;
+  --surface: #f8ecdb;
+  --bar: #f0d3ac;
+  --bar-ink: #6b3a1e;
+  --ink: #3a2d22;
+  --heading: #7a3b22;
+  --muted: #6d5a48;
+  --line: #f0e4d3;
+  --line-strong: #d9bf9e;
+  --link: #1258a4;
+  --accent: #a6481c;
+  --accent-soft: #fae2d2;
+  --on-accent: #ffffff;
+  --badge: #4a2716;
+  --badge-ink: #fdf3e8;
+  --badge-gold: #f0c48f;
+  --focus: #1258a4;
+  --selection: #f7ddc2;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-palette='sand']:not([data-theme='light']) {
+    --bg: #1e1813;
+    --surface: #2b2219;
+    --bar: #3d2c1d;
+    --bar-ink: #f3e3ce;
+    --ink: #f0e7db;
+    --heading: #f8eddf;
+    --muted: #c3af98;
+    --line: #342a20;
+    --line-strong: #584631;
+    --link: #8fbdf0;
+    --accent: #f0a072;
+    --accent-soft: #3d2718;
+    --on-accent: #1e1813;
+    --badge: #f5e7d5;
+    --badge-ink: #1e1813;
+    --badge-gold: #945829;
+    --focus: #8fbdf0;
+    --selection: #4a3826;
+  }
+}
+:root[data-palette='sand'][data-theme='dark'] {
+  --bg: #1e1813;
+  --surface: #2b2219;
+  --bar: #3d2c1d;
+  --bar-ink: #f3e3ce;
+  --ink: #f0e7db;
+  --heading: #f8eddf;
+  --muted: #c3af98;
+  --line: #342a20;
+  --line-strong: #584631;
+  --link: #8fbdf0;
+  --accent: #f0a072;
+  --accent-soft: #3d2718;
+  --on-accent: #1e1813;
+  --badge: #f5e7d5;
+  --badge-ink: #1e1813;
+  --badge-gold: #945829;
+  --focus: #8fbdf0;
+  --selection: #4a3826;
 }
 
 /* ---------- Reset ---------- */

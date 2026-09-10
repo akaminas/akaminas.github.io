@@ -1,11 +1,11 @@
 # Design system
 
-A pastel, illustrated personal site in the manner of an interactive academic homepage: a soft lavender bar over warm off-white paper, brush-lettered headings, a rounded humanist text face, Greek-flag blue for links and a purple accent. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
+A pastel, illustrated personal site in the manner of an interactive academic homepage: a pale sky-blue bar over cream paper, brush-lettered headings, a rounded humanist text face, deep navy headings and a terracotta accent. The palette is taken from the island itself. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
 
 ## Principles
 
 1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
-2. **White and blue, on lavender and cream.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The page around it is pastel: lavender bar, cream paper, purple accents. Nothing is neon.
+2. **The page borrows the island's colours.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The bar is the pale sky above that sea, the headings are the blue of the domes, and the paper is cream. The single warm note, a terracotta, is a colour the island does not use, so buttons and the "ongoing" marker read as controls rather than as scenery. Nothing is neon.
 3. **Two faces, one of them handwritten.** Headings, the wordmark, the navigation and the home tagline are Caveat Brush, a brush-marker script that reads as a hand-lettered sign; everything else — text, navigation, labels, dates, buttons — is Nunito, a rounded humanist sans, at 400 for text and 600–700 for the interface. The brush face is never used below heading size.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
@@ -27,17 +27,19 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#fbf6ef` | `#1a1726` | paper |
-| `--surface` | `#f3ecf9` | `#241f34` | cards, asides |
-| `--bar` / `--bar-ink` | `#cbbfe6` / `#3f2a73` | `#2e2650` / `#e6dcf8` | the header bar and its text |
-| `--ink` | `#2a2440` | `#ece7f5` | text (12.6:1 on paper) |
-| `--heading` | `#33256b` | `#efe7ff` | headings (10.9:1) |
-| `--muted` | `#625a7a` | `#b3abc7` | secondary text (6.0:1) |
-| `--link` | `#1d5fb4` | `#8fbaf0` | links (Greek-flag blue; 5.9:1) |
-| `--accent` / `--accent-soft` | `#7a4fb5` / `#ebe3f7` | `#c9b3ee` / `#35295a` | purple accent: buttons, chips, active states, the "ongoing" dot |
-| `--badge` / `--badge-ink` / `--badge-gold` | `#2b2260` / `#f4eefb` / `#d9c4f5` | `#e6dcf8` / `#1a1726` / `#5a3fa0` | the dark rounded badge and the island's hover labels |
-| `--line` / `--line-strong` | `#e4dbee` / `#c4b8d9` | `#342d4a` / `#4d4468` | hairlines, card borders |
-| `--focus` | `#1d5fb4` | `#8fbaf0` | focus ring |
+| `--bg` | `#fbf7ef` | `#101f2e` | paper |
+| `--surface` | `#e8f0f8` | `#18293b` | cards, asides |
+| `--bar` / `--bar-ink` | `#b9d8ef` / `#123a63` | `#17324f` / `#dceaf7` | the header bar and its text (7.8:1 / 9.9:1) |
+| `--ink` | `#22303f` | `#e3edf6` | body text (12.6:1 / 13.0:1) |
+| `--heading` | `#0f3f6b` | `#eaf3fb` | headings (10.1:1 / 14.2:1) |
+| `--muted` | `#4d6076` | `#a5bacd` | secondary text (6.1:1 / 7.4:1) |
+| `--link` | `#125a9e` | `#8fc0f0` | links (6.6:1 / 8.0:1) |
+| `--accent` / `--accent-soft` | `#a74826` / `#fbe3d8` | `#f09a72` / `#3a2419` | terracotta: buttons, chips, active states, the "ongoing" dot (5.5:1 / 8.2:1) |
+| `--badge` / `--badge-ink` / `--badge-gold` | `#0f3050` / `#eef6fc` / `#9fd0f0` | `#dceaf7` / `#101f2e` / `#2d6aa1` | the dark strip and the island's hover labels |
+| `--line` / `--line-strong` | `#dde7f0` / `#b0c5d8` | `#233850` / `#3b5a7a` | hairlines, card borders |
+| `--focus` | `#125a9e` | `#8fc0f0` | focus ring |
+
+A second palette, **Sand** (warm apricot bar, deep brown headings, burnt-orange accent, Greek-blue links), is defined in the same stylesheet and switched on with `data-palette="sand"` on `<html>` in `src/layouts/Base.astro`. Blue and orange are complements, so the island stands further off the page. The comment above the tokens lists the six other places that carry a hard-coded colour and must be changed with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons), and `scripts/og.html`. Both palettes, in both schemes, were checked against every text/background pair.
 
 The island itself uses fixed toy-brick colours (sea `#3d8fd1`, sand `#e8c97e`, grass `#63b04a`, white `#f6f4ef`, blue `#2a5fbf`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
