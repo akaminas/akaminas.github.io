@@ -341,24 +341,74 @@ function cube(x, y, z, w, d, h, opts = {}) {
   add(x + y - 8, hot({ id: 'methods', href: '/methods/', name: 'Methods', parts: s, lx: cx, ly: cy - 2.8 * S - 8, anchor: [x, y, z] }));
 }
 
-// Sustainability: a wind turbine and a small solar array on the back terrace.
+// Sustainability: a brick-built wind turbine on a small terrace, with solar panels.
+// The rotor is a real part, not a drawing: it lives in the one vertical plane
+// that faces the viewer square on (spanned by (1,−1,0)/√2 and z, which project
+// to screen horizontal and vertical), and every blade is extruded along the
+// rotor axis, so it carries a lit face, a rim and a shadowed back like the
+// bricks around it.
 {
   const x = 25.2, y = 8.2, z = 1.4;
   let s = box(x - 1, y - 1, z, 2, 2, 0.35, C.stone, { flat: true });
-  s += cylinder(x, y, z + 0.35, 0.34, 8.5, C.white);
-  const cx = px(x, y), cy = py(x, y, z + 8.85);
-  s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="5" fill="${C.white}" stroke="#c9c6bf" stroke-width="0.8"/>`;
-  for (const a of [-90, 30, 150]) {
-    const rr = (a * Math.PI) / 180;
-    const L = 58;
-    s += `<path d="M${f1(cx)},${f1(cy)} l${f1(Math.cos(rr - 0.06) * L)},${f1(Math.sin(rr - 0.06) * L)} l${f1(Math.cos(rr + 0.06) * L - Math.cos(rr - 0.06) * L)},${f1(Math.sin(rr + 0.06) * L - Math.sin(rr - 0.06) * L)} z" fill="#ffffff" stroke="#c9c6bf" stroke-width="0.8" stroke-linejoin="round"/>`;
+  // Tower, stacked from two parts the way a tower is built.
+  s += cylinder(x, y, z + 0.35, 0.66, 0.8, C.white);
+  s += cylinder(x, y, z + 1.15, 0.44, 6.6, C.white);
+  const zTop = z + 7.75;
+  // Nacelle: a plain brick housing, studs on top. It stands taller than the
+  // hub so its studded top stays in view behind the rotor.
+  s += box(x - 0.8, y - 0.8, zTop, 1.6, 1.6, 1.4, C.white);
+
+  // Screen basis of the rotor plane, and of the axis it is extruded along.
+  const E1 = 1.2247 * S; // one world unit across the plane → screen x
+  const E2 = -S; // one world unit up → screen y
+  const DEPTH = 0.7071 * S * 0.34; // 0.34 studs of thickness → screen y (downwards)
+  // Moving forward along the axis also moves down the screen, so the hub is
+  // raised by the same amount and lands square in front of the nacelle.
+  const AX = 0.85;
+  const hx = px(x + AX, y + AX);
+  const hy = py(x + AX, y + AX, zTop + 0.5 + AX);
+  const at = (a, b) => [hx + a * E1, hy + b * E2];
+  const spin = (u, v, th) => at(u * Math.cos(th) - v * Math.sin(th), u * Math.sin(th) + v * Math.cos(th));
+
+  const face = lighten(C.white, 0.08);
+  const rim = darken(C.white, 0.13);
+  const back = darken(C.white, 0.3);
+  const poly = (pts, fill, dy = 0) =>
+    `<polygon points="${pts.map((p) => `${f1(p[0])},${f1(p[1] + dy)}`).join(' ')}" fill="${fill}"/>`;
+  /** A flat part: shadowed back, a rim all round, then the lit face on top. */
+  const part = (pts) => {
+    let out = poly(pts, back);
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i];
+      const b = pts[(i + 1) % pts.length];
+      out += poly([a, b, [b[0], b[1] + DEPTH], [a[0], a[1] + DEPTH]], rim);
+    }
+    return out + poly(pts, face, DEPTH);
+  };
+
+  // One blade, in plane coordinates: root, a wide shoulder, then a taper to the tip.
+  const BLADE = [
+    [0.36, 0.36], [1.35, 0.34], [2.35, 0.25], [2.9, 0.15],
+    [2.9, -0.15], [2.35, -0.23], [1.35, -0.3], [0.36, -0.32],
+  ];
+  for (const deg of [90, 210, 330]) {
+    const th = (deg * Math.PI) / 180;
+    s += part(BLADE.map(([u, v]) => spin(u, v, th)));
   }
-  // solar array: tilted dark panels on the ground beside the mast
+  // Hub, with the axle hole that gives the part away.
+  const HUB = Array.from({ length: 14 }, (_, i) => {
+    const a = (i / 14) * Math.PI * 2;
+    return at(Math.cos(a) * 0.62, Math.sin(a) * 0.62);
+  });
+  s += part(HUB);
+  s += `<ellipse cx="${f1(hx)}" cy="${f1(hy + DEPTH)}" rx="${f1(0.2 * E1)}" ry="${f1(0.2 * S)}" fill="${darken(C.white, 0.42)}"/>`;
+
+  // Solar array: tilted dark panels on the ground beside the mast.
   for (let i = 0; i < 3; i++) {
     const sx = x + 1.8, sy = y + 1 + i * 1.5;
     s += `<polygon points="${pt(sx, sy, z)} ${pt(sx, sy + 1.3, z)} ${pt(sx + 1.8, sy + 1.3, z + 1.0)} ${pt(sx + 1.8, sy, z + 1.0)}" fill="${C.panel}" stroke="#7f92b3" stroke-width="0.8"/>`;
   }
-  add(x + y - 4, hot({ id: 'sustainability', href: '/work/sustainability-organisations-as-systems/', name: 'Sustainability', parts: s, lx: cx, ly: cy - 62, anchor: [x, y, z] }));
+  add(x + y - 4, hot({ id: 'sustainability', href: '/work/sustainability-organisations-as-systems/', name: 'Sustainability', parts: s, lx: hx, ly: hy - 2.9 * S - 10, anchor: [x, y, z] }));
 }
 
 // About: house with a terrace, an external stair and a bougainvillea.
