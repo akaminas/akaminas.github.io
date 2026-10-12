@@ -17,7 +17,7 @@ const projects = defineCollection({
     question: z.string(),
     /** Short summary for cards and meta descriptions (≤ 160 chars). */
     summary: z.string().max(200),
-    domain: z.enum(['ecology-evolution', 'sustainability-social', 'marine-systems']),
+    domain: z.enum(['ecology-evolution', 'sustainability-social', 'marine-systems', 'tools-visualisation']),
     role: z.string(),
     period: z.string(),
     status: z.enum(['ongoing', 'completed', 'published']),
