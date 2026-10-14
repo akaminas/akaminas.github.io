@@ -10,28 +10,28 @@
    → cards → prose → utilities → motion/print.
    ========================================================================== */
 
-/* ---------- Self-hosted fonts (Caveat Brush, Nunito — SIL OFL 1.1; see ASSET_PROVENANCE.md) ---------- */
+/* ---------- Self-hosted fonts (Roboto Mono, SIL OFL 1.1; Roboto Slab, Apache 2.0; see ASSET_PROVENANCE.md) ---------- */
 @font-face {
-  font-family: 'Caveat Brush';
-  src: url('/fonts/caveat-brush-latin-400.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Roboto Mono';
+  src: url('/fonts/roboto-mono-latin-wght.woff2') format('woff2');
+  font-weight: 100 700;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Nunito';
-  src: url('/fonts/nunito-latin-wght.woff2') format('woff2');
-  font-weight: 200 1000;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Nunito';
-  src: url('/fonts/nunito-latin-wght-italic.woff2') format('woff2');
-  font-weight: 200 1000;
+  font-family: 'Roboto Mono';
+  src: url('/fonts/roboto-mono-latin-wght-italic.woff2') format('woff2');
+  font-weight: 100 700;
   font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  src: url('/fonts/roboto-slab-latin-wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
@@ -40,16 +40,16 @@
 :root {
   color-scheme: light dark;
 
-  --font-display: 'Caveat Brush', 'Segoe Print', 'Bradley Hand', cursive;
-  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-ui: var(--font-body);
-  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-display: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-body: 'Roboto Slab', 'Georgia', 'Times New Roman', serif;
+  --font-ui: var(--font-display);
+  --font-mono: var(--font-display);
 
-  /* Display sizes for the brush headings, which need to run larger than text. */
-  --disp-1: clamp(2.7rem, 2rem + 2.6vw, 3.8rem);
-  --disp-2: clamp(2.1rem, 1.7rem + 1.4vw, 2.8rem);
-  --disp-3: clamp(1.6rem, 1.4rem + 0.6vw, 1.9rem);
-  --disp-4: clamp(1.35rem, 1.25rem + 0.4vw, 1.55rem);
+  /* Display sizes for the monospaced headings. */
+  --disp-1: clamp(1.9rem, 1.5rem + 1.4vw, 2.5rem);
+  --disp-2: clamp(1.45rem, 1.25rem + 0.8vw, 1.85rem);
+  --disp-3: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+  --disp-4: clamp(1.05rem, 1rem + 0.2vw, 1.15rem);
 
   /* Type scale (gently fluid). Body never below 17px. */
   --step--1: clamp(0.9rem, 0.88rem + 0.1vw, 0.95rem);
@@ -79,10 +79,8 @@
   --radius-s: 6px;
   --rule: 1px;
 
-  /* Colour — "Aegean": the island's own palette. The bar is the pale sky above
-     the sea plate, the headings are the blue of the domes, the paper is cream,
-     and the one warm note is a terracotta that the island itself does not use,
-     so buttons and the "ongoing" marker stand out against the model.
+  /* Colour — Aegean: white paper (#f4f4f4), one blue (#007ba7) for the bar,
+     links and controls, deep slate text, pale blue-grey surfaces.
 
      A second palette, "Sand", is defined below and is switched on by setting
      data-palette="sand" on <html> in src/layouts/Base.astro. When switching,
@@ -90,24 +88,24 @@
      the inline pre-paint script), the two in src/scripts/theme.ts, the two in
      public/site.webmanifest, the tile colour in public/favicon.svg (then
      re-render the icons), and the colours in scripts/og.html. */
-  --bg: #fbf7ef;                  /* paper */
-  --surface: #e8f0f8;             /* cards, asides */
-  --bar: #b9d8ef;                 /* the header bar */
-  --bar-ink: #123a63;             /* text on the bar */
-  --ink: #22303f;                 /* body text */
-  --heading: #0f3f6b;             /* headings */
-  --muted: #4d6076;               /* secondary text */
-  --line: #dde7f0;                /* hairlines */
-  --line-strong: #b0c5d8;         /* stronger hairlines */
-  --link: #125a9e;                /* links */
-  --accent: #a74826;              /* buttons, chips, "ongoing" */
-  --accent-soft: #fbe3d8;         /* chip and button grounds */
-  --on-accent: #ffffff;           /* text on a filled accent */
-  --badge: #0f3050;               /* the dark strip and the island labels */
-  --badge-ink: #eef6fc;           /* text on the badge */
-  --badge-gold: #9fd0f0;          /* emphasis on the badge */
-  --focus: #125a9e;               /* focus ring */
-  --selection: #cfe6f7;           /* text selection */
+  --bg: #f4f4f4;                  /* white paper */
+  --surface: #e8eef2;             /* cards, asides */
+  --bar: #007ba7;                 /* the header bar: Aegean blue */
+  --bar-ink: #f4f4f4;             /* text on the bar */
+  --ink: #243541;                 /* body text: deep slate */
+  --heading: #123b4f;             /* headings */
+  --muted: #5a6b76;               /* secondary text */
+  --line: #dfe5e9;                /* hairlines */
+  --line-strong: #b8c6cf;         /* stronger hairlines */
+  --link: #007ba7;                /* links */
+  --accent: #007ba7;              /* buttons, chips, "ongoing" */
+  --accent-soft: #d9ecf4;         /* chip and button grounds */
+  --on-accent: #f4f4f4;           /* text on a filled accent */
+  --badge: #123b4f;               /* the dark strip and the island labels */
+  --badge-ink: #f4f4f4;           /* text on the badge */
+  --badge-gold: #7fc8e6;          /* emphasis on the badge */
+  --focus: #007ba7;               /* focus ring */
+  --selection: #cfe6f0;           /* text selection */
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -119,46 +117,46 @@
    system preference unless a light theme was chosen with the header toggle. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #101f2e;
-    --surface: #18293b;
-    --bar: #17324f;
-    --bar-ink: #dceaf7;
-    --ink: #e3edf6;
-    --heading: #eaf3fb;
-    --muted: #a5bacd;
-    --line: #233850;
-    --line-strong: #3b5a7a;
-    --link: #8fc0f0;
-    --accent: #f09a72;
-    --accent-soft: #3a2419;
-    --on-accent: #101f2e;
-    --badge: #dceaf7;
-    --badge-ink: #101f2e;
-    --badge-gold: #2d6aa1;
-    --focus: #8fc0f0;
-    --selection: #2a4a68;
+    --bg: #0f1c24;
+    --surface: #16262f;
+    --bar: #0b3a4f;
+    --bar-ink: #e9f3f7;
+    --ink: #e4edf2;
+    --heading: #f1f7fa;
+    --muted: #a3b6c1;
+    --line: #223641;
+    --line-strong: #3b5565;
+    --link: #5fc0e6;
+    --accent: #5fc0e6;
+    --accent-soft: #123a4b;
+    --on-accent: #0f1c24;
+    --badge: #e9f3f7;
+    --badge-ink: #0f1c24;
+    --badge-gold: #007ba7;
+    --focus: #5fc0e6;
+    --selection: #1e4659;
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #101f2e;
-  --surface: #18293b;
-  --bar: #17324f;
-  --bar-ink: #dceaf7;
-  --ink: #e3edf6;
-  --heading: #eaf3fb;
-  --muted: #a5bacd;
-  --line: #233850;
-  --line-strong: #3b5a7a;
-  --link: #8fc0f0;
-  --accent: #f09a72;
-  --accent-soft: #3a2419;
-  --on-accent: #101f2e;
-  --badge: #dceaf7;
-  --badge-ink: #101f2e;
-  --badge-gold: #2d6aa1;
-  --focus: #8fc0f0;
-  --selection: #2a4a68;
+  --bg: #0f1c24;
+  --surface: #16262f;
+  --bar: #0b3a4f;
+  --bar-ink: #e9f3f7;
+  --ink: #e4edf2;
+  --heading: #f1f7fa;
+  --muted: #a3b6c1;
+  --line: #223641;
+  --line-strong: #3b5565;
+  --link: #5fc0e6;
+  --accent: #5fc0e6;
+  --accent-soft: #123a4b;
+  --on-accent: #0f1c24;
+  --badge: #e9f3f7;
+  --badge-ink: #0f1c24;
+  --badge-gold: #007ba7;
+  --focus: #5fc0e6;
+  --selection: #1e4659;
   color-scheme: dark;
 }
 :root[data-theme='light'] {
@@ -294,9 +292,9 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: 0;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   color: var(--heading);
   margin: 0 0 var(--space-4);
   text-wrap: balance;
