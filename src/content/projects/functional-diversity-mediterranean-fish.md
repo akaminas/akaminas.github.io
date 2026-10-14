@@ -19,7 +19,6 @@ collaborators: []
 publications: []
 talks: []
 links: []
-motif: hypervolume
 featured: false
 order: 4
 ---

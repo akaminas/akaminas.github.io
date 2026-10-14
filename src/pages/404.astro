@@ -1,43 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import Motif from '../components/Motif.astro';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
 <Base title="Page not found" description="The page you asked for does not exist on this site.">
-  <section class="container nf">
-    <div class="nf__fig" aria-hidden="true">
-      <Motif kind="records" size={72} />
+  <PageHeader eyebrow="404" title="No such page" lead="The address may be out of date. Everything on the site is reachable from the menu.">
+    <div class="cta-row">
+      <a class="btn-solid" href="/">Home</a>
+      <a class="btn-outline" href="/work/">Work</a>
     </div>
-    <div>
-      <p class="label">404</p>
-      <h1>No such page</h1>
-      <p class="lede">The address may be out of date. Everything on the site is reachable from the menu.</p>
-      <p><a class="arrow-link" href="/">Back to the home page</a></p>
-    </div>
-  </section>
+  </PageHeader>
 </Base>
-
-<style>
-  .nf {
-    padding-block: var(--space-8);
-    display: grid;
-    gap: var(--space-5);
-    align-items: start;
-  }
-  @media (min-width: 42rem) {
-    .nf {
-      grid-template-columns: 6rem minmax(0, 40rem);
-      gap: var(--space-6);
-    }
-  }
-  .nf__fig {
-    color: var(--accent);
-    background: var(--surface);
-    border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
-    width: 6rem;
-    height: 6rem;
-    display: grid;
-    place-items: center;
-  }
-</style>

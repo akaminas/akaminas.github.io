@@ -25,7 +25,6 @@ talks: []
 links:
   - label: SDG4U project team
     url: https://www.sdg4uproject.eu/team/
-motif: nested
 featured: true
 order: 5
 ---

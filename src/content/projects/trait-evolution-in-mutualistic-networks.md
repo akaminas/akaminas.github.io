@@ -17,8 +17,8 @@ collaborators: []
 publications: []
 talks: []
 links: []
-motif: bipartite
-featured: true
+texture: network
+featured: false
 order: 2
 ---
 

@@ -11,7 +11,7 @@ Working notes on privacy, cookies, accessibility, copyright and Dutch/EU law for
 
 ## Privacy architecture (what the site actually does)
 
-- Fully static HTML/CSS with two small inline scripts (mobile menu and colour-scheme toggle; a pre-paint reader for the stored colour-scheme choice). No frameworks loaded at runtime. The home-page island is a static SVG committed to the repository (drawn by `scripts/make-island.mjs`); its hover effects are CSS only, so it ships no script at all.
+- Fully static HTML/CSS with three small scripts: the colour-scheme toggle, a pre-paint reader for the stored colour-scheme choice, and the home-page model (`src/scripts/archipelago.ts`, a canvas animation that reads no input, stores nothing and makes no requests). No frameworks loaded at runtime. The textures are inline SVG generated at build time and ship no script.
 - No analytics, advertising, tracking pixels, fingerprinting, session replay, A/B testing or error reporting.
 - No contact form, comments, newsletter, search backend or embeds. Contact is a `mailto:` link.
 - No third-party requests at all: fonts, images, icons and scripts are served from the site's own origin. External profiles (GitHub, ORCID, Google Scholar, ResearchGate, RUG portal) are plain links.
@@ -70,8 +70,8 @@ Reviewed the supplied CV against what is published.
 
 ## Copyright audit
 
-- Fonts: Caveat Brush and Nunito, both SIL OFL 1.1, self-hosted with licence files fetched from the `google/fonts` repository; see `ASSET_PROVENANCE.md`. Compliant.
-- Graphics: all original (favicon, motifs, home-page island, OG image). The island is drawn from generic geometric primitives in the manner of a toy-brick model; it reproduces no trademarked product, set, logo or minifigure design, and the site does not use any brand name for it (the word "LEGO" does not appear on the site). No third-party logos or stock imagery.
+- Fonts: TeX Gyre Pagella (GUST Font License) and Lato (SIL OFL 1.1), self-hosted with their licence files; the system's Palatino and Corbel are used first where present. See `ASSET_PROVENANCE.md`. Compliant.
+- Graphics: all original (favicon, the generative textures, the home-page model, OG image), drawn by the site's own code from geometric primitives; one thumbnail is reused from the owner's own Vellum project (CC BY 4.0). No third-party logos or stock imagery. The home-page model is a canvas animation that runs in the visitor's browser, reads no input, stores nothing and makes no requests.
 - Portrait: **pending** — photographer permission to be confirmed by the owner (see `ASSET_PROVENANCE.md`). Under Dutch Auteurswet art. 19 a person portrayed in a commissioned portrait may reproduce it, but the photographer holds copyright; documenting consent avoids any doubt.
 - Publications: linked by DOI only; no publisher PDFs or figures reproduced.
 - Supplied reference material (Apple Style Guide, source CV, photo original) is not in the repository and not deployed.
@@ -81,8 +81,8 @@ Reviewed the supplied CV against what is published.
 
 - Target: WCAG 2.2 Level AA. Implementation is described in `DESIGN_SYSTEM.md`.
 - Automated: axe-core 4.x with tags wcag2a/aa, wcag21a/aa, wcag22aa, best-practice — **0 violations** on 11 pages × 2 viewports × 2 colour schemes (2026-09-06).
-- Moving content (WCAG 2.2.2): not applicable — nothing moves by itself. The home-page island responds to hover and focus with a short CSS transition (lift or brighten, and a label), which is user-initiated, reversible and collapsed under `prefers-reduced-motion`. The earlier canvas simulation was replaced by a static figure on 2026-09-10; the decorative "watchers" were removed on 2026-09-06.
-- Manual: keyboard walkthrough of every page (skip link → wordmark → nav → content; visible 3 px focus ring on all stops; mobile menu opens with Enter, closes with Escape and returns focus); 200 % zoom equivalent (720 px viewport) without horizontal scrolling; dark and light schemes contrast-checked numerically. Re-run needed after the 2026-09-10 rebuild (new typefaces, palette and the interactive island; the island's links were checked to be reachable and labelled in the accessibility tree, and the plain-text key under it repeats every link).
+- Moving content (WCAG 2.2.2): the home-page model animates continuously but is drawn still under `prefers-reduced-motion` (the operating-system control), pauses when off screen or in a hidden tab, is purely decorative (its meaning is in the caption and the canvas description), and is laid beside the text rather than behind it, so it does not interfere with reading. Hover effects elsewhere are short CSS transitions that collapse under reduced motion.
+- Manual: keyboard walkthrough of every page (skip link → mark → nav → content; visible 2 px focus ring on all stops; the navigation needs no menu button and scrolls sideways on phones); 390 px and 720 px viewports without horizontal scrolling; dark and light schemes taken from Vellum's contrast-checked palette. Re-run needed after the 2026-10-14 restyle (new typefaces, palette, textures and the live model).
 - Screen reader: not tested with a real screen reader in this environment. Structure was verified via the accessibility tree (landmarks, headings, accessible names). **Recommended:** one pass with NVDA (Windows) on the deployed site.
 - Legal applicability: the European Accessibility Act (Directive 2019/882) covers specified products and services placed on the market by economic operators (e-commerce, banking, transport, e-books, telecoms…), with a micro-enterprise exemption; Dutch government guidance frames it in terms of businesses above size thresholds. A non-commercial personal research site is outside its scope. Accessibility here is a design commitment, not a legal obligation. Sources: <https://eur-lex.europa.eu/eli/dir/2019/882/oj/eng>; <https://business.gov.nl/regulations/rules-for-accessibility-eaa/>; <https://www.w3.org/TR/WCAG22/>.
 

@@ -1,6 +1,7 @@
 ---
 /**
- * One publication: title, authors, venue and identifiers.
+ * One publication: title (a DOI link), authors with the owner emphasised,
+ * venue, and a line of identifiers in small mono.
  */
 import type { CollectionEntry } from 'astro:content';
 
@@ -22,9 +23,7 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
 ---
 
 <li class="pub" id={pub.id}>
-  <p class="pub__title">
-    {doiUrl ? <a href={doiUrl} rel="noopener">{d.title}</a> : d.title}
-  </p>
+  <p class="pub__title">{doiUrl ? <a href={doiUrl} rel="noopener">{d.title}</a> : d.title}</p>
   <p class="pub__authors">
     {
       d.authors.map((a, i) => (
@@ -52,45 +51,3 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
     {d.note && <span>{d.note}</span>}
   </p>
 </li>
-
-<style>
-  .pub p {
-    margin: 0;
-    max-width: var(--measure);
-  }
-  .pub__title {
-    font-weight: 700;
-    line-height: 1.4;
-    margin-bottom: var(--space-1) !important;
-    text-wrap: pretty;
-  }
-  .pub__title a {
-    color: var(--heading);
-  }
-  .pub__title a:hover {
-    color: var(--accent);
-  }
-  .pub__authors {
-    color: var(--muted);
-    font-size: var(--step--1);
-  }
-  .pub__authors strong {
-    color: var(--ink);
-  }
-  .pub__venue {
-    font-size: var(--step--1);
-  }
-  .pub__ids {
-    margin-top: var(--space-2) !important;
-    font-family: var(--font-ui);
-    font-size: var(--step--1);
-    color: var(--muted);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem 0.6rem;
-  }
-  .pub__ids > * + *::before {
-    content: '·';
-    margin-right: 0.6rem;
-  }
-</style>

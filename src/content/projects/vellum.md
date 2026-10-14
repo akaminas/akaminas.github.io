@@ -18,12 +18,15 @@ institutions: []
 collaborators: []
 publications: []
 talks: []
+image:
+  light: /images/vellum-surface3d-light.webp
+  dark: /images/vellum-surface3d-dark.webp
+  alt: A rotatable 3D fitness surface with two adaptive peaks joined by a saddle, drawn in the Vellum style.
 links:
   - label: Site
     url: https://akaminas.github.io/vellum/
   - label: Source
     url: https://github.com/akaminas/vellum
-motif: field
 featured: false
 order: 6
 ---

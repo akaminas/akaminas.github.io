@@ -1,0 +1,37 @@
+---
+/**
+ * A project as a tile: its texture (or a real figure), the title in serif,
+ * and one line of domain, period and status.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Texture from './Texture.astro';
+import { domains, statusLabel } from '../data/domains';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  headingLevel?: 'h2' | 'h3';
+}
+const { project, headingLevel = 'h3' } = Astro.props;
+const d = project.data;
+const dom = domains[d.domain];
+const Heading = headingLevel;
+---
+
+<a class="tile" href={`/work/${project.id}/`}>
+  <span class="tile-art">
+    {
+      d.image ? (
+        <>
+          <img class="twin-light" src={d.image.light} alt="" width="720" height="476" loading="lazy" decoding="async" />
+          <img class="twin-dark" src={d.image.dark} alt="" width="720" height="476" loading="lazy" decoding="async" />
+        </>
+      ) : (
+        <Texture kind={d.texture ?? dom.texture} hue={dom.hue} seed={project.id} />
+      )
+    }
+  </span>
+  <Heading class="tile-title">{d.title}</Heading>
+  <span class="tile-kind">
+    {dom.short} · {d.period} · {statusLabel[d.status]}
+  </span>
+</a>

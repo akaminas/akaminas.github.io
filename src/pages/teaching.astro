@@ -6,56 +6,75 @@ import Section from '../components/Section.astro';
 
 const entries = (await getCollection('teaching')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
+const courses = rendered.filter(({ e }) => e.data.code);
+const rest = rendered.filter(({ e }) => !e.data.code);
 
 const groups = [
-  { kind: 'supervision', title: 'Supervision', intro: 'Guiding quantitative modelling projects from question to analysis.' },
-  { kind: 'teaching', title: 'Teaching', intro: 'Tutoring and instruction.' },
-  { kind: 'service', title: 'Academic service', intro: 'Peer review and society roles.' },
-  { kind: 'outreach', title: 'Outreach', intro: 'Public speaking and student outreach.' },
+  { kind: 'supervision', title: 'Supervision' },
+  { kind: 'teaching', title: 'Earlier teaching' },
+  { kind: 'service', title: 'Academic service' },
+  { kind: 'outreach', title: 'Outreach' },
 ] as const;
 ---
 
 <Base
   title="Teaching and supervision"
-  description="Teaching and supervision by Alexandros Kaminas: MSc research project supervision at the University of Groningen (TRÊS), tutoring in biology, geology, physics and chemistry, peer review and academic service."
+  description="Teaching by Alexandros Kaminas: teaching assistant for the MSc courses Mathematical models for Biology, Programming C++ for Biologists and Modelling Complex Biological Systems at the University of Groningen; MSc research project supervision at TRÊS; peer review and academic service."
 >
-  <PageHeader
-    title="Teaching and supervision"
-    lede="Supervision is where the modelling toolkit gets passed on: framing a question so that a model can answer it, choosing a structure the data can support, and reading the results critically."
-  />
+  <PageHeader title="Teaching and supervision" lead="Passing the modelling toolkit on: framing a question so a model can answer it, choosing a structure the data can support, and reading the results critically." />
+
+  <Section id="courses" title="Courses">
+    <ul class="courses">
+      {
+        courses.map(({ e, Content }) => (
+          <li>
+            <article class="course">
+              <span class="eyebrow">
+                {e.data.code} · {e.data.credits} ECTS · {e.data.level} · {e.data.block}
+              </span>
+              <h3>
+                {e.data.url ? (
+                  <a href={e.data.url} rel="noopener">
+                    {e.data.title}
+                  </a>
+                ) : (
+                  e.data.title
+                )}
+              </h3>
+              <p class="course-role">
+                {e.data.role} · {e.data.institution}, {e.data.period}
+              </p>
+              <div class="course-text">
+                <Content />
+              </div>
+              {e.data.url && (
+                <a class="more" href={e.data.url} rel="noopener">
+                  Course catalogue →
+                </a>
+              )}
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
 
   {
     groups.map((g) => {
-      const items = rendered.filter(({ e }) => e.data.kind === g.kind);
+      const items = rest.filter(({ e }) => e.data.kind === g.kind);
       if (items.length === 0) return null;
       return (
-        <Section id={`t-${g.kind}`} title={g.title} intro={g.intro}>
+        <Section id={`t-${g.kind}`} title={g.title}>
           <ol class="ledger entries">
             {items.map(({ e, Content }) => (
-              <li class="entry">
+              <li>
                 <span class="ledger__when">{e.data.period}</span>
-                <div class="entry__body">
-                  <h3 class="entry__title">
-                    {e.data.project ? <a href={`/work/${e.data.project}/`}>{e.data.title}</a> : e.data.title}
-                  </h3>
-                  <p class="entry__role">
+                <div>
+                  <p class="ledger__title">{e.data.project ? <a href={`/work/${e.data.project}/`}>{e.data.title}</a> : e.data.title}</p>
+                  <p class="ledger__where">
                     {e.data.role} · {e.data.institution}
                   </p>
-                  {e.data.student && (
-                    <dl class="spec entry__student">
-                      <dt>Student</dt>
-                      <dd>{e.data.student}</dd>
-                      {e.data.thesis && (
-                        <>
-                          <dt>Thesis</dt>
-                          <dd>
-                            <em>{e.data.thesis}</em>
-                          </dd>
-                        </>
-                      )}
-                    </dl>
-                  )}
-                  <div class="prose small entry__text">
+                  <div class="ledger__note entry-text">
                     <Content />
                   </div>
                 </div>
@@ -70,22 +89,10 @@ const groups = [
 
 <style>
   .entries {
-    --ledger-col: 7rem;
+    --ledger-col: 8rem;
   }
-  .entry__title {
-    margin-bottom: var(--space-1);
-  }
-  .entry__role {
-    font-size: var(--step--1);
-    margin-bottom: var(--space-3) !important;
-  }
-  .entry__student {
-    margin-bottom: var(--space-3);
-  }
-  .entry__text :global(p) {
-    margin-bottom: var(--space-3);
-  }
-  .entry__text :global(p:last-child) {
-    margin-bottom: 0;
+  .entry-text :global(p) {
+    margin: 4px 0 0;
+    max-width: var(--measure);
   }
 </style>

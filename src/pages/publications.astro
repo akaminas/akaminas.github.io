@@ -31,24 +31,21 @@ const articleSchema = pubs
   description="Peer-reviewed publications by Alexandros Kaminas, 2020–2026: sustainability and circular economy in organisations, citizen science and marine non-indigenous species, fish feeding ecology. With DOIs and licences."
   schema={articleSchema}
 >
-  <PageHeader
-    title="Publications"
-    lede="2020–Present. Everything listed here is published and peer reviewed; work in progress is described on the project pages."
-  >
-    <p class="small muted pubs__also">
-      Also on <a href={site.profiles.scholar} rel="noopener">Google Scholar</a>,{' '}
-      <a href={site.profiles.orcid} rel="me noopener">ORCID</a> and the{' '}
-      <a href={site.profiles.rug} rel="noopener">University of Groningen research portal</a>.
-    </p>
+  <PageHeader title="Publications">
+    <ul class="profiles" aria-label="Also on">
+      <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
+      <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
+      <li><a href={site.profiles.rug} rel="noopener">University of Groningen research portal</a></li>
+    </ul>
   </PageHeader>
 
-  <Section id="selected" title="Selected" intro="Papers where I am first author or the topic is closest to my current work.">
+  <Section id="selected" title="Selected">
     <ol class="register">
       {highlights.map((p) => <PublicationItem pub={p} />)}
     </ol>
   </Section>
 
-  <Section id="all" title="All publications" intro="By year, most recent first. My name is highlighted in the author lists.">
+  <Section id="all" title="All publications">
     {
       years.map((y) => (
         <section aria-labelledby={`y-${y}`}>
@@ -67,10 +64,3 @@ const articleSchema = pubs
     }
   </Section>
 </Base>
-
-<style>
-  .pubs__also {
-    margin-top: var(--space-3);
-    font-family: var(--font-ui);
-  }
-</style>

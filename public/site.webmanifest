@@ -1,11 +1,11 @@
 {
   "name": "Alexandros Kaminas",
   "short_name": "A. Kaminas",
-  "description": "Modelling complex systems.",
+  "description": "Quantitative models of ecology, evolution and sustainability.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#fbf7ef",
-  "theme_color": "#b9d8ef",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }

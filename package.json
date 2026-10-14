@@ -2,14 +2,15 @@
   "name": "akaminas.github.io",
   "private": true,
   "version": "1.0.0",
-  "description": "Professional website of Alexandros Kaminas — mathematical and computational modelling of complex systems.",
+  "description": "Professional website of Alexandros Kaminas — quantitative models of ecology, evolution and sustainability.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "assets": "node scripts/make-assets.mjs"
+    "assets": "node scripts/make-assets.mjs",
+    "icons": "python scripts/render-assets.py"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

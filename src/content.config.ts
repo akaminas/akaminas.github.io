@@ -2,9 +2,8 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 /**
- * Structured content. Adding a publication, project, talk or supervised
- * student is a matter of adding one file to the matching folder.
- * See README.md → "Updating content".
+ * Structured content. Adding a publication, project, talk, course or
+ * supervised student is a matter of adding one file to the matching folder.
  */
 
 const link = z.object({ label: z.string(), url: z.string().url() });
@@ -15,7 +14,7 @@ const projects = defineCollection({
     title: z.string(),
     /** One-sentence research question shown under the title. */
     question: z.string(),
-    /** Short summary for cards and meta descriptions (≤ 160 chars). */
+    /** Short summary for tiles and meta descriptions (≤ 200 chars). */
     summary: z.string().max(200),
     domain: z.enum(['ecology-evolution', 'sustainability-social', 'marine-systems', 'tools-visualisation']),
     role: z.string(),
@@ -33,8 +32,10 @@ const projects = defineCollection({
     /** Talk ids (file names in src/content/talks) related to this project. */
     talks: z.array(z.string()).default([]),
     links: z.array(link).default([]),
-    /** Which SVG motif illustrates the project (see src/components/Motif.astro). */
-    motif: z.enum(['patches', 'bipartite', 'fold', 'hypervolume', 'nested', 'records', 'field']),
+    /** Which generative texture illustrates the project; defaults to the domain's (see src/data/domains.ts). */
+    texture: z.enum(['voxels', 'stipple', 'contours', 'grid', 'network']).optional(),
+    /** A real figure instead of a texture: light and dark versions under public/. */
+    image: z.object({ light: z.string(), dark: z.string(), alt: z.string() }).optional(),
     featured: z.boolean().default(false),
     order: z.number().default(100),
   }),
@@ -92,6 +93,12 @@ const teaching = defineCollection({
     institution: z.string(),
     period: z.string(),
     kind: z.enum(['supervision', 'teaching', 'service', 'outreach']),
+    /** For a university course: its catalogue code, credits, level, block and catalogue page. */
+    code: z.string().optional(),
+    credits: z.number().optional(),
+    level: z.string().optional(),
+    block: z.string().optional(),
+    url: z.string().url().optional(),
     student: z.string().optional(),
     thesis: z.string().optional(),
     project: z.string().optional(),

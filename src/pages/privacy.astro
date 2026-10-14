@@ -20,11 +20,11 @@ const contents = [
   title="Privacy"
   description="Privacy notice for akaminas.github.io: a static site with no cookies, no analytics and no tracking. What the hosting provider (GitHub Pages) logs, what happens when you email me, and your rights."
 >
-  <PageHeader title="Privacy notice" lede="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
+  <PageHeader title="Privacy notice" lead="This site is built to know as little about you as possible. Here is exactly what happens when you visit it." />
 
-  <div class="container privacy">
+  <div class="privacy">
     <nav class="privacy__toc" aria-label="On this page">
-      <p class="label">Contents</p>
+      <span class="eyebrow">Contents</span>
       <ol class="toc">
         {
           contents.map(([id, label]) => (
@@ -75,7 +75,7 @@ const contents = [
       <h2 id="cookies">Cookies and local storage</h2>
       <p>
         This site sets <strong>no cookies</strong> and does not use session storage or IndexedDB. It loads no
-        third-party scripts, fonts, images or embeds; all requests go to this site's own domain.
+        third-party scripts, fonts, images or embeds; all requests go to this site's own domain. The animated model on the home page runs entirely in your browser and stores nothing.
       </p>
       <p>
         The colour scheme follows your operating-system preference. If you use the sun/moon button in the header to
@@ -119,11 +119,11 @@ const contents = [
 
       <h2 id="content">Content and copyright</h2>
       <p>
-        Text, page design and original graphics on this site (including the island on the home page and the
-        project drawings) are © {site.name}. Reuse requires permission unless otherwise stated. The portrait
+        Text, page design and original graphics on this site (including the generative textures and the live
+        model on the home page) are © {site.name}. Reuse requires permission unless otherwise stated. The portrait
         photograph remains the copyright of its photographer and is used only on this site. Publications linked from this site
         belong to their publishers and authors and carry their own licences (most are CC BY 4.0, as marked). The
-        fonts are Caveat Brush and Nunito, used under the SIL Open Font License 1.1. A full provenance list is in the{' '}
+        fonts are TeX Gyre Pagella (GUST Font License) and Lato (SIL Open Font License 1.1), served from this site. A full provenance list is in the{' '}
         <a href={`${site.repo}/blob/main/ASSET_PROVENANCE.md`} rel="noopener">source repository</a>.
       </p>
 
@@ -139,38 +139,31 @@ const contents = [
 <style>
   .privacy {
     display: grid;
-    gap: var(--space-6) var(--space-7);
-    padding-block: var(--space-4) var(--space-7);
+    gap: 40px 56px;
+    align-items: start;
   }
-  @media (min-width: 52rem) {
+  @media (min-width: 60rem) {
     .privacy {
       grid-template-columns: 11rem minmax(0, 1fr);
-      padding-block: var(--space-5) var(--space-8);
     }
     .privacy__toc {
       position: sticky;
-      top: 5rem;
-      align-self: start;
+      top: 96px;
     }
   }
-  .toc {
-    list-style: none;
+  .privacy .toc {
+    flex-direction: column;
+    gap: 0;
     margin: 0;
+  }
+  .privacy .toc a {
+    background: none;
     padding: 0;
-    font-size: var(--step--1);
-    font-family: var(--font-ui);
+    min-height: 32px;
+    color: var(--v-muted);
+    border-radius: 0;
   }
-  .toc li {
-    max-width: none;
-  }
-  .toc a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-    text-decoration: none;
-    color: var(--muted);
-  }
-  .toc a:hover {
+  .privacy .toc a:hover {
     color: var(--accent);
   }
 </style>

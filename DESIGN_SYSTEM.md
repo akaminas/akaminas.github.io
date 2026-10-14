@@ -1,89 +1,94 @@
 # Design system
 
-A pastel, illustrated personal site in the manner of an interactive academic homepage: a pale sky-blue bar over cream paper, brush-lettered headings, a rounded humanist text face, deep navy headings and a terracotta accent. The palette is taken from the island itself. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
+The site is set in **Vellum**, the figure system at <https://akaminas.github.io/vellum/> (repository `akaminas/vellum`): a white page, warm cream panels, six muted earth pigments in three steps each, a serif claim over a sans body, small spaced capitals for labels, and a dark twin on warm charcoal. The colour tokens are copied verbatim from Vellum's `style/vellum.json`; the page tokens follow the current layer of Vellum's own `docs/assets/css/site.css`. Everything lives in `src/styles/site.css`.
 
 ## Principles
 
-1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
-2. **The page borrows the island's colours.** The island is Santorini: white cubes, blue domes, blue doors and shutters, a blue sea. The bar is the pale sky above that sea, the headings are the blue of the domes, and the paper is cream. The single warm note, a terracotta, is a colour the island does not use, so buttons and the "ongoing" marker read as controls rather than as scenery. Nothing is neon.
-3. **Two faces, one of them handwritten.** Headings, the wordmark, the navigation and the home tagline are Caveat Brush, a brush-marker script that reads as a hand-lettered sign; everything else — text, navigation, labels, dates, buttons — is Nunito, a rounded humanist sans, at 400 for text and 600–700 for the interface. The brush face is never used below heading size.
-4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
-5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
+1. **One hue and one texture per discipline.** Ecology and evolution are teal and drawn as a stipple field; sustainability and social systems are terracotta voxels; marine systems are indigo bathymetric contours; tools are mauve figure anatomy. A fifth texture, a network, serves the methods page. The textures are generated at build time (`src/components/Texture.astro`), coloured by CSS variables so they follow the theme, and seeded by the project id so a tile keeps its drawing between builds. A project may override its domain's texture (`texture:` in its front matter) or replace it with a real figure (`image:`), as Vellum does. The map is in `src/data/domains.ts`.
+2. **The illustration is a model.** The home page carries a live island-biogeography simulation drawn as an isometric voxel archipelago (`src/components/Hero.astro`, `src/scripts/archipelago.ts`): a mainland holds eighteen lineages in the six hue families; each absent lineage reaches an island at a rate that falls with distance, each present one goes extinct at a rate that falls with area, and on large islands a lineage now and then splits into an endemic one. Near, large islands fill; far, small ones stay sparse. The land is neutral (`--land-*` tokens) so the coloured blocks read as the data. Under `prefers-reduced-motion` the model is run to equilibrium once and drawn still; without JavaScript a still voxel texture stands in. Nothing is stored and nothing leaves the page.
+3. **Little text, no subtitles.** Pages open with a serif title over a 56 px accent rule and at most one lead sentence. Section heads are spaced capitals over a rule, with one link at the right and no introduction under them. The home page says one sentence per section.
+4. **Progressive enhancement.** Navigation, content and textures need no JavaScript. JavaScript adds the colour-scheme toggle and the live model, and nothing else.
 
 ## Typography
 
 | Role | Face | Size / weight | Notes |
 | --- | --- | --- | --- |
-| Headings, wordmark, navigation, home tagline | Caveat Brush | display scale `--disp-1` … `--disp-4` (≈ 2.7–3.8 rem for H1), 400 | line-height 1.15, no tracking |
-| Body | Nunito | 17–18 px, 400, italic for emphasis | line-height 1.65, measure 68ch |
-| Labels, dates, chips, buttons, footer, island labels | Nunito | 0.9–1 rem, 600–700 | |
-| Code | system monospace | 0.9 em | not self-hosted |
+| Titles, tile and course titles, publication titles, the facts | Palatino Linotype → TeX Gyre Pagella → Palatino | 400; page titles `clamp(2.6rem, 1.8rem + 2.6vw, 3.8rem)`, the home title up to 4.6 rem | letter-spacing −0.005 em (−0.02 em on the home title), `text-wrap: balance` |
+| Body | Corbel → Lato → Segoe UI | 17 px, 400 and 700 | line-height 1.6, measure 68ch, lining numerals |
+| Labels: navigation, section heads, buttons, facts captions | Corbel → Lato | 0.74–0.82 rem, 700 for section heads | uppercase, letter-spacing 0.14–0.2 em |
+| Eyebrows, identifiers, the spec keys | Consolas → Menlo | 0.72–0.76 rem | uppercase, letter-spacing 0.12 em |
 
-Both fonts are self-hosted from `public/fonts/` as Latin-subset WOFF2 (Caveat Brush static 400; Nunito variable 200–1000, upright and italic; both SIL OFL 1.1; see `ASSET_PROVENANCE.md`), preloaded, `font-display: swap`. No remote font requests. Patrick Hand and Kalam were tried in the same position and set aside: Patrick Hand is thinner and reads as a schoolbook hand, Kalam is closer to a pen than a brush; Caveat Brush has the weight to sit over the island.
+As in Vellum, the system's own Palatino and Corbel are used first (Windows, macOS); the self-hosted TeX Gyre Pagella (GUST Font License) and Lato (SIL OFL 1.1) in `public/fonts/` serve everywhere else. No remote font requests.
 
 ## Colour
 
-Light and dark schemes follow `prefers-color-scheme` by default. A header toggle (sun/moon icon, accessible name "Switch to dark/light theme") sets `data-theme` on `<html>`; the choice is kept in one `localStorage` entry only while it differs from the system scheme and expires after 180 days (see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`). An inline script in the head applies a stored choice before first paint.
+Light is the default; the dark twin follows `prefers-color-scheme` unless the header toggle chose otherwise (`data-theme` on `<html>`, stored only while it differs from the system scheme, 180-day expiry; see `src/scripts/theme.ts` and `COMPLIANCE_NOTES.md`).
+
+Vellum's families, each in three steps (tint for areas, tone for lines and dots, deep for emphasis and text on a tint):
+
+| Family | Light tint / tone / deep | Dark tint / tone / deep | Discipline |
+| --- | --- | --- | --- |
+| teal | `#A5D5D7` / `#419BA0` / `#004C50` | `#3F6C6E` / `#8AE2E7` / `#BFEFF2` | ecology and evolution |
+| terracotta | `#E8C0B2` / `#A1644F` / `#613425` | `#7D5A4E` / `#E8A68F` / `#FFDCD0` | sustainability and social systems; the "ongoing" dot |
+| indigo | `#BBCBEC` / `#415688` / `#304168` | `#556380` / `#8099CF` / `#D8E5FF` | marine systems; the accent (deep step) |
+| ochre | `#DAC9A6` / `#806629` / `#533F0D` | `#706142` / `#E1C487` / `#F4E3BF` | statistics (methods) |
+| mauve | `#E0BFD8` / `#AD78A1` / `#593351` | `#76596F` / `#B984AD` / `#FBD9F2` | tools and visualisation |
+| moss | `#BAD3B4` / `#567E4D` / `#2D4B27` | `#546B4F` / `#93BD89` / `#D4EDCE` | simulation (methods) |
+
+The page:
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#fbf7ef` | `#101f2e` | paper |
-| `--surface` | `#e8f0f8` | `#18293b` | cards, asides |
-| `--bar` / `--bar-ink` | `#b9d8ef` / `#123a63` | `#17324f` / `#dceaf7` | the header bar and its text (7.8:1 / 9.9:1) |
-| `--ink` | `#22303f` | `#e3edf6` | body text (12.6:1 / 13.0:1) |
-| `--heading` | `#0f3f6b` | `#eaf3fb` | headings (10.1:1 / 14.2:1) |
-| `--muted` | `#4d6076` | `#a5bacd` | secondary text (6.1:1 / 7.4:1) |
-| `--link` | `#125a9e` | `#8fc0f0` | links (6.6:1 / 8.0:1) |
-| `--accent` / `--accent-soft` | `#a74826` / `#fbe3d8` | `#f09a72` / `#3a2419` | terracotta: buttons, chips, active states, the "ongoing" dot (5.5:1 / 8.2:1) |
-| `--badge` / `--badge-ink` / `--badge-gold` | `#0f3050` / `#eef6fc` / `#9fd0f0` | `#dceaf7` / `#101f2e` / `#2d6aa1` | the dark strip and the island's hover labels |
-| `--line` / `--line-strong` | `#dde7f0` / `#b0c5d8` | `#233850` / `#3b5a7a` | hairlines, card borders |
-| `--focus` | `#125a9e` | `#8fc0f0` | focus ring |
+| `--bg` | `#FFFFFF` | `#2A2520` | the page |
+| `--panel` / `--soft` | `#F7F6F3` / `#F3F1EC` | `#302B26` / `#34302A` | panels, chips, hover grounds |
+| `--line` / `--frame` | `#ECE9E3` / `#D9D5CC` | `#3A352F` / `#4D463F` | hairlines; tile frames |
+| `--v-ink` / `--v-secondary` / `--v-muted` | `#2A2825` / `#5A5650` / `#8A857C` | `#ECE7DF` / `#C9C4BB` / `#A29E96` | text in three weights |
+| `--accent` / `--accent-soft` | `#304168` / `#E6E9F1` | `#A9B9DF` / `#333847` | links, rules, focus, the isolated node of the mark |
+| `--land-top` / `--land-left` / `--land-right` / `--land-edge` / `--ripple` | `#F1EEE8` / `#E2DDD4` / `#C9C4BA` / `#FFFFFF` / `#E6E2DA` | `#474139` / `#39332D` / `#272320` / `#5A544D` / `#3A352F` | the model's land and water |
 
-A second palette, **Sand** (warm apricot bar, deep brown headings, burnt-orange accent, Greek-blue links), is defined in the same stylesheet and switched on with `data-palette="sand"` on `<html>` in `src/layouts/Base.astro`. Blue and orange are complements, so the island stands further off the page. The comment above the tokens lists the six other places that carry a hard-coded colour and must be changed with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons), and `scripts/og.html`. Both palettes, in both schemes, were checked against every text/background pair.
+Every text/background pair in both schemes was taken from Vellum, which checks its contrast (minimum 3.27:1 for marks; ink on page 13:1). Colour never carries information alone: the status dot sits beside a word, the active navigation item is underlined, every texture is decorative and labelled where it is not.
 
-The island itself uses fixed toy-brick colours (sea `#3d8fd1`, sand `#e8c97e`, grass `#63b04a`, white `#f6f4ef`, blue `#2a5fbf`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
+## Textures
 
-All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never carries information alone: the status dot always sits beside a word, the active navigation item is also underlined, and every island part has a text label and a key entry.
+`Texture.astro` draws a 600 × 400 SVG (`preserveAspectRatio="xMidYMid slice"`, so it fills any frame) from a seeded generator (`src/lib/rand.ts`: FNV-1a hash, Mulberry32, value noise):
 
-## The island
+- **voxels** — an isometric cluster of cubes on a 9 × 9 grid, heights from noise under a radial mask, three faces in tint / tone / deep with gradient shading, white seams, and a few blocks drifting free (after Isomorphic Labs' cube renders).
+- **stipple** — ~200 dots sampled from two Gaussian peaks, deep where the density is high, every eleventh ringed, over three lineage curves in the tint.
+- **contours** — eight nested, harmonically deformed contour lines around two centres, the innermost two filled with the tint, and a dotted line of ringed records across the foot.
+- **grid** — a figure's anatomy: a claim bar, a unit line, a hairline grid, a dotted reference, two series with ringed end dots and end-label bars, a footer bar.
+- **network** — 26 nodes joined to their two nearest neighbours, three hubs in the deep step, one node left isolated.
 
-`scripts/make-island.mjs` draws `src/components/island.svg` from a few isometric primitives (plates, bricks, cylinders, domes) in world units of studs, with a 2:1 isometric projection and a painter's-order sort. The wind turbine's rotor uses one more: a flat part, extruded along the rotor axis, drawn in the single vertical plane that projects to screen horizontal and vertical, so its blades carry a lit face, a rim and a shadowed back like every brick around them rather than reading as a drawing laid over the scene. Studs are an SVG `<pattern>` per colour and height, aligned to the stud grid. `src/components/Island.astro` inlines the SVG and adds the CSS: each link group (`<a class="hot">`) lifts by 8 px (`hot--lift`) or brightens (`hot--glow`, for the sea and the island) on hover and focus, and reveals a label (`.hot__label`) styled as the badge. The SVG root is `role="group"` with a title and description; each link has an `aria-label`, and the labels inside are `aria-hidden`. The figure is about 80 kB of static SVG and ships no script.
-
-To change the island, edit the scene section of the script and run `node scripts/make-island.mjs`.
+`grain` adds a faint film grain (feTurbulence, multiply) and is used on the project-page bands. Tiles crop the texture to 3 : 2 with a 1 px `--frame` border and a 6 px radius; pillars crop it to 16 : 9; the methods page shows it in a 72 px disc.
 
 ## Layout
 
-- Reading column `--container` (46 rem); island and card grids `--wide` (72 rem). Gutter `clamp(1rem, 4vw, 2.5rem)`.
-- 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
-- Corners: `--radius` 10 px on cards, portraits and asides; `--radius-s` 6 px on badges; pills on buttons and chips.
-- Breakpoints: 42 rem (ledger columns, two-column cards, portrait beside text), 48 rem (mobile menu ↔ inline nav, footer columns), 52 rem (project aside beside prose, three scope columns).
+- Content width `--page` (1180 px) with a 24 px gutter (16 px under 620 px). Reading measure 68ch. Radius 12 px on panels, 6 px on tile frames.
+- Header 76 px: the mark and name, navigation in spaced capitals (scrolls sideways under 900 px; no menu button), the theme toggle and a GitHub link.
+- Page heads centred; the home page splits 5 : 7 between the introduction and the model (one column under 960 px).
+- Sections are 112 px apart (80 px on phones). Tile grids run 3 → 2 → 1 columns at 960 and 560 px; pillars and course panels likewise.
+- Project pages open with a full-bleed texture band (`.bleed`, 260–420 px tall) and a title card laid over its lower left, then a 15 rem sticky aside beside the prose.
 
 ## Components
 
-- **Header** — the lavender bar: name, navigation (active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
-- **Footer** — name, position and affiliation, email, profile links, and the copyright line, which links to the privacy notice.
-- **PageHeader** — H1, optional lede, slot.
-- **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.
-- **Island** — see above.
-- **ProjectCard** — a card: the project's line drawing and domain, title and question as one link, a meta line (status, period, first methods).
-- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, status, DOI, licence, note).
-- **Motif** — seven original line drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, in `currentColor` with one accent dot.
-- **Chips** — rounded pastel tags for methods and tools. Never proficiency bars.
-- **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
-- **Badge** — the dark rounded strip with a pale outline, for one highlighted line.
-- **Status** — a coloured dot and a word; purple for "ongoing".
-- **Ledger** — dated rows: a mono period column and a content column, hairlines between rows.
+- **Header**, **Footer** — see `src/components/`.
+- **PageHeader** — eyebrow, title with rule, optional lead, slot.
+- **Section** — spaced-caps head with rule and an optional link; slot.
+- **Hero** — the live model, its no-script fallback and a one-line caption.
+- **Texture** — see above.
+- **ProjectTile** — texture or figure, serif title, one line of domain · period · status.
+- **PublicationItem** — serif title linked to the DOI, authors with the owner in bold, venue, a mono line of year · status · DOI · licence · note.
+- **Pillars**, **facts**, **feature**, **courses**, **methods**, **ledger** (dated rows), **spec** (key–value), **chips**, **toc** pills, **buttons** (square, uppercase; solid in ink, outline in a 1 px ink border) — classes in `site.css`.
 
-## Interaction and motion rules
+## Interaction and motion
 
-- Hover: links shift to the accent; cards lift 2 px; island parts lift 8 px or brighten and show their label.
-- Focus: 3 px focus ring in `--focus` with 3 px offset on every interactive element (`:focus-visible`), including the island's links.
-- Targets: ≥ 44 × 44 CSS px for nav links, buttons and footer links; inline text links are exempt as permitted by WCAG 2.2 SC 2.5.8.
-- Reduced motion: transitions collapse to ~0 ms; the island's lift becomes a brightening.
-- Sticky header, opaque.
+- Hover: links thicken their underline; tile frames turn to the accent and lift a soft shadow; textures and figures scale 4 % over 0.6 s; section links and buttons turn to the accent.
+- Focus: a 2 px accent ring with 2 px offset on every interactive element.
+- Targets: navigation links, buttons and icon buttons are at least 44 px tall.
+- Reduced motion: all transitions collapse; the model is drawn still.
+- The model runs at the display's frame rate only while visible on screen and while the tab is visible.
 
-## Accessibility principles
+## Accessibility
 
-- Landmarks on every page: skip link, `header`, `nav` (labelled), `main`, `footer`; sections are labelled by their headings.
-- The island is a group of named links with a description; the same links are repeated in text in the key under it, so nothing depends on hovering or on seeing the drawing.
-- Every image has alt text or is `aria-hidden` with its meaning in text.
+- Landmarks on every page: skip link, `header`, `nav` (labelled), `main`, `footer`; sections are labelled by their heads.
+- The canvas has `role="img"` and a description; the no-script fallback is a labelled SVG. Decorative textures are `aria-hidden`.
+- Headings keep their order; tile titles are `h3` inside the link, the page title is the only `h1`.

@@ -1,23 +1,22 @@
 ---
 /**
- * A titled section: heading with a hairline under it, an optional
- * introduction, then content.
+ * A section: its name in spaced capitals over a rule, a link at the right,
+ * then the content. No subtitles.
  */
 interface Props {
   id: string;
-  title?: string;
-  /** One-sentence introduction under the heading. */
-  intro?: string;
-  /** Widen to the island/card width instead of the reading column. */
-  wide?: boolean;
+  title: string;
+  link?: { href: string; label: string };
   class?: string;
 }
-const { id, title, intro, wide = false, class: className = '' } = Astro.props;
+const { id, title, link, class: className = '' } = Astro.props;
 const titleId = `${id}-title`;
 ---
 
-<section class:list={['container', 'sec', { 'container--wide': wide }, className]} id={id} aria-labelledby={title ? titleId : undefined}>
-  {title && <h2 id={titleId}>{title}</h2>}
-  {intro && <p class="sec__intro">{intro}</p>}
+<section class:list={['section', className]} id={id} aria-labelledby={titleId}>
+  <div class="sec-head">
+    <h2 id={titleId}>{title}</h2>
+    {link && <a href={link.href}>{link.label} →</a>}
+  </div>
   <slot />
 </section>

@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
@@ -12,7 +12,7 @@ interface Props {
   image?: string;
   /** Extra JSON-LD objects for this page. */
   schema?: Record<string, unknown>[];
-  /** Set to true on the home page so the H1 carries the site name. */
+  /** Set to true on the home page so the title carries the tagline. */
   home?: boolean;
   /** Open Graph type. */
   ogType?: 'website' | 'article' | 'profile';
@@ -35,8 +35,8 @@ const currentPath = Astro.url.pathname;
     <link rel="canonical" href={canonical} />
     <meta name="author" content={site.name} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#b9d8ef" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17324f" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2a2520" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>
       // Apply a stored theme choice before first paint. Reads one localStorage key
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
             document.documentElement.setAttribute('data-theme', o.v);
             var metas = document.getElementsByName('theme-color');
             for (var i = 0; i < metas.length; i++) {
-              metas[i].setAttribute('content', o.v === 'dark' ? '#17324f' : '#b9d8ef');
+              metas[i].setAttribute('content', o.v === 'dark' ? '#2a2520' : '#ffffff');
               metas[i].removeAttribute('media');
             }
           } else {
@@ -67,9 +67,6 @@ const currentPath = Astro.url.pathname;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-
-    <link rel="preload" href="/fonts/nunito-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/caveat-brush-latin-400.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
@@ -89,9 +86,9 @@ const currentPath = Astro.url.pathname;
     {schema.map((obj) => <script is:inline type="application/ld+json" set:html={JSON.stringify(obj)} />)}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip" href="#main">Skip to the content</a>
     <Header currentPath={currentPath} />
-    <main id="main" tabindex="-1">
+    <main id="main" class="wrap" tabindex="-1">
       <slot />
     </main>
     <Footer currentPath={currentPath} />

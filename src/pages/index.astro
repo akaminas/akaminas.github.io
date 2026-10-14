@@ -2,12 +2,36 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
-import Island from '../components/Island.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import Hero from '../components/Hero.astro';
+import ProjectTile from '../components/ProjectTile.astro';
+import Texture from '../components/Texture.astro';
 import { site } from '../data/site';
+import { domains } from '../data/domains';
 
-const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const projects = all.filter((p) => p.data.featured);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const vellum = projects.find((p) => p.id === 'vellum');
+const pubs = await getCollection('publications');
+const talks = await getCollection('talks');
+const courses = (await getCollection('teaching'))
+  .filter((t) => t.data.kind === 'teaching' && t.data.code)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const facts = [
+  [pubs.filter((p) => p.data.status === 'published').length, 'peer-reviewed papers'],
+  [talks.length, 'talks and posters'],
+  [courses.length, 'MSc courses assisted'],
+  [3, 'working languages'],
+] as const;
+
+const pillars = (['ecology-evolution', 'sustainability-social', 'marine-systems'] as const).map((key) => ({ key, ...domains[key] }));
+
+const recent = [
+  { when: '2026-10', what: 'Teaching assistant for three MSc courses in mathematical modelling and C++ at Groningen.', href: '/teaching/', label: 'Teaching' },
+  { when: '2026-06', what: 'Talk at the NVTB Annual Schoorl Meeting: isolation as a dynamic driver of eco-evolutionary change.', href: '/work/evolutionary-consequences-of-isolation/', label: 'The project' },
+  { when: '2026-04', what: 'Paper in Circular Economy and Sustainability on organisational commitment to sustainability among Greek NGOs.', href: '/publications/#alevizos-2026-ngo-sustainability', label: 'The paper' },
+  { when: '2025-10', what: 'Started the PhD at the University of Groningen as an EVOLVE fellow (EU MSCA COFUND).', href: '/about/', label: 'About' },
+];
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -30,14 +54,15 @@ const personSchema = {
     { '@type': 'CollegeOrUniversity', name: 'University of the Aegean' },
   ],
   knowsAbout: [
-    'Complex systems',
     'Mathematical modelling',
     'Computational modelling',
     'Eco-evolutionary dynamics',
     'Theoretical ecology',
     'Evolutionary biology',
     'Stochastic simulation',
+    'Complex systems',
     'Sustainability science',
+    'Scientific visualisation',
   ],
   identifier: { '@type': 'PropertyValue', propertyID: 'ORCID', value: site.orcidId },
   sameAs: [site.profiles.orcid, site.profiles.github, site.profiles.scholar, site.profiles.rug, site.profiles.researchgate],
@@ -52,289 +77,147 @@ const websiteSchema = {
 ---
 
 <Base title="Home" description={site.description} home schema={[personSchema, websiteSchema]} ogType="profile">
-  <section class="container intro" aria-label="Introduction">
-    <h1>{site.name}</h1>
-    <p class="intro__role">
-      {site.position}, <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}
-    </p>
-    <div class="intro__grid">
-      <picture class="intro__portrait">
-        <source
-          type="image/avif"
-          srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w"
-          sizes="(min-width: 42rem) 16rem, 60vw"
-        />
-        <source
-          type="image/webp"
-          srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w"
-          sizes="(min-width: 42rem) 16rem, 60vw"
-        />
-        <img
-          src="/images/portrait-640.jpg"
-          width="640"
-          height="800"
-          alt="Alexandros Kaminas, portrait in a dark suit against a white background."
-          loading="eager"
-          decoding="async"
-        />
-      </picture>
-      <div class="intro__text">
-        <p class="intro__tagline">Modelling complex systems</p>
-        <p>
-          I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback
-          and chance: communities of species, evolving populations, and the organisations and economies that depend on
-          them.
-        </p>
-        <p>
-          <strong>Explore the island below to find out more! </strong> 
-        </p>
-        <p class="intro__ids">
-          <a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a>
-          <a href={site.profiles.github} rel="me noopener">github.com/akaminas</a>
-          <a href={site.profiles.rug} rel="noopener">research.rug.nl</a>
-        </p>
+  <section class="intro" aria-label="Introduction">
+    <div>
+      <span class="eyebrow">PhD researcher · University of Groningen · TRÊS</span>
+      <h1>{site.name}</h1>
+      <p class="lead">Mathematical and computational models of ecological, evolutionary and sustainability systems.</p>
+      <div class="cta-row">
+        <a class="btn-solid" href="/work/">View the work</a>
+        <a class="btn-outline" href="/cv/">Curriculum vitae</a>
       </div>
     </div>
+    <Hero />
   </section>
 
-  <Section id="island" title="Explore the island" wide>
-    <Island />
-  </Section>
+  <ul class="facts" aria-label="In numbers">
+    {
+      facts.map(([n, label]) => (
+        <li>
+          <b>{n}</b>
+          <span>{label}</span>
+        </li>
+      ))
+    }
+  </ul>
 
-  <Section id="scope" title="Research areas">
-    <ol class="chain" aria-label="From core expertise to applications">
-      <li><span>Complex systems</span></li>
-      <li><span>Mathematical &amp; computational modelling</span></li>
-      <li><span>Ecology &amp; evolution</span></li>
-      <li><span>Sustainability</span></li>
-      <li><span>Social &amp; economic systems</span></li>
-    </ol>
-    <div class="scope">
-      <div class="scope__col">
-        <h3>Core expertise</h3>
-        <p>
-          Mechanistic models of interacting components: dynamical systems, stochastic simulation, population and
-          trait-based models, and networks of interactions.
-        </p>
-      </div>
-      <div class="scope__col">
-        <h3>Primary domain</h3>
-        <p>
-          Ecology and evolution. My doctoral research at the University of Groningen models how isolation and limited
-          immigration reshape community assembly, diversification and extinction, with ecological and evolutionary
-          change coupled.
-        </p>
-      </div>
-      <div class="scope__col">
-        <h3>Interdisciplinary applications</h3>
-        <p>
-          Sustainability and socioeconomic systems, where I apply the same systems reasoning to organisations and
-          institutions.
-        </p>
-      </div>
+  <Section id="research" title="Research" link={{ href: '/work/', label: 'All projects' }}>
+    <div class="pillars">
+      {
+        pillars.map((p) => (
+          <a class="pillar" href={`/work/#g-${p.key}`}>
+            <span class="pillar-art" aria-hidden="true">
+              <Texture kind={p.texture} hue={p.hue} seed={`pillar-${p.key}`} />
+            </span>
+            <h3>{p.label}</h3>
+            <p>{p.line}</p>
+            <span class="more">Projects →</span>
+          </a>
+        ))
+      }
     </div>
   </Section>
 
-  <Section id="work" wide>
-    <div class="sec__head">
-      <h2 id="work-title">Case studies</h2>
-      <a class="arrow-link" href="/work/">All projects and talks</a>
-    </div>
-    <div class="cards">
-      {projects.map((p) => <ProjectCard project={p} />)}
+  <Section id="work" title="Selected work" link={{ href: '/work/', label: 'All projects and talks' }}>
+    <div class="tiles">
+      {featured.map((p) => <ProjectTile project={p} />)}
     </div>
   </Section>
 
-  <Section id="methods" title="How the models are built">
-    <div class="stack">
-      <p>
-        The subject changes from project to project. Models are formulated mechanistically,
-        studied by stochastic simulation and dynamical-systems analysis, and confronted with data using statistical
-        methods. Simulation engines in C++, analysis and visualisation in R and Python.
-      </p>
-      <ul class="chips" aria-label="Method areas">
-        <li>Eco-evolutionary models</li>
-        <li>Stochastic simulation</li>
-        <li>Dynamical systems &amp; transitions</li>
-        <li>Interaction networks</li>
-        <li>Trait-space &amp; functional diversity</li>
-        <li>Statistical modelling</li>
-        <li>Spatial analysis</li>
-        <li>Data visualisation</li>
-      </ul>
-      <a class="arrow-link" href="/methods/">Methods in detail</a>
-    </div>
+  {
+    vellum && vellum.data.image && (
+      <Section id="tools" title="Tools" link={{ href: site.profiles.vellum, label: 'Vellum' }}>
+        <div class="feature">
+          <div class="feature-art">
+            <img class="twin-light" src={vellum.data.image.light} alt={vellum.data.image.alt} width="720" height="476" loading="lazy" decoding="async" />
+            <img class="twin-dark" src={vellum.data.image.dark} alt="" width="720" height="476" loading="lazy" decoding="async" />
+          </div>
+          <div>
+            <h3>Vellum, a visual language for scientific figures</h3>
+            <p>{vellum.data.summary}</p>
+            <div class="cta-row">
+              <a class="btn-outline" href="/work/vellum/">The project</a>
+              <a class="btn-outline" href={site.profiles.vellum} rel="noopener">The site</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+    )
+  }
+
+  <Section id="methods" title="Methods" link={{ href: '/methods/', label: 'In detail' }}>
+    <p class="lead">
+      Mechanistic models, studied by stochastic simulation and dynamical-systems analysis, and confronted with data. Engines in C++; analysis in R and Python.
+    </p>
+    <ul class="chips" aria-label="Method areas">
+      <li>Eco-evolutionary models</li>
+      <li>Stochastic simulation</li>
+      <li>Dynamical systems and transitions</li>
+      <li>Interaction networks</li>
+      <li>Trait space and functional diversity</li>
+      <li>Statistical modelling</li>
+      <li>Spatial analysis</li>
+      <li>Data visualisation</li>
+    </ul>
   </Section>
 
-  <Section id="recent" title="Recent, 2025 – 2026">
+  <Section id="teaching" title="Teaching" link={{ href: '/teaching/', label: 'Teaching and supervision' }}>
+    <ul class="courses">
+      {
+        courses.map((c) => (
+          <li>
+            <article class="course">
+              <span class="eyebrow">
+                {c.data.code} · {c.data.credits} ECTS · {c.data.level}
+              </span>
+              <h3>
+                <a href={c.data.url} rel="noopener">
+                  {c.data.title}
+                </a>
+              </h3>
+              <p class="course-role">
+                {c.data.role} · {c.data.institution}, {c.data.period}
+              </p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="recent" title="Recent">
     <ol class="ledger recent">
-      <li>
-        <span class="ledger__when">2026-06</span>
-        <span class="recent__what">
-          Talk at the NVTB Annual Schoorl Meeting:{' '}
-          <a href="/work/evolutionary-consequences-of-isolation/"><em>Isolation as a dynamic driver of eco-evolutionary change</em></a>.
-        </span>
-      </li>
-      <li>
-        <span class="ledger__when">2026-04</span>
-        <span class="recent__what">
-          Paper published in <em>Circular Economy and Sustainability</em> on{' '}
-          <a href="/publications/#alevizos-2026-ngo-sustainability">organisational commitment to sustainability among Greek NGOs</a>.
-        </span>
-      </li>
-      <li>
-        <span class="ledger__when">2026</span>
-        <span class="recent__what">
-          Supervised an MSc research project on{' '}
-          <a href="/work/trait-evolution-in-mutualistic-networks/">trait evolution in mutualistic networks</a> at TRÊS.
-        </span>
-      </li>
-      <li>
-        <span class="ledger__when">2025-10</span>
-        <span class="recent__what">
-          Started the PhD <em>The evolutionary consequences of isolation</em> at the University of Groningen as an
-          EVOLVE fellow (EU MSCA COFUND).
-        </span>
-      </li>
+      {
+        recent.map((r) => (
+          <li>
+            <span class="ledger__when">{r.when}</span>
+            <div>
+              <p class="ledger__title">{r.what}</p>
+              <p class="ledger__where">
+                <a href={r.href}>{r.label} →</a>
+              </p>
+            </div>
+          </li>
+        ))
+      }
     </ol>
   </Section>
 
-  <Section id="contact" title="Collaboration and supervision">
-    <div class="stack">
-      <p>
-        I am glad to hear from researchers working on eco-evolutionary dynamics, complex systems and quantitative
-        sustainability, and from students interested in modelling projects.
-      </p>
-      <p>
-        <a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a>
-      </p>
+  <Section id="contact" title="Contact">
+    <p class="lead">Open to collaboration on eco-evolutionary dynamics, complex systems and quantitative sustainability, and to student modelling projects.</p>
+    <div class="cta-row">
+      <a class="btn-solid" href={`mailto:${site.email}`}>Email</a>
+      <a class="btn-outline" href={site.profiles.orcid} rel="me noopener">ORCID</a>
+      <a class="btn-outline" href={site.profiles.scholar} rel="noopener">Google Scholar</a>
     </div>
   </Section>
 </Base>
 
 <style>
-  .intro {
-    padding-block: var(--space-7) var(--space-4);
-  }
-  .intro h1 {
-    margin-bottom: var(--space-1);
-  }
-  .intro__role {
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-    color: var(--muted);
-    margin-bottom: var(--space-6);
-  }
-  .intro__role abbr {
-    text-decoration: none;
-  }
-  .intro__grid {
-    display: grid;
-    gap: var(--space-5) var(--space-7);
-    align-items: start;
-  }
-  @media (min-width: 42rem) {
-    .intro__grid {
-      grid-template-columns: 16rem minmax(0, 1fr);
-    }
-  }
-  .intro__portrait {
-    width: min(100%, 16rem);
-  }
-  .intro__portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-  .intro__tagline {
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.25rem);
-    color: var(--heading);
-    margin-bottom: var(--space-3);
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-  @media (max-width: 26rem) {
-    .intro__tagline {
-      white-space: normal;
-    }
-  }
-  .intro__text p {
-    text-align: left;
-  }
-  .intro__ids {
-    margin: var(--space-5) 0 0;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.25rem;
-    max-width: none;
-  }
-  .intro__ids a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-  }
-
-  /* Chain: the scope as a row of mono labels with arrows between them. */
-  .chain {
-    list-style: none;
-    margin: 0 0 var(--space-6);
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2) 0;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-  }
-  .chain li {
-    display: flex;
-    align-items: center;
-    max-width: none;
-  }
-  .chain li span {
-    padding: 0.25em 0.8em;
-    border: 2px solid var(--line-strong);
-    border-radius: 999px;
-    text-wrap: balance;
-  }
-  .chain li:first-child span {
-    background: var(--accent);
-    color: var(--on-accent);
-    border-color: var(--accent);
-  }
-  .chain li + li::before {
-    content: '→';
-    color: var(--accent);
-    padding: 0 0.5em;
-  }
-  .scope {
-    display: grid;
-    gap: var(--space-5);
-  }
-  @media (min-width: 52rem) {
-    .scope {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-6);
-    }
-  }
-  .scope h3 {
-    margin-bottom: var(--space-2);
-  }
-  .scope__col p {
-    margin: 0;
-    font-size: var(--step--1);
-  }
   .recent {
     --ledger-col: 6rem;
   }
-  .recent__what {
-    max-width: var(--measure);
+  .recent a {
+    text-decoration: none;
   }
 </style>

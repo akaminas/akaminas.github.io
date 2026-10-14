@@ -29,7 +29,6 @@ talks:
 links:
   - label: University of Groningen research profile
     url: https://research.rug.nl/en/persons/alexandros-kaminas/
-motif: patches
 featured: true
 order: 1
 ---

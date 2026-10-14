@@ -5,9 +5,9 @@ export const site = {
   name: 'Alexandros Kaminas',
   shortName: 'A. Kaminas',
   url: 'https://akaminas.github.io',
-  tagline: 'Modelling complex systems',
+  tagline: 'Quantitative models of ecology, evolution and sustainability',
   description:
-    'Alexandros Kaminas develops mathematical and computational models of complex systems: eco-evolutionary dynamics, community assembly and regime shifts, with applications to sustainability and socioeconomic systems. PhD researcher at the University of Groningen.',
+    'Alexandros Kaminas builds mathematical and computational models of ecological, evolutionary and sustainability systems: eco-evolutionary dynamics, community assembly, regime shifts and organisations as systems. PhD researcher at the University of Groningen (TRÊS), teaching assistant for MSc courses in mathematical modelling and C++.',
   email: 'kaminas.alex@gmail.com',
   affiliation: {
     name: 'University of Groningen',
@@ -24,12 +24,13 @@ export const site = {
     scholar: 'https://scholar.google.com/citations?user=jyVZ4m4AAAAJ',
     rug: 'https://research.rug.nl/en/persons/alexandros-kaminas/',
     researchgate: 'https://www.researchgate.net/profile/Alexandros-Kaminas',
+    vellum: 'https://akaminas.github.io/vellum/',
   },
   orcidId: '0000-0002-7928-651X',
   cvPath: '/documents/cv-alexandros-kaminas.pdf',
   repo: 'https://github.com/akaminas/akaminas.github.io',
   /** Update when the privacy notice changes. */
-  privacyRevised: '2026-09-06',
+  privacyRevised: '2026-10-14',
 } as const;
 
 export const nav = [

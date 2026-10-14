@@ -2,79 +2,95 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
-import Motif from '../components/Motif.astro';
+import Texture from '../components/Texture.astro';
+import type { Hue, TextureKind } from '../data/domains';
 
 /**
  * Only methods with documented use in a project, thesis or publication are listed.
  * Each entry names where the method was used so the claim can be checked.
  */
-const areas = [
+interface Area {
+  id: string;
+  texture: TextureKind;
+  hue: Hue;
+  title: string;
+  text: string;
+  used: { label: string; href: string }[];
+}
+const areas: Area[] = [
   {
     id: 'mechanistic',
-    motif: 'patches',
+    texture: 'stipple',
+    hue: 'teal',
     title: 'Mechanistic and eco-evolutionary modelling',
-    text: 'Models built from explicit processes rather than fitted curves: immigration, interaction, diversification and extinction as rates; traits under selection; populations whose dynamics feed back on evolution. Ecological and evolutionary change are treated on the same timescale where the question demands it.',
+    text: 'Models built from explicit processes: immigration, interaction, diversification and extinction as rates; traits under selection; populations whose dynamics feed back on evolution.',
     used: [
-      { label: 'The evolutionary consequences of isolation (PhD)', href: '/work/evolutionary-consequences-of-isolation/' },
-      { label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' },
+      { label: 'The evolutionary consequences of isolation', href: '/work/evolutionary-consequences-of-isolation/' },
+      { label: 'Trait evolution in mutualistic networks', href: '/work/trait-evolution-in-mutualistic-networks/' },
     ],
   },
   {
     id: 'stochastic',
-    motif: 'field',
+    texture: 'voxels',
+    hue: 'moss',
     title: 'Stochastic simulation and numerical experiments',
-    text: 'Individual- and population-level stochastic models studied by simulation when analytical solutions are out of reach. Simulation engines are written in C++ for speed; experiments are designed, run and analysed from R.',
+    text: 'Individual- and population-level stochastic models studied by simulation when analysis runs out. Engines in C++; experiments designed, run and read from R.',
     used: [
-      { label: 'The evolutionary consequences of isolation (PhD)', href: '/work/evolutionary-consequences-of-isolation/' },
-      { label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' },
+      { label: 'The evolutionary consequences of isolation', href: '/work/evolutionary-consequences-of-isolation/' },
+      { label: 'Regime shifts in Mediterranean communities', href: '/work/regime-shifts-mediterranean-communities/' },
     ],
   },
   {
     id: 'dynamical',
-    motif: 'fold',
+    texture: 'contours',
+    hue: 'terracotta',
     title: 'Dynamical systems, transitions and resilience',
-    text: 'Equilibria, stability and abrupt transitions. Catastrophe theory for discontinuous community dynamics, and regime-shift analysis of community time series under multiple pressures.',
-    used: [{ label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' }],
+    text: 'Equilibria, stability and abrupt transitions: catastrophe theory for discontinuous community dynamics, regime-shift analysis of time series under several pressures.',
+    used: [{ label: 'Regime shifts in Mediterranean communities', href: '/work/regime-shifts-mediterranean-communities/' }],
   },
   {
     id: 'networks',
-    motif: 'bipartite',
+    texture: 'network',
+    hue: 'indigo',
     title: 'Interaction networks and systems frameworks',
-    text: 'Interactions represented explicitly as networks whose structure depends on traits and feeds back on dynamics; the same systems view applied to organisations and institutions.',
+    text: 'Interactions as networks whose structure depends on traits and feeds back on dynamics; the same systems view applied to organisations and institutions.',
     used: [
-      { label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' },
+      { label: 'Trait evolution in mutualistic networks', href: '/work/trait-evolution-in-mutualistic-networks/' },
       { label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' },
     ],
   },
   {
     id: 'trait-space',
-    motif: 'hypervolume',
+    texture: 'stipple',
+    hue: 'mauve',
     title: 'Trait space, functional diversity and phylogenetics',
-    text: 'n-dimensional hypervolumes to quantify occupied trait space; phylogenetic inference and phylogeny-informed trait imputation to handle incomplete trait data.',
+    text: 'n-dimensional hypervolumes for occupied trait space; phylogenetic inference and phylogeny-informed imputation for incomplete trait data.',
     used: [{ label: 'Functional diversity of Mediterranean fish communities', href: '/work/functional-diversity-mediterranean-fish/' }],
   },
   {
     id: 'statistics',
-    motif: 'records',
-    title: 'Statistical analysis and model-to-data comparison',
-    text: 'Estimating the effects of pressures from observational data, comparing model expectations with community records, and quantitative analysis of survey and monitoring data.',
+    texture: 'grid',
+    hue: 'ochre',
+    title: 'Statistics and model-to-data comparison',
+    text: 'Effects of pressures estimated from observational data; model expectations set against community records; survey and monitoring data analysed quantitatively.',
     used: [
-      { label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' },
+      { label: 'Regime shifts in Mediterranean communities', href: '/work/regime-shifts-mediterranean-communities/' },
       { label: 'Tracking marine invasions with citizen science', href: '/work/citizen-science-marine-invasions/' },
       { label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' },
     ],
   },
   {
     id: 'spatial',
-    motif: 'nested',
+    texture: 'contours',
+    hue: 'indigo',
     title: 'Spatial analysis, oceanographic models and visualisation',
-    text: 'GIS analysis (QGIS, ArcGIS), satellite imagery, and a year of operational work with oceanographic models and forecasts. Data visualisation and scientific storytelling for climate-change reporting.',
+    text: 'GIS, satellite imagery and a year of operational oceanographic forecasting; data visualisation and scientific storytelling for climate reporting; the Vellum figure system.',
     used: [
-      { label: 'Hydrographic Service, Hellenic Navy (2024–2025)', href: '/about/#experience' },
-      { label: 'Political Economy of Sustainable Development Lab', href: '/work/sustainability-organisations-as-systems/' },
+      { label: 'Hydrographic Service, Hellenic Navy', href: '/about/#experience' },
+      { label: 'Vellum', href: '/work/vellum/' },
     ],
   },
-] as const;
+];
 
 const tools = [
   { name: 'C++', note: 'simulation engines' },
@@ -82,39 +98,40 @@ const tools = [
   { name: 'Python', note: 'analysis, data pipelines, tooling' },
   { name: 'MATLAB', note: 'basic' },
   { name: 'QGIS / ArcGIS', note: 'spatial analysis' },
-  { name: 'Git', note: 'version control (this site is built with it)' },
+  { name: 'LaTeX', note: 'papers, posters, figure styles' },
+  { name: 'Git', note: 'version control' },
 ];
 ---
 
 <Base
   title="Methods"
-  description="Modelling methods used by Alexandros Kaminas: mechanistic eco-evolutionary models, stochastic simulation, dynamical systems and catastrophe theory, interaction networks, trait-space hypervolumes, statistical analysis and spatial methods. C++, R and Python."
+  description="Modelling methods used by Alexandros Kaminas: mechanistic eco-evolutionary models, stochastic simulation, dynamical systems and catastrophe theory, interaction networks, trait-space hypervolumes, statistics and spatial methods. C++, R and Python."
 >
-  <PageHeader title="How the models are built" lede="Every method below is tied to a project where it was actually used." />
+  <PageHeader title="Methods" lead="Every method here is tied to a project where it was used." />
 
-  <Section id="areas" title="Method areas" intro="Seven method areas, each with the projects where it was used.">
-    <ol class="areas">
+  <Section id="areas" title="Method areas">
+    <ol class="methods">
       {
         areas.map((a) => (
-          <li class="area" id={a.id}>
-            <div class="area__fig">
-              <Motif kind={a.motif} size={64} />
-            </div>
-            <div class="area__body">
-              <h3 class="area__title">{a.title}</h3>
-              <p>{a.text}</p>
-              <p class="area__used">
-                <span class="area__used-label">Used in</span>
-                <span class="area__used-list">
+          <li>
+            <article class="method" id={a.id}>
+              <span class="method-disc" aria-hidden="true">
+                <Texture kind={a.texture} hue={a.hue} seed={`method-${a.id}`} />
+              </span>
+              <div>
+                <h3>{a.title}</h3>
+                <p>{a.text}</p>
+                <p class="used">
+                  Used in{' '}
                   {a.used.map((u, i) => (
                     <Fragment>
                       {i > 0 ? ' · ' : ''}
                       <a href={u.href}>{u.label}</a>
                     </Fragment>
                   ))}
-                </span>
-              </p>
-            </div>
+                </p>
+              </div>
+            </article>
           </li>
         ))
       }
@@ -125,85 +142,12 @@ const tools = [
     <dl class="tools">
       {
         tools.map((t) => (
-          <div class="tools__row">
+          <div>
             <dt>{t.name}</dt>
             <dd>{t.note}</dd>
           </div>
         ))
       }
     </dl>
-    <p class="muted small tools__note">
-      Also: laboratory sample treatment for pollution analysis and image-based identification (Image-Pro), from
-      marine-science training. Languages: Greek (native), English (C2), French (C1).
-    </p>
   </Section>
 </Base>
-
-<style>
-  .areas {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-  }
-  .area {
-    display: grid;
-    gap: var(--space-3) var(--space-5);
-    padding-block: var(--space-5);
-    border-bottom: var(--rule) solid var(--line);
-    max-width: none;
-  }
-  .area:first-child {
-    padding-top: 0;
-  }
-  @media (min-width: 42rem) {
-    .area {
-      grid-template-columns: 5rem minmax(0, 1fr);
-    }
-  }
-  .area__fig {
-    color: var(--accent);
-  }
-  .area__title {
-    margin-bottom: var(--space-2);
-  }
-  .area p {
-    max-width: var(--measure);
-  }
-  .area__used {
-    font-size: var(--step--1);
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-3);
-    align-items: baseline;
-  }
-  .area__used-label {
-    font-family: var(--font-ui);
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .tools {
-    margin: 0;
-    display: grid;
-  }
-  .tools__row {
-    display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: var(--space-4);
-    padding-block: var(--space-3);
-    border-bottom: var(--rule) solid var(--line);
-  }
-  .tools dt {
-    font-family: var(--font-ui);
-    font-weight: 700;
-    color: var(--heading);
-  }
-  .tools dd {
-    margin: 0;
-    color: var(--muted);
-  }
-  .tools__note {
-    margin-top: var(--space-4);
-  }
-</style>

@@ -20,7 +20,7 @@ publications: []
 talks:
   - afh-2024-regime-shifts
 links: []
-motif: fold
+texture: contours
 featured: true
 order: 3
 ---

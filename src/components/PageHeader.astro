@@ -1,17 +1,19 @@
 ---
 /**
- * The title area of a page: title, optional lede, and anything else the page
- * wants under it (a download button, a note).
+ * The title area of a page: an optional eyebrow, the title over a short accent
+ * rule, an optional one-line lead, and anything else the page wants under it.
  */
 interface Props {
   title: string;
-  lede?: string;
+  eyebrow?: string;
+  lead?: string;
 }
-const { title, lede } = Astro.props;
+const { title, eyebrow, lead } = Astro.props;
 ---
 
-<header class="page-head container">
+<header class="page-head">
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
   <h1>{title}</h1>
-  {lede && <p class="lede">{lede}</p>}
+  {lead && <p class="lead">{lead}</p>}
   <slot />
 </header>

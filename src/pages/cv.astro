@@ -28,6 +28,12 @@ const rows = {
     ['Jan – Jun 2023', 'Research intern', 'UMR MARBEC, Sète'],
     ['Sep – Dec 2021', 'Erasmus research intern', 'UMR MARBEC, Sète'],
     ['Jun – Sep 2020', 'Research intern', 'Hellenic Centre for Marine Research, Athens'],
+  ],
+  teaching: [
+    ['2026 – 2027', 'Teaching assistant, Mathematical models for Biology (WMBY031-05, MSc, 5 ECTS)', 'University of Groningen'],
+    ['2026 – 2027', 'Teaching assistant, Programming C++ for Biologists (WMBY010-05, MSc, 5 ECTS)', 'University of Groningen'],
+    ['2026 – 2027', 'Teaching assistant, Modelling Complex Biological Systems (WMBY027-05, MSc, 5 ECTS)', 'University of Groningen'],
+    ['2026', 'MSc research project supervisor', 'University of Groningen, TRÊS'],
     ['Jan 2018 – Jun 2021', 'Academic tutor (biology, geology, physics, chemistry)', 'Mytilene'],
   ],
   roles: [
@@ -42,7 +48,6 @@ const rows = {
     ['2018 – 2019', 'Club member, Plastic Litter Project', 'Marine Remote Sensing Club, Lesvos'],
   ],
   service: [
-    ['2026', 'MSc research project supervisor', 'University of Groningen, TRÊS'],
     ['2026', 'Financial auditor', 'Netherlands Society for Theoretical Biology (NVTB)'],
     ['Jan 2025 – present', 'Peer reviewer', 'Heliyon'],
   ],
@@ -58,34 +63,35 @@ const groups = [
   { id: 'education', title: 'Education', list: rows.education },
   { id: 'awards', title: 'Fellowships and awards', list: rows.awards },
   { id: 'experience', title: 'Research and professional experience', list: rows.experience },
+  { id: 'teaching', title: 'Teaching and supervision', list: rows.teaching },
   { id: 'roles', title: 'Academic roles and affiliations', list: rows.roles },
-  { id: 'service', title: 'Supervision and academic service', list: rows.service },
+  { id: 'service', title: 'Academic service', list: rows.service },
   { id: 'projects', title: 'Projects and initiatives', list: rows.projects },
 ] as const;
 ---
 
 <Base
   title="Curriculum vitae"
-  description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, roles, supervision, presentations and publications. PDF available for download."
+  description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, teaching, roles, service, presentations and publications. PDF available for download."
 >
   <PageHeader title="Curriculum vitae">
-    <p class="cv__download">
-      <a class="button button--primary" href={site.cvPath} download>Download PDF</a>
+    <div class="cta-row">
+      <a class="btn-solid" href={site.cvPath} download>Download PDF</a>
       <span class="muted small">Web version, without private contact details.</span>
-    </p>
+    </div>
   </PageHeader>
 
   {
     groups.map((g) => (
       <Section id={`cv-${g.id}`} title={g.title}>
-        <ol class="ledger cv__rows">
+        <ol class="ledger cv-rows">
           {g.list.map(([when, what, where]) => (
             <li>
               <span class="ledger__when">{when}</span>
-              <span class="cv__what">
-                {what}
-                {where && <span class="cv__where">{where}</span>}
-              </span>
+              <div>
+                <p class="ledger__title">{what}</p>
+                {where && <p class="ledger__where">{where}</p>}
+              </div>
             </li>
           ))}
         </ol>
@@ -94,17 +100,19 @@ const groups = [
   }
 
   <Section id="cv-talks" title="Conference presentations">
-    <ol class="ledger cv__rows">
+    <ol class="ledger cv-rows">
       {
         talks.map((t) => (
           <li>
             <span class="ledger__when">{t.data.date.slice(0, 4)}</span>
-            <span class="cv__what">
-              <em>{t.data.title}</em>. {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
-              <span class="cv__where">
+            <div>
+              <p class="ledger__title">
+                <em>{t.data.title}</em>. {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+              </p>
+              <p class="ledger__where">
                 {t.data.event}, {t.data.location}
-              </span>
-            </span>
+              </p>
+            </div>
           </li>
         ))
       }
@@ -112,30 +120,32 @@ const groups = [
   </Section>
 
   <Section id="cv-pubs" title="Publications">
-    <ol class="ledger cv__rows">
+    <ol class="ledger cv-rows">
       {
         pubs.map((p) => (
           <li>
             <span class="ledger__when">{p.data.year}</span>
-            <span class="cv__what">
-              {p.data.authors.map((a, i) => (
-                <Fragment>
-                  {isMe(a) ? <strong>{a}</strong> : a}
-                  {i < p.data.authors.length - 1 ? ', ' : ''}
-                </Fragment>
-              ))}
-              {p.data.etAl ? ` … et al.` : ''} ({p.data.year}). {p.data.title}. <em>{p.data.venue}</em>
-              {p.data.volume ? `, ${p.data.volume}` : ''}
-              {p.data.issue ? `(${p.data.issue})` : ''}
-              {p.data.pages ? `, ${p.data.pages}` : ''}.
+            <div>
+              <p class="ledger__title">
+                {p.data.authors.map((a, i) => (
+                  <Fragment>
+                    {isMe(a) ? <strong>{a}</strong> : a}
+                    {i < p.data.authors.length - 1 ? ', ' : ''}
+                  </Fragment>
+                ))}
+                {p.data.etAl ? ` … et al.` : ''} ({p.data.year}). {p.data.title}. <em>{p.data.venue}</em>
+                {p.data.volume ? `, ${p.data.volume}` : ''}
+                {p.data.issue ? `(${p.data.issue})` : ''}
+                {p.data.pages ? `, ${p.data.pages}` : ''}.
+              </p>
               {p.data.doi && (
-                <span class="cv__where">
+                <p class="ledger__where">
                   <a href={`https://doi.org/${p.data.doi}`} rel="noopener">
                     doi:{p.data.doi}
                   </a>
-                </span>
+                </p>
               )}
-            </span>
+            </div>
           </li>
         ))
       }
@@ -143,43 +153,17 @@ const groups = [
   </Section>
 
   <Section id="cv-skills" title="Skills">
-    <dl class="spec cv__skills">
-      <dt>Programming</dt>
-      <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
-      <dt>Spatial</dt>
-      <dd>QGIS / ArcGIS, Image-Pro</dd>
-      <dt>Languages</dt>
-      <dd>Greek (native), English (C2), French (C1)</dd>
-      <dt>Laboratory</dt>
-      <dd>Sample treatment for pollution analysis, image-based identification</dd>
+    <dl class="tools">
+      <div><dt>Programming</dt><dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd></div>
+      <div><dt>Spatial</dt><dd>QGIS / ArcGIS, Image-Pro</dd></div>
+      <div><dt>Languages</dt><dd>Greek (native), English (C2), French (C1)</dd></div>
+      <div><dt>Laboratory</dt><dd>Sample treatment for pollution analysis, image-based identification</dd></div>
     </dl>
   </Section>
 </Base>
 
 <style>
-  .cv__download {
-    margin-top: var(--space-4);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3) var(--space-4);
-    max-width: none;
-  }
-  .cv__rows {
+  .cv-rows {
     --ledger-col: 11rem;
-  }
-  .cv__rows > li {
-    padding-block: var(--space-3);
-  }
-  .cv__what {
-    max-width: var(--measure);
-  }
-  .cv__where {
-    display: block;
-    color: var(--muted);
-    font-size: var(--step--1);
-  }
-  .cv__skills {
-    font-size: var(--step-0);
   }
 </style>

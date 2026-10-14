@@ -3,64 +3,39 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Section from '../../components/Section.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import ProjectTile from '../../components/ProjectTile.astro';
+import { domains, domainOrder } from '../../data/domains';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const talks = (await getCollection('talks')).sort((a, b) => b.data.date.localeCompare(a.data.date));
-
-const groups = [
-  {
-    key: 'ecology-evolution',
-    title: 'Ecology and evolution',
-    intro:
-      'The primary domain. Eco-evolutionary models of community assembly, trait evolution and regime shifts, from doctoral research to MSc work.',
-  },
-  {
-    key: 'sustainability-social',
-    title: 'Sustainability and social systems',
-    intro: 'Systems reasoning applied to organisations, institutions and policy.',
-  },
-  {
-    key: 'marine-systems',
-    title: 'Marine systems and monitoring',
-    intro: 'Earlier empirical work: species monitoring and citizen science in the eastern Mediterranean.',
-  },
-  {
-    key: 'tools-visualisation',
-    title: 'Tools and visualisation',
-    intro: 'Software and design for scientific figures.',
-  },
-] as const;
-
+const groups = domainOrder.map((key) => ({ key, ...domains[key], items: projects.filter((p) => p.data.domain === key) })).filter((g) => g.items.length > 0);
 const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar: 'Seminar' } as const;
 ---
 
 <Base
   title="Work"
-  description="Research projects by Alexandros Kaminas presented as modelling case studies: eco-evolutionary dynamics of isolation, trait evolution in mutualistic networks, regime shifts, functional diversity, sustainability systems and citizen science. Plus conference talks."
+  description="Research projects by Alexandros Kaminas as modelling case studies: eco-evolutionary dynamics of isolation, trait evolution in mutualistic networks, regime shifts, functional diversity, sustainability systems, citizen science and the Vellum figure system. Plus conference talks."
 >
-  <PageHeader
-    title="Projects as modelling problems"
-    lede="Each project is described by its question, the system, the model structure and what came out of it."
-  />
+  <PageHeader title="Work">
+    <ul class="toc">
+      {groups.map((g) => <li><a href={`#g-${g.key}`}>{g.label}</a></li>)}
+      <li><a href="#talks">Talks and posters</a></li>
+    </ul>
+  </PageHeader>
 
   {
-    groups.map((g) => {
-      const items = projects.filter((p) => p.data.domain === g.key);
-      if (items.length === 0) return null;
-      return (
-        <Section id={`g-${g.key}`} title={g.title} intro={g.intro} wide>
-          <div class="cards">
-            {items.map((p) => (
-              <ProjectCard project={p} />
-            ))}
-          </div>
-        </Section>
-      );
-    })
+    groups.map((g) => (
+      <Section id={`g-${g.key}`} title={g.label}>
+        <div class="tiles">
+          {g.items.map((p) => (
+            <ProjectTile project={p} />
+          ))}
+        </div>
+      </Section>
+    ))
   }
 
-  <Section id="talks" title="Talks and posters" intro="Conference presentations, most recent first.">
+  <Section id="talks" title="Talks and posters">
     <ol class="ledger talks">
       {
         talks.map((t) => (
@@ -69,16 +44,13 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
               {t.data.date}
               <span class="ledger__tag">{typeLabel[t.data.type]}</span>
             </span>
-            <div class="talk__body">
-              <p class="talk__title">
-                {t.data.project ? <a href={`/work/${t.data.project}/`}>{t.data.title}</a> : t.data.title}
-              </p>
-              <p class="talk__event">
+            <div>
+              <p class="ledger__title">{t.data.project ? <a href={`/work/${t.data.project}/`}>{t.data.title}</a> : t.data.title}</p>
+              <p class="ledger__where">
                 {t.data.event} · {t.data.location}
               </p>
-              {t.data.authors.length > 1 && <p class="muted small">{t.data.authors.join(', ')}</p>}
-              {t.data.abstract && <p class="small talk__abstract">{t.data.abstract}</p>}
-              {t.data.note && <p class="muted small">{t.data.note}</p>}
+              {t.data.authors.length > 1 && <p class="ledger__note">{t.data.authors.join(', ')}</p>}
+              {t.data.note && <p class="ledger__note">{t.data.note}</p>}
             </div>
           </li>
         ))
@@ -91,17 +63,11 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
   .talks {
     --ledger-col: 8rem;
   }
-  .talk__body p {
-    margin: 0 0 var(--space-1);
+  .talks .ledger__title a {
+    color: inherit;
+    text-decoration: none;
   }
-  .talk__title {
-    font-weight: 700;
-    text-wrap: pretty;
-  }
-  .talk__event {
-    font-size: var(--step--1);
-  }
-  .talk__abstract {
-    margin-top: var(--space-2) !important;
+  .talks .ledger__title a:hover {
+    color: var(--accent);
   }
 </style>

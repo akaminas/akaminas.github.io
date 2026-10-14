@@ -14,7 +14,7 @@
  *   scheme. Keep KEY and TTL_DAYS in sync with that script.
  *
  * Everything else on the page recolours from the custom properties in
- * src/styles/global.css, so no other script needs to be told about the change.
+ * src/styles/site.css; the home-page model watches the attribute itself.
  */
 
 export const KEY = 'theme';
@@ -41,7 +41,7 @@ const store = (theme: Theme): void => {
 const applyMeta = (theme: Theme): void => {
   // Keep the browser chrome colour in step with an explicit choice.
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
-    m.content = theme === 'dark' ? '#17324f' : '#b9d8ef';
+    m.content = theme === 'dark' ? '#2a2520' : '#ffffff';
     m.removeAttribute('media');
   });
 };
@@ -52,7 +52,7 @@ export function mountThemeToggle(button: HTMLButtonElement): void {
   const render = () => {
     const theme = currentTheme();
     button.dataset.state = theme;
-    button.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    button.setAttribute('aria-label', theme === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme');
   };
 
   const apply = (theme: Theme) => {

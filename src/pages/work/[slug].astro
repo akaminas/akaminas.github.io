@@ -2,9 +2,10 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Motif from '../../components/Motif.astro';
+import Texture from '../../components/Texture.astro';
 import PublicationItem from '../../components/PublicationItem.astro';
 import { site } from '../../data/site';
+import { domains, statusLabel } from '../../data/domains';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props as { project: CollectionEntry<'projects'> };
 const { data } = project;
 const { Content } = await render(project);
+const dom = domains[data.domain];
 
 const pubs = (await Promise.all(data.publications.map((id) => getEntry('publications', id)))).filter(
   (p): p is CollectionEntry<'publications'> => Boolean(p),
@@ -24,14 +26,6 @@ const talks = (await Promise.all(data.talks.map((id) => getEntry('talks', id))))
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const idx = all.findIndex((p) => p.id === project.id);
 const next = all[(idx + 1) % all.length];
-
-const statusLabel = { ongoing: 'Ongoing', completed: 'Completed', published: 'Published' } as const;
-const domainLabel = {
-  'ecology-evolution': 'Ecology & evolution',
-  'sustainability-social': 'Sustainability & social systems',
-  'marine-systems': 'Marine systems & monitoring',
-  'tools-visualisation': 'Tools & visualisation',
-} as const;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -47,26 +41,32 @@ const schema = {
 
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
   <article>
-    <header class="page-head container project-head">
-      <div class="project-head__fig" aria-hidden="true">
-        <Motif kind={data.motif} size={80} />
-      </div>
-      <div class="project-head__text">
-        <p class="label">
-          <a href="/work/">Work</a> · {domainLabel[data.domain]}
-        </p>
+    <header class="project-hero bleed">
+      {
+        data.image ? (
+          <>
+            <img class="twin-light" src={data.image.light} alt="" width="720" height="476" loading="eager" decoding="async" />
+            <img class="twin-dark" src={data.image.dark} alt="" width="720" height="476" loading="eager" decoding="async" />
+          </>
+        ) : (
+          <Texture kind={data.texture ?? dom.texture} hue={dom.hue} seed={project.id} grain />
+        )
+      }
+      <div class="title-card">
+        <span class="mono-label">
+          <a href="/work/">Work</a> · {dom.label}
+        </span>
         <h1>{data.title}</h1>
-        <p class="lede">{data.question}</p>
       </div>
     </header>
 
-    <div class="container project-body">
-      <aside class="project-body__aside">
+    <div class="project-body">
+      <aside class="project-aside" aria-label="Project facts">
         <dl class="spec spec--stacked">
           <dt>Status</dt>
           <dd><span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span></dd>
           <dt>Period</dt>
-          <dd class="mono">{data.period}</dd>
+          <dd>{data.period}</dd>
           <dt>Role</dt>
           <dd>{data.role}</dd>
           {
@@ -144,110 +144,81 @@ const schema = {
         </dl>
       </aside>
 
-      <div class="prose">
-        <Content />
+      <div>
+        <p class="lead">{data.question}</p>
+        <div class="prose">
+          <Content />
 
-        {
-          talks.length > 0 && (
-            <section aria-labelledby="proj-talks">
-              <h2 id="proj-talks">Presentations</h2>
-              <ul class="ledger project-talks">
-                {talks.map((t) => (
-                  <li>
-                    <span class="ledger__when">{t.data.date}</span>
-                    <div>
-                      <p class="ledger__title">{t.data.title}</p>
-                      <p class="ledger__where">
-                        {t.data.event}, {t.data.location} ·{' '}
-                        {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
-                      </p>
-                      {t.data.authors.length > 1 && <p class="ledger__note">{t.data.authors.join(', ')}</p>}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )
-        }
+          {
+            talks.length > 0 && (
+              <section aria-labelledby="proj-talks">
+                <h2 id="proj-talks">Presentations</h2>
+                <ul class="ledger project-talks">
+                  {talks.map((t) => (
+                    <li>
+                      <span class="ledger__when">{t.data.date}</span>
+                      <div>
+                        <p class="ledger__title">{t.data.title}</p>
+                        <p class="ledger__where">
+                          {t.data.event}, {t.data.location} · {t.data.type === 'oral' ? 'Oral presentation' : 'Poster'}
+                        </p>
+                        {t.data.authors.length > 1 && <p class="ledger__note">{t.data.authors.join(', ')}</p>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
 
-        {
-          pubs.length > 0 && (
-            <section aria-labelledby="proj-pubs">
-              <h2 id="proj-pubs">Publications</h2>
-              <ol class="register">
-                {pubs.map((p) => (
-                  <PublicationItem pub={p} />
-                ))}
-              </ol>
-            </section>
-          )
-        }
+          {
+            pubs.length > 0 && (
+              <section aria-labelledby="proj-pubs">
+                <h2 id="proj-pubs">Publications</h2>
+                <ol class="register">
+                  {pubs.map((p) => (
+                    <PublicationItem pub={p} />
+                  ))}
+                </ol>
+              </section>
+            )
+          }
+        </div>
       </div>
     </div>
 
-    <nav class="container project-next" aria-label="Next project">
-      <p class="label">Next project</p>
-      <a class="arrow-link project-next__link" href={`/work/${next.id}/`}>{next.data.title}</a>
+    <nav class="project-next" aria-label="Next project">
+      <span class="eyebrow">Next project</span>
+      <a href={`/work/${next.id}/`}>{next.data.title} →</a>
     </nav>
   </article>
 </Base>
 
 <style>
-  .project-head {
-    display: grid;
-    gap: var(--space-4) var(--space-5);
-    align-items: start;
+  .project-hero :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
   }
-  @media (min-width: 42rem) {
-    .project-head {
-      grid-template-columns: 5.5rem minmax(0, 1fr);
-    }
+  .mono-label a {
+    color: inherit;
+    text-decoration: none;
   }
-  .project-head__fig {
+  .mono-label a:hover {
     color: var(--accent);
-    background: var(--surface);
-    border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
-    width: 5.5rem;
-    height: 5.5rem;
-    display: grid;
-    place-items: center;
-  }
-  .project-head .lede {
-    margin: 0;
-  }
-  .project-body {
-    display: grid;
-    gap: var(--space-6) var(--space-7);
-    padding-block: var(--space-5) var(--space-7);
-  }
-  @media (min-width: 52rem) {
-    .project-body {
-      grid-template-columns: 14rem minmax(0, 1fr);
-    }
-    .project-body__aside {
-      position: sticky;
-      top: 5rem;
-    }
-  }
-  .project-body__aside {
-    background: var(--surface);
-    border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
-    padding: var(--space-4);
-    align-self: start;
   }
   .project-talks {
-    margin-top: var(--space-4);
-  }
-  .project-talks li {
     --ledger-col: 6rem;
+    margin-top: 8px;
+    padding-left: 0;
   }
-  .project-next {
-    padding-block: var(--space-5) var(--space-6);
-    border-top: var(--rule) solid var(--line);
-  }
-  .project-next__link {
-    font-size: var(--step-1);
+  @media (max-width: 620px) {
+    .project-hero :global(img) {
+      position: static;
+      height: 200px;
+    }
   }
 </style>

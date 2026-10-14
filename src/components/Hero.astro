@@ -1,0 +1,30 @@
+---
+/**
+ * The home-page figure: the live island-biogeography model on a canvas
+ * (src/scripts/archipelago.ts), with a still voxel texture for readers
+ * without JavaScript and a one-line caption.
+ */
+import Texture from './Texture.astro';
+---
+
+<figure class="hero-art">
+  <div class="hero-stage">
+    <canvas
+      data-archipelago
+      role="img"
+      aria-label="An animated isometric model of an archipelago. Coloured blocks, one per lineage, fly from a mainland to five islands and now and then sink away; the near, large islands end up holding more than the far, small ones."
+    ></canvas>
+    <noscript>
+      <Texture kind="voxels" hue="teal" seed="hero" label="A still isometric cluster of teal blocks." />
+    </noscript>
+  </div>
+  <figcaption class="hero-cap">
+    Live model: lineages reach islands from the mainland and go extinct at random, so near, large islands stay richer.
+  </figcaption>
+</figure>
+
+<script>
+  import { mountArchipelago } from '../scripts/archipelago';
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-archipelago]');
+  if (canvas) mountArchipelago(canvas);
+</script>

@@ -12,6 +12,12 @@ const experience = [
     note: 'The evolutionary consequences of isolation. EVOLVE fellow (EU MSCA COFUND).',
   },
   {
+    period: '2026 – 2027',
+    title: 'Teaching assistant',
+    where: 'University of Groningen — MSc Biology',
+    note: 'Mathematical models for Biology; Programming C++ for Biologists; Modelling Complex Biological Systems.',
+  },
+  {
     period: 'Jan 2025 – present',
     title: 'Research associate',
     where: 'Political Economy of Sustainable Development Lab, University of Athens',
@@ -21,13 +27,13 @@ const experience = [
     period: 'Nov 2023 – present',
     title: 'Network coordinator (since May 2025); sustainability research fellow (2023–2025)',
     where: 'SDSN Youth Greece',
-    note: 'Coordinating collaborations and projects on the Sustainable Development Goals.',
+    note: 'Collaborations and projects on the Sustainable Development Goals.',
   },
   {
     period: 'Oct 2024 – Sep 2025',
-    title: 'Meteorology and oceanography officer (METOC); administration officer',
+    title: 'Meteorology and oceanography officer; administration officer',
     where: 'Hydrographic Service, Hellenic Navy',
-    note: 'Oceanographic models and forecasts; processing acoustic data for submarine surveys. Modernised administrative systems with Python.',
+    note: 'Oceanographic models and forecasts; acoustic data for submarine surveys; administrative systems in Python.',
   },
   {
     period: 'Jan – Jun 2024',
@@ -51,7 +57,7 @@ const experience = [
     period: '2021 – present',
     title: 'Working group member',
     where: 'WGCOMEDA',
-    note: 'Comparative analysis of Mediterranean and Atlantic ecosystems, biodiversity and resilience.',
+    note: 'Comparative analysis of Mediterranean and Atlantic ecosystems.',
   },
   {
     period: 'Jun – Sep 2020',
@@ -68,23 +74,14 @@ const experience = [
 ];
 
 const education = [
-  {
-    period: '2025 – present',
-    degree: 'PhD, The evolutionary consequences of isolation',
-    where: 'University of Groningen',
-  },
+  { period: '2025 – present', degree: 'PhD, The evolutionary consequences of isolation', where: 'University of Groningen' },
   {
     period: '2022 – 2024',
     degree: 'MSc, Applied Ecological and Evolutionary Sciences',
     where: 'University of Montpellier',
-    note: 'Graduated second in class. IDIL international student scholarship.',
+    note: 'Second in class. IDIL international student scholarship.',
   },
-  {
-    period: '2017 – 2021',
-    degree: 'BSc, Marine Science',
-    where: 'University of the Aegean',
-    note: 'Graduated first in class; valedictorian.',
-  },
+  { period: '2017 – 2021', degree: 'BSc, Marine Science', where: 'University of the Aegean', note: 'First in class; valedictorian.' },
 ];
 
 const awards = [
@@ -98,24 +95,16 @@ const awards = [
 
 <Base
   title="About"
-  description="About Alexandros Kaminas: PhD researcher in theoretical and evolutionary ecology at the University of Groningen (TRÊS), trained in marine science (Aegean) and ecological and evolutionary sciences (Montpellier); background in sustainability policy and marine monitoring."
+  description="About Alexandros Kaminas: PhD researcher in theoretical and evolutionary ecology at the University of Groningen (TRÊS), trained in marine science (Aegean) and ecological and evolutionary sciences (Montpellier); teaching assistant for MSc modelling courses; sustainability research in Greece."
   ogType="profile"
 >
-  <PageHeader title="About me" />
+  <PageHeader title="About" lead="I model living systems: communities that assemble, populations that evolve, and the organisations that depend on them." />
 
-  <section class="container about" aria-label="Introduction">
-    <figure class="about__portrait">
+  <section class="about" aria-label="Profile">
+    <figure class="portrait">
       <picture>
-        <source
-          type="image/avif"
-          srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w"
-          sizes="(min-width: 42rem) 15rem, 60vw"
-        />
-        <source
-          type="image/webp"
-          srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w"
-          sizes="(min-width: 42rem) 15rem, 60vw"
-        />
+        <source type="image/avif" srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w" sizes="(min-width: 60rem) 18rem, 60vw" />
+        <source type="image/webp" srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w" sizes="(min-width: 60rem) 18rem, 60vw" />
         <img
           src="/images/portrait-640.jpg"
           width="640"
@@ -125,41 +114,32 @@ const awards = [
           decoding="async"
         />
       </picture>
-      <figcaption class="small muted">{site.name}, {site.location}.</figcaption>
+      <figcaption>{site.name}, {site.location}.</figcaption>
     </figure>
-    <div class="about__text prose">
-      <p class="lede">
-        I develop mathematical and computational models of complex systems. My primary field is ecology and
-        evolution; the same tools travel to sustainability and socioeconomic questions.
+    <div class="prose">
+      <p>
+        I am a PhD researcher at the University of Groningen, in the Theoretical Research in Evolutionary Life Sciences cluster (TRÊS), with
+        Rampal Etienne and Sander van Doorn. My project, <em>The evolutionary consequences of isolation</em>, asks how limited immigration
+        shapes what emerges, persists and goes extinct in a community. It is funded by an EVOLVE fellowship (EU MSCA COFUND).
       </p>
       <p>
-        I am a PhD researcher at the University of Groningen, in the Theoretical Research in Evolutionary Life
-        Sciences (TRÊS) cluster, working with Rampal Etienne (Theoretical and Evolutionary Community Ecology) and
-        Sander van Doorn (Evolutionary Systems Biology). My doctoral project, <em>The evolutionary consequences of
-        isolation</em>, asks how limited immigration reshapes the emergence, persistence and evolution of ecological
-        communities. It is funded by an EVOLVE fellowship (EU MSCA COFUND).
+        I trained in marine science at the University of the Aegean and in ecological and evolutionary sciences at the University of
+        Montpellier, with research at UMR MARBEC on regime shifts and functional diversity, after years of marine monitoring through citizen
+        science with iSea.
       </p>
       <p>
-        Before Groningen I trained in marine science at the University of the Aegean and in applied ecological and
-        evolutionary sciences at the University of Montpellier, with research at UMR MARBEC on regime shifts and
-        functional diversity in Mediterranean fish communities. Earlier, I spent several years monitoring marine biodiversity and species
-        invasions through citizen science with the environmental organisation iSea and in collaboration with international institutes such as the Marine & Environmental Research (MER) Lab and the Hellenic Centre for Marine Research (HCMR).
+        Alongside the PhD I assist in three MSc modelling courses at Groningen, coordinate SDSN Youth Greece, and work with the Political
+        Economy of Sustainable Development Lab at the University of Athens on climate-change reporting.
       </p>
-      <p>
-        Alongside the PhD I coordinate the SDSN Youth Greece network and work with the Political Economy of
-        Sustainable Development Lab at the University of Athens on climate-change reporting. That work applies systems
-        thinking to organisations and institutions rather than to species.
-      </p>
-      <p>
-        I speak Greek, English and French. I am based in Groningen, Netherlands.
-      </p>
-      <p>
-        <a class="button" href="/cv/">Curriculum vitae</a>
-      </p>
+      <p>Greek, English and French. Based in Groningen.</p>
+      <div class="cta-row">
+        <a class="btn-solid" href="/cv/">Curriculum vitae</a>
+        <a class="btn-outline" href={`mailto:${site.email}`}>Email</a>
+      </div>
     </div>
   </section>
 
-  <Section id="experience" title="Positions and roles">
+  <Section id="experience" title="Positions">
     <ol class="ledger timeline">
       {
         experience.map((e) => (
@@ -209,72 +189,42 @@ const awards = [
     </ol>
   </Section>
 
-  <Section id="contact" title="Get in touch">
-    <div class="stack">
-      <p>
-        Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
-        student projects, and modelling work with institutes and organisations.
-      </p>
-      <p><a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a></p>
-      <ul class="profiles" aria-label="Profiles">
-        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-        <li><a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a></li>
-        <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
-        <li><a href={site.profiles.rug} rel="noopener">University of Groningen profile</a></li>
-        <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
-      </ul>
-    </div>
+  <Section id="profiles" title="Profiles">
+    <ul class="profiles">
+      <li><a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a></li>
+      <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
+      <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
+      <li><a href={site.profiles.rug} rel="noopener">University of Groningen</a></li>
+      <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
+    </ul>
   </Section>
 </Base>
 
 <style>
   .about {
     display: grid;
-    gap: var(--space-5) var(--space-7);
-    padding-bottom: var(--space-4);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 48px;
+    align-items: start;
+    margin: 0 0 112px;
   }
-  @media (min-width: 42rem) {
-    .about {
-      grid-template-columns: 15rem minmax(0, 1fr);
-      align-items: start;
-    }
+  .about .portrait {
+    max-width: 18rem;
   }
-  .about__portrait {
-    width: min(100%, 15rem);
-    margin: 0;
-  }
-  .about__portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-  .about__portrait figcaption {
-    margin-top: var(--space-2);
-    font-family: var(--font-ui);
-  }
-  .about__text .lede {
-    margin-bottom: var(--space-4);
+  .about .cta-row {
+    margin-top: 24px;
   }
   .timeline {
     --ledger-col: 11rem;
   }
-  .profiles {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-5);
-    font-family: var(--font-ui);
-    font-size: var(--step--1);
-  }
-  .profiles li {
-    max-width: none;
-  }
-  .profiles a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
+  @media (max-width: 760px) {
+    .about {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+      margin-bottom: 80px;
+    }
+    .about .portrait {
+      max-width: 14rem;
+    }
   }
 </style>
