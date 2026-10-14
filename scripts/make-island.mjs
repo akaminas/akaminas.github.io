@@ -5,7 +5,7 @@
  *
  * Everything is built from a few isometric primitives (plates, bricks,
  * cylinders, domes) in the manner of a toy-brick model: flat colours, three
- * tones per colour, a thin dark edge on every face, crisp studs on every top surface. World units are studs; the
+ * tones per colour, studs on every top surface. World units are studs; the
  * projection is the usual 2:1 isometric. The scene is static SVG; the only
  * behaviour is CSS on the link groups (lift + label on hover and focus).
  *
@@ -41,9 +41,7 @@ const rgb2hex = (c) => '#' + c.map((v) => Math.max(0, Math.min(255, Math.round(v
 const mix = (h, target, t) => rgb2hex(hex2rgb(h).map((v, i) => v + (target[i] - v) * t));
 const lighten = (h, t) => mix(h, [255, 255, 255], t);
 const darken = (h, t) => mix(h, [0, 0, 0], t);
-const tones = (base) => ({ top: lighten(base, 0.2), left: base, right: darken(base, 0.3) });
-/** A thin edge in a darker tone of the face, so every part reads as a defined shape. */
-const edge = (base) => `stroke="${darken(base, 0.38)}" stroke-width="0.65" stroke-linejoin="round" stroke-opacity="0.85"`;
+const tones = (base) => ({ top: lighten(base, 0.14), left: base, right: darken(base, 0.22) });
 
 // ---------- output buffers ----------
 const defs = [];
@@ -63,7 +61,8 @@ function studs(base, z) {
   defs.push(
     `<pattern id="${id}" patternUnits="userSpaceOnUse" width="1" height="1" patternTransform="matrix(${f1(a)} ${f1(b)} ${f1(-a)} ${f1(b)} ${X0} ${f1(Y0 - z * S)})">` +
       `<rect width="1" height="1" fill="${t.top}"/>` +
-      `<circle cx="0.5" cy="0.5" r="0.27" fill="${lighten(base, 0.3)}" stroke="${darken(base, 0.3)}" stroke-width="0.045"/>` +
+      `<circle cx="0.64" cy="0.64" r="0.29" fill="${darken(base, 0.1)}"/>` +
+      `<circle cx="0.5" cy="0.5" r="0.29" fill="${lighten(base, 0.24)}"/>` +
       `</pattern>`,
   );
   return `url(#${id})`;
@@ -83,13 +82,12 @@ function box(x, y, z, w, d, h, base, { flat = false, top, noTop = false } = {}) 
   const zt = z + h;
   const out = [];
   // left (+y) face
-  const e = edge(base);
-  out.push(`<polygon points="${pt(x, y + d, z)} ${pt(x + w, y + d, z)} ${pt(x + w, y + d, zt)} ${pt(x, y + d, zt)}" fill="${t.left}" ${e}/>`);
+  out.push(`<polygon points="${pt(x, y + d, z)} ${pt(x + w, y + d, z)} ${pt(x + w, y + d, zt)} ${pt(x, y + d, zt)}" fill="${t.left}"/>`);
   // right (+x) face
-  out.push(`<polygon points="${pt(x + w, y, z)} ${pt(x + w, y + d, z)} ${pt(x + w, y + d, zt)} ${pt(x + w, y, zt)}" fill="${t.right}" ${e}/>`);
+  out.push(`<polygon points="${pt(x + w, y, z)} ${pt(x + w, y + d, z)} ${pt(x + w, y + d, zt)} ${pt(x + w, y, zt)}" fill="${t.right}"/>`);
   if (!noTop) {
     const fill = top ?? (flat ? t.top : studs(base, zt));
-    out.push(`<polygon points="${pt(x, y, zt)} ${pt(x + w, y, zt)} ${pt(x + w, y + d, zt)} ${pt(x, y + d, zt)}" fill="${fill}" ${e}/>`);
+    out.push(`<polygon points="${pt(x, y, zt)} ${pt(x + w, y, zt)} ${pt(x + w, y + d, zt)} ${pt(x, y + d, zt)}" fill="${fill}"/>`);
   }
   return out.join('');
 }
@@ -108,8 +106,8 @@ function cylinder(cx, cy, z, r, h, base, { flat = true, stud = false } = {}) {
     [1, t.right],
   ]);
   let out =
-    `<path d="M${f1(X - rx)},${f1(Yt)} V${f1(Yb)} A${f1(rx)},${f1(ry)} 0 0 0 ${f1(X + rx)},${f1(Yb)} V${f1(Yt)} Z" fill="${side}" ${edge(base)}/>` +
-    `<ellipse cx="${f1(X)}" cy="${f1(Yt)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="${t.top}" ${edge(base)}/>`;
+    `<path d="M${f1(X - rx)},${f1(Yt)} V${f1(Yb)} A${f1(rx)},${f1(ry)} 0 0 0 ${f1(X + rx)},${f1(Yb)} V${f1(Yt)} Z" fill="${side}"/>` +
+    `<ellipse cx="${f1(X)}" cy="${f1(Yt)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="${flat ? t.top : t.top}"/>`;
   if (stud) {
     const sr = r * 0.55;
     out += cylinder(cx, cy, z + h, sr, 0.17, base);
@@ -130,7 +128,7 @@ function dome(cx, cy, z, r, base) {
     [1, darken(base, 0.28)],
   ]);
   return (
-    `<path d="M${f1(X - rx)},${f1(Yb)} A${f1(rx)},${f1(rise)} 0 0 1 ${f1(X + rx)},${f1(Yb)} A${f1(rx)},${f1(ry)} 0 0 1 ${f1(X - rx)},${f1(Yb)} Z" fill="${fill}" ${edge(base)}/>` +
+    `<path d="M${f1(X - rx)},${f1(Yb)} A${f1(rx)},${f1(rise)} 0 0 1 ${f1(X + rx)},${f1(Yb)} A${f1(rx)},${f1(ry)} 0 0 1 ${f1(X - rx)},${f1(Yb)} Z" fill="${fill}"/>` +
     `<path d="M${f1(X - rx * 0.55)},${f1(Yb - rise * 0.55)} A${f1(rx * 0.5)},${f1(rise * 0.35)} 0 0 1 ${f1(X - rx * 0.05)},${f1(Yb - rise * 0.97)}" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2.5" stroke-linecap="round"/>`
   );
 }

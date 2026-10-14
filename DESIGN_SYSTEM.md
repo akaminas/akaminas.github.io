@@ -5,7 +5,7 @@ An illustrated personal site in the manner of an interactive academic homepage, 
 ## Principles
 
 1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
-2. **Two colours, crisp parts.** White paper and one Aegean blue; text in deep slate; pale blue-grey surfaces. The island uses the same blue for the sea and the domes and the same white for the houses, with sand, olive grass and wood around them; every face carries a thin edge in a darker tone and every stud is a single crisp disc, so each part reads as a defined shape. Nothing is neon.
+2. **Two colours.** White paper and one Aegean blue; text in deep slate; pale blue-grey surfaces. The island uses the same blue for the sea and the domes and the same white for the houses, with sand, olive grass and wood around them. Nothing is neon.
 3. **Mono over slab.** Headings, the wordmark, the navigation, labels, dates and buttons are Roboto Mono at 500–700; text is Roboto Slab at 400. The monospaced face is set small and tight (headings 1.9–2.5 rem) so it reads as a label, not a banner.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
@@ -41,7 +41,7 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 
 A second palette, **Sand** (warm apricot bar, deep brown headings, burnt-orange accent, Greek-blue links), is defined in the same stylesheet and switched on with `data-palette="sand"` on `<html>` in `src/layouts/Base.astro`. Blue and orange are complements, so the island stands further off the page. The comment above the tokens lists the six other places that carry a hard-coded colour and must be changed with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons), and `scripts/og.html`. Both palettes, in both schemes, were checked against every text/background pair.
 
-The island itself uses fixed colours (sea and domes `#007ba7`, houses `#f4f4f4`, sand `#e6d2a0`, grass `#7fb069`) in both schemes, with three tones per colour (top lighter, left as is, right darker), a thin darker edge on every face and a single crisp stud disc on every top surface.
+The island itself uses fixed colours (sea and domes `#007ba7`, houses `#f4f4f4`, sand `#e6d2a0`, grass `#7fb069`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
 All text/background pairs meet WCAG 2.2 AA (4.5:1) in both schemes. Colour never carries information alone: the status dot always sits beside a word, the active navigation item is also underlined, and every island part has a text label and a key entry.
 
