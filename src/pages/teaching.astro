@@ -8,10 +8,10 @@ const entries = (await getCollection('teaching')).sort((a, b) => a.data.order - 
 const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
 
 const groups = [
-  { kind: 'supervision', title: 'Supervision', intro: 'Guiding quantitative modelling projects from question to analysis.' },
-  { kind: 'teaching', title: 'Teaching', intro: 'Tutoring and instruction.' },
+  { kind: 'supervision', title: 'Supervision', intro: '' },
+  { kind: 'teaching', title: 'Teaching', intro: '' },
   { kind: 'service', title: 'Academic service', intro: 'Peer review and society roles.' },
-  { kind: 'outreach', title: 'Outreach', intro: 'Public speaking and student outreach.' },
+  { kind: 'outreach', title: 'Outreach', intro: '' },
 ] as const;
 ---
 
@@ -19,10 +19,7 @@ const groups = [
   title="Teaching and supervision"
   description="Teaching and supervision by Alexandros Kaminas: MSc research project supervision at the University of Groningen (TRÊS), tutoring in biology, geology, physics and chemistry, peer review and academic service."
 >
-  <PageHeader
-    title="Teaching and supervision"
-    lede="Supervision is where the modelling toolkit gets passed on: framing a question so that a model can answer it, choosing a structure the data can support, and reading the results critically."
-  />
+  <PageHeader title="Teaching and supervision" />
 
   {
     groups.map((g) => {
