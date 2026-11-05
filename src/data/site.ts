@@ -11,7 +11,9 @@ export const site = {
   email: 'kaminas.alex@gmail.com',
   affiliation: {
     name: 'University of Groningen',
-    unit: 'Theoretical Research in Evolutionary Life Sciences (TRÊS)',
+    /** Full name of the group, without its acronym. Write "unit (unitShort)" once where it is spelled out. */
+    unit: 'Theoretical Research in Evolutionary Life Sciences',
+    unitShort: 'TRÊS',
     url: 'https://www.rug.nl/research/gelifes/tres/',
   },
   position: 'PhD researcher',

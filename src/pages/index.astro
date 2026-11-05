@@ -23,7 +23,12 @@ const personSchema = {
     '@type': 'Organization',
     name: site.affiliation.name,
     url: 'https://www.rug.nl/',
-    department: { '@type': 'Organization', name: site.affiliation.unit, url: site.affiliation.url },
+    department: {
+      '@type': 'Organization',
+      name: site.affiliation.unit,
+      alternateName: site.affiliation.unitShort,
+      url: site.affiliation.url,
+    },
   },
   alumniOf: [
     { '@type': 'CollegeOrUniversity', name: 'University of Montpellier' },
@@ -55,7 +60,7 @@ const websiteSchema = {
   <section class="container intro" aria-label="Introduction">
     <h1>{site.name}</h1>
     <p class="intro__role">
-      {site.position}, <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}
+      {site.position}, {site.affiliation.unit} ({site.affiliation.unitShort}), {site.affiliation.name}
     </p>
     <div class="intro__grid">
       <picture class="intro__portrait">
@@ -225,9 +230,6 @@ const websiteSchema = {
     font-size: var(--step--1);
     color: var(--muted);
     margin-bottom: var(--space-6);
-  }
-  .intro__role abbr {
-    text-decoration: none;
   }
   .intro__grid {
     display: grid;

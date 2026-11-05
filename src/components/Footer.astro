@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
     <div class="site-footer__col">
       <p class="site-footer__name">{site.name}</p>
       <p class="small muted">
-        {site.position}, <abbr title={site.affiliation.unit}>TRÊS</abbr>, {site.affiliation.name}<br />
+        {site.position}, <abbr title={site.affiliation.unit}>{site.affiliation.unitShort}</abbr>, {site.affiliation.name}<br />
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
     </div>
