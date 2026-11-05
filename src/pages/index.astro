@@ -7,7 +7,10 @@ import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../data/site';
 
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const projects = all.filter((p) => p.data.featured);
+// The PhD project has its own block at the top, so the cards show the other featured projects.
+const phd = all.find((p) => p.id === 'evolutionary-consequences-of-isolation');
+if (!phd) throw new Error('The PhD project entry is missing from src/content/projects.');
+const projects = all.filter((p) => p.data.featured && p.id !== phd.id);
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -84,65 +87,39 @@ const websiteSchema = {
         />
       </picture>
       <div class="intro__text">
-        <p class="intro__tagline">Modelling complex systems</p>
-        <p>
-          I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback
-          and chance: communities of species, evolving populations, and the organisations and economies that depend on
-          them.
+        <p class="lede">
+          I build mathematical and computational models of ecological communities and evolving populations.
         </p>
-        <p>
-          <strong>Explore the island below to find out more! </strong> 
-        </p>
-        <p class="intro__ids">
-          <a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a>
-          <a href={site.profiles.github} rel="me noopener">github.com/akaminas</a>
-          <a href={site.profiles.rug} rel="noopener">research.rug.nl</a>
-        </p>
+        <div class="intro__phd">
+          <p class="label">PhD project</p>
+          <p class="intro__phd-title">
+            <a href={`/work/${phd.id}/`}>{phd.data.title}</a>
+          </p>
+          <p>{phd.data.question}</p>
+          <p class="muted small">Since October 2025, with Rampal Etienne and Sander van Doorn.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <Section id="island" title="Explore the island" wide>
-    <Island />
-  </Section>
-
-  <Section id="scope" title="Research areas">
-    <ol class="chain" aria-label="From core expertise to applications">
-      <li><span>Complex systems</span></li>
-      <li><span>Mathematical &amp; computational modelling</span></li>
-      <li><span>Ecology &amp; evolution</span></li>
-      <li><span>Sustainability</span></li>
-      <li><span>Social &amp; economic systems</span></li>
-    </ol>
-    <div class="scope">
-      <div class="scope__col">
-        <h3>Core expertise</h3>
-        <p>
-          Mechanistic models of interacting components: dynamical systems, stochastic simulation, population and
-          trait-based models, and networks of interactions.
-        </p>
-      </div>
-      <div class="scope__col">
-        <h3>Primary domain</h3>
-        <p>
-          Ecology and evolution. My doctoral research at the University of Groningen models how isolation and limited
-          immigration reshape community assembly, diversification and extinction, with ecological and evolutionary
-          change coupled.
-        </p>
-      </div>
-      <div class="scope__col">
-        <h3>Interdisciplinary applications</h3>
-        <p>
-          Sustainability and socioeconomic systems, where I apply the same systems reasoning to organisations and
-          institutions.
-        </p>
-      </div>
+  <Section id="research" title="Research">
+    <div class="stack">
+      <p>
+        I work mostly on ecology and evolution: stochastic and dynamical models of communities, and of how the traits
+        of interacting species evolve. Earlier projects covered regime shifts in Mediterranean fish and invertebrate
+        communities and the functional diversity of Mediterranean fish.
+      </p>
+      <p>
+        Outside ecology I work on organisations and sustainability: a 2026 paper on organisational commitment among
+        Greek NGOs, and climate-change reporting with the Political Economy of Sustainable Development Lab at the
+        University of Athens.
+      </p>
     </div>
   </Section>
 
   <Section id="work" wide>
     <div class="sec__head">
-      <h2 id="work-title">Case studies</h2>
+      <h2 id="work-title">Other projects</h2>
       <a class="arrow-link" href="/work/">All projects and talks</a>
     </div>
     <div class="cards">
@@ -150,12 +127,15 @@ const websiteSchema = {
     </div>
   </Section>
 
-  <Section id="methods" title="How the models are built">
+  <Section id="island" title="Explore the island" intro="The island below links to the main sections." wide>
+    <Island />
+  </Section>
+
+  <Section id="methods" title="Methods">
     <div class="stack">
       <p>
-        The subject changes from project to project. Models are formulated mechanistically,
-        studied by stochastic simulation and dynamical-systems analysis, and confronted with data using statistical
-        methods. Simulation engines in C++, analysis and visualisation in R and Python.
+        Models are built from explicit processes, studied by stochastic simulation and dynamical-systems analysis, and
+        compared with data statistically. Simulation code is in C++; analysis and visualisation are in R and Python.
       </p>
       <ul class="chips" aria-label="Method areas">
         <li>Eco-evolutionary models</li>
@@ -250,89 +230,17 @@ const websiteSchema = {
     object-fit: cover;
     border-radius: var(--radius);
   }
-  .intro__tagline {
+  .intro__text .lede {
+    margin-bottom: var(--space-5);
+  }
+  .intro__phd p {
+    margin-bottom: var(--space-1);
+  }
+  .intro__phd-title {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-    color: var(--heading);
-    margin-bottom: var(--space-3);
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-  @media (max-width: 26rem) {
-    .intro__tagline {
-      white-space: normal;
-    }
-  }
-  .intro__text p {
-    text-align: left;
-  }
-  .intro__ids {
-    margin: var(--space-5) 0 0;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.25rem;
-    max-width: none;
-  }
-  .intro__ids a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-  }
-
-  /* Chain: the scope as a row of mono labels with arrows between them. */
-  .chain {
-    list-style: none;
-    margin: 0 0 var(--space-6);
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2) 0;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-  }
-  .chain li {
-    display: flex;
-    align-items: center;
-    max-width: none;
-  }
-  .chain li span {
-    padding: 0.25em 0.8em;
-    border: 2px solid var(--line-strong);
-    border-radius: 999px;
-    text-wrap: balance;
-  }
-  .chain li:first-child span {
-    background: var(--accent);
-    color: var(--on-accent);
-    border-color: var(--accent);
-  }
-  .chain li + li::before {
-    content: '→';
-    color: var(--accent);
-    padding: 0 0.5em;
-  }
-  .scope {
-    display: grid;
-    gap: var(--space-5);
-  }
-  @media (min-width: 52rem) {
-    .scope {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-6);
-    }
-  }
-  .scope h3 {
-    margin-bottom: var(--space-2);
-  }
-  .scope__col p {
-    margin: 0;
-    font-size: var(--step--1);
+    font-size: var(--step-1);
+    line-height: 1.25;
   }
   .recent {
     --ledger-col: 6rem;
