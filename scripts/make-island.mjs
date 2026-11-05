@@ -186,8 +186,14 @@ function label(text, X, Y) {
   );
 }
 
-/** Wrap drawn parts in a link group. `mode` is 'lift' or 'glow'. */
-function hot({ href, name, parts, lx, ly, mode = 'lift', id, anchor, shrink = OBJ }) {
+/**
+ * Wrap drawn parts in a link group. `mode` is 'lift' or 'glow'. A part that
+ * only repeats another part's destination (the boat, the pelican) is passed
+ * `repeat: true`: it stays a hit area for pointer users but is hidden from
+ * assistive technology and left out of the tab order, so each destination is
+ * announced and reached once.
+ */
+function hot({ href, name, parts, lx, ly, mode = 'lift', id, anchor, shrink = OBJ, repeat = false }) {
   let body = parts;
   if (anchor) {
     // Scale the object about its ground point so it stays on the ground.
@@ -195,7 +201,9 @@ function hot({ href, name, parts, lx, ly, mode = 'lift', id, anchor, shrink = OB
     body = `<g transform="translate(${ax} ${ay}) scale(${shrink}) translate(${-ax} ${-ay})">${parts}</g>`;
   }
   return (
-    `<a href="${href}" class="hot hot--${mode}" aria-label="${name}" data-hot="${id}">` +
+    (repeat
+      ? `<a href="${href}" class="hot hot--${mode}" aria-hidden="true" tabindex="-1" data-hot="${id}">`
+      : `<a href="${href}" class="hot hot--${mode}" aria-label="${name}" data-hot="${id}">`) +
     `<title>${name}</title>` +
     `<g class="hot__body">${body}</g>` +
     label(name, lx, ly) +
@@ -509,7 +517,7 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
   g += b(1.15, 0.22, 1.95, 1.35, 0.36, 0.18, C.orange); // upper beak
   g += b(1.15, 0.22, 1.65, 0.9, 0.36, 0.3, '#f5b04a'); // pouch
   g += `<circle cx="${f1(px(x + 1.1 * s, y + 0.4 * s) + 3)}" cy="${f1(py(x + 1.1 * s, y + 0.4 * s, z + 2.1 * s))}" r="1.6" fill="#222"/>`;
-  add(100, hot({ id: 'pelican', href: '/work/#g-ecology-evolution', name: 'Island ecology and evolution', parts: g, lx: px(x + 0.6, y + 0.4), ly: py(x + 0.6, y + 0.4, z + 2.4 * s) - 6, anchor: [x + 0.4, y + 0.4, z] }));
+  add(100, hot({ id: 'pelican', repeat: true, href: '/work/#g-ecology-evolution', name: 'Island ecology and evolution', parts: g, lx: px(x + 0.6, y + 0.4), ly: py(x + 0.6, y + 0.4, z + 2.4 * s) - 6, anchor: [x + 0.4, y + 0.4, z] }));
 }
 
 // -- Pier and boat (part of the marine link).
@@ -525,7 +533,7 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
   s += cylinder(bx + 2.8, by + 0.9, 1.1, 0.09, 3.4, C.woodDark);
   const mx = px(bx + 2.8, by + 0.9), my = py(bx + 2.8, by + 0.9, 4.5);
   s += `<path d="M${f1(mx)},${f1(my)} l-30,30 h30 z" fill="#ffffff" stroke="#c9c6bf" stroke-width="0.8"/>`;
-  add(31 + 25, hot({ id: 'boat', href: '/work/#g-marine-systems', name: 'Marine systems', parts: s, lx: px(bx + 2, by + 1), ly: my - 8, anchor: [bx + 2, by + 1, 0.6] }));
+  add(31 + 25, hot({ id: 'boat', repeat: true, href: '/work/#g-marine-systems', name: 'Marine systems', parts: s, lx: px(bx + 2, by + 1), ly: my - 8, anchor: [bx + 2, by + 1, 0.6] }));
 }
 
 // ---------- assemble ----------
