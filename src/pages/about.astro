@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
-import { site } from '../data/site';
 
 const experience = [
   {
@@ -205,20 +204,10 @@ const awards = [
   </Section>
 
   <Section id="contact" title="Get in touch">
-    <div class="stack">
-      <p>
-        Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
-        student projects, and modelling work with institutes and organisations.
-      </p>
-      <p><a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a></p>
-      <ul class="profiles" aria-label="Profiles">
-        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-        <li><a href={site.profiles.orcid} rel="me noopener">ORCID {site.orcidId}</a></li>
-        <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
-        <li><a href={site.profiles.rug} rel="noopener">University of Groningen profile</a></li>
-        <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
-      </ul>
-    </div>
+    <p>
+      Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative
+      student projects, and modelling work with institutes and organisations.
+    </p>
   </Section>
 </Base>
 
@@ -249,23 +238,5 @@ const awards = [
   }
   .timeline {
     --ledger-col: 11rem;
-  }
-  .profiles {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-5);
-    font-family: var(--font-ui);
-    font-size: var(--step--1);
-  }
-  .profiles li {
-    max-width: none;
-  }
-  .profiles a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
   }
 </style>
