@@ -1,7 +1,7 @@
 ---
 title: Trait evolution in mutualistic interaction networks
-question: How do trait distributions, mutualistic interactions, population dynamics and evolution shape one another?
-summary: A quantitative eco-evolutionary model of trait evolution in mutualistic networks, developed as an MSc research project under my supervision at TRÊS (2026).
+question: How does selection on traits depend on a mutualistic network, and how does the network depend on the traits?
+summary: An eco-evolutionary model of trait evolution in mutualistic networks, from an MSc research project I supervised at TRÊS (2026).
 domain: ecology-evolution
 role: Supervisor (MSc research project)
 period: "2026"
@@ -12,7 +12,7 @@ methods:
   - Interaction networks
 tools: []
 institutions:
-  - University of Groningen — TRÊS
+  - University of Groningen — Theoretical Research in Evolutionary Life Sciences (TRÊS)
 collaborators: []
 publications: []
 talks: []
@@ -24,16 +24,12 @@ order: 2
 
 ## Question
 
-In a mutualistic network, whether two species interact depends on their traits, and the strength of the interaction feeds back on the abundance of both partners. Selection on those traits therefore depends on the network, and the network depends on the traits. The project asked how this loop plays out: how trait distributions, interaction structure, population dynamics and evolutionary change are linked.
+In a mutualistic network, whether two species interact depends on their traits, and the strength of an interaction feeds back on the abundance of both partners. Selection on the traits therefore depends on the network, and the network depends on the traits. The project asked how this loop plays out when trait distributions, interaction structure, population dynamics and evolutionary change are modelled together.
 
 ## Model structure
 
-The thesis developed a quantitative eco-evolutionary model in which each population is described by a distribution of trait values, interactions between populations are determined by trait matching, and population dynamics and trait evolution are coupled. The model links four components explicitly: trait distributions, mutualistic interactions, population dynamics and evolutionary change.
+The thesis, *Modelling Trait Evolution in Mutualistically Interacting Networks*, developed a quantitative eco-evolutionary model. Each population is described by a distribution of trait values, and the interactions between populations are determined by trait matching. Population dynamics and trait evolution are coupled.
 
-## My role
+## Supervision
 
-I supervised the project as part of the TRÊS group at the University of Groningen: framing the question, guiding the formulation and implementation of the model, and steering the numerical experiments and interpretation. The thesis, *Modelling Trait Evolution in Mutualistically Interacting Networks*, was completed in 2026.
-
-## Status
-
-MSc research project completed in 2026. Not published.
+I supervised the project at TRÊS, University of Groningen. I framed the question and supervised the formulation and implementation of the model, the numerical experiments and the interpretation of the results. The thesis was completed in 2026 and has not been published.
