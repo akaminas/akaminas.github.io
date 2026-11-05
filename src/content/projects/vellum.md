@@ -1,6 +1,6 @@
 ---
 title: Vellum
-question: How can one visual style serve every figure, from a journal column to a poster?
+question: A visual style for scientific figures, with style files for Python, R, LaTeX and the web.
 summary: A figure style with a computed colour palette, a fixed anatomy and style files for Python, R, LaTeX and the web, with worked examples.
 domain: tools-visualisation
 role: Author
@@ -28,4 +28,4 @@ featured: false
 order: 6
 ---
 
-A visual language for scientific figures. One JSON file defines the palette; style files for matplotlib, ggplot2, LaTeX, CSS and Office are generated from it. The site shows more than fifty worked examples, from papers and posters to ecology and sustainability composites, maps and interactive figures.
+One JSON file defines the palette; style files for matplotlib, ggplot2, LaTeX, CSS and Office are generated from it. The site shows more than fifty worked examples, from papers and posters to ecology and sustainability composites, maps and interactive figures.
