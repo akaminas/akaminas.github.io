@@ -9,8 +9,8 @@ interface Props {
 }
 const { pub } = Astro.props;
 const d = pub.data;
-const statusLabel: Record<typeof d.status, string> = {
-  published: 'Peer-reviewed',
+// Published items carry no badge: the publications page says once that everything listed is peer reviewed.
+const statusLabel: Partial<Record<typeof d.status, string>> = {
   accepted: 'Accepted',
   preprint: 'Preprint',
   manuscript: 'Manuscript',
@@ -46,7 +46,7 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
   }
   <p class="pub__ids">
     <span>{d.year}</span>
-    <span>{statusLabel[d.status]}</span>
+    {statusLabel[d.status] && <span>{statusLabel[d.status]}</span>}
     {d.doi && <a href={`https://doi.org/${d.doi}`} rel="noopener">doi:{d.doi}</a>}
     {d.licence && <span>{d.licence}</span>}
     {d.note && <span>{d.note}</span>}

@@ -61,7 +61,6 @@ const publications = defineCollection({
     licence: z.string().optional(),
     /** Short note, e.g. "Consortium paper; 173 authors". */
     note: z.string().optional(),
-    highlight: z.boolean().default(false),
     /** Project ids this publication belongs to. */
     projects: z.array(z.string()).default([]),
   }),

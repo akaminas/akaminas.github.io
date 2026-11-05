@@ -9,7 +9,6 @@ import { site } from '../data/site';
 const pubs = (await getCollection('publications')).sort(
   (a, b) => b.data.year - a.data.year || a.data.authors[0].localeCompare(b.data.authors[0]),
 );
-const highlights = pubs.filter((p) => p.data.highlight);
 const years = [...new Set(pubs.map((p) => p.data.year))].sort((a, b) => b - a);
 
 const articleSchema = pubs
@@ -42,13 +41,7 @@ const articleSchema = pubs
     </p>
   </PageHeader>
 
-  <Section id="selected" title="Selected">
-    <ol class="register">
-      {highlights.map((p) => <PublicationItem pub={p} />)}
-    </ol>
-  </Section>
-
-  <Section id="all" title="All publications" intro="By year, most recent first. My name is highlighted in the author lists.">
+  <Section id="all" title="All publications">
     {
       years.map((y) => (
         <section aria-labelledby={`y-${y}`}>
