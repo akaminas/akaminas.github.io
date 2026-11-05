@@ -13,7 +13,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    /** One-sentence research question shown under the title. */
+    /** One sentence under the title: the research question for a model project, a plain description for the rest. */
     question: z.string(),
     /** Short summary for cards and meta descriptions (≤ 160 chars). */
     summary: z.string().max(200),

@@ -12,13 +12,12 @@ const groups = [
   {
     key: 'ecology-evolution',
     title: 'Ecology and evolution',
-    intro:
-      'The primary domain. Eco-evolutionary models of community assembly, trait evolution and regime shifts, from doctoral research to MSc work.',
+    intro: 'The PhD, a supervised MSc project, my own MSc research and two research internships.',
   },
   {
     key: 'sustainability-social',
     title: 'Sustainability and social systems',
-    intro: 'Systems reasoning applied to organisations, institutions and policy.',
+    intro: 'A paper on Greek NGOs, plus climate-change reporting and SDG projects.',
   },
   {
     key: 'marine-systems',
@@ -37,12 +36,9 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
 
 <Base
   title="Work"
-  description="Research projects by Alexandros Kaminas presented as modelling case studies: eco-evolutionary dynamics of isolation, trait evolution in mutualistic networks, regime shifts, functional diversity, sustainability systems and citizen science. Plus conference talks."
+  description="Projects and talks by Alexandros Kaminas: eco-evolutionary dynamics of isolation, trait evolution in mutualistic networks, regime shifts, functional diversity, organisations and sustainability, citizen-science monitoring, and conference talks."
 >
-  <PageHeader
-    title="Projects as modelling problems"
-    lede="Each project is described by its question, the system, the model structure and what came out of it."
-  />
+  <PageHeader title="Work" />
 
   {
     groups.map((g) => {
@@ -60,7 +56,7 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
     })
   }
 
-  <Section id="talks" title="Talks and posters" intro="Conference presentations, most recent first.">
+  <Section id="talks" title="Talks and posters">
     <ol class="ledger talks">
       {
         talks.map((t) => (
