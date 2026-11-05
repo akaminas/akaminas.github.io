@@ -66,7 +66,7 @@ To change the island, edit the scene section of the script and run `node scripts
 - **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.
 - **Island** — see above.
 - **ProjectCard** — a card: the project's line drawing and domain, title and question as one link, a meta line (status, period, first methods).
-- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, status, DOI, licence, note).
+- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, DOI, licence, note; a status only when the item is not yet published).
 - **Motif** — seven original line drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, in `currentColor` with one accent dot.
 - **Chips** — rounded pastel tags for methods and tools. Never proficiency bars.
 - **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
