@@ -87,8 +87,11 @@ const websiteSchema = {
         />
       </picture>
       <div class="intro__text">
-        <p class="lede">
-          I build mathematical and computational models of ecological communities and evolving populations.
+        <p class="intro__tagline">Modelling complex systems</p>
+        <p>
+          I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback
+          and chance: communities of species, evolving populations, and the organisations and economies that depend on
+          them.
         </p>
         <div class="intro__phd">
           <p class="label">PhD project</p>
@@ -230,8 +233,25 @@ const websiteSchema = {
     object-fit: cover;
     border-radius: var(--radius);
   }
-  .intro__text .lede {
-    margin-bottom: var(--space-5);
+  .intro__tagline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    color: var(--heading);
+    margin-bottom: var(--space-3);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  @media (max-width: 26rem) {
+    .intro__tagline {
+      white-space: normal;
+    }
+  }
+  .intro__text p {
+    text-align: left;
+  }
+  .intro__phd {
+    margin-top: var(--space-5);
   }
   .intro__phd p {
     margin-bottom: var(--space-1);
