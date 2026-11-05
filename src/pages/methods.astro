@@ -39,12 +39,9 @@ const areas = [
   {
     id: 'networks',
     motif: 'bipartite',
-    title: 'Interaction networks and systems frameworks',
-    text: 'Interactions represented explicitly as networks whose structure depends on traits and feeds back on dynamics; the same systems view applied to organisations and institutions.',
-    used: [
-      { label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' },
-      { label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' },
-    ],
+    title: 'Interaction networks',
+    text: 'Interactions represented explicitly as networks whose structure depends on traits and feeds back on dynamics.',
+    used: [{ label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' }],
   },
   {
     id: 'trait-space',
@@ -65,6 +62,13 @@ const areas = [
     ],
   },
   {
+    id: 'organisations',
+    motif: 'nested',
+    title: 'Organisational and institutional analysis',
+    text: 'Organisational culture, institutional isomorphism and systems frameworks, with survey analysis, applied to organisational commitment to sustainability among Greek NGOs.',
+    used: [{ label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' }],
+  },
+  {
     id: 'spatial',
     motif: 'nested',
     title: 'Spatial analysis, oceanographic models and visualisation',
@@ -82,7 +86,7 @@ const tools = [
   { name: 'Python', note: 'analysis, data pipelines, tooling' },
   { name: 'MATLAB', note: 'basic' },
   { name: 'QGIS / ArcGIS', note: 'spatial analysis' },
-  { name: 'Git', note: 'version control (this site is built with it)' },
+  { name: 'Git', note: 'version control' },
 ];
 ---
 
@@ -133,8 +137,7 @@ const tools = [
       }
     </dl>
     <p class="muted small tools__note">
-      Also: laboratory sample treatment for pollution analysis and image-based identification (Image-Pro), from
-      marine-science training. Languages: Greek (native), English (C2), French (C1).
+      Languages: Greek (native), English (C2), French (C1).
     </p>
   </Section>
 </Base>
