@@ -36,7 +36,7 @@ order: 1
 
 ## Question
 
-Isolation is usually treated as a fixed property of a place: an island is remote, a habitat patch is fragmented. This project treats it instead as a dynamic quantity. Immigration can be rare or frequent, and its rate feeds back on the community that receives it. The central question is how the degree of isolation changes what emerges, what persists and what goes extinct in a community, and how evolution responds.
+Isolation is usually treated as a fixed property of a place: an island is remote, a habitat patch is fragmented. This project treats it instead as a dynamic quantity. Immigration can be rare or frequent, and its rate feeds back on the community that receives it. The central question is how the degree of isolation changes which lineages a community gains or loses, and how evolution responds.
 
 ## System
 
