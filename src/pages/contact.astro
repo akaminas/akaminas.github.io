@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { site } from '../data/site';
+import { toneStyle } from '../data/tones';
+
+/** Profiles as tinted tiles, one pastel each, as the reference sets its social links apart. */
+const profiles = [
+  { label: 'GitHub', note: 'github.com/akaminas', href: site.profiles.github, tone: 'lilac', rel: 'me noopener' },
+  { label: 'ORCID', note: site.orcidId, href: site.profiles.orcid, tone: 'sage', rel: 'me noopener' },
+  { label: 'Google Scholar', note: 'scholar.google.com', href: site.profiles.scholar, tone: 'sea', rel: 'noopener' },
+  { label: 'RUG profile', note: 'research.rug.nl', href: site.profiles.rug, tone: 'teal', rel: 'noopener' },
+  { label: 'ResearchGate', note: 'researchgate.net', href: site.profiles.researchgate, tone: 'apricot', rel: 'noopener' },
+] as const;
+---
+
+<Base
+  title="Contact"
+  description="Contact Alexandros Kaminas: email, research profiles (GitHub, ORCID, Google Scholar, Groningen research portal, ResearchGate) and affiliation at the University of Groningen."
+>
+  <PageHeader
+    title="Contact"
+    lede="Email is the best way to reach me. I am open to research collaboration, co-supervision of quantitative student projects, and modelling work with institutes and organisations."
+  />
+
+  <Section id="email" title="Email">
+    <p>
+      <a class="button button--primary" href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+  </Section>
+
+  <Section id="profiles" title="Profiles">
+    <ul class="tiles">
+      {
+        profiles.map((p) => (
+          <li style={toneStyle(p.tone)}>
+            <a class="tile" href={p.href} rel={p.rel}>
+              <span class="tile__name">{p.label}</span>
+              <span class="tile__note">{p.note}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="affiliation" title="Affiliation">
+    <p>
+      {site.position}, <a href={site.affiliation.url} rel="noopener">{site.affiliation.unit}</a> ({site.affiliation.unitShort}),{' '}
+      {site.affiliation.name}.
+    </p>
+    <p class="muted">{site.location}</p>
+  </Section>
+</Base>
+
+<style>
+  .tiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-4);
+  }
+  .tiles li {
+    max-width: none;
+  }
+  .tile {
+    display: grid;
+    gap: var(--space-1);
+    height: 100%;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--tone) 28%, var(--surface));
+    border: var(--rule) solid color-mix(in srgb, var(--tone) 55%, var(--line));
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform var(--dur) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  }
+  .tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--tone);
+    color: var(--ink);
+  }
+  .tile__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--heading);
+  }
+  .tile__note {
+    font-family: var(--font-ui);
+    font-size: var(--step--1);
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+</style>

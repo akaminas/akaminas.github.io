@@ -199,7 +199,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     transform: translateY(-3.5px) rotate(-45deg);
   }
 
-  @media (max-width: 47.99rem) {
+  @media (max-width: 63.99rem) {
     html.js .menu-button {
       display: inline-flex;
       margin-left: auto;
@@ -265,7 +265,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   const navEl = document.getElementById('site-nav');
   if (button && navEl) {
     button.hidden = false;
-    const mq = window.matchMedia('(max-width: 47.99rem)');
+    const mq = window.matchMedia('(max-width: 63.99rem)');
     const setOpen = (open: boolean) => {
       button.setAttribute('aria-expanded', String(open));
       navEl.dataset.open = String(open);
