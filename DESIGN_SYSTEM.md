@@ -53,26 +53,31 @@ To change the island, edit the scene section of the script and run `node scripts
 
 ## Layout
 
-- Reading column `--container` (46 rem); island and card grids `--wide` (72 rem). Gutter `clamp(1rem, 4vw, 2.5rem)`.
+- **Two widths.** The column, `--container` (50 rem, about 800 px, as on the reference site), holds all text, lists and cards on every page, so every heading and paragraph starts at the same x. The page, `--wide` (72 rem), is the width of the header, the footer and the island, which is the only thing that leaves the column (`.breakout`, centred on it). Gutter `clamp(1.125rem, 5vw, 1.5rem)`. Body text runs the full column; there is no narrower measure.
+- **One lead column.** `--lead` (10 rem) plus a `--lead-gap` of 1.5 rem is the left column of every ledger (dates), thumbnail listing (project and method drawings) and key/value row (tools). Pages do not set their own widths for it.
+- **One rhythm.** Sections sit 3 rem apart (`--space-7`); an H2 has a hairline under it and 1 rem before the content; paragraphs and blocks are 1 rem apart; the page starts 3 rem under the header and ends 4.5 rem above the footer.
+- No page nests a second grid beside the prose. Single-column pages (project, privacy) put the facts or contents in a panel above the text.
 - 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
-- Corners: `--radius` 10 px on cards, portraits and asides; `--radius-s` 6 px on badges; pills on buttons and chips.
-- Breakpoints: 42 rem (ledger columns, two-column cards, portrait beside text), 48 rem (mobile menu ↔ inline nav, footer columns), 52 rem (project aside beside prose, three scope columns).
+- Corners: `--radius` 10 px on cards and panels; 8 px on thumbnails; `--radius-s` 6 px on badges; pills on buttons and chips.
+- Breakpoints: 42 rem (lead column beside content, portrait floats left, cards stop being a single column), 48 rem (mobile menu ↔ inline nav), 64 rem (footer in three parts).
 
 ## Components
 
-- **Header** — the blue bar: name, navigation (active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
-- **Footer** — name, position and affiliation, email, profile links, and the copyright line, which links to the privacy notice.
+- **Header** — the blue bar, with a soft shadow: name, navigation (active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
+- **Footer** — a tinted bar in three parts as on the reference (name, position and affiliation; profile links; email), then the copyright line, which links to the privacy notice.
 - **PageHeader** — H1, optional lede, slot.
-- **Section** — heading with a hairline, optional intro, content; `wide` widens to the card grid.
-- **Island** — see above.
-- **ProjectCard** — a card: the project's line drawing and domain, title and question as one link, a meta line (status, period, first methods).
-- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, and a mono identifier line (year, DOI, licence, note; a status only when the item is not yet published).
+- **Section** — heading with a hairline, optional intro, content; always the width of the column.
+- **Island** — see above; the figure breaks out of the column to the page width and its key sits in the column as an even grid.
+- **Bio** — the portrait floats left and the text wraps it (home, About).
+- **ProjectCard** — one markup, two layouts. `row` (Work page): a square thumbnail panel in the lead column, then title, question and a meta line (status, period, first methods). `card` (home gallery, three across): the drawing on top, domain, title, question and status centred below. The title link covers the whole item.
+- **Listing** — thumbnail panel in the lead column and text beside it (method areas); `.rows` stacks project rows.
+- **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, a mono identifier line (year, DOI, licence) and a note on its own line; a status only when the item is not yet published. The publications page sets these in a ledger by year.
 - **Motif** — seven original line drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, in `currentColor` with one accent dot.
 - **Chips** — rounded pastel tags for methods and tools. Never proficiency bars.
 - **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
 - **Badge** — the dark rounded strip with a pale outline, for one highlighted line.
 - **Status** — a coloured dot and a word; purple for "ongoing".
-- **Ledger** — dated rows: a mono period column and a content column, hairlines between rows.
+- **Ledger** — dated rows: a mono period column (the lead column) and a content column, hairlines between rows. The same width on every page.
 
 ## Interaction and motion rules
 
