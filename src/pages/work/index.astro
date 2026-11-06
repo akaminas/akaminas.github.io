@@ -13,22 +13,18 @@ const groups = [
   {
     key: 'ecology-evolution',
     title: 'Ecology and evolution',
-    intro: 'The PhD, a supervised MSc project, my own MSc research and two research internships.',
   },
   {
     key: 'sustainability-social',
     title: 'Sustainability and social systems',
-    intro: 'A paper on Greek NGOs, plus climate-change reporting and SDG projects.',
   },
   {
     key: 'marine-systems',
     title: 'Marine systems and monitoring',
-    intro: 'Earlier empirical work: species monitoring and citizen science in the eastern Mediterranean.',
   },
   {
     key: 'tools-visualisation',
     title: 'Tools and visualisation',
-    intro: 'Software and design for scientific figures.',
   },
 ] as const;
 
@@ -46,7 +42,7 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
       const items = projects.filter((p) => p.data.domain === g.key);
       if (items.length === 0) return null;
       return (
-        <Section id={`g-${g.key}`} title={g.title} intro={g.intro} tone={domainTone[g.key]}>
+        <Section id={`g-${g.key}`} title={g.title} tone={domainTone[g.key]}>
           <div class="rows">
             {items.map((p) => (
               <ProjectCard project={p} />

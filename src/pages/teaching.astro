@@ -8,10 +8,10 @@ const entries = (await getCollection('teaching')).sort((a, b) => a.data.order - 
 const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
 
 const groups = [
-  { kind: 'supervision', title: 'Supervision', intro: '' },
-  { kind: 'teaching', title: 'Teaching', intro: '' },
-  { kind: 'service', title: 'Academic service', intro: 'Peer review and society roles.' },
-  { kind: 'outreach', title: 'Outreach', intro: '' },
+  { kind: 'supervision', title: 'Supervision' },
+  { kind: 'teaching', title: 'Teaching' },
+  { kind: 'service', title: 'Academic service' },
+  { kind: 'outreach', title: 'Outreach' },
 ] as const;
 ---
 
@@ -26,7 +26,7 @@ const groups = [
       const items = rendered.filter(({ e }) => e.data.kind === g.kind);
       if (items.length === 0) return null;
       return (
-        <Section id={`t-${g.kind}`} title={g.title} intro={g.intro}>
+        <Section id={`t-${g.kind}`} title={g.title}>
           <ol class="ledger">
             {items.map(({ e, Content }) => (
               <li class="entry">

@@ -1,7 +1,6 @@
 ---
 /**
- * A titled section: heading with a hairline under it, an optional
- * introduction, then content. Always the width of the column.
+ * A titled section: heading with a hairline under it, then content. Always the width of the column.
  */
 import type { Tone } from '../data/tones';
 import { toneStyle } from '../data/tones';
@@ -9,13 +8,11 @@ import { toneStyle } from '../data/tones';
 interface Props {
   id: string;
   title?: string;
-  /** One-sentence introduction under the heading. */
-  intro?: string;
   /** Gives the section its own pastel: the rule under the heading and anything inside that reads --tone. */
   tone?: Tone;
   class?: string;
 }
-const { id, title, intro, tone, class: className = '' } = Astro.props;
+const { id, title, tone, class: className = '' } = Astro.props;
 const titleId = `${id}-title`;
 ---
 
@@ -26,6 +23,5 @@ const titleId = `${id}-title`;
   style={tone ? toneStyle(tone) : undefined}
 >
   {title && <h2 id={titleId}>{title}</h2>}
-  {intro && <p class="sec__intro">{intro}</p>}
   <slot />
 </section>

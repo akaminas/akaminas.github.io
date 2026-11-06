@@ -468,11 +468,6 @@ abbr[title] {
 .sec--tone > .sec__head {
   border-bottom: 2px solid color-mix(in srgb, var(--tone) 75%, var(--line));
 }
-.sec__intro {
-  color: var(--muted);
-  margin: 0 0 var(--space-4);
-  text-wrap: pretty;
-}
 .sec__head {
   display: flex;
   flex-wrap: wrap;
