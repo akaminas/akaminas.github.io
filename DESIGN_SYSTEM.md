@@ -5,7 +5,7 @@ An illustrated personal site in the manner of an interactive academic homepage, 
 ## Principles
 
 1. **One illustration, and it is the map.** The island on the home page is the only picture besides the portrait. Every part of it leads somewhere: the sea to marine work, the island, its gulls and the pelican to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, and each house to a page. A plain-text key under the figure repeats every link.
-2. **Two colours.** White paper and one Aegean blue; text in deep slate; pale blue-grey surfaces. The island uses the same blue for the sea and the domes and the same white for the houses, with sand, olive grass and wood around them. Nothing is neon.
+2. **One blue, and pastel tones for parts.** White paper and one Aegean blue for the bar, links and controls; text in deep slate; pale blue-grey surfaces. Eight muted pastel tones (below) colour the parts of a section: each project domain, each method area, each profile tile, and the chips that name them. A tone only ever sits on a drawing, a tinted panel, a chip or a rule under a heading; it never carries text. The island uses the same blue for the sea and the domes and the same white for the houses, with sand, olive grass and wood around them. Nothing is neon.
 3. **Mono over slab.** Headings, the wordmark, the navigation, labels, dates and buttons are Roboto Mono at 500–700; text is Roboto Slab at 400. The monospaced face is set small and tight (headings 1.9–2.5 rem) so it reads as a label, not a banner.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
@@ -39,6 +39,8 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 | `--line` / `--line-strong` | `#dfe5e9` / `#b8c6cf` | `#223641` / `#3b5565` | hairlines, card borders |
 | `--focus` | `#007ba7` | `#5fc0e6` | focus ring |
 
+**Tones.** Eight muted pastels, defined once as `--tone-*` and the same on both schemes: teal `#86c1b3`, sea `#86b4cd`, sand `#dfc88f`, coral `#dfa795`, lilac `#b9adda`, sage `#aec693`, rose `#d9a8ba`, apricot `#e2b48f`. `src/data/tones.ts` says which belongs to what: the four project domains (ecology and evolution teal, sustainability and social systems coral, marine systems sea, tools and visualisation lilac) and, on the Methods page, one tone per area. An element sets `--tone` (inline, via `toneStyle`) and everything inside reads it. A panel is the tone mixed into `--surface` (`--tint-amt`, 24 % light and 30 % dark); a chip is the same mix with a border; the "deep" accent inside a drawing is the tone darkened in its own hue on the light scheme and lightened on the dark one (`--deep-shade`, `--deep-amt`). Text on a tinted ground stays `--ink`, so contrast is that of ink on a pale or dark tint.
+
 A second palette, **Sand** (warm apricot bar, deep brown headings, burnt-orange accent, Greek-blue links), is defined in the same stylesheet and switched on with `data-palette="sand"` on `<html>` in `src/layouts/Base.astro`. Blue and orange are complements, so the island stands further off the page. The comment above the tokens lists the six other places that carry a hard-coded colour and must be changed with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons), and `scripts/og.html`. Both palettes, in both schemes, were checked against every text/background pair.
 
 The island itself uses fixed colours (sea and domes `#007ba7`, houses `#f4f4f4`, sand `#e6d2a0`, grass `#7fb069`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
@@ -59,21 +61,22 @@ To change the island, edit the scene section of the script and run `node scripts
 - No page nests a second grid beside the prose. Single-column pages (project, privacy) put the facts or contents in a panel above the text.
 - 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
 - Corners: `--radius` 10 px on cards and panels; 8 px on thumbnails; `--radius-s` 6 px on badges; pills on buttons and chips.
-- Breakpoints: 42 rem (lead column beside content, portrait floats left, cards stop being a single column), 48 rem (mobile menu ↔ inline nav), 64 rem (footer in three parts).
+- Breakpoints: 42 rem (lead column beside content, portrait floats left, cards stop being a single column), 64 rem (mobile menu ↔ inline nav; seven links and three profiles need the room), also 64 rem (footer in three parts).
 
 ## Components
 
-- **Header** — the blue bar, with a soft shadow: name, navigation (active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
+- **Header** — the blue bar, with a soft shadow: name, navigation (Work, Methods, Publications, Teaching, About, CV, Contact; active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
 - **Footer** — a tinted bar in three parts as on the reference (name, position and affiliation; profile links; email), then the copyright line, which links to the privacy notice.
 - **PageHeader** — H1, optional lede, slot.
-- **Section** — heading with a hairline, optional intro, content; always the width of the column.
+- **Section** — heading with a hairline, optional intro, content; always the width of the column. With a `tone` the rule under the heading takes that colour and everything inside inherits it.
 - **Island** — see above; the figure breaks out of the column to the page width and its key sits in the column as an even grid.
 - **Bio** — the portrait floats left and the text wraps it (home, About).
-- **ProjectCard** — one markup, two layouts. `row` (Work page): a square thumbnail panel in the lead column, then title, question and a meta line (status, period, first methods). `card` (home gallery, three across): the drawing on top, domain, title, question and status centred below. The title link covers the whole item.
+- **ProjectCard** — one markup, two layouts. `row` (Work page): a square thumbnail panel, tinted with the project's domain tone, in the lead column, then title, question and a meta line (status, period, first methods). `card` (home gallery, three across): the drawing on top, the domain as a tinted tag, title, question and status centred below. The title link covers the whole item.
 - **Listing** — thumbnail panel in the lead column and text beside it (method areas); `.rows` stacks project rows.
 - **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, a mono identifier line (year, DOI, licence) and a note on its own line; a status only when the item is not yet published. The publications page sets these in a ledger by year.
-- **Motif** — seven original line drawings (`patches`, `bipartite`, `fold`, `hypervolume`, `nested`, `records`, `field`), `aria-hidden`, in `currentColor` with one accent dot.
-- **Chips** — rounded pastel tags for methods and tools. Never proficiency bars.
+- **Motif** — sixteen original drawings, one per project (`isolation`, `bipartite`, `fold`, `hypervolume`, `loop`, `records`, `swatches`), one per method area (`compartments`, `walks`, `phase`, `graph`, `tree`, `scatter`, `survey`, `contours`) and one for the 404 page (`lost`); no two items share a picture. Each is a small diagram of its subject in one grammar: ink outlines in `currentColor`, the tone for fills, its deep mix for the thing being followed, dashes for what is not present (flows, unstable states, hulls). `aria-hidden`; the tone comes from the element around it.
+- **Contact** — email, profile tiles (one tone each) and affiliation, from `site.ts`.
+- **Chips** — rounded tags for methods, tools and project domains, tinted with the tone of their section (the reference tints its blog categories the same way). Never proficiency bars.
 - **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
 - **Badge** — the dark rounded strip with a pale outline, for one highlighted line.
 - **Status** — a coloured dot and a word; purple for "ongoing".
