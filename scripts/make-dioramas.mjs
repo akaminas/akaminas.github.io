@@ -12,7 +12,8 @@
  * built object: two islands and a dispersing gull, a bipartite network as pegs
  * and rods, a stability landscape in brick columns with a ball, a hypervolume
  * as stacked plates, institutions joined by a feedback road, buoys marking
- * records at sea, and a bar chart in the four discipline tones.
+ * records at sea, a bar chart in the four discipline tones, a relief map with a
+ * route to four peaks, and a four-tile board of cards.
  *
  * The scenes are static SVG files with fixed colours (like the island), used
  * as images. The viewBox of each is fitted to what was drawn.
@@ -598,6 +599,139 @@ const write = (kind, svg) => {
   // the axis rail along the front
   s.add(100, s.box(0.7, 7.6, 0.6, 11.6, 0.4, 0.3, C.white, { flat: true }));
   write('swatches', s.finish('A brick bar chart in four tones in front of a figure panel'));
+}
+
+// ======================================================================
+// tessera: the four-tile mark as a board of lists and cards, a flag at its centre (tools, lilac)
+// ======================================================================
+{
+  const s = scene('tessera');
+  const t = TONE.lilac;
+  const W = 15;
+  const D = 12.4;
+  s.ground(W, D);
+  s.add(-1000, s.box(0, 0, 0, W, D, 0.6, t));
+
+  // the four tiles are the colours of the Tessera mark
+  const TW = 6.2;
+  const TD = 5.0;
+  const ZT = 1.1; // top of a tile
+  const CW = 5.0; // card width
+  const CD = 1.1; // card depth
+  const CH = 0.42; // card thickness
+  const rows = [0.5, 1.95, 3.4];
+  const people = [TONE.coral, TONE.sea, TONE.sage, TONE.apricot, TONE.rose];
+  // `cards`: a pastel label per card, or null for an empty place; `lift` is the card that is picked up
+  const tiles = [
+    { x: 0.9, y: 0.9, c: '#419BA0', cards: [TONE.coral, TONE.sage, TONE.sand] },
+    { x: 7.7, y: 0.9, c: '#DAC9A6', cards: [TONE.sea, null, TONE.rose], lift: 1 },
+    { x: 0.9, y: 6.5, c: '#A1644F', cards: [TONE.apricot, TONE.teal] },
+    { x: 7.7, y: 6.5, c: '#415688', cards: [TONE.sand, TONE.lilac, TONE.coral] },
+  ];
+
+  let n = 0;
+  /** A card: white, a pastel label, two grey lines of "text" and one or two avatars. */
+  const card = (x, y, z, accent, shadow = {}) => {
+    n++;
+    let o = s.shadow(x, y, CW, CD, shadow.z ?? z, shadow.dx ?? 0.3, shadow.dy ?? 0.2, shadow.o ?? 0.2);
+    o += s.box(x, y, z, CW, CD, CH, C.white, { flat: true });
+    o += s.box(x + 0.35, y + 0.24, z + CH, 1.1, 0.3, 0.06, accent, { flat: true });
+    o += s.box(x + 0.35, y + 0.68, z + CH, 3.1, 0.15, 0.04, '#c4cbd1', { flat: true });
+    for (let k = 0; k < 1 + (n % 2); k++) {
+      o += s.cylinder(x + CW - 0.65 - k * 0.38, y + CD / 2, z + CH, 0.2, 0.1, people[(n + k * 2) % people.length]);
+    }
+    return o;
+  };
+
+  tiles.forEach((tl) => {
+    const key = tl.x + tl.y;
+    s.add(key, s.box(tl.x, tl.y, 0.6, TW, TD, ZT - 0.6, tl.c, { flat: true }));
+    tl.cards.forEach((accent, r) => {
+      const x = tl.x + 0.6;
+      const y = tl.y + rows[r];
+      if (accent === null) {
+        // the card picked up leaves a recess and hangs just above it, its shadow on the recess
+        s.add(key + 0.05, s.box(x, y, ZT, CW, CD, 0.04, darken(tl.c, 0.2), { flat: true }));
+        s.add(key + 0.1 + r * 0.01, card(x, y, ZT + 0.75, TONE.apricot, { z: ZT + 0.04, dx: 0.9, dy: 0.55, o: 0.26 }));
+      } else {
+        s.add(key + 0.1 + r * 0.01, card(x, y, ZT, accent));
+      }
+    });
+  });
+
+  // a milestone flag at the centre of the four tiles, in the gap between them
+  {
+    const fx = tiles[0].x + TW + 0.3;
+    const fy = tiles[0].y + TD + 0.3;
+    s.add(fx + fy - 0.1, s.cylinder(fx, fy, 0.6, 0.15, 3.9, C.white) + s.box(fx - 0.05, fy, 3.2, 0.1, 1.6, 0.95, C.orange, { flat: true }));
+  }
+  write('tessera', s.finish('A board of four coloured lists with pastel cards, one picked up, and a flag at its centre'));
+}
+
+// ======================================================================
+// atlas: a relief map with a route of deepening tiles from the foundations to four peaks (tools, lilac)
+// ======================================================================
+{
+  const s = scene('atlas');
+  const t = TONE.lilac;
+  const W = 18;
+  const D = 12;
+  s.ground(W, D);
+  s.add(-1000, s.box(0, 0, 0, W, D, 0.6, t));
+
+  /** A stepped hill: tiers of the given heights and colours, each inset from the last. */
+  const hill = (key, x, y, w, d, tiers, inset) => {
+    let z = 0.6;
+    tiers.forEach(([h, c], i) => {
+      const o = i * inset;
+      s.add(key + i * 0.01, s.box(x + o, y + o, z, w - 2 * o, d - 2 * o, h, c));
+      z += h;
+    });
+    return z;
+  };
+  const shade = (c, n) => lighten(c, 0.1 * n);
+
+  // the foundations in the west: three broad terraces in cyan
+  const cyan = '#3f9fb0';
+  const topF = hill(1.9, 0.9, 1.0, 4.8, 10.0, [[0.55, cyan], [0.55, shade(cyan, 1)], [0.55, shade(cyan, 2)]], 0.5);
+  // concepts as pegs on the top terrace, with a few joins between them
+  const pegs = [
+    [2.7, 3.1, C.white], [4.1, 3.9, C.yellow], [2.9, 5.4, C.orange], [4.2, 6.6, C.white], [2.6, 7.7, C.red], [3.9, 8.9, C.yellow],
+  ];
+  const joins = [[0, 1], [0, 2], [1, 3], [2, 3], [2, 4], [3, 5], [4, 5]];
+  let rods = '';
+  joins.forEach(([i, j]) => (rods += s.strip(pegs[i][0], pegs[i][1], pegs[j][0], pegs[j][1], topF, 0.22, C.sand, 0.08)));
+  s.add(5.1, rods);
+  pegs.forEach(([x, y, c]) => s.add(x + y + 1, s.shadow(x - 0.3, y - 0.3, 0.6, 0.6, topF, 0.3, 0.18) + s.cylinder(x, y, topF, 0.3, 0.55, c, { stud: true })));
+
+  // the four destinations in the east, the lowest in front so the route stays in view
+  const peaks = [
+    { x: 10.0, y: 1.0, c: '#5b8fb9', tiers: [1.2, 1.1, 1.0], cap: true },
+    { x: 14.4, y: 1.0, c: '#e0a05a', tiers: [1.0, 0.9, 0.5] },
+    { x: 14.4, y: 8.2, c: '#6fae86', tiers: [0.9, 0.8] },
+    { x: 10.0, y: 8.2, c: '#cf7f86', tiers: [0.7, 0.6] },
+  ];
+  peaks.forEach((p) => {
+    const top = hill(p.x + p.y, p.x, p.y, 2.8, 2.8, p.tiers.map((h, i) => [h, shade(p.c, i)]), 0.5);
+    if (p.cap) s.add(p.x + p.y + 0.5, s.dome(p.x + 1.4, p.y + 1.4, top, 0.55, C.white));
+  });
+
+  // the route: a ribbon of tiles that deepens from pale to full cyan on the way to the hub
+  const N = 10;
+  for (let i = 0; i < N; i++) {
+    const u = i / (N - 1);
+    const x = 6.4 + 6.9 * u;
+    const y = 6.1 + 1.1 * Math.sin(u * Math.PI * 2) * (1 - u * 0.6);
+    s.add(x + y, s.box(x - 0.55, y - 0.55, 0.6, 1.1, 1.1, 0.26, blend('#c3edf3', '#0f93ad', u), { flat: true }));
+  }
+  // the hub: a round plinth at the crossing, with a flag
+  {
+    const hx = 13.95;
+    const hy = 6.1;
+    s.add(hx + hy + 0.6, s.cylinder(hx, hy, 0.6, 0.95, 0.3, C.white, { stud: true }));
+    s.add(hx + hy + 0.7, s.cylinder(hx, hy, 0.9, 0.12, 2.6, C.white) + s.box(hx - 0.04, hy, 2.9, 0.08, 1.4, 0.8, C.orange, { flat: true }));
+  }
+  write('atlas', s.finish('A relief map: broad terraces of concepts in the west, a route of deepening tiles and four peaks in the east'));
 }
 
 // Intrinsic sizes, so the pages can reserve the space (src/components/Diorama.astro).
