@@ -49,8 +49,8 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
     {statusLabel[d.status] && <span>{statusLabel[d.status]}</span>}
     {d.doi && <a href={`https://doi.org/${d.doi}`} rel="noopener">doi:{d.doi}</a>}
     {d.licence && <span>{d.licence}</span>}
-    {d.note && <span>{d.note}</span>}
   </p>
+  {d.note && <p class="pub__note">{d.note}</p>}
 </li>
 
 <style>
@@ -89,7 +89,13 @@ const rest = [d.volume ? `${d.volume}${d.issue ? `(${d.issue})` : ''}` : undefin
     flex-wrap: wrap;
     gap: 0.2rem 0.6rem;
   }
+  .pub__note {
+    margin-top: var(--space-1) !important;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
   .pub__ids > * + *::before {
+    display: inline-block;
     content: '·';
     margin-right: 0.6rem;
   }

@@ -42,22 +42,22 @@ const articleSchema = pubs
   </PageHeader>
 
   <Section id="all" title="All publications">
-    {
-      years.map((y) => (
-        <section aria-labelledby={`y-${y}`}>
-          <h3 id={`y-${y}`} class="register__year">
-            {y}
-          </h3>
-          <ol class="register">
-            {pubs
-              .filter((p) => p.data.year === y)
-              .map((p) => (
-                <PublicationItem pub={p} />
-              ))}
-          </ol>
-        </section>
-      ))
-    }
+    <ol class="ledger">
+      {
+        years.map((y) => (
+          <li id={`y-${y}`}>
+            <span class="ledger__when">{y}</span>
+            <ol class="register register--flat">
+              {pubs
+                .filter((p) => p.data.year === y)
+                .map((p) => (
+                  <PublicationItem pub={p} />
+                ))}
+            </ol>
+          </li>
+        ))
+      }
+    </ol>
   </Section>
 </Base>
 
