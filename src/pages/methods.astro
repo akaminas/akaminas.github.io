@@ -97,12 +97,12 @@ const tools = [
   <PageHeader title="How the models are built" />
 
   <Section id="areas" title="Method areas">
-    <ol class="areas">
+    <ol class="listing">
       {
         areas.map((a) => (
           <li class="area" id={a.id}>
-            <div class="area__fig">
-              <Motif kind={a.motif} size={64} />
+            <div class="thumb" aria-hidden="true">
+              <Motif kind={a.motif} size={96} />
             </div>
             <div class="area__body">
               <h3 class="area__title">{a.title}</h3>
@@ -140,30 +140,6 @@ const tools = [
 </Base>
 
 <style>
-  .areas {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-  }
-  .area {
-    display: grid;
-    gap: var(--space-3) var(--space-5);
-    padding-block: var(--space-5);
-    border-bottom: var(--rule) solid var(--line);
-    max-width: none;
-  }
-  .area:first-child {
-    padding-top: 0;
-  }
-  @media (min-width: 42rem) {
-    .area {
-      grid-template-columns: 5rem minmax(0, 1fr);
-    }
-  }
-  .area__fig {
-    color: var(--accent);
-  }
   .area__title {
     margin-bottom: var(--space-2);
   }
@@ -189,10 +165,14 @@ const tools = [
   }
   .tools__row {
     display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: var(--space-4);
+    gap: var(--space-1) var(--lead-gap);
     padding-block: var(--space-3);
     border-bottom: var(--rule) solid var(--line);
+  }
+  @media (min-width: 42rem) {
+    .tools__row {
+      grid-template-columns: var(--lead) minmax(0, 1fr);
+    }
   }
   .tools dt {
     font-family: var(--font-ui);

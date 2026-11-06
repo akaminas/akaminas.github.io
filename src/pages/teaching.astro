@@ -27,7 +27,7 @@ const groups = [
       if (items.length === 0) return null;
       return (
         <Section id={`t-${g.kind}`} title={g.title} intro={g.intro}>
-          <ol class="ledger entries">
+          <ol class="ledger">
             {items.map(({ e, Content }) => (
               <li class="entry">
                 <span class="ledger__when">{e.data.period}</span>
@@ -66,9 +66,6 @@ const groups = [
 </Base>
 
 <style>
-  .entries {
-    --ledger-col: 7rem;
-  }
   .entry__title {
     margin-bottom: var(--space-1);
   }

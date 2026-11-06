@@ -101,8 +101,8 @@ const awards = [
 >
   <PageHeader title="About me" />
 
-  <section class="container about" aria-label="Introduction">
-    <figure class="about__portrait">
+  <section class="container bio" aria-label="Introduction">
+    <figure class="bio__portrait">
       <picture>
         <source
           type="image/avif"
@@ -124,7 +124,7 @@ const awards = [
         />
       </picture>
     </figure>
-    <div class="about__text prose">
+    <div class="prose">
       <p class="lede">
         I develop mathematical and computational models of complex systems. My primary field is ecology and
         evolution; I also work on sustainability and socioeconomic questions.
@@ -154,7 +154,7 @@ const awards = [
   </section>
 
   <Section id="experience" title="Positions and roles">
-    <ol class="ledger timeline">
+    <ol class="ledger">
       {
         experience.map((e) => (
           <li>
@@ -171,7 +171,7 @@ const awards = [
   </Section>
 
   <Section id="education" title="Degrees">
-    <ol class="ledger timeline">
+    <ol class="ledger">
       {
         education.map((e) => (
           <li>
@@ -188,7 +188,7 @@ const awards = [
   </Section>
 
   <Section id="awards" title="Fellowships and awards">
-    <ol class="ledger timeline">
+    <ol class="ledger">
       {
         awards.map((a) => (
           <li>
@@ -212,31 +212,7 @@ const awards = [
 </Base>
 
 <style>
-  .about {
-    display: grid;
-    gap: var(--space-5) var(--space-7);
-    padding-bottom: var(--space-4);
-  }
-  @media (min-width: 42rem) {
-    .about {
-      grid-template-columns: 15rem minmax(0, 1fr);
-      align-items: start;
-    }
-  }
-  .about__portrait {
-    width: min(100%, 15rem);
-    margin: 0;
-  }
-  .about__portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-  .about__text .lede {
+  .prose .lede {
     margin-bottom: var(--space-4);
-  }
-  .timeline {
-    --ledger-col: 11rem;
   }
 </style>

@@ -62,7 +62,7 @@ const schema = {
 
     <div class="container project-body">
       <aside class="project-body__aside">
-        <dl class="spec spec--stacked">
+        <dl class="spec">
           <dt>Status</dt>
           <dd><span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span></dd>
           <dt>Period</dt>
@@ -195,7 +195,7 @@ const schema = {
 <style>
   .project-head {
     display: grid;
-    gap: var(--space-4) var(--space-5);
+    gap: var(--space-4) var(--lead-gap);
     align-items: start;
   }
   @media (min-width: 42rem) {
@@ -207,7 +207,7 @@ const schema = {
     color: var(--accent);
     background: var(--surface);
     border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
+    border-radius: 8px;
     width: 5.5rem;
     height: 5.5rem;
     display: grid;
@@ -216,35 +216,28 @@ const schema = {
   .project-head .lede {
     margin: 0;
   }
+  /* One column: the facts as a panel, then the text. */
   .project-body {
     display: grid;
-    gap: var(--space-6) var(--space-7);
-    padding-block: var(--space-5) var(--space-7);
-  }
-  @media (min-width: 52rem) {
-    .project-body {
-      grid-template-columns: 14rem minmax(0, 1fr);
-    }
-    .project-body__aside {
-      position: sticky;
-      top: 5rem;
-    }
+    gap: var(--space-6);
+    margin-top: var(--space-6);
   }
   .project-body__aside {
     background: var(--surface);
     border: var(--rule) solid var(--line);
     border-radius: var(--radius);
-    padding: var(--space-4);
-    align-self: start;
+    padding: var(--space-4) var(--space-5);
+  }
+  .project-body__aside .spec {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: var(--space-3) var(--lead-gap);
   }
   .project-talks {
     margin-top: var(--space-4);
   }
-  .project-talks li {
-    --ledger-col: 6rem;
-  }
   .project-next {
-    padding-block: var(--space-5) var(--space-6);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
     border-top: var(--rule) solid var(--line);
   }
   .project-next__link {
