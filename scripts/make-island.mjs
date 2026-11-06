@@ -10,9 +10,9 @@
  * behaviour is CSS on the link groups (lift + label on hover and focus).
  *
  * Link groups (class "hot") map parts of the model to parts of the site:
- * the sea to marine work, the island, its gulls and the pelican to island ecology, the
+ * the sea to marine work, the island and its gulls to island ecology, the
  * three figures to social systems, the wind turbine to sustainability, the
- * workshop on the jetty to scientific tool development, and each house to a page.
+ * lighthouse at the end of the pier to scientific tool development, and each house to a page.
  */
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -188,7 +188,7 @@ function label(text, X, Y) {
 
 /**
  * Wrap drawn parts in a link group. `mode` is 'lift' or 'glow'. A part that
- * only repeats another part's destination (the boat, the pelican) is passed
+ * only repeats another part's destination (the boat) is passed
  * `repeat: true`: it stays a hit area for pointer users but is hidden from
  * assistive technology and left out of the tab order, so each destination is
  * announced and reached once.
@@ -499,25 +499,73 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
   add(13.4 + 26.4, hot({ id: 'people', href: '/work/#g-sustainability-social', name: 'Social and economic systems', parts: s, lx: px(10, 24), ly: py(10, 24, 5.6) - 8, anchor: [10, 24, 1.4] }));
 }
 
-// -- Pelican, brick-built and larger than the gulls, standing on the boulder.
+// -- Scientific tool development: a lighthouse at the head of the pier, as on the
+// Aegean harbours. A whitewashed keeper's base with a blue door, a white tower
+// with two blue bands and slit windows, a gallery, a lit lantern and a blue dome.
 {
-  const x = 33.6, y = 19.9, z = 1.25, s = 1.5;
-  const b = (dx, dy, dz, w, d, h, c) => box(x + dx * s, y + dy * s, z + dz * s, w * s, d * s, h * s, c, { flat: true });
-  let g = '';
-  g += b(0.85, 0.05, 0, 0.5, 0.28, 0.22, C.orange); // left foot
-  g += b(0.85, 0.5, 0, 0.5, 0.28, 0.22, C.orange); // right foot
-  g += b(-0.5, -0.1, 0.25, 1.6, 1.0, 0.8, C.white); // body
-  g += b(-0.5, -0.35, 0.7, 1.1, 0.3, 0.2, C.white); // left folded wing
-  g += b(-0.5, -0.35, 0.7, 0.35, 0.3, 0.2, GREY);
-  g += b(-0.5, 0.85, 0.7, 1.1, 0.3, 0.2, C.white); // right folded wing
-  g += b(-0.5, 0.85, 0.7, 0.35, 0.3, 0.2, GREY);
-  g += b(-0.75, 0.2, 0.55, 0.3, 0.4, 0.15, C.white); // tail
-  g += cylinder(x + 0.85 * s, y + 0.4 * s, z + 1.0 * s, 0.26 * s, 0.75 * s, C.white); // neck
-  g += cylinder(x + 0.85 * s, y + 0.4 * s, z + 1.75 * s, 0.45 * s, 0.55 * s, C.white); // head
-  g += b(1.15, 0.22, 1.95, 1.35, 0.36, 0.18, C.orange); // upper beak
-  g += b(1.15, 0.22, 1.65, 0.9, 0.36, 0.3, '#f5b04a'); // pouch
-  g += `<circle cx="${f1(px(x + 1.1 * s, y + 0.4 * s) + 3)}" cy="${f1(py(x + 1.1 * s, y + 0.4 * s, z + 2.1 * s))}" r="1.6" fill="#222"/>`;
-  add(100, hot({ id: 'pelican', repeat: true, href: '/work/#g-ecology-evolution', name: 'Island ecology and evolution', parts: g, lx: px(x + 0.6, y + 0.4), ly: py(x + 0.6, y + 0.4, z + 2.4 * s) - 6, anchor: [x + 0.4, y + 0.4, z] }));
+  const cx = 34.6, cy = 20.5; // the axis of the tower
+  const zp = 1.25; // top of the planks
+  let s = '';
+
+  // a wider head to the pier, on its own piles
+  for (const [qx, qy] of [[35.8, 19.2], [33.5, 21.8], [35.8, 21.8]]) s += cylinder(qx, qy, 0.2, 0.2, 1.1, C.woodDark);
+  s += box(33.2, 18.9, 1.0, 2.9, 3.2, 0.25, C.wood, { flat: true });
+
+  // the keeper's base: a white cube, blue door and shutters
+  const bx = cx - 1.1, by = cy - 1.1, bh = 1.2;
+  s += cube(bx, by, zp, 2.2, 2.2, bh, { door: false, winRight: [], winLeft: [] });
+  s += door(onRight(bx + 2.2, by, zp), 0.8, 1.0, 0.7);
+  s += windowOn(onLeft(bx, by + 2.2, zp), 0.75, 0.3, 0.7, 0.6);
+
+  // the tower: stacked, slightly tapering, white with two blue bands
+  const segs = [[1.0, 0.86, C.white], [0.4, 0.82, C.blue], [1.0, 0.78, C.white], [0.4, 0.74, C.blue], [0.8, 0.7, C.white]];
+  let z = zp + bh;
+  for (const [h, r, c] of segs) {
+    s += cylinder(cx, cy, z, r, h, c);
+    z += h;
+  }
+  // slit windows on the front of the white parts
+  const X = px(cx, cy);
+  for (const [zc, r] of [[zp + bh + 0.35, 0.86], [zp + bh + 1.8, 0.78]]) {
+    const yc = py(cx, cy, zc) + 0.7071 * r * S;
+    s += `<rect x="${f1(X - 2.4)}" y="${f1(yc - 9)}" width="4.8" height="11" rx="2.4" fill="${C.blue}"/><rect x="${f1(X - 1.2)}" y="${f1(yc - 7)}" width="2.4" height="8" rx="1.2" fill="#cfe6f7"/>`;
+  }
+
+  // the gallery, with a railing: the back half behind the lantern, the front half before it
+  const zg = z + 0.2;
+  s += cylinder(cx, cy, z, 0.98, 0.2, C.white);
+  const rail = (r, zr) => ({ rx: 1.2247 * r * S, ry: 0.7071 * r * S, Y: py(cx, cy, zr) });
+  const rg = rail(0.92, zg + 0.42);
+  s += `<path d="M${f1(X - rg.rx)},${f1(rg.Y)} A${f1(rg.rx)},${f1(rg.ry)} 0 0 1 ${f1(X + rg.rx)},${f1(rg.Y)}" fill="none" stroke="#ffffff" stroke-width="1.6"/>`;
+
+  // the lantern: pale yellow glass with white mullions
+  const zl = zg;
+  s += cylinder(cx, cy, zl, 0.52, 0.82, '#fbe39a');
+  const rl = rail(0.52, zl);
+  for (const deg of [20, 60, 100, 140, 180]) {
+    const a = (deg * Math.PI) / 180;
+    const mx = X + Math.cos(a) * rl.rx;
+    const my = rl.Y + Math.sin(a) * rl.ry;
+    s += `<line x1="${f1(mx)}" y1="${f1(my)}" x2="${f1(mx)}" y2="${f1(my - 0.82 * S)}" stroke="#ffffff" stroke-width="1.1" opacity="0.85"/>`;
+  }
+
+  // the front half of the railing and its posts
+  s += `<path d="M${f1(X - rg.rx)},${f1(rg.Y)} A${f1(rg.rx)},${f1(rg.ry)} 0 0 0 ${f1(X + rg.rx)},${f1(rg.Y)}" fill="none" stroke="#ffffff" stroke-width="1.6"/>`;
+  for (let i = 1; i < 8; i++) {
+    const a = (i / 8) * Math.PI;
+    const mx = X + Math.cos(a) * rg.rx;
+    const my = rg.Y + Math.sin(a) * rg.ry;
+    s += `<line x1="${f1(mx)}" y1="${f1(my)}" x2="${f1(mx)}" y2="${f1(my + 0.42 * S)}" stroke="#ffffff" stroke-width="1.1"/>`;
+  }
+
+  // the roof: a white lip, a blue dome, a golden finial
+  const zr = zl + 0.82;
+  s += cylinder(cx, cy, zr, 0.66, 0.14, C.white);
+  s += dome(cx, cy, zr + 0.14, 0.6, C.blue);
+  const apex = py(cx, cy, zr + 0.14) - 0.6 * S * 1.02;
+  s += `<line x1="${f1(X)}" y1="${f1(apex + 2)}" x2="${f1(X)}" y2="${f1(apex - 9)}" stroke="${C.yellow}" stroke-width="2" stroke-linecap="round"/><circle cx="${f1(X)}" cy="${f1(apex - 10)}" r="2.6" fill="${C.yellow}"/>`;
+
+  add(100, hot({ id: 'tools', href: '/work/#g-tools-visualisation', name: 'Scientific tool development', parts: s, lx: X, ly: apex - 22 }));
 }
 
 // -- Pier and boat (part of the marine link).
@@ -536,88 +584,13 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
   add(31 + 25, hot({ id: 'boat', repeat: true, href: '/work/#g-marine-systems', name: 'Marine systems', parts: s, lx: px(bx + 2, by + 1), ly: my - 8, anchor: [bx + 2, by + 1, 0.6] }));
 }
 
-// -- Scientific tool development: a workshop at the end of a jetty in the left
-// corner, with a brick gear on its roof. Lilac, the tone of that group on the
-// Work page; it balances the pier and the boat at the right.
-{
-  const LILAC = '#b9adda';
-  const LILAC_DEEP = '#8f7fc2';
-  const x = 0.95, y = 28.3, z = 1.25, w = 4, d = 3.1, h = BRICK * 2;
-  let s = '';
-
-  // piles, then the planks of the platform and of the jetty that joins it to the island
-  const piles = [[0.9, 28.2], [0.9, 32.5], [3.1, 32.5], [5.3, 32.5], [5.3, 28.2], [7.0, 28.9], [7.0, 30.6]];
-  for (const [cx, cy] of piles.sort((a, b) => a[0] + a[1] - (b[0] + b[1]))) s += cylinder(cx, cy, 0.2, 0.2, 1.1, C.woodDark);
-  s += box(0.6, 27.9, 1.0, 5.0, 4.9, 0.25, C.wood, { flat: true });
-  s += box(5.6, 28.75, 1.0, 1.9, 2.0, 0.25, C.wood, { flat: true });
-  for (const cy of [28.95, 30.55]) s += cylinder(6.5, cy, 1.25, 0.2, 0.45, C.woodDark);
-
-  // the workshop: a white cube with lilac door, shutters and roof
-  s += cube(x, y, z, w, d, h, { door: false, winRight: [], winLeft: [] });
-  const right = onRight(x + w, y, z);
-  const left = onLeft(x, y + d, z);
-  s += door(right, 0.9, 1.5, 0.45, LILAC_DEEP);
-  s += windowOn(right, 2.0, 1.1, 0.7, 0.8, LILAC_DEEP);
-  s += windowOn(left, 0.7, 1.3, 0.7, 0.8, LILAC_DEEP);
-  s += windowOn(left, 2.6, 1.3, 0.7, 0.8, LILAC_DEEP);
-  s += box(x - 0.25, y - 0.25, z + h, w + 0.5, d + 0.5, 0.3, LILAC);
-
-  // crates and a barrel on the apron
-  const zp = 1.25;
-  s += box(1.3, 31.55, zp, 1.0, 0.85, 0.85, LILAC_DEEP);
-  s += box(2.5, 31.55, zp, 0.9, 0.85, 0.7, C.wood);
-  s += box(1.4, 31.6, zp + 0.85, 0.8, 0.7, 0.6, C.white);
-  s += cylinder(4.3, 32.0, zp, 0.4, 0.8, C.blue, { stud: true });
-
-  // the gear, in the vertical plane that faces the viewer square on (as the turbine's rotor),
-  // each part with a lit face, a rim and a shadowed back
-  const rx = x + w / 2;
-  const ry = y + d / 2;
-  const zr = z + h + 0.3;
-  s += cylinder(rx, ry, zr, 0.22, 0.9, C.white);
-  const R = 1.6;
-  const gx = px(rx + 0.4, ry + 0.4);
-  const gy = py(rx + 0.4, ry + 0.4, zr + 0.5 + R);
-  const E1 = 1.2247 * S;
-  const E2 = -S;
-  const DEPTH = 0.7071 * S * 0.5;
-  const at = (a, b) => [gx + a * E1, gy + b * E2];
-  const poly = (pts, fill, dy = 0) => `<polygon points="${pts.map((p) => `${f1(p[0])},${f1(p[1] + dy)}`).join(' ')}" fill="${fill}"/>`;
-  const outline = [];
-  const N = 10;
-  const step = (Math.PI * 2) / N;
-  for (let i = 0; i < N; i++) {
-    for (const [k, r] of [[-0.4, 0.8], [-0.2, 1.0], [0.2, 1.0], [0.4, 0.8]]) {
-      const a = i * step + k * step;
-      outline.push(at(Math.cos(a) * R * r, Math.sin(a) * R * r));
-    }
-  }
-  let gear = poly(outline, darken(LILAC_DEEP, 0.32));
-  for (let i = 0; i < outline.length; i++) {
-    const a = outline[i];
-    const b = outline[(i + 1) % outline.length];
-    gear += poly([a, b, [b[0], b[1] + DEPTH], [a[0], a[1] + DEPTH]], darken(LILAC_DEEP, 0.18));
-  }
-  gear += poly(outline, lighten(LILAC_DEEP, 0.08), DEPTH);
-  // a ring of round holes around the axle hole
-  const hole = (a, b, r) => `<ellipse cx="${f1(at(a, b)[0])}" cy="${f1(at(a, b)[1] + DEPTH)}" rx="${f1(r * E1)}" ry="${f1(r * S)}" fill="${darken(LILAC_DEEP, 0.5)}"/>`;
-  gear += hole(0, 0, 0.3);
-  for (let i = 0; i < 5; i++) {
-    const a = (i / 5) * Math.PI * 2 + 0.3;
-    gear += hole(Math.cos(a) * 0.82, Math.sin(a) * 0.82, 0.2);
-  }
-  s += gear;
-
-  add(x + y, hot({ id: 'tools', href: '/work/#g-tools-visualisation', name: 'Scientific tool development', parts: s, lx: gx, ly: gy - R * S - 8, anchor: [x + w / 2, y + d / 2, z] }));
-}
-
 // ---------- assemble ----------
 items.sort((a, b) => a.key - b.key);
 const body = items.map((i) => i.svg).join('\n');
 const svg =
   `<svg class="island" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">\n` +
   `<title id="island-title">An island of white houses, drawn as a toy-brick model</title>\n` +
-  `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, a workshop with a gear on a jetty, three figures, gulls, a pelican on the pier and a boat. Each part links to a section of the site: the sea to marine work, the island, its gulls and the pelican to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, the workshop to scientific tool development, and the houses to the pages.</desc>\n` +
+  `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, a lighthouse at the end of the pier, three figures, gulls and a boat. Each part links to a section of the site: the sea to marine work, the island and its gulls to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, the lighthouse to scientific tool development, and the houses to the pages.</desc>\n` +
   `<style>.hot__label{display:none}.hot__pill{fill:#123b4f;stroke:#7fc8e6;stroke-width:1.5}.hot__text{fill:#f4f4f4}</style>\n` +
   `<defs>\n${defs.join('\n')}\n</defs>\n${body}\n</svg>\n`;
 
