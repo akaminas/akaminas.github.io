@@ -221,9 +221,13 @@ let sea = box(-PAD, -PAD, 0, SEA + 2 * PAD, SEA + 2 * PAD, 0.6, C.sea, { top: st
 const waveTiles = [
   [2, 4], [5, 2], [10, 1], [1, 11], [29, 3], [32, 7], [31, 31], [26, 32], [3, 28], [6, 32], [19, 1], [32, 20], [1, 19], [23, 33], [12, 31], [32, 12], [16, 33], [2, 24],
   // the margin added around the island
-  [-2, 6], [-2, 15], [-1, 27], [-2, 34], [3, -2], [11, -2], [22, -2], [29, -2], [35, 4], [35, 13], [35, 28], [33, 35], [26, 36], [15, 35], [6, 36], [36, 33],
+  [-2, 6], [-2, 15], [-1, 27], [-2, 34], [3, -2], [11, -2], [22, -2], [29, -2], [35, 4], [35, 13], [35, 28], [33, 35], [26, 36], [15, 35], [6, 36], [30, 36],
 ];
-for (const [wx, wy] of waveTiles) sea += box(wx, wy, 0.6, 2, 1, 0.12, C.seaLight, { flat: true });
+for (const [wx, wy] of waveTiles) {
+  // every wave tile (2 x 1 studs) must lie on the sea plate
+  if (wx < -PAD || wy < -PAD || wx + 2 > SEA + PAD || wy + 1 > SEA + PAD) throw new Error(`wave tile at ${wx},${wy} is off the sea plate`);
+  sea += box(wx, wy, 0.6, 2, 1, 0.12, C.seaLight, { flat: true });
+}
 // foam: light plates hugging the island outline
 const foam = [
   [6, 5, 4, 1], [10, 4, 8, 1], [18, 4, 6, 1], [24, 5, 4, 1], [28, 7, 1, 5], [29, 12, 1, 5], [30, 17, 1, 5], [30, 22, 1, 5], [29, 27, 1, 3], [25, 29, 4, 1], [18, 30, 7, 1],
