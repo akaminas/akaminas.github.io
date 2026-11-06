@@ -67,12 +67,13 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     color: var(--bar-ink);
     font-family: var(--font-ui);
     font-weight: 600;
+    box-shadow: 0 2px 8px color-mix(in srgb, #000 28%, transparent);
   }
   .site-header__inner {
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    min-height: 3.75rem;
+    min-height: 3.5rem;
     flex-wrap: wrap;
   }
   .wordmark {

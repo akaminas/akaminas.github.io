@@ -1,7 +1,8 @@
 ---
 /**
- * The foot of every page: who this is and where they work, how to reach
- * them, profiles, and the copyright line (which links to the privacy notice).
+ * The foot of every page, in three parts as on the reference: who this is and
+ * where they work (left), profiles (centre), email (right); then the
+ * copyright line, which links to the privacy notice.
  */
 import { site } from '../data/site';
 
@@ -10,23 +11,21 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container container--wide site-footer__inner">
-    <div class="site-footer__col">
+    <div class="site-footer__left">
       <p class="site-footer__name">{site.name}</p>
-      <p class="small muted">
-        {site.position}, <abbr title={site.affiliation.unit}>{site.affiliation.unitShort}</abbr>, {site.affiliation.name}<br />
-        <a href={`mailto:${site.email}`}>{site.email}</a>
+      <p>
+        {site.position}, <abbr title={site.affiliation.unit}>{site.affiliation.unitShort}</abbr>, {site.affiliation.name}
       </p>
     </div>
-    <div class="site-footer__col">
-      <ul class="site-footer__links" aria-label="Profiles">
-        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-        <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
-        <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
-        <li><a href={site.profiles.rug} rel="noopener">RUG profile</a></li>
-        <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
-      </ul>
-    </div>
-    <p class="site-footer__copy small muted">
+    <ul class="site-footer__links" aria-label="Profiles">
+      <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
+      <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
+      <li><a href={site.profiles.scholar} rel="noopener">Google Scholar</a></li>
+      <li><a href={site.profiles.rug} rel="noopener">RUG profile</a></li>
+      <li><a href={site.profiles.researchgate} rel="noopener">ResearchGate</a></li>
+    </ul>
+    <p class="site-footer__right"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    <p class="site-footer__copy">
       © {year} {site.name}. Text and original graphics on this site are mine; publications and fonts carry their own
       licences (see the <a href="/privacy/#content">privacy and content notes</a>).
     </p>
@@ -35,49 +34,58 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    margin-top: var(--space-8);
-    padding-block: var(--space-6) var(--space-7);
+    background: var(--surface);
     border-top: var(--rule) solid var(--line);
+    padding-block: var(--space-5);
     font-family: var(--font-ui);
     font-size: var(--step--1);
   }
   .site-footer__inner {
     display: grid;
-    gap: var(--space-5) var(--space-7);
+    gap: var(--space-3) var(--space-5);
+    text-align: center;
   }
-  @media (min-width: 48rem) {
-    .site-footer__inner {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-    .site-footer__copy {
-      grid-column: 1 / -1;
-    }
-  }
-  .site-footer__name {
-    margin: 0 0 var(--space-1);
-    font-weight: 700;
-    color: var(--heading);
-  }
-  .site-footer__col p {
+  .site-footer p {
     margin: 0;
     max-width: none;
   }
-  .site-footer__col abbr {
+  .site-footer__name {
+    font-weight: 700;
+    color: var(--heading);
+  }
+  .site-footer abbr {
     text-decoration: none;
   }
   .site-footer__links {
     list-style: none;
-    margin: 0 0 var(--space-3);
+    margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-1) var(--space-4);
   }
   .site-footer__links li {
     max-width: none;
   }
   .site-footer__copy {
-    margin: 0;
-    max-width: 70ch;
+    color: var(--muted);
+    padding-top: var(--space-3);
+    border-top: var(--rule) solid var(--line);
+  }
+  @media (min-width: 64rem) {
+    .site-footer__inner {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: baseline;
+    }
+    .site-footer__left {
+      text-align: left;
+    }
+    .site-footer__right {
+      text-align: right;
+    }
+    .site-footer__copy {
+      grid-column: 1 / -1;
+    }
   }
 </style>

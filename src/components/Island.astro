@@ -22,7 +22,7 @@ const key = [
 ---
 
 <figure class="island-fig">
-  <div class="island-wrap" set:html={svg} />
+  <div class="island-wrap breakout" set:html={svg} />
   <figcaption class="island-key">
     <span class="island-key__lead">Where the parts lead:</span>
     <ul>
@@ -41,14 +41,7 @@ const key = [
   .island-fig {
     margin: 0;
   }
-  .island-wrap {
-    /* 2.5 % wider than its column, centred, never wider than the viewport minus the gutters. */
-    width: min(102.5%, 100vw - 2 * var(--gutter));
-    margin-inline: auto;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /* .island-wrap is also .breakout (global.css): page width, centred on the column. */
   .island-wrap :global(svg) {
     width: 100%;
     height: auto;
@@ -90,27 +83,25 @@ const key = [
     fill: var(--badge-ink);
   }
   .island-key {
-    margin: var(--space-4) auto 0;
-    width: min(100%, 60rem);
+    margin: var(--space-4) 0 0;
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: var(--step--1);
     color: var(--muted);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-3);
-    align-items: baseline;
   }
   .island-key__lead {
+    display: block;
     color: var(--heading);
+    margin-bottom: var(--space-2);
   }
+  /* The key as an even grid: two columns in the column, one on a phone. */
   .island-key ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-2) var(--space-5);
   }
   .island-key li {
     max-width: none;

@@ -46,9 +46,9 @@
   --font-mono: var(--font-display);
 
   /* Display sizes for the monospaced headings. */
-  --disp-1: clamp(1.9rem, 1.5rem + 1.4vw, 2.5rem);
-  --disp-2: clamp(1.45rem, 1.25rem + 0.8vw, 1.85rem);
-  --disp-3: clamp(1.15rem, 1.05rem + 0.4vw, 1.35rem);
+  --disp-1: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --disp-2: clamp(1.35rem, 1.2rem + 0.6vw, 1.65rem);
+  --disp-3: clamp(1.1rem, 1.05rem + 0.3vw, 1.25rem);
   --disp-4: clamp(1.05rem, 1rem + 0.2vw, 1.15rem);
 
   /* Type scale (gently fluid). Body never below 17px. */
@@ -69,12 +69,16 @@
   --space-7: 3rem;
   --space-8: 4.5rem;
   --space-9: 6rem;
-  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --gutter: clamp(1.125rem, 5vw, 1.5rem);
 
-  /* Layout */
-  --measure: 68ch;
-  --container: 46rem; /* the reading column */
-  --wide: 72rem; /* the island and card grids */
+  /* Layout. Two widths only: the column (all text and lists, one left edge)
+     and the page (header, footer and the island). Every dated list and every
+     thumbnail row shares one lead column, so text starts at the same x. */
+  --measure: none;
+  --container: 50rem; /* the column: about 800 px */
+  --wide: 72rem; /* the page: header, footer, island */
+  --lead: 10rem; /* the lead column of ledgers, thumbnails and key/value rows */
+  --lead-gap: var(--space-5);
   --radius: 10px;
   --radius-s: 6px;
   --rule: 1px;
@@ -258,6 +262,10 @@ body {
 }
 main {
   flex: 1 0 auto;
+  padding-block: var(--space-7) var(--space-8);
+}
+main > :first-child {
+  margin-top: 0;
 }
 img,
 svg,
@@ -305,6 +313,7 @@ h1 {
 }
 h2 {
   font-size: var(--disp-2);
+  font-weight: 600;
 }
 h3 {
   font-size: var(--disp-3);
@@ -399,10 +408,16 @@ abbr[title] {
   margin-top: var(--space-4);
 }
 
-/* Page head: title and lede at the top of every page but the home page. */
-.page-head {
-  padding-block: var(--space-7) var(--space-4);
+/* Breakout: the one thing allowed out of the column, centred on it, to the
+   page width (the island). */
+.breakout {
+  width: min(100vw - 2 * var(--gutter), var(--wide));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
+/* Page head: title and lede at the top of every page but the home page. */
 .page-head h1 {
   margin-bottom: var(--space-3);
 }
@@ -414,19 +429,20 @@ abbr[title] {
   margin-top: var(--space-3);
 }
 
-/* Section: a heading with a hairline under it, then content. */
+/* Section: a heading with a hairline under it, then content. Every section
+   sits the same distance below the one before it. */
 .sec {
-  padding-block: var(--space-6) var(--space-5);
+  margin-top: var(--space-7);
 }
 .sec > h2,
 .sec__title {
   padding-bottom: var(--space-2);
   border-bottom: var(--rule) solid var(--line);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 .sec__intro {
   color: var(--muted);
-  margin: calc(-1 * var(--space-3)) 0 var(--space-5);
+  margin: 0 0 var(--space-4);
   text-wrap: pretty;
 }
 .sec__head {
@@ -437,7 +453,7 @@ abbr[title] {
   gap: var(--space-2) var(--space-5);
   padding-bottom: var(--space-2);
   border-bottom: var(--rule) solid var(--line);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 .sec__head > * {
   margin: 0;
@@ -449,7 +465,8 @@ abbr[title] {
 
 /* ---------- Lists ---------- */
 
-/* Ledger: dated rows — a period column and a content column. */
+/* Ledger: dated rows — a lead column for the period and a content column.
+   One lead width everywhere, so the text of every list starts at the same x. */
 .ledger {
   list-style: none;
   margin: 0;
@@ -457,7 +474,7 @@ abbr[title] {
 }
 .ledger > li {
   display: grid;
-  gap: var(--space-1) var(--space-5);
+  gap: var(--space-1) var(--lead-gap);
   padding-block: var(--space-4);
   border-bottom: var(--rule) solid var(--line);
   max-width: none;
@@ -465,9 +482,77 @@ abbr[title] {
 .ledger > li:first-child {
   padding-top: 0;
 }
+.ledger > li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
 @media (min-width: 42rem) {
   .ledger > li {
-    grid-template-columns: var(--ledger-col, 10rem) minmax(0, 1fr);
+    grid-template-columns: var(--lead) minmax(0, 1fr);
+  }
+}
+
+/* Listing: a thumbnail panel in the lead column, the text beside it. Used for
+   projects and method areas, as the reference site lays out its publications. */
+.listing,
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-6);
+}
+.listing > li,
+.pcard--row {
+  display: grid;
+  gap: var(--space-3) var(--lead-gap);
+  align-items: start;
+  max-width: none;
+}
+@media (min-width: 42rem) {
+  .listing > li,
+  .pcard--row {
+    grid-template-columns: var(--lead) minmax(0, 1fr);
+  }
+}
+.thumb {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: 8px;
+  color: var(--accent);
+}
+.thumb > svg {
+  width: 60%;
+  height: auto;
+}
+@media (min-width: 42rem) {
+  .thumb {
+    width: 100%;
+  }
+}
+
+/* Bio: the portrait floats left and the text wraps it, as on the reference. */
+.bio {
+  display: flow-root;
+}
+.bio__portrait {
+  margin: 0 0 var(--space-5);
+  width: min(100%, 15rem);
+}
+.bio__portrait img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+@media (min-width: 42rem) {
+  .bio__portrait {
+    float: left;
+    margin: 0.35rem var(--space-6) var(--space-4) 0;
   }
 }
 .ledger__when {
@@ -514,14 +599,13 @@ abbr[title] {
 .register > li:first-child {
   padding-top: 0;
 }
-.register__year {
-  font-family: var(--font-display);
-  font-size: var(--disp-3);
-  color: var(--accent);
-  margin: var(--space-6) 0 var(--space-3);
+/* Flat: entries inside a ledger cell, spaced instead of ruled. */
+.register--flat > li {
+  border-bottom: 0;
+  padding-block: 0;
 }
-.register__year:first-child {
-  margin-top: 0;
+.register--flat > li + li {
+  margin-top: var(--space-4);
 }
 
 /* Chips: rounded pastel tags. Never proficiency bars. */
@@ -561,13 +645,6 @@ abbr[title] {
 }
 .spec dd {
   margin: 0;
-}
-.spec--stacked {
-  grid-template-columns: 1fr;
-  gap: var(--space-1);
-}
-.spec--stacked dd {
-  margin-bottom: var(--space-3);
 }
 
 .inline-list {
@@ -698,14 +775,11 @@ abbr[title] {
   border-color: var(--line-strong);
   transform: translateY(-2px);
 }
+/* Gallery: cards in as many columns as the column holds (three at 800 px). */
 .cards {
   display: grid;
-  gap: var(--space-4);
-}
-@media (min-width: 42rem) {
-  .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-5);
 }
 
 /* ---------- Prose — long-form content rendered from Markdown ---------- */
@@ -714,7 +788,7 @@ abbr[title] {
 }
 .prose h2 {
   font-size: var(--disp-2);
-  margin-top: var(--space-6);
+  margin-top: var(--space-7);
   padding-bottom: var(--space-2);
   border-bottom: var(--rule) solid var(--line);
 }
@@ -723,6 +797,7 @@ abbr[title] {
 }
 .prose h3 {
   font-size: var(--disp-3);
+  font-weight: 600;
   margin-top: var(--space-5);
 }
 .prose ul,
@@ -731,6 +806,18 @@ abbr[title] {
 }
 .prose li + li {
   margin-top: var(--space-2);
+}
+/* Ledgers and registers inside prose keep their own spacing, flush with the column. */
+.prose .ledger,
+.prose .register {
+  padding-left: 0;
+}
+.prose .ledger > li + li,
+.prose .register > li + li {
+  margin-top: 0;
+}
+.prose .register--flat > li + li {
+  margin-top: var(--space-4);
 }
 .prose li::marker {
   color: var(--accent);
