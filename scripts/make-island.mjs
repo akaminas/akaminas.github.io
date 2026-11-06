@@ -20,8 +20,11 @@ import path from 'node:path';
 const S = 20; // px per stud
 const X0 = 600;
 const Y0 = 74;
-const W = 1200;
-const H = 780;
+// The frame: the sea plate runs from -3 to 37 studs each way, and the frame is fitted to it.
+const VX = -105;
+const VY = -10;
+const W = 1410;
+const H = 836;
 const PLATE = 0.4;
 const OBJ = 0.96; // objects are drawn 4 % smaller than their footprint
 const ISLE = 1.04; // the island's plates are 4 % larger, about its centre
@@ -213,9 +216,12 @@ function hot({ href, name, parts, lx, ly, mode = 'lift', id, anchor, shrink = OB
 
 // -- Sea: one large plate with a few flat wave tiles and foam near the shore.
 const SEA = 34;
-let sea = box(0, 0, 0, SEA, SEA, 0.6, C.sea, { top: studs(C.sea, 0.6) });
+const PAD = 3; // the sea reaches this far past the island's square, so the pier head and the lighthouse stand on it
+let sea = box(-PAD, -PAD, 0, SEA + 2 * PAD, SEA + 2 * PAD, 0.6, C.sea, { top: studs(C.sea, 0.6) });
 const waveTiles = [
   [2, 4], [5, 2], [10, 1], [1, 11], [29, 3], [32, 7], [31, 31], [26, 32], [3, 28], [6, 32], [19, 1], [32, 20], [1, 19], [23, 33], [12, 31], [32, 12], [16, 33], [2, 24],
+  // the margin added around the island
+  [-2, 6], [-2, 15], [-1, 27], [-2, 34], [3, -2], [11, -2], [22, -2], [29, -2], [35, 4], [35, 13], [35, 28], [33, 35], [26, 36], [15, 35], [6, 36], [36, 33],
 ];
 for (const [wx, wy] of waveTiles) sea += box(wx, wy, 0.6, 2, 1, 0.12, C.seaLight, { flat: true });
 // foam: light plates hugging the island outline
@@ -588,7 +594,7 @@ function minifig(x, y, z, shirt, legs, hair, facing = 'right') {
 items.sort((a, b) => a.key - b.key);
 const body = items.map((i) => i.svg).join('\n');
 const svg =
-  `<svg class="island" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">\n` +
+  `<svg class="island" viewBox="${VX} ${VY} ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="group" aria-labelledby="island-title" aria-describedby="island-desc">\n` +
   `<title id="island-title">An island of white houses, drawn as a toy-brick model</title>\n` +
   `<desc id="island-desc">A stepped island with white Cycladic houses, a windmill, a wind turbine, a lighthouse at the end of the pier, three figures, gulls and a boat. Each part links to a section of the site: the sea to marine work, the island and its gulls to ecology and evolution, the figures to social and economic systems, the turbine to sustainability, the lighthouse to scientific tool development, and the houses to the pages.</desc>\n` +
   `<style>.hot__label{display:none}.hot__pill{fill:#123b4f;stroke:#7fc8e6;stroke-width:1.5}.hot__text{fill:#f4f4f4}</style>\n` +
