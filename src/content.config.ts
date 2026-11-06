@@ -34,7 +34,7 @@ const projects = defineCollection({
     talks: z.array(z.string()).default([]),
     links: z.array(link).default([]),
     /** Which SVG motif illustrates the project (see src/components/Motif.astro). */
-    motif: z.enum(['patches', 'bipartite', 'fold', 'hypervolume', 'nested', 'records', 'field']),
+    motif: z.enum(['isolation', 'bipartite', 'fold', 'hypervolume', 'loop', 'records', 'swatches']),
     featured: z.boolean().default(false),
     order: z.number().default(100),
   }),

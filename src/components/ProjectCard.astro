@@ -7,6 +7,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import Motif from './Motif.astro';
+import { domainTone, toneStyle } from '../data/tones';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -29,7 +30,7 @@ const statusLabel: Record<typeof data.status, string> = {
 };
 ---
 
-<article class:list={['pcard', `pcard--${layout}`]}>
+<article class:list={['pcard', `pcard--${layout}`]} style={toneStyle(domainTone[data.domain])}>
   <div class="thumb pcard__fig" aria-hidden="true">
     <Motif kind={data.motif} size={96} />
   </div>
@@ -88,11 +89,20 @@ const statusLabel: Record<typeof data.status, string> = {
     gap: var(--space-1) var(--space-4);
     max-width: none;
   }
+  /* The domain as a tinted tag, as the reference tints its categories. */
   .pcard__domain {
-    margin: 0 0 var(--space-1);
+    display: inline-block;
+    align-self: center;
+    margin: 0 0 var(--space-2);
+    padding: 0.1em 0.7em;
+    border-radius: 999px;
     font-family: var(--font-ui);
+    font-weight: 600;
     font-size: var(--step--1);
-    color: var(--muted);
+    line-height: 1.6;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--tone) 32%, var(--surface));
+    border: var(--rule) solid color-mix(in srgb, var(--tone) 55%, var(--line));
   }
 
   /* Card: drawing on top, centred text. */
@@ -100,7 +110,7 @@ const statusLabel: Record<typeof data.status, string> = {
     display: flex;
     flex-direction: column;
     background: var(--surface);
-    border: var(--rule) solid var(--line);
+    border: var(--rule) solid color-mix(in srgb, var(--tone) 40%, var(--line));
     border-radius: var(--radius);
     overflow: hidden;
     text-align: center;
@@ -114,9 +124,8 @@ const statusLabel: Record<typeof data.status, string> = {
     width: 100%;
     aspect-ratio: 16 / 7;
     border: 0;
-    border-bottom: var(--rule) solid var(--line);
+    border-bottom: var(--rule) solid color-mix(in srgb, var(--tone) 50%, var(--line));
     border-radius: 0;
-    background: color-mix(in srgb, var(--bg) 55%, var(--surface));
   }
   .pcard--card .pcard__fig > svg {
     width: auto;
@@ -128,7 +137,7 @@ const statusLabel: Record<typeof data.status, string> = {
     }
     .pcard--card .pcard__fig > svg {
       height: auto;
-      width: min(38%, 6.5rem);
+      width: min(46%, 8rem);
     }
   }
   .pcard--card .pcard__body {

@@ -23,7 +23,7 @@ links:
     url: https://akaminas.github.io/vellum/
   - label: Source
     url: https://github.com/akaminas/vellum
-motif: field
+motif: swatches
 featured: false
 order: 6
 ---

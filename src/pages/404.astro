@@ -5,8 +5,8 @@ import Motif from '../components/Motif.astro';
 
 <Base title="Page not found" description="The page you asked for does not exist on this site.">
   <section class="container nf">
-    <div class="nf__fig" aria-hidden="true">
-      <Motif kind="records" size={72} />
+    <div class="nf__fig tint" style="--tone: var(--tone-sea)" aria-hidden="true">
+      <Motif kind="lost" size={72} />
     </div>
     <div>
       <p class="label">404</p>
@@ -30,10 +30,7 @@ import Motif from '../components/Motif.astro';
     }
   }
   .nf__fig {
-    color: var(--accent);
-    background: var(--surface);
-    border: var(--rule) solid var(--line);
-    border-radius: var(--radius);
+    border-radius: 8px;
     width: 6rem;
     height: 6rem;
     display: grid;

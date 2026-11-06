@@ -111,6 +111,23 @@
   --focus: #007ba7;               /* focus ring */
   --selection: #cfe6f0;           /* text selection */
 
+  /* Tones: eight muted pastels for drawings, thumbnail panels, chips and
+     section rules, as the reference tints its categories. They sit beside the
+     one blue and never carry text: text stays in --ink on a tinted ground
+     (src/data/tones.ts says which tone belongs to what). The same values work
+     on both schemes; a tint is always mixed into --surface. */
+  --tone-teal: #86c1b3;
+  --tone-sea: #86b4cd;
+  --tone-sand: #dfc88f;
+  --tone-coral: #dfa795;
+  --tone-lilac: #b9adda;
+  --tone-sage: #aec693;
+  --tone-rose: #d9a8ba;
+  --tone-apricot: #e2b48f;
+  --tint-amt: 24%; /* how much of a tone is mixed into a panel */
+  --deep-shade: black; /* the "deep" mix of a tone: darkened in its own hue... */
+  --deep-amt: 36%;
+
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur-fast: 140ms;
@@ -139,6 +156,9 @@
     --badge-gold: #007ba7;
     --focus: #5fc0e6;
     --selection: #1e4659;
+    --tint-amt: 30%; /* ...and lightened on the dark scheme */
+    --deep-shade: white;
+    --deep-amt: 20%;
     color-scheme: dark;
   }
 }
@@ -161,6 +181,9 @@
   --badge-gold: #007ba7;
   --focus: #5fc0e6;
   --selection: #1e4659;
+  --tint-amt: 30%; /* ...and lightened on the dark scheme */
+  --deep-shade: white;
+  --deep-amt: 20%;
   color-scheme: dark;
 }
 :root[data-theme='light'] {
@@ -440,6 +463,11 @@ abbr[title] {
   border-bottom: var(--rule) solid var(--line);
   margin-bottom: var(--space-4);
 }
+/* A section with its own tone: the rule under the heading takes the colour. */
+.sec--tone > h2,
+.sec--tone > .sec__head {
+  border-bottom: 2px solid color-mix(in srgb, var(--tone) 75%, var(--line));
+}
 .sec__intro {
   color: var(--muted);
   margin: 0 0 var(--space-4);
@@ -515,18 +543,22 @@ abbr[title] {
     grid-template-columns: var(--lead) minmax(0, 1fr);
   }
 }
+/* A tinted ground for a drawing: --tone mixed into the surface. Anything with
+   --tone set (a section, a card, the element itself) picks its own colour. */
+.tint,
+.thumb {
+  background: color-mix(in srgb, var(--tone, var(--accent)) var(--tint-amt), var(--surface));
+  border: var(--rule) solid color-mix(in srgb, var(--tone, var(--accent)) 50%, var(--line));
+}
 .thumb {
   display: grid;
   place-items: center;
   width: 5rem;
   aspect-ratio: 1;
-  background: var(--surface);
-  border: var(--rule) solid var(--line);
   border-radius: 8px;
-  color: var(--accent);
 }
 .thumb > svg {
-  width: 60%;
+  width: 84%;
   height: auto;
 }
 @media (min-width: 42rem) {
@@ -621,9 +653,10 @@ abbr[title] {
   font-family: var(--font-ui);
   font-weight: 600;
   font-size: var(--step--1);
-  color: var(--accent);
-  background: var(--accent-soft);
-  padding: 0.15em 0.7em;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--tone, var(--accent)) 32%, var(--surface));
+  border: var(--rule) solid color-mix(in srgb, var(--tone, var(--accent)) 55%, var(--line));
+  padding: 0.1em 0.7em;
   border-radius: 999px;
   max-width: none;
   line-height: 1.6;

@@ -1,15 +1,63 @@
 ---
 /**
- * Small original line drawings, one per project, sharing one visual grammar
- * (dots = entities, lines = interactions or trajectories, dashes = limited flow).
- * Decorative: always aria-hidden.
+ * Original line-and-wash drawings, one per project and one per method area,
+ * so no two items share a picture. Each is a small diagram of its subject
+ * (an island pair with an immigration arc, a fold curve, a phylogeny, a phase
+ * portrait ...) in one drawing grammar: ink outlines, one pastel tone for
+ * fills, a deeper mix of that tone for the thing being followed, dashes for
+ * what is not actually present (flows, unstable states, hulls).
+ *
+ * The tone is read from --tone (set by the section, card or panel around the
+ * drawing; see src/data/tones.ts). Decorative: always aria-hidden.
  */
+export type MotifKind =
+  // projects
+  | 'isolation'
+  | 'bipartite'
+  | 'fold'
+  | 'hypervolume'
+  | 'loop'
+  | 'records'
+  | 'swatches'
+  // method areas
+  | 'compartments'
+  | 'walks'
+  | 'phase'
+  | 'graph'
+  | 'tree'
+  | 'scatter'
+  | 'survey'
+  | 'contours'
+  // the 404 page
+  | 'lost';
+
 interface Props {
-  kind: 'patches' | 'bipartite' | 'fold' | 'hypervolume' | 'nested' | 'records' | 'field';
+  kind: MotifKind;
   size?: number;
   class?: string;
 }
 const { kind, size = 96, class: className = '' } = Astro.props;
+
+/** An open arrowhead whose tip is at (x, y) and which points along `deg` (0 = right, 90 = down). */
+const h = (x: number, y: number, deg: number, s = 3.6) => ({
+  d: `M${-s} ${-s * 0.75} L0 0 L${-s} ${s * 0.75}`,
+  transform: `translate(${x} ${y}) rotate(${deg})`,
+});
+
+// Likert-style bars for the survey drawing: five segment widths per row, 62 wide in all.
+const bars = [
+  [8, 14, 10, 18, 12],
+  [12, 10, 14, 16, 10],
+  [6, 12, 16, 14, 14],
+  [14, 18, 8, 12, 10],
+].map((row, i) => {
+  let x = 22;
+  return row.map((w, k) => {
+    const seg = { x, w, k, y: 20 + i * 16 };
+    x += w;
+    return seg;
+  });
+});
 ---
 
 <svg
@@ -22,112 +70,292 @@ const { kind, size = 96, class: className = '' } = Astro.props;
   focusable="false"
 >
   {
-    kind === 'patches' && (
+    kind === 'isolation' && (
       <g>
-        <circle cx="28" cy="48" r="20" class="m-line" />
-        <circle cx="70" cy="48" r="16" class="m-line" />
-        <g class="m-dot">
-          <circle cx="22" cy="42" r="2.4" />
-          <circle cx="31" cy="52" r="2.4" />
-          <circle cx="35" cy="41" r="2.4" />
-          <circle cx="25" cy="56" r="2.4" />
-          <circle cx="66" cy="44" r="2.4" />
-          <circle cx="73" cy="53" r="2.4" />
+        <path class="hair" d="M10 80 q5 -3 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0" />
+        <path class="t" d="M12 62 C9 49 20 40 31 42 C41 40 50 48 48 58 C45 68 22 72 12 62 Z" />
+        <path class="t" d="M60 64 C58 55 67 49 75 51 C84 52 87 60 82 66 C77 71 62 70 60 64 Z" />
+        <path class="ln dash" d="M30 38 C38 16 66 16 74 46" />
+        <path class="ln" {...h(74, 47, 75)} />
+        <circle class="td" cx="52" cy="22.5" r="2.8" />
+        <g class="ink">
+          <circle cx="24" cy="54" r="1.8" />
+          <circle cx="33" cy="50" r="1.8" />
+          <circle cx="37" cy="59" r="1.8" />
         </g>
-        <path d="M48 48 H54" class="m-dash" />
-        <circle cx="76" cy="41" r="2.4" class="m-accent" />
+        <circle class="paper" cx="72" cy="58" r="2.2" />
       </g>
     )
   }
   {
     kind === 'bipartite' && (
       <g>
-        <g class="m-line">
-          <path d="M24 22 L72 30 M24 22 L72 50 M24 40 L72 30 M24 40 L72 68 M24 58 L72 50 M24 76 L72 68 M24 76 L72 50" />
+        <g class="ln edge">
+          <path d="M24 18 L72 28" />
+          <path d="M24 18 L72 50" />
+          <path d="M24 18 L72 72" />
+          <path d="M24 37 L72 28" />
+          <path d="M24 56 L72 28" />
+          <path d="M24 56 L72 50" />
+          <path d="M24 75 L72 28" />
         </g>
-        <g class="m-dot">
-          <circle cx="24" cy="22" r="3" />
-          <circle cx="24" cy="40" r="3" />
-          <circle cx="24" cy="58" r="3" />
-          <circle cx="24" cy="76" r="3" />
-        </g>
-        <g class="m-accent">
-          <circle cx="72" cy="30" r="3" />
-          <circle cx="72" cy="50" r="3" />
-          <circle cx="72" cy="68" r="3" />
-        </g>
+        <path class="stable" d="M24 37 L72 50" />
+        <circle class="t" cx="24" cy="18" r="5.5" />
+        <circle class="t" cx="24" cy="37" r="5" />
+        <circle class="t" cx="24" cy="56" r="4.5" />
+        <circle class="t" cx="24" cy="75" r="4" />
+        <circle class="td" cx="72" cy="28" r="6" />
+        <circle class="td" cx="72" cy="50" r="5" />
+        <circle class="td" cx="72" cy="72" r="4" />
       </g>
     )
   }
   {
     kind === 'fold' && (
       <g>
-        <path d="M12 70 C 34 70, 40 56, 44 46 C 48 36, 52 30, 84 28" class="m-line" />
-        <path d="M12 74 C 40 74, 50 70, 58 62 C 64 56, 66 40, 84 32" class="m-dash" />
-        <circle cx="30" cy="70" r="2.6" class="m-dot" />
-        <circle cx="66" cy="31" r="2.6" class="m-accent" />
-        <path d="M46 44 L46 60" class="m-accent-line" />
+        <path class="axis" d="M10 12 V82 H90" />
+        <path class="ln dash" d="M68 62 C68 52 30 48 30 36" />
+        <path class="stable" d="M12 72 H52 C64 72 68 68 68 62" />
+        <path class="stable" d="M30 36 C30 28 36 24 46 24 H84" />
+        <path class="ln dash" d="M68 56 V32" />
+        <path class="ln" {...h(68, 27, -90)} />
+        <circle class="td" cx="26" cy="68.6" r="3.3" />
       </g>
     )
   }
   {
     kind === 'hypervolume' && (
       <g>
-        <path d="M20 58 L34 24 L66 20 L80 44 L64 74 L30 76 Z" class="m-line" />
-        <path d="M32 54 L40 36 L60 34 L68 48 L58 64 L38 66 Z" class="m-dash" />
-        <g class="m-dot">
-          <circle cx="42" cy="46" r="2.4" />
-          <circle cx="54" cy="42" r="2.4" />
-          <circle cx="50" cy="56" r="2.4" />
-          <circle cx="60" cy="54" r="2.4" />
+        <path class="axis" d="M12 84 H38 M12 84 V62" />
+        <path class="hair dash" d="M18 56 L34 30 L64 28 L84 40 L78 60 L52 72 L26 70 Z" />
+        <ellipse class="ts" cx="40" cy="48" rx="24" ry="14" transform="rotate(-25 40 48)" />
+        <ellipse class="tds" cx="56" cy="44" rx="22" ry="12" transform="rotate(20 56 44)" />
+        <ellipse class="ts" cx="50" cy="58" rx="20" ry="11" transform="rotate(-8 50 58)" />
+        <g class="ink">
+          <circle cx="30" cy="52" r="1.7" />
+          <circle cx="44" cy="40" r="1.7" />
+          <circle cx="58" cy="48" r="1.7" />
+          <circle cx="66" cy="40" r="1.7" />
+          <circle cx="50" cy="62" r="1.7" />
+          <circle cx="38" cy="60" r="1.7" />
+          <circle cx="70" cy="52" r="1.7" />
         </g>
-        <circle cx="72" cy="30" r="2.4" class="m-accent" />
       </g>
     )
   }
   {
-    kind === 'nested' && (
+    kind === 'loop' && (
       <g>
-        <circle cx="48" cy="48" r="34" class="m-line" />
-        <circle cx="48" cy="48" r="21" class="m-dash" />
-        <circle cx="48" cy="48" r="9" class="m-line" />
-        <path d="M48 14 V27 M48 39 V48" class="m-line" />
-        <circle cx="48" cy="48" r="2.6" class="m-accent" />
-        <circle cx="72" cy="24" r="2.4" class="m-dot" />
-        <circle cx="21" cy="66" r="2.4" class="m-dot" />
+        <circle class="hair dash" cx="48" cy="48" r="8" />
+        <circle class="td" cx="48" cy="48" r="3" />
+        <path class="ln" d="M58 21 C80 22 82 42 77 58" />
+        <path class="ln" {...h(77, 59, 107)} />
+        <path class="ln" d="M64 70 C54 86 42 86 32 70" />
+        <path class="ln" {...h(32, 70, -122)} />
+        <path class="ln" d="M22 60 C16 40 24 26 38 20" />
+        <path class="ln" {...h(38, 20, -23)} />
+        <rect class="t" x="38" y="12" width="20" height="14" rx="3" />
+        <rect class="t" x="12" y="60" width="20" height="14" rx="3" />
+        <rect class="td" x="64" y="60" width="20" height="14" rx="3" />
       </g>
     )
   }
   {
     kind === 'records' && (
       <g>
-        <path d="M16 72 C 30 60, 34 40, 44 34 C 56 27, 64 30, 82 20" class="m-line" />
-        <g class="m-dot">
-          <circle cx="22" cy="66" r="2.4" />
-          <circle cx="30" cy="54" r="2.4" />
-          <circle cx="40" cy="38" r="2.4" />
-          <circle cx="56" cy="30" r="2.4" />
+        <rect class="t" x="10" y="10" width="76" height="76" rx="5" />
+        <path class="hair dash" d="M10 38 H86 M10 62 H86 M34 10 V86 M58 10 V86" />
+        <path class="paper" d="M10 10 H58 C58 22 48 26 44 34 C40 42 28 40 22 50 C16 58 12 62 10 66 Z" />
+        <g class="ink">
+          <circle cx="52" cy="46" r="1.8" />
+          <circle cx="76" cy="40" r="1.8" />
+          <circle cx="46" cy="60" r="1.8" />
+          <circle cx="76" cy="72" r="1.8" />
+          <circle cx="34" cy="70" r="1.8" />
+          <circle cx="82" cy="54" r="1.8" />
         </g>
-        <circle cx="70" cy="26" r="2.4" class="m-accent" />
-        <circle cx="80" cy="20" r="3.8" class="m-dash" />
+        <circle class="td" cx="66" cy="30" r="3" />
+        <circle class="td" cx="72" cy="52" r="3" />
+        <circle class="td" cx="60" cy="66" r="3" />
       </g>
     )
   }
   {
-    kind === 'field' && (
+    kind === 'swatches' && (
       <g>
-        <g class="m-dot">
-          <circle cx="20" cy="26" r="2.2" />
-          <circle cx="40" cy="22" r="2.2" />
-          <circle cx="62" cy="28" r="2.2" />
-          <circle cx="76" cy="46" r="2.2" />
-          <circle cx="30" cy="52" r="2.2" />
-          <circle cx="54" cy="56" r="2.2" />
-          <circle cx="24" cy="74" r="2.2" />
-          <circle cx="68" cy="72" r="2.2" />
+        <rect class="sw" style="fill: var(--tone-teal)" x="12" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-coral)" x="32" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-sea)" x="52" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-lilac)" x="72" y="12" width="14" height="14" rx="3" />
+        <rect class="paper" x="12" y="34" width="74" height="48" rx="4" />
+        <path class="hair" d="M12 50 H86 M12 66 H86 M37 34 V82 M62 34 V82" />
+        <path class="ln" d="M16 74 L30 62 L46 66 L62 48 L82 40" />
+        <circle class="sw" style="fill: var(--tone-teal)" cx="16" cy="74" r="3" />
+        <circle class="sw" style="fill: var(--tone-teal)" cx="30" cy="62" r="3" />
+        <circle class="sw" style="fill: var(--tone-coral)" cx="46" cy="66" r="3" />
+        <circle class="sw" style="fill: var(--tone-sea)" cx="62" cy="48" r="3" />
+        <circle class="sw" style="fill: var(--tone-lilac)" cx="82" cy="40" r="3" />
+      </g>
+    )
+  }
+  {
+    kind === 'compartments' && (
+      <g>
+        <circle class="t" cx="24" cy="48" r="15" />
+        <g class="ink">
+          <circle cx="19" cy="44" r="1.6" />
+          <circle cx="27" cy="42" r="1.6" />
+          <circle cx="24" cy="52" r="1.6" />
+          <circle cx="30" cy="51" r="1.6" />
         </g>
-        <path d="M20 26 L40 22 L62 28 M30 52 L54 56 L68 72 M40 22 L30 52 M62 28 L76 46 L54 56" class="m-line" />
-        <circle cx="46" cy="40" r="2.6" class="m-accent" />
+        <path class="ln" d="M40 48 H54" />
+        <path class="ln" {...h(54, 48, 0)} />
+        <circle class="td" cx="68" cy="48" r="13" />
+        <g class="pdot">
+          <circle cx="64" cy="45" r="1.6" />
+          <circle cx="72" cy="46" r="1.6" />
+          <circle cx="68" cy="53" r="1.6" />
+        </g>
+        <path class="ln" d="M60 38 C58 22 78 22 76 38" />
+        <path class="ln" {...h(76, 38, 98)} />
+        <path class="ln" d="M68 61 V80" />
+        <path class="ln" {...h(68, 80, 90)} />
+        <path class="ln" d="M62 85 H74" />
+      </g>
+    )
+  }
+  {
+    kind === 'walks' && (
+      <g>
+        <path class="band" d="M12 50 L38 40 L62 30 L86 22 L86 74 L62 62 L38 58 Z" />
+        <path class="hair dash" d="M84 14 V80" />
+        <path class="ln" d="M12 50 L22 46 L30 52 L38 44 L46 40 L54 46 L62 34 L72 30 L84 26" />
+        <path class="stable" d="M12 50 L22 54 L30 50 L38 58 L46 54 L54 60 L62 56 L72 64 L84 66" />
+        <path class="ln" d="M12 50 L22 49 L30 46 L38 50 L46 48 L54 52 L62 48 L72 52 L84 46" />
+        <circle class="ink" cx="12" cy="50" r="3" />
+        <circle class="td" cx="84" cy="26" r="2.6" />
+        <circle class="t" cx="84" cy="66" r="2.6" />
+        <circle class="paper" cx="84" cy="46" r="2.6" />
+      </g>
+    )
+  }
+  {
+    kind === 'phase' && (
+      <g>
+        <path class="band" d="M10 10 H50 C44 30 56 50 48 86 H10 Z" />
+        <rect class="hair" x="10" y="10" width="76" height="76" rx="5" />
+        <path class="ln dash" d="M50 10 C44 30 56 50 48 86" />
+        <path class="ln" d="M14 22 C16 34 22 42 26 46" />
+        <path class="ln" {...h(26, 46, 45, 3.2)} />
+        <path class="ln" d="M14 76 C16 64 22 54 26 50" />
+        <path class="ln" {...h(26, 50, -45, 3.2)} />
+        <path class="ln" d="M42 26 C38 34 33 41 30 45" />
+        <path class="ln" {...h(30, 45, 127, 3.2)} />
+        <path class="ln" d="M84 22 C82 34 76 42 73 46" />
+        <path class="ln" {...h(73, 46, 127, 3.2)} />
+        <path class="ln" d="M84 76 C82 64 76 54 73 50" />
+        <path class="ln" {...h(73, 50, -127, 3.2)} />
+        <path class="ln" d="M60 26 C64 34 67 41 68 45" />
+        <path class="ln" {...h(68, 45, 76, 3.2)} />
+        <circle class="td" cx="28" cy="48" r="3.2" />
+        <circle class="td" cx="70" cy="48" r="3.2" />
+      </g>
+    )
+  }
+  {
+    kind === 'graph' && (
+      <g>
+        <g class="ln edge">
+          <path d="M48 14 L78 30 L78 66" />
+          <path d="M48 82 L18 66 L18 30 L48 14" />
+          <path d="M48 48 L48 14 M48 48 L78 30 M48 48 L48 82 M48 48 L18 66 M48 48 L18 30" />
+        </g>
+        <path class="stable" d="M48 48 L78 66" />
+        <circle class="t" cx="48" cy="14" r="5" />
+        <circle class="t" cx="78" cy="30" r="4.5" />
+        <circle class="t" cx="78" cy="66" r="5" />
+        <circle class="t" cx="48" cy="82" r="4.5" />
+        <circle class="t" cx="18" cy="66" r="5.5" />
+        <circle class="t" cx="18" cy="30" r="4.5" />
+        <circle class="td" cx="48" cy="48" r="8" />
+      </g>
+    )
+  }
+  {
+    kind === 'tree' && (
+      <g>
+        <path
+          class="ln"
+          d="M12 48 H22 M22 30 V66 M22 30 H34 M34 24 V42 M34 24 H46 M34 42 H74 M46 18 V30 M46 18 H74 M46 30 H74 M22 66 H34 M34 60 V78 M34 60 H46 M34 78 H74 M46 54 V66 M46 54 H74 M46 66 H74"
+        />
+        <path class="hair dash" d="M78 12 V84" />
+        <circle class="t" cx="78" cy="18" r="3.4" />
+        <circle class="td" cx="78" cy="30" r="3.4" />
+        <circle class="paper" cx="78" cy="42" r="3.4" />
+        <circle class="td" cx="78" cy="54" r="3.4" />
+        <circle class="t" cx="78" cy="66" r="3.4" />
+        <circle class="paper" cx="78" cy="78" r="3.4" />
+        <circle class="ink" cx="12" cy="48" r="2.4" />
+      </g>
+    )
+  }
+  {
+    kind === 'scatter' && (
+      <g>
+        <path class="axis" d="M14 12 V80 H88" />
+        <path class="band" d="M18 59 C40 52 60 35 84 13 L84 29 C60 52 40 66 18 71 Z" />
+        <path class="stable" d="M18 65 C40 59 60 44 84 21" />
+        <g class="ink">
+          <circle cx="22" cy="60" r="1.9" />
+          <circle cx="28" cy="69" r="1.9" />
+          <circle cx="33" cy="58" r="1.9" />
+          <circle cx="40" cy="57" r="1.9" />
+          <circle cx="46" cy="61" r="1.9" />
+          <circle cx="51" cy="50" r="1.9" />
+          <circle cx="57" cy="47" r="1.9" />
+          <circle cx="62" cy="40" r="1.9" />
+          <circle cx="67" cy="45" r="1.9" />
+          <circle cx="73" cy="30" r="1.9" />
+          <circle cx="77" cy="26" r="1.9" />
+          <circle cx="80" cy="19" r="1.9" />
+        </g>
+        <circle class="paper" cx="38" cy="30" r="2.6" />
+      </g>
+    )
+  }
+  {
+    kind === 'survey' && (
+      <g>
+        <path class="ln" d="M12 25 H18 M12 41 H18 M12 57 H18 M12 73 H18" />
+        {bars.map((row) => (
+          <g>
+            {row.map((s) => (
+              <rect class={`l${s.k + 1}`} x={s.x} y={s.y} width={s.w} height="10" />
+            ))}
+            <rect class="outline" x="22" y={row[0].y} width="62" height="10" rx="2" />
+          </g>
+        ))}
+        <path class="hair dash" d="M53 14 V84" />
+      </g>
+    )
+  }
+  {
+    kind === 'contours' && (
+      <g>
+        <path class="path-a" d="M14 40 C14 20 40 12 60 18 C80 24 86 44 76 62 C66 80 36 84 22 70 C14 62 14 52 14 40 Z" />
+        <path class="path-b" d="M26 42 C26 30 42 26 56 30 C68 34 72 46 66 58 C58 70 40 70 32 62 C26 56 26 48 26 42 Z" />
+        <path class="path-c" d="M40 44 C40 38 48 36 54 40 C58 44 56 52 50 54 C44 56 40 52 40 44 Z" />
+        <path class="hair" d="M10 16 H18 M14 12 V20 M78 12 H86 M82 8 V16 M10 84 H18 M14 80 V88 M78 84 H86 M82 80 V88" />
+      </g>
+    )
+  }
+  {
+    kind === 'lost' && (
+      <g>
+        <path class="hair" d="M10 30 H86 M10 62 H86 M34 10 V86 M62 10 V86" />
+        <path class="ln dash" d="M12 70 C30 70 30 42 48 42 C66 42 62 24 78 24" />
+        <circle class="td" cx="12" cy="70" r="3" />
+        <circle class="paper" cx="78" cy="24" r="3.6" />
       </g>
     )
   }
@@ -135,28 +363,127 @@ const { kind, size = 96, class: className = '' } = Astro.props;
 
 <style>
   .motif {
+    --_t: var(--tone, var(--accent));
+    --_d: color-mix(in oklch, var(--_t), var(--deep-shade) var(--deep-amt));
     color: var(--ink);
     flex: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .motif .m-line {
+  /* Lines */
+  .motif .ln {
     stroke: currentColor;
-    stroke-width: 1.2;
-    opacity: 0.75;
+    stroke-width: 1.3;
+    opacity: 0.85;
+    fill: none;
   }
-  .motif .m-dash {
+  .motif .edge {
+    stroke-width: 1.1;
+    opacity: 0.5;
+  }
+  .motif .hair {
     stroke: currentColor;
-    stroke-width: 1.2;
+    stroke-width: 0.8;
+    opacity: 0.4;
+    fill: none;
+  }
+  .motif .axis {
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.55;
+    fill: none;
+  }
+  .motif .dash {
     stroke-dasharray: 2.5 3;
-    opacity: 0.6;
   }
-  .motif .m-dot {
+  /* The followed line: the deep mix of the tone */
+  .motif .stable {
+    stroke: var(--_d);
+    stroke-width: 3;
+    fill: none;
+  }
+  /* Shapes: tone fill with an ink outline */
+  .motif .t {
+    fill: var(--_t);
+    stroke: currentColor;
+    stroke-width: 1.2;
+  }
+  .motif .td {
+    fill: var(--_d);
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+  .motif .ts {
+    fill: color-mix(in srgb, var(--_t) 50%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  .motif .tds {
+    fill: color-mix(in srgb, var(--_d) 45%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  .motif .band {
+    fill: color-mix(in srgb, var(--_t) 45%, transparent);
+    stroke: none;
+  }
+  .motif .paper {
+    fill: var(--bg);
+    stroke: currentColor;
+    stroke-width: 1.2;
+  }
+  .motif .ink {
     fill: currentColor;
+    stroke: none;
   }
-  .motif .m-accent {
-    fill: var(--accent);
+  .motif .pdot {
+    fill: var(--bg);
+    stroke: none;
   }
-  .motif .m-accent-line {
-    stroke: var(--accent);
-    stroke-width: 1.4;
+  .motif .sw {
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+  /* Survey bars: five steps from a light tint of the tone to its deep mix */
+  .motif .l1 {
+    fill: color-mix(in srgb, var(--_t) 30%, transparent);
+  }
+  .motif .l2 {
+    fill: color-mix(in srgb, var(--_t) 65%, transparent);
+  }
+  .motif .l3 {
+    fill: var(--surface);
+  }
+  .motif .l4 {
+    fill: color-mix(in srgb, var(--_d) 55%, transparent);
+  }
+  .motif .l5 {
+    fill: var(--_d);
+  }
+  .motif .outline {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.7;
+  }
+  /* Contours: nested levels, deepest last */
+  .motif .path-a {
+    fill: color-mix(in srgb, var(--_t) 28%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  .motif .path-b {
+    fill: color-mix(in srgb, var(--_t) 55%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  .motif .path-c {
+    fill: var(--_d);
+    stroke: currentColor;
+    stroke-width: 1;
   }
 </style>

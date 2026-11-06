@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import Motif from '../../components/Motif.astro';
 import PublicationItem from '../../components/PublicationItem.astro';
 import { site } from '../../data/site';
+import { domainTone, toneStyle } from '../../data/tones';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -46,9 +47,9 @@ const schema = {
 ---
 
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
-  <article>
+  <article style={toneStyle(domainTone[data.domain])}>
     <header class="page-head container project-head">
-      <div class="project-head__fig" aria-hidden="true">
+      <div class="project-head__fig tint" aria-hidden="true">
         <Motif kind={data.motif} size={80} />
       </div>
       <div class="project-head__text">
@@ -204,9 +205,6 @@ const schema = {
     }
   }
   .project-head__fig {
-    color: var(--accent);
-    background: var(--surface);
-    border: var(--rule) solid var(--line);
     border-radius: 8px;
     width: 5.5rem;
     height: 5.5rem;

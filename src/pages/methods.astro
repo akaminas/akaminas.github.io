@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import Motif from '../components/Motif.astro';
+import { toneStyle } from '../data/tones';
 
 /**
  * Only methods with documented use in a project, thesis or publication are listed.
@@ -11,7 +12,8 @@ import Motif from '../components/Motif.astro';
 const areas = [
   {
     id: 'mechanistic',
-    motif: 'patches',
+    motif: 'compartments',
+    tone: 'teal',
     title: 'Mechanistic and eco-evolutionary modelling',
     text: 'Models built from explicit processes rather than fitted curves: immigration, interaction, diversification and extinction as rates; traits under selection; populations whose dynamics feed back on evolution. Ecological and evolutionary change are treated on the same timescale where the question demands it.',
     used: [
@@ -21,7 +23,8 @@ const areas = [
   },
   {
     id: 'stochastic',
-    motif: 'field',
+    motif: 'walks',
+    tone: 'apricot',
     title: 'Stochastic simulation and numerical experiments',
     text: 'Individual- and population-level stochastic models studied by simulation when analytical solutions are out of reach. Simulation engines are written in C++ for speed; experiments are designed, run and analysed from R.',
     used: [
@@ -31,28 +34,32 @@ const areas = [
   },
   {
     id: 'dynamical',
-    motif: 'fold',
+    motif: 'phase',
+    tone: 'lilac',
     title: 'Dynamical systems, transitions and resilience',
     text: 'Equilibria, stability and abrupt transitions. Catastrophe theory for discontinuous community dynamics, and regime-shift analysis of community time series under multiple pressures.',
     used: [{ label: 'Regime shifts in Mediterranean communities (MSc)', href: '/work/regime-shifts-mediterranean-communities/' }],
   },
   {
     id: 'networks',
-    motif: 'bipartite',
+    motif: 'graph',
+    tone: 'rose',
     title: 'Interaction networks',
     text: 'Interactions represented explicitly as networks whose structure depends on traits and feeds back on dynamics.',
     used: [{ label: 'Trait evolution in mutualistic networks (supervised MSc)', href: '/work/trait-evolution-in-mutualistic-networks/' }],
   },
   {
     id: 'trait-space',
-    motif: 'hypervolume',
+    motif: 'tree',
+    tone: 'sage',
     title: 'Trait space, functional diversity and phylogenetics',
     text: 'n-dimensional hypervolumes to quantify occupied trait space; phylogenetic inference and phylogeny-informed trait imputation to handle incomplete trait data.',
     used: [{ label: 'Functional diversity of Mediterranean fish communities', href: '/work/functional-diversity-mediterranean-fish/' }],
   },
   {
     id: 'statistics',
-    motif: 'records',
+    motif: 'scatter',
+    tone: 'sand',
     title: 'Statistical analysis and model-to-data comparison',
     text: 'Estimating the effects of pressures from observational data, comparing model expectations with community records, and quantitative analysis of survey and monitoring data.',
     used: [
@@ -63,18 +70,20 @@ const areas = [
   },
   {
     id: 'organisations',
-    motif: 'nested',
+    motif: 'survey',
+    tone: 'coral',
     title: 'Organisational and institutional analysis',
     text: 'Organisational culture, institutional isomorphism and systems frameworks, with survey analysis, applied to organisational commitment to sustainability among Greek NGOs.',
     used: [{ label: 'Organisations, institutions and sustainability', href: '/work/sustainability-organisations-as-systems/' }],
   },
   {
     id: 'spatial',
-    motif: 'nested',
+    motif: 'contours',
+    tone: 'sea',
     title: 'Spatial analysis, oceanographic models and visualisation',
     text: 'GIS analysis (QGIS, ArcGIS), satellite imagery, and a year of operational work with oceanographic models and forecasts. Data visualisation and scientific storytelling for climate-change reporting.',
     used: [
-      { label: 'Hydrographic Service, Hellenic Navy (2024–2025)', href: '/about/#experience' },
+      { label: 'Hydrographic Service, Hellenic Navy (2024–2025)', href: '/cv/#cv-experience' },
       { label: 'Political Economy of Sustainable Development Lab', href: '/work/sustainability-organisations-as-systems/' },
     ],
   },
@@ -100,7 +109,7 @@ const tools = [
     <ol class="listing">
       {
         areas.map((a) => (
-          <li class="area" id={a.id}>
+          <li class="area" id={a.id} style={toneStyle(a.tone)}>
             <div class="thumb" aria-hidden="true">
               <Motif kind={a.motif} size={96} />
             </div>
