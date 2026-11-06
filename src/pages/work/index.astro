@@ -45,8 +45,8 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
       const items = projects.filter((p) => p.data.domain === g.key);
       if (items.length === 0) return null;
       return (
-        <Section id={`g-${g.key}`} title={g.title} intro={g.intro} wide>
-          <div class="cards">
+        <Section id={`g-${g.key}`} title={g.title} intro={g.intro}>
+          <div class="rows">
             {items.map((p) => (
               <ProjectCard project={p} />
             ))}
@@ -84,9 +84,6 @@ const typeLabel = { oral: 'Oral', poster: 'Poster', invited: 'Invited', seminar:
 </Base>
 
 <style>
-  .talks {
-    --ledger-col: 8rem;
-  }
   .talk__body p {
     margin: 0 0 var(--space-1);
   }

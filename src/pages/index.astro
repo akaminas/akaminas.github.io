@@ -60,22 +60,22 @@ const websiteSchema = {
 ---
 
 <Base title="Home" description={site.description} home schema={[personSchema, websiteSchema]} ogType="profile">
-  <section class="container intro" aria-label="Introduction">
+  <section class="container bio" aria-label="Introduction">
     <h1>{site.name}</h1>
     <p class="intro__role">
       {site.position}, {site.affiliation.unit} ({site.affiliation.unitShort}), {site.affiliation.name}
     </p>
-    <div class="intro__grid">
-      <picture class="intro__portrait">
+    <figure class="bio__portrait">
+      <picture>
         <source
           type="image/avif"
           srcset="/images/portrait-480.avif 480w, /images/portrait-960.avif 960w"
-          sizes="(min-width: 42rem) 16rem, 60vw"
+          sizes="(min-width: 42rem) 15rem, 60vw"
         />
         <source
           type="image/webp"
           srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w"
-          sizes="(min-width: 42rem) 16rem, 60vw"
+          sizes="(min-width: 42rem) 15rem, 60vw"
         />
         <img
           src="/images/portrait-640.jpg"
@@ -86,24 +86,26 @@ const websiteSchema = {
           decoding="async"
         />
       </picture>
-      <div class="intro__text">
-        <p class="intro__tagline">Modelling complex systems</p>
-        <p>
-          I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback
-          and chance: communities of species, evolving populations, and the organisations and economies that depend on
-          them.
-        </p>
-        <div class="intro__phd">
-          <p class="label">PhD project</p>
-          <p class="intro__phd-title">
-            <a href={`/work/${phd.id}/`}>{phd.data.title}</a>
-          </p>
-          <p>{phd.data.question}</p>
-          <p class="muted small">Since October 2025, with Rampal Etienne and Sander van Doorn.</p>
-        </div>
-      </div>
+    </figure>
+    <p class="intro__tagline">Modelling complex systems</p>
+    <p>
+      I build mathematical and computational models of systems whose behaviour emerges from interaction, feedback
+      and chance: communities of species, evolving populations, and the organisations and economies that depend on
+      them.
+    </p>
+    <div class="intro__phd">
+      <p class="label">PhD project</p>
+      <p class="intro__phd-title">
+        <a href={`/work/${phd.id}/`}>{phd.data.title}</a>
+      </p>
+      <p>{phd.data.question}</p>
+      <p class="muted small">Since October 2025, with Rampal Etienne and Sander van Doorn.</p>
     </div>
   </section>
+
+  <Section id="island" title="Explore the island" intro="The island below links to the main sections.">
+    <Island />
+  </Section>
 
   <Section id="research" title="Research">
     <div class="stack">
@@ -120,19 +122,15 @@ const websiteSchema = {
     </div>
   </Section>
 
-  <Section id="work" wide>
+  <section class="container sec" id="work" aria-labelledby="work-title">
     <div class="sec__head">
       <h2 id="work-title">Other projects</h2>
       <a class="arrow-link" href="/work/">All projects and talks</a>
     </div>
     <div class="cards">
-      {projects.map((p) => <ProjectCard project={p} />)}
+      {projects.map((p) => <ProjectCard project={p} layout="card" />)}
     </div>
-  </Section>
-
-  <Section id="island" title="Explore the island" intro="The island below links to the main sections." wide>
-    <Island />
-  </Section>
+  </section>
 
   <Section id="methods" title="Methods">
     <div class="stack">
@@ -155,31 +153,31 @@ const websiteSchema = {
   </Section>
 
   <Section id="recent" title="Recent, 2025 – 2026">
-    <ol class="ledger recent">
+    <ol class="ledger">
       <li>
         <span class="ledger__when">2026-06</span>
-        <span class="recent__what">
+        <span>
           Talk at the NVTB Annual Schoorl Meeting:{' '}
           <a href="/work/evolutionary-consequences-of-isolation/"><em>Isolation as a dynamic driver of eco-evolutionary change</em></a>.
         </span>
       </li>
       <li>
         <span class="ledger__when">2026-04</span>
-        <span class="recent__what">
+        <span>
           Paper published in <em>Circular Economy and Sustainability</em> on{' '}
           <a href="/publications/#alevizos-2026-ngo-sustainability">organisational commitment to sustainability among Greek NGOs</a>.
         </span>
       </li>
       <li>
         <span class="ledger__when">2026</span>
-        <span class="recent__what">
+        <span>
           Supervised an MSc research project on{' '}
           <a href="/work/trait-evolution-in-mutualistic-networks/">trait evolution in mutualistic networks</a> at TRÊS.
         </span>
       </li>
       <li>
         <span class="ledger__when">2025-10</span>
-        <span class="recent__what">
+        <span>
           Started the PhD <em>The evolutionary consequences of isolation</em> at the University of Groningen as an
           EVOLVE fellow (EU MSCA COFUND).
         </span>
@@ -201,37 +199,12 @@ const websiteSchema = {
 </Base>
 
 <style>
-  .intro {
-    padding-block: var(--space-7) var(--space-4);
-  }
-  .intro h1 {
-    margin-bottom: var(--space-1);
-  }
   .intro__role {
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: var(--step--1);
     color: var(--muted);
-    margin-bottom: var(--space-6);
-  }
-  .intro__grid {
-    display: grid;
-    gap: var(--space-5) var(--space-7);
-    align-items: start;
-  }
-  @media (min-width: 42rem) {
-    .intro__grid {
-      grid-template-columns: 16rem minmax(0, 1fr);
-    }
-  }
-  .intro__portrait {
-    width: min(100%, 16rem);
-  }
-  .intro__portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius);
+    margin-bottom: var(--space-5);
   }
   .intro__tagline {
     font-family: var(--font-display);
@@ -240,15 +213,6 @@ const websiteSchema = {
     color: var(--heading);
     margin-bottom: var(--space-3);
     line-height: 1.2;
-    white-space: nowrap;
-  }
-  @media (max-width: 26rem) {
-    .intro__tagline {
-      white-space: normal;
-    }
-  }
-  .intro__text p {
-    text-align: left;
   }
   .intro__phd {
     margin-top: var(--space-5);
@@ -261,11 +225,5 @@ const websiteSchema = {
     font-weight: 500;
     font-size: var(--step-1);
     line-height: 1.25;
-  }
-  .recent {
-    --ledger-col: 6rem;
-  }
-  .recent__what {
-    max-width: var(--measure);
   }
 </style>
