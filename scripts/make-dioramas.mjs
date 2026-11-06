@@ -13,7 +13,9 @@
  * and rods, a stability landscape in brick columns with a ball, a hypervolume
  * as stacked plates, institutions joined by a feedback road, buoys marking
  * records at sea, a bar chart in the four discipline tones, a relief map with a
- * route to four peaks, and a four-tile board of cards.
+ * route to four peaks, a four-tile board of cards, a ring of people round a globe,
+ * a Greek-style building with a warming-stripes frieze, and a graduation cap in a
+ * ring of gold studs.
  *
  * The scenes are static SVG files with fixed colours (like the island), used
  * as images. The viewBox of each is fitted to what was drawn.
@@ -732,6 +734,182 @@ const write = (kind, svg) => {
     s.add(hx + hy + 0.7, s.cylinder(hx, hy, 0.9, 0.12, 2.6, C.white) + s.box(hx - 0.04, hy, 2.9, 0.08, 1.4, 0.8, C.orange, { flat: true }));
   }
   write('atlas', s.finish('A relief map: broad terraces of concepts in the west, a route of deepening tiles and four peaks in the east'));
+}
+
+/** A brick-built figure, as on the island: legs, torso, arms, a round head with a face, and hair. */
+function minifig(s, x, y, z, shirt, legs, hair, facing = 'right') {
+  const SKIN = '#f6c945';
+  const b = (dx, dy, dz, w, d, h, c) => s.box(x + dx, y + dy, z + dz, w, d, h, c, { flat: true });
+  const k = s.S / 20;
+  let o = '';
+  o += b(0, 0, 0, 0.55, 0.8, 1.05, legs) + b(0.6, 0, 0, 0.55, 0.8, 1.05, legs) + b(-0.02, -0.02, 1.05, 1.19, 0.84, 0.3, darken(legs, 0.15));
+  o += b(-0.1, -0.05, 1.35, 1.35, 0.9, 1.15, shirt);
+  o += b(-0.45, 0.1, 1.55, 0.36, 0.6, 0.9, shirt) + b(1.25, 0.1, 1.55, 0.36, 0.6, 0.9, shirt);
+  o += s.cylinder(x - 0.27, y + 0.4, z + 1.35, 0.18, 0.22, SKIN) + s.cylinder(x + 1.43, y + 0.4, z + 1.35, 0.18, 0.22, SKIN);
+  o += s.cylinder(x + 0.57, y + 0.4, z + 2.5, 0.28, 0.15, SKIN) + s.cylinder(x + 0.57, y + 0.4, z + 2.65, 0.55, 0.95, SKIN);
+  const fx = s.px(x + 0.57, y + 0.4) + (facing === 'right' ? 5 : -5) * k;
+  const fy = s.py(x + 0.57, y + 0.4, z + 3.2);
+  o += `<circle cx="${f1(fx - 3.2 * k)}" cy="${f1(fy - k)}" r="${f1(1.1 * k)}" fill="#222"/><circle cx="${f1(fx + 3.2 * k)}" cy="${f1(fy - k)}" r="${f1(1.1 * k)}" fill="#222"/>`;
+  o += `<path d="M${f1(fx - 3.2 * k)},${f1(fy + 3 * k)} q${f1(3.2 * k)},${f1(3 * k)} ${f1(6.4 * k)},0" fill="none" stroke="#222" stroke-width="${f1(1.2 * k)}" stroke-linecap="round"/>`;
+  o += s.cylinder(x + 0.57, y + 0.4, z + 3.6, 0.6, 0.3, hair);
+  return o;
+}
+
+// ======================================================================
+// youth: a ring of people joined to a globe (SDSN Youth Greece; sustainability and social systems, coral)
+// ======================================================================
+{
+  const s = scene('youth');
+  const t = TONE.coral;
+  const W = 17;
+  const D = 14;
+  s.ground(W, D);
+  s.add(-1000, s.box(0, 0, 0, W, D, 0.6, t));
+  const cx = 8.5;
+  const cy = 7.0;
+  const people = [
+    [C.red, C.blue, '#2b2b2b', 'right'],
+    [C.yellow, '#2b2b2b', C.woodDark, 'left'],
+    [C.blue, '#d9b48a', C.orange, 'right'],
+    [C.white, C.blue, '#2b2b2b', 'left'],
+    [C.orange, C.slate, C.woodDark, 'right'],
+  ];
+  const spots = people.map((_, i) => {
+    const a = (i / people.length) * Math.PI * 2 + 0.4;
+    return [cx + Math.cos(a) * 5.4, cy + Math.sin(a) * 4.8];
+  });
+  // a rod from every person to the centre, as in the network
+  let rods = '';
+  for (const [fx, fy] of spots) rods += s.strip(fx, fy, cx, cy, 0.6, 0.34, C.sand);
+  s.add(-500, rods);
+  // the plinth and the globe
+  const zg = 1.1;
+  const R = 1.3;
+  let globe = s.cylinder(cx, cy, 0.6, 2.1, 0.5, C.white, { stud: true });
+  globe += s.sphere(cx, cy, zg, R, '#2f8ac0');
+  {
+    const X = s.px(cx, cy);
+    const Y = s.py(cx, cy, zg + R);
+    const r = 1.2247 * R * s.S;
+    globe += `<ellipse cx="${f1(X)}" cy="${f1(Y)}" rx="${f1(r)}" ry="${f1(r * 0.34)}" fill="none" stroke="#e6f2f7" stroke-opacity="0.7" stroke-width="1.2"/>`;
+    globe += `<ellipse cx="${f1(X)}" cy="${f1(Y)}" rx="${f1(r * 0.42)}" ry="${f1(r)}" fill="none" stroke="#e6f2f7" stroke-opacity="0.7" stroke-width="1.2"/>`;
+    for (const [dx, dy, rx, ry, rot] of [[-0.32, -0.28, 0.3, 0.2, -20], [0.28, 0.1, 0.22, 0.3, 15], [-0.1, 0.42, 0.26, 0.14, 0]]) {
+      globe += `<ellipse cx="${f1(X + dx * r)}" cy="${f1(Y + dy * r)}" rx="${f1(rx * r)}" ry="${f1(ry * r)}" transform="rotate(${rot} ${f1(X + dx * r)} ${f1(Y + dy * r)})" fill="${C.grass}"/>`;
+    }
+  }
+  s.add(cx + cy, globe);
+  // the people
+  spots.forEach(([fx, fy], i) => {
+    const [shirt, legs, hair, face] = people[i];
+    const x = fx - 0.57;
+    const y = fy - 0.4;
+    s.add(fx + fy + 0.1, s.shadow(x - 0.15, y - 0.05, 1.5, 1.0, 0.6, 0.45, 0.3, 0.16) + minifig(s, x, y, 0.6, shirt, legs, hair, face));
+  });
+  write('youth', s.finish('A ring of five brick people joined by rods to a globe on a plinth'));
+}
+
+// ======================================================================
+// lab: a Greek-style building whose frieze is the warming stripes (PESD Lab; sustainability and social systems, coral)
+// ======================================================================
+{
+  const s = scene('lab');
+  const t = TONE.coral;
+  const W = 12.6;
+  const D = 10.8;
+  s.ground(W, D);
+  s.add(-1000, s.box(0, 0, 0, W, D, 0.6, t));
+  const marble = '#efe9dc';
+  const stone = '#e3dccb';
+  // a path to the steps
+  s.add(-900, s.box(5.2, 7.9, 0.6, 1.8, 3.1, 0.1, C.sand, { flat: true }));
+  // two steps, the back wall and the columns
+  s.add(1, s.box(1.2, 1.4, 0.6, 9.8, 6.5, 0.3, stone));
+  s.add(2, s.box(1.6, 1.8, 0.9, 9.0, 5.7, 0.3, marble));
+  const top = 1.2;
+  s.add(3, s.box(2.2, 2.2, top, 7.8, 2.8, 2.6, '#f7f2e6'));
+  for (let i = 0; i < 6; i++) {
+    const x = 2.5 + i * 1.5;
+    s.add(x + 6.6, s.cylinder(x, 6.7, top, 0.34, 2.6, marble) + s.cylinder(x, 6.7, top + 2.6, 0.45, 0.2, stone));
+  }
+  // the frieze: the warming stripes, from blue to red, on the front of the entablature
+  const ex = 1.7;
+  const ey = 2.0;
+  const ew = 8.9;
+  const ed = 5.4;
+  const ez = top + 2.8;
+  const eh = 1.1;
+  let ent = s.box(ex, ey, ez, ew, ed, eh, marble, { flat: true });
+  const ramp = ['#2c5aa0', '#3f77b8', '#6a9fcf', '#a3c4e0', '#dfe7ee', '#f3d9c6', '#eeb090', '#e08060', '#c9503f', '#a82a2a'];
+  const n = 36;
+  let stripes = '';
+  for (let i = 0; i < n; i++) {
+    const u = (i / (n - 1)) * (ramp.length - 1);
+    const a = Math.floor(u);
+    const c = blend(ramp[a], ramp[Math.min(a + 1, ramp.length - 1)], u - a);
+    stripes += `<rect x="${f1(0.15 + (i * (ew - 0.3)) / n)}" y="0.12" width="${f1((ew - 0.3) / n + 0.01)}" height="${eh - 0.24}" fill="${c}"/>`;
+  }
+  ent += `<g transform="${s.onLeft(ex, ey + ed, ez)}">${stripes}</g>`;
+  s.add(40, ent);
+  // the pediment, stepped as a brick gable
+  [
+    [8.5, marble],
+    [6.3, marble],
+    [4.1, lighten(TONE.coral, 0.35)],
+    [1.9, TONE.coral],
+  ].forEach(([w, c], i) => s.add(41 + i, s.box(ex + 0.2 + i * 1.1, ey + 0.4, ez + eh + i * 0.45, w, ed - 0.8, 0.45, c, { flat: true })));
+  // olive trees at the front corners
+  s.add(60, tree(s, 11.2, 9.0, 0.6, 0.95));
+  s.add(61, tree(s, 0.8, 9.3, 0.6, 0.85));
+  write('lab', s.finish('A Greek-style building whose frieze is a band of climate warming stripes, from blue to red'));
+}
+
+// ======================================================================
+// europe: a ring of twelve gold studs round a graduation cap (European programmes; sustainability and social systems, coral)
+// ======================================================================
+{
+  const s = scene('europe');
+  const t = TONE.coral;
+  const W = 13;
+  const D = 11;
+  s.ground(W, D);
+  s.add(-1000, s.box(0, 0, 0, W, D, 0.6, t));
+  const cx = 6.5;
+  const cy = 5.5;
+  const blue = '#2f5fb3';
+  const gold = C.yellow;
+  s.add(-500, s.cylinder(cx, cy, 0.6, 5.1, 0.45, blue));
+  const zs = 1.05;
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    const x = cx + Math.cos(a) * 4.0;
+    const y = cy + Math.sin(a) * 4.0;
+    s.add(x + y, s.shadow(x - 0.42, y - 0.42, 0.84, 0.84, zs, 0.3, 0.2, 0.2) + s.cylinder(x, y, zs, 0.42, 0.5, gold, { stud: true }));
+  }
+  // a white column and a mortarboard on it
+  let cap = s.cylinder(cx, cy, zs, 1.0, 2.0, C.white);
+  const navy = '#26384f';
+  const zc = zs + 2.0;
+  cap += s.cylinder(cx, cy, zc, 0.78, 0.55, navy);
+  const zt = zc + 0.55 + 0.2;
+  const d = 2.3;
+  const th = 0.2;
+  const N = [cx, cy - d];
+  const E = [cx + d, cy];
+  const S = [cx, cy + d];
+  const Wv = [cx - d, cy];
+  const tn = tones(navy);
+  const quad = (a, b, z0, z1, fill) => `<polygon points="${s.pt(a[0], a[1], z0)} ${s.pt(b[0], b[1], z0)} ${s.pt(b[0], b[1], z1)} ${s.pt(a[0], a[1], z1)}" fill="${fill}"/>`;
+  cap += quad(Wv, S, zt - th, zt, tn.left) + quad(S, E, zt - th, zt, tn.right);
+  cap += `<polygon points="${s.pt(N[0], N[1], zt)} ${s.pt(E[0], E[1], zt)} ${s.pt(S[0], S[1], zt)} ${s.pt(Wv[0], Wv[1], zt)}" fill="${tn.top}"/>`;
+  cap += s.cylinder(cx, cy, zt, 0.26, 0.12, gold);
+  // the tassel hangs from the right corner
+  const tx = s.px(E[0], E[1]);
+  const ty0 = s.py(E[0], E[1], zt);
+  cap += `<line x1="${f1(s.px(cx, cy))}" y1="${f1(s.py(cx, cy, zt + 0.12))}" x2="${f1(tx - 2)}" y2="${f1(ty0)}" stroke="${gold}" stroke-width="1.6" stroke-linecap="round"/>`;
+  cap += `<line x1="${f1(tx - 2)}" y1="${f1(ty0)}" x2="${f1(tx - 2)}" y2="${f1(ty0 + 1.4 * s.S)}" stroke="${gold}" stroke-width="1.6" stroke-linecap="round"/>`;
+  cap += s.sphere(E[0] - 0.05, E[1], zt - 1.75, 0.24, gold);
+  s.add(cx + cy + 0.5, cap);
+  write('europe', s.finish('A graduation cap on a column, ringed by twelve gold studs on a blue dais'));
 }
 
 // Intrinsic sizes, so the pages can reserve the space (src/components/Diorama.astro).
