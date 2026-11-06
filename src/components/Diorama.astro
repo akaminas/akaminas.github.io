@@ -1,0 +1,19 @@
+---
+/**
+ * A project's toy-brick diorama (drawn by scripts/make-dioramas.mjs, written
+ * to public/dioramas/): a fixed-colour image in the island's manner, on a
+ * baseplate in the project's tone. Decorative, so the alt text is empty; the
+ * title next to it names the project. Sizes come from the generator's manifest.
+ */
+import manifest from '../data/dioramas.json';
+
+interface Props {
+  kind: keyof typeof manifest;
+  /** Load at once (above the fold) instead of lazily. */
+  eager?: boolean;
+}
+const { kind, eager = false } = Astro.props;
+const { w, h } = manifest[kind];
+---
+
+<img src={`/dioramas/${kind}.svg`} width={w} height={h} alt="" loading={eager ? 'eager' : 'lazy'} decoding="async" />

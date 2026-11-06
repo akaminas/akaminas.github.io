@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "assets": "node scripts/make-assets.mjs"
+    "assets": "node scripts/make-assets.mjs",
+    "dioramas": "node scripts/make-dioramas.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

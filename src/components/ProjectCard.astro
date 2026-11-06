@@ -1,12 +1,12 @@
 ---
 /**
  * A project, in one of two layouts built from the same markup:
- * - row: a thumbnail panel in the lead column and the text beside it (Work page);
- * - card: the drawing on top, centred text below (gallery on the home page).
+ * - row: the diorama on a tinted 4:3 panel in the lead column, the text beside it (Work page);
+ * - card: the diorama on top, centred text below (gallery on the home page).
  * The title link covers the whole item.
  */
 import type { CollectionEntry } from 'astro:content';
-import Motif from './Motif.astro';
+import Diorama from './Diorama.astro';
 import { domainTone, toneStyle } from '../data/tones';
 
 interface Props {
@@ -32,7 +32,7 @@ const statusLabel: Record<typeof data.status, string> = {
 
 <article class:list={['pcard', `pcard--${layout}`]} style={toneStyle(domainTone[data.domain])}>
   <div class="thumb pcard__fig" aria-hidden="true">
-    <Motif kind={data.motif} size={96} />
+    <Diorama kind={data.motif} />
   </div>
   <div class="pcard__body">
     {layout === 'card' && <p class="pcard__domain">{domainLabel[data.domain]}</p>}
@@ -122,22 +122,14 @@ const statusLabel: Record<typeof data.status, string> = {
   }
   .pcard--card .pcard__fig {
     width: 100%;
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 3 / 2;
     border: 0;
     border-bottom: var(--rule) solid color-mix(in srgb, var(--tone) 50%, var(--line));
     border-radius: 0;
   }
-  .pcard--card .pcard__fig > svg {
-    width: auto;
-    height: 72%;
-  }
   @media (min-width: 42rem) {
     .pcard--card .pcard__fig {
       aspect-ratio: 4 / 3;
-    }
-    .pcard--card .pcard__fig > svg {
-      height: auto;
-      width: min(46%, 8rem);
     }
   }
   .pcard--card .pcard__body {

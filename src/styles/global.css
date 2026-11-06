@@ -556,8 +556,22 @@ abbr[title] {
   width: 84%;
   height: auto;
 }
+/* A project's diorama: a 4:3 panel, the picture nearly filling it. */
+.thumb > img {
+  width: 94%;
+  height: auto;
+  max-height: 94%;
+  object-fit: contain;
+}
+.pcard--row .thumb {
+  width: min(100%, 20rem);
+  aspect-ratio: 4 / 3;
+}
 @media (min-width: 42rem) {
   .thumb {
+    width: 100%;
+  }
+  .pcard--row .thumb {
     width: 100%;
   }
 }
