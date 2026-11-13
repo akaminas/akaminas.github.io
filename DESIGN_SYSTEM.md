@@ -1,11 +1,11 @@
 # Design system
 
-An illustrated personal site in the manner of an interactive academic homepage, in an Aegean palette: one blue (#007BA7) for the bar, links, sea and domes over white paper (#F4F4F4), deep slate text, monospaced headings over a slab-serif text face. The home page is short: the name, one paragraph with the portrait, one badge line for the PhD project, the site's one illustration (an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map) and four recent items. Everything else is a page of its own.
+An illustrated personal site in the manner of an interactive academic homepage, in the Sand palette: warm cream paper (#FDF8F0), a tan bar (#F0D3AC) with brown text, deep brown headings, terracotta (#A6481C) for buttons and the active state, Greek blue (#1258A4) for links, monospaced headings over a slab-serif text face. The home page is short: the name, one paragraph with the portrait, one badge line for the PhD project, the site's one illustration (an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map) and four recent items. Everything else is a page of its own.
 
 ## Principles
 
 1. **One illustration, and it is the map.** The island on the home page is the one large picture besides the portrait; each project has a small diorama built from the same parts (see Diorama). Every part of it leads somewhere: the sea to marine work, the island and its gulls to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, the lighthouse at the end of the pier to scientific tool development, and each house to a page. A plain-text key under the figure repeats every link.
-2. **One blue, and pastel tones for parts.** White paper and one Aegean blue for the bar, links and controls; text in deep slate; pale blue-grey surfaces. Eight muted pastel tones (below) colour the parts of a section: each project domain, each method area, each profile tile, and the chips that name them. A tone only ever sits on a drawing, a tinted panel, a chip or a rule under a heading; it never carries text. The island uses the same blue for the sea and the domes and the same white for the houses, with sand, olive grass and wood around them. Nothing is neon.
+2. **Warm paper, one accent, and pastel tones for parts.** Cream paper, a tan bar with brown text, deep brown headings and pale sand surfaces; terracotta for buttons and the active state, Greek blue for links only. Eight muted pastel tones (below) colour the parts of a section: each project domain, each method area, each profile tile, and the chips that name them. A tone only ever sits on a drawing, a tinted panel, a chip or a rule under a heading; it never carries text. The island keeps its own fixed colours (blue sea and domes, white houses, sand, olive grass and wood): blue and orange are complements, so it stands off the page. Nothing is neon.
 3. **Mono over slab.** Headings, the wordmark, the navigation, labels, dates and buttons are Roboto Mono at 500–700; text is Roboto Slab at 400. The monospaced face is set small and tight (headings 1.9–2.5 rem) so it reads as a label, not a banner.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
@@ -27,21 +27,21 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#f4f4f4` | `#0f1c24` | paper |
-| `--surface` | `#e8eef2` | `#16262f` | cards, asides |
-| `--bar` / `--bar-ink` | `#007ba7` / `#f4f4f4` | `#0b3a4f` / `#e9f3f7` | the header bar and its text (7.8:1 / 9.9:1) |
-| `--ink` | `#243541` | `#e4edf2` | body text (12.6:1 / 13.0:1) |
-| `--heading` | `#123b4f` | `#f1f7fa` | headings (10.1:1 / 14.2:1) |
-| `--muted` | `#5a6b76` | `#a3b6c1` | secondary text (6.1:1 / 7.4:1) |
-| `--link` | `#007ba7` | `#5fc0e6` | links (6.6:1 / 8.0:1) |
-| `--accent` / `--accent-soft` | `#007ba7` / `#d9ecf4` | `#5fc0e6` / `#123a4b` | terracotta: buttons, chips, active states, the "ongoing" dot (5.5:1 / 8.2:1) |
-| `--badge` / `--badge-ink` / `--badge-gold` | `#123b4f` / `#f4f4f4` / `#7fc8e6` | `#e9f3f7` / `#0f1c24` / `#007ba7` | the dark strip and the island's hover labels |
-| `--line` / `--line-strong` | `#dfe5e9` / `#b8c6cf` | `#223641` / `#3b5565` | hairlines, card borders |
-| `--focus` | `#007ba7` | `#5fc0e6` | focus ring |
+| `--bg` | `#fdf8f0` | `#1e1813` | paper |
+| `--surface` | `#f8ecdb` | `#2b2219` | panels, asides |
+| `--bar` / `--bar-ink` | `#f0d3ac` / `#6b3a1e` | `#3d2c1d` / `#f3e3ce` | the header bar and its text (6.5:1 / 10.6:1) |
+| `--ink` | `#3a2d22` | `#f0e7db` | body text (12.6:1 / 14.4:1) |
+| `--heading` | `#7a3b22` | `#f8eddf` | headings (8.0:1 / 15.2:1) |
+| `--muted` | `#6d5a48` | `#c3af98` | secondary text (6.2:1 / 8.3:1) |
+| `--link` | `#1258a4` | `#8fbdf0` | links (6.7:1 / 9.0:1) |
+| `--accent` / `--accent-soft` | `#a6481c` / `#fae2d2` | `#f0a072` / `#3d2718` | terracotta: buttons, chips, active states, the "ongoing" dot (5.6:1 / 8.3:1) |
+| `--badge` / `--badge-ink` / `--badge-gold` | `#4a2716` / `#fdf3e8` / `#f0c48f` | `#f5e7d5` / `#1e1813` / `#945829` | the dark strip and the island's hover labels |
+| `--line` / `--line-strong` | `#f0e4d3` / `#d9bf9e` | `#342a20` / `#584631` | hairlines, panel borders |
+| `--focus` | `#1258a4` | `#8fbdf0` | focus ring |
 
 **Tones.** Eight muted pastels, defined once as `--tone-*` and the same on both schemes: teal `#86c1b3`, sea `#86b4cd`, sand `#dfc88f`, coral `#dfa795`, lilac `#b9adda`, sage `#aec693`, rose `#d9a8ba`, apricot `#e2b48f`. `src/data/tones.ts` says which belongs to what: the four project domains (ecology and evolution teal, sustainability and social systems coral, marine systems sea, scientific tool development lilac) and, on the Methods page, one tone per area. An element sets `--tone` (inline, via `toneStyle`) and everything inside reads it. A panel is the tone mixed into `--surface` (`--tint-amt`, 24 % light and 30 % dark); a chip is the same mix with a border; the "deep" accent inside a drawing is the tone darkened in its own hue on the light scheme and lightened on the dark one (`--deep-shade`, `--deep-amt`). Text on a tinted ground stays `--ink`, so contrast is that of ink on a pale or dark tint.
 
-A second palette, **Sand** (warm apricot bar, deep brown headings, burnt-orange accent, Greek-blue links), is defined in the same stylesheet and switched on with `data-palette="sand"` on `<html>` in `src/layouts/Base.astro`. Blue and orange are complements, so the island stands further off the page. The comment above the tokens lists the six other places that carry a hard-coded colour and must be changed with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons), and `scripts/og.html`. Both palettes, in both schemes, were checked against every text/background pair.
+The other palette, **Aegean** (white paper `#f4f4f4`, one blue `#007ba7` for the bar, links and controls, deep slate text), is the default token set in the stylesheet and comes back when `data-palette="sand"` is removed from `<html>` in `src/layouts/Base.astro`. The comment above the tokens lists the other places that carry a hard-coded colour and must change with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons) and `scripts/og.html` (then re-render the social image). Both palettes, in both schemes, were checked against every text/background pair.
 
 The island itself uses fixed colours (sea and domes `#007ba7`, houses `#f4f4f4`, sand `#e6d2a0`, grass `#7fb069`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
@@ -55,13 +55,13 @@ To change the island, edit the scene section of the script and run `node scripts
 
 ## Layout
 
-- **Two widths.** The column, `--container` (50 rem, about 800 px, as on the reference site), holds all text, lists and cards on every page, so every heading and paragraph starts at the same x. The page, `--wide` (72 rem), is the width of the header, the footer and the island, which is the only thing that leaves the column (`.breakout`, centred on it). Gutter `clamp(1.125rem, 5vw, 1.5rem)`. Body text runs the full column; there is no narrower measure.
+- **Two widths.** The column, `--container` (50 rem, about 800 px, as on the reference site), holds all text and lists on every page, so every heading and paragraph starts at the same x. The page, `--wide` (72 rem), is the width of the header, the footer and the island, which is the only thing that leaves the column (`.breakout`, centred on it). Gutter `clamp(1.125rem, 5vw, 1.5rem)`. Body text runs the full column; there is no narrower measure.
 - **One lead column.** `--lead` (10 rem) plus a `--lead-gap` of 1.5 rem is the left column of every ledger (dates), thumbnail listing (project and method drawings) and key/value row (tools). Pages do not set their own widths for it.
 - **One rhythm.** Sections sit `--section-gap` apart (3 rem on a phone, growing to 4.5 rem on a desktop); an H2 has a hairline under it and 1 rem before the content; paragraphs and blocks are 1 rem apart; the page starts 3 rem under the header and ends 4.5 rem above the footer.
 - No page nests a second grid beside the prose. Single-column pages (project, privacy) put the facts or contents in a panel above the text.
 - 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
-- Corners: `--radius` 10 px on cards and panels; 8 px on thumbnails; `--radius-s` 6 px on badges; pills on buttons and chips.
-- Breakpoints: 42 rem (lead column beside content, the home portrait sits beside its paragraph, the About portrait floats left, cards stop being a single column), 56 rem (mobile menu ↔ inline nav; four links, three icons and the toggle need the room), 64 rem (footer in three parts).
+- Corners: `--radius` 10 px on panels and tiles; 8 px on thumbnails; `--radius-s` 6 px on badges; pills on buttons and chips.
+- Breakpoints: 42 rem (lead column beside content, the home portrait sits beside its paragraph, the About portrait floats left), 56 rem (mobile menu ↔ inline nav; four links, three icons and the toggle need the room), 64 rem (footer in three parts).
 
 ## Components
 
@@ -73,21 +73,21 @@ To change the island, edit the scene section of the script and run `node scripts
 - **Hero** — on the home page only: the name, then the portrait beside one paragraph (set at `--step-1`), then the Badge. It is a two-column grid, not a float, and stacks on a phone.
 - **Bio** — the portrait floats left and the text wraps it (About).
 - **ProfileIcon** — three original line glyphs (angle brackets, an identity card, a mortarboard) for the header's profile links, in the stroke of the theme toggle. They are not the services' logos.
-- **ProjectCard** — one markup, two layouts. `row` (Work page): the project's diorama on a 4:3 panel tinted with its domain tone, in the lead column (14 rem on the Work page, set with the `lead` prop of `Base`), then title, question and a meta line (status, period, first methods). `card` (three across; no page uses it at present): the diorama on top, the domain as a tinted tag, title, question and status centred below. The title link covers the whole item.
+- **ProjectCard** — a row, on the Work page: the project's diorama on a 4:3 panel tinted with its domain tone, in the lead column (14 rem on the Work page, set with the `lead` prop of `Base`), then title, question and a meta line (status, period, first methods). The title link covers the whole item.
 - **Listing** — thumbnail panel in the lead column and text beside it (method areas); `.rows` stacks project rows.
 - **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, a mono identifier line (year, DOI, licence) and a note on its own line; a status only when the item is not yet published. The publications page sets these in a ledger by year.
 - **Diorama** — one toy-brick scene per project, drawn by `scripts/make-dioramas.mjs` (`npm run dioramas`) from the island's primitives (studded plates, bricks, cylinders, domes, three tones per colour, 2:1 isometric) and written to `public/dioramas/<kind>.svg` with a size manifest in `src/data/dioramas.json`. Each stands on a baseplate in its domain's tone and shows the subject as a built object: two islands and a gull crossing the channel (`isolation`), a bipartite network as pegs and rods (`bipartite`), a stability landscape in brick columns with a ball and its ghost (`fold`), a hull of stacked plates inside three axes (`hypervolume`), institutions joined by a feedback road (`loop`), buoys marking records at sea (`records`), a bar chart in the four discipline tones (`swatches`), a relief map with a route of deepening tiles from broad terraces of concepts to four peaks (`atlas`), a four-tile board of lists and pastel cards, one card picked up, with a flag at its centre (`tessera`; the tiles are the colours of that project's own mark), a ring of five people joined by rods to a globe (`youth`), a Greek-style building whose frieze is a band of climate warming stripes (`lab`), a graduation cap ringed by twelve gold studs on a blue dais (`europe`). The scenes for SDSN Youth Greece, the PESD Lab and the European programmes are original drawings, not those organisations' logos or the EU emblem. Fixed colours, as for the island; decorative, so empty alt text.
 - **Motif** — nine original line diagrams: one per method area (`compartments`, `walks`, `phase`, `graph`, `tree`, `scatter`, `survey`, `contours`) and one for the 404 page (`lost`); no two share a picture. One grammar: ink outlines in `currentColor`, the tone for fills, its deep mix for the thing being followed, dashes for what is not present. `aria-hidden`; the tone comes from the element around it.
 - **Contact** — email, profile tiles (one tone each) and affiliation, from `site.ts`.
 - **Chips** — rounded tags for methods, tools and project domains, tinted with the tone of their section (the reference tints its blog categories the same way). Never proficiency bars.
-- **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
+- **Buttons** — pill-shaped, terracotta; primary is filled. 44 px minimum height.
 - **Badge** — the dark rounded strip with a pale outline, for one highlighted line: the PhD project on the home page. Centred under the hero; on a phone its separator dot is dropped and it wraps.
-- **Status** — a coloured dot and a word; purple for "ongoing".
+- **Status** — a coloured dot and a word; terracotta for "ongoing".
 - **Ledger** — dated rows: a mono period column (the lead column) and a content column, hairlines between rows. The same width on every page.
 
 ## Interaction and motion rules
 
-- Hover: links shift to the accent; cards lift 2 px; island parts lift 8 px or brighten and show their label.
+- Hover: links shift to the accent; island parts lift 8 px or brighten and show their label.
 - Focus: 3 px focus ring in `--focus` with 3 px offset on every interactive element (`:focus-visible`), including the island's links.
 - Targets: ≥ 44 × 44 CSS px for nav links, buttons and footer links; inline text links are exempt as permitted by WCAG 2.2 SC 2.5.8.
 - Reduced motion: transitions collapse to ~0 ms; the island's lift becomes a brightening.

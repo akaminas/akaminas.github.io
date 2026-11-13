@@ -1,13 +1,13 @@
 /* ==========================================================================
    Global styles — see DESIGN_SYSTEM.md.
 
-   A pastel, illustrated personal site: a soft lavender bar over warm off-white
-   paper, brush-lettered headings (Caveat Brush), a rounded humanist text face
-   (Nunito), Greek-flag blue for links and a purple accent. The home page carries an interactive island drawn as a
-   toy-brick model (src/components/Island.astro).
+   An illustrated personal site on warm cream paper (the Sand palette): a tan
+   bar, monospaced headings in deep brown over a slab-serif text face, Greek
+   blue for links and a terracotta accent. The home page carries an interactive
+   island drawn as a toy-brick model (src/components/Island.astro).
 
    Structure: fonts → tokens → reset → typography → layout → lists → controls
-   → cards → prose → utilities → motion/print.
+   → prose → utilities → motion/print.
    ========================================================================== */
 
 /* ---------- Self-hosted fonts (Roboto Mono, SIL OFL 1.1; Roboto Slab, Apache 2.0; see ASSET_PROVENANCE.md) ---------- */
@@ -84,15 +84,17 @@
   --radius-s: 6px;
   --rule: 1px;
 
-  /* Colour — Aegean: white paper (#f4f4f4), one blue (#007ba7) for the bar,
-     links and controls, deep slate text, pale blue-grey surfaces.
+  /* Colour — the tokens here are the Aegean palette: white paper (#f4f4f4),
+     one blue (#007ba7) for the bar, links and controls, deep slate text, pale
+     blue-grey surfaces.
 
-     A second palette, "Sand", is defined below and is switched on by setting
-     data-palette="sand" on <html> in src/layouts/Base.astro. When switching,
-     also change the two theme-color values in Base.astro (the meta tags and
-     the inline pre-paint script), the two in src/scripts/theme.ts, the two in
-     public/site.webmanifest, the tile colour in public/favicon.svg (then
-     re-render the icons), and the colours in scripts/og.html. */
+     The site runs the "Sand" palette, defined below, which data-palette="sand"
+     on <html> in src/layouts/Base.astro switches on; remove that attribute to
+     return to Aegean. When switching, also change the two theme-color values
+     in Base.astro (the meta tags and the inline pre-paint script), the two in
+     src/scripts/theme.ts, the two in public/site.webmanifest, the tile colour
+     in public/favicon.svg (then re-render the icons), and the colours in
+     scripts/og.html (then re-render the social image). */
   --bg: #f4f4f4;                  /* white paper */
   --surface: #e8eef2;             /* cards, asides */
   --bar: #007ba7;                 /* the header bar: Aegean blue */
