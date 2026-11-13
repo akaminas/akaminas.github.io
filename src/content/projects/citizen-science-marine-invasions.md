@@ -30,7 +30,6 @@ talks:
   - hydromedit-2021-dentex-diet
 links: []
 motif: records
-featured: false
 order: 6
 ---
 

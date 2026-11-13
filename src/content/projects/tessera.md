@@ -22,7 +22,6 @@ links:
   - label: Source
     url: https://github.com/akaminas/Tessera
 motif: tessera
-featured: false
 order: 8
 ---
 

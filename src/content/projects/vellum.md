@@ -24,7 +24,6 @@ links:
   - label: Source
     url: https://github.com/akaminas/vellum
 motif: swatches
-featured: false
 order: 6
 ---
 

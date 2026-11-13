@@ -25,7 +25,6 @@ links:
   - label: Source
     url: https://github.com/akaminas/cppverse
 motif: atlas
-featured: false
 order: 7
 ---
 

@@ -17,7 +17,6 @@ links:
   - label: Network page
     url: https://sdsnyouth.org/globalnetworks/europe/sdsn-youth-greece
 motif: youth
-featured: false
 order: 5.1
 ---
 

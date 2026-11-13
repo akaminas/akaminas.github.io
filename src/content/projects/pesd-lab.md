@@ -19,7 +19,6 @@ links:
   - label: Lab site
     url: https://pesd.econ.uoa.gr/
 motif: lab
-featured: false
 order: 5.2
 ---
 

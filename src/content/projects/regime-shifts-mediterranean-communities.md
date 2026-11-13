@@ -21,7 +21,6 @@ talks:
   - afh-2024-regime-shifts
 links: []
 motif: fold
-featured: true
 order: 3
 ---
 

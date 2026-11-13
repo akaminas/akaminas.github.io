@@ -18,7 +18,6 @@ publications: []
 talks: []
 links: []
 motif: bipartite
-featured: true
 order: 2
 ---
 

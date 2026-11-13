@@ -18,7 +18,6 @@ links:
   - label: SDG4U partners and team
     url: https://www.sdg4uproject.eu/team/
 motif: europe
-featured: false
 order: 5.3
 ---
 
