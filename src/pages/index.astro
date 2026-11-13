@@ -91,7 +91,7 @@ const websiteSchema = {
     <p class="hero__phd">
       <span class="badge">
         <strong>PhD project</strong>
-        <span aria-hidden="true">·</span>
+        <span class="hero__sep" aria-hidden="true">·</span>
         <a href={`/work/${phd.id}/`}>{phd.data.title}</a>
       </span>
     </p>
@@ -169,5 +169,15 @@ const websiteSchema = {
     display: flex;
     justify-content: center;
     margin: var(--space-7) 0 0;
+  }
+  /* On a phone the badge wraps; drop the dot so no line ends on it. */
+  @media (max-width: 34rem) {
+    .hero__sep {
+      display: none;
+    }
+    .hero__phd .badge {
+      justify-content: center;
+      text-align: center;
+    }
   }
 </style>
