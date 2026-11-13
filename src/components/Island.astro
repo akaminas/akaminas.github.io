@@ -95,17 +95,19 @@ const key = [
     color: var(--heading);
     margin-bottom: var(--space-2);
   }
-  /* The key as an even grid: two columns in the column, one on a phone. */
+  /* The key in flowing columns, so a long entry that wraps does not stretch the row beside it:
+     two columns in the column, one on a phone. */
   .island-key ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-    gap: var(--space-2) var(--space-5);
+    columns: 22rem 2;
+    column-gap: var(--space-6);
   }
   .island-key li {
     max-width: none;
+    break-inside: avoid;
+    margin-bottom: var(--space-2);
   }
   @media (prefers-reduced-motion: reduce) {
     .island-wrap :global(.hot--lift:hover .hot__body),
