@@ -1,16 +1,30 @@
 ---
 /**
- * Original line-and-wash diagrams, one per method area and one for the 404
- * page, so no two share a picture (the projects have their own toy-brick
- * dioramas, see Diorama.astro). Each is a small diagram of its subject (a
- * phylogeny, a phase portrait, a fitted curve ...) in one drawing grammar: ink outlines, one pastel tone for
- * fills, a deeper mix of that tone for the thing being followed, dashes for
- * what is not actually present (flows, unstable states, hulls).
+ * Original line-and-wash diagrams, one per project, one per method area and
+ * one for the 404 page, so no two share a picture. Each is a small diagram of
+ * its subject (an island pair with an immigration arc, a fold curve, a
+ * phylogeny, a phase portrait ...) in one drawing grammar: ink outlines, one
+ * pastel tone for fills, a deeper mix of that tone for the thing being
+ * followed, dashes for what is not actually present (flows, unstable states,
+ * hulls).
  *
  * The tone is read from --tone (set by the section, card or panel around the
  * drawing; see src/data/tones.ts). Decorative: always aria-hidden.
  */
 export type MotifKind =
+  // projects
+  | 'isolation'
+  | 'bipartite'
+  | 'fold'
+  | 'hypervolume'
+  | 'loop'
+  | 'records'
+  | 'swatches'
+  | 'tessera'
+  | 'atlas'
+  | 'youth'
+  | 'lab'
+  | 'europe'
   // method areas
   | 'compartments'
   | 'walks'
@@ -50,6 +64,19 @@ const bars = [
     return seg;
   });
 });
+
+// Six people round the globe of the youth network, on a ring of radius 30, the first at the top.
+const people = Array.from({ length: 6 }, (_, k) => {
+  const a = (k * Math.PI) / 3;
+  return { x: Number((48 + 30 * Math.sin(a)).toFixed(1)), y: Number((48 - 30 * Math.cos(a)).toFixed(1)) };
+});
+// Twelve dots round the cap of the European programmes, on a ring of radius 34.
+const ring = Array.from({ length: 12 }, (_, k) => {
+  const a = (k * Math.PI) / 6;
+  return { x: Number((48 + 34 * Math.sin(a)).toFixed(1)), y: Number((48 - 34 * Math.cos(a)).toFixed(1)) };
+});
+// The warming stripes of the Lab's frieze, cool to warm: the survey drawing's five steps.
+const stripes = ['l1', 'l1', 'l2', 'l2', 'l3', 'l4', 'l4', 'l5'];
 ---
 
 <svg
@@ -61,6 +88,240 @@ const bars = [
   aria-hidden="true"
   focusable="false"
 >
+  {
+    kind === 'isolation' && (
+      <g>
+        <path class="hair" d="M10 80 q5 -3 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0" />
+        <path class="t" d="M12 62 C9 49 20 40 31 42 C41 40 50 48 48 58 C45 68 22 72 12 62 Z" />
+        <path class="t" d="M60 64 C58 55 67 49 75 51 C84 52 87 60 82 66 C77 71 62 70 60 64 Z" />
+        <path class="ln dash" d="M30 38 C38 16 66 16 74 46" />
+        <path class="ln" {...h(74, 47, 75)} />
+        <circle class="td" cx="52" cy="22.5" r="2.8" />
+        <g class="ink">
+          <circle cx="24" cy="54" r="1.8" />
+          <circle cx="33" cy="50" r="1.8" />
+          <circle cx="37" cy="59" r="1.8" />
+        </g>
+        <circle class="paper" cx="72" cy="58" r="2.2" />
+      </g>
+    )
+  }
+  {
+    kind === 'bipartite' && (
+      <g>
+        <g class="ln edge">
+          <path d="M24 18 L72 28" />
+          <path d="M24 18 L72 50" />
+          <path d="M24 18 L72 72" />
+          <path d="M24 37 L72 28" />
+          <path d="M24 56 L72 28" />
+          <path d="M24 56 L72 50" />
+          <path d="M24 75 L72 28" />
+        </g>
+        <path class="stable" d="M24 37 L72 50" />
+        <circle class="t" cx="24" cy="18" r="5.5" />
+        <circle class="t" cx="24" cy="37" r="5" />
+        <circle class="t" cx="24" cy="56" r="4.5" />
+        <circle class="t" cx="24" cy="75" r="4" />
+        <circle class="td" cx="72" cy="28" r="6" />
+        <circle class="td" cx="72" cy="50" r="5" />
+        <circle class="td" cx="72" cy="72" r="4" />
+      </g>
+    )
+  }
+  {
+    kind === 'fold' && (
+      <g>
+        <path class="axis" d="M10 12 V82 H90" />
+        <path class="ln dash" d="M68 62 C68 52 30 48 30 36" />
+        <path class="stable" d="M12 72 H52 C64 72 68 68 68 62" />
+        <path class="stable" d="M30 36 C30 28 36 24 46 24 H84" />
+        <path class="ln dash" d="M68 56 V32" />
+        <path class="ln" {...h(68, 27, -90)} />
+        <circle class="td" cx="26" cy="68.6" r="3.3" />
+      </g>
+    )
+  }
+  {
+    kind === 'hypervolume' && (
+      <g>
+        <path class="axis" d="M12 84 H38 M12 84 V62" />
+        <path class="hair dash" d="M18 56 L34 30 L64 28 L84 40 L78 60 L52 72 L26 70 Z" />
+        <ellipse class="ts" cx="40" cy="48" rx="24" ry="14" transform="rotate(-25 40 48)" />
+        <ellipse class="tds" cx="56" cy="44" rx="22" ry="12" transform="rotate(20 56 44)" />
+        <ellipse class="ts" cx="50" cy="58" rx="20" ry="11" transform="rotate(-8 50 58)" />
+        <g class="ink">
+          <circle cx="30" cy="52" r="1.7" />
+          <circle cx="44" cy="40" r="1.7" />
+          <circle cx="58" cy="48" r="1.7" />
+          <circle cx="66" cy="40" r="1.7" />
+          <circle cx="50" cy="62" r="1.7" />
+          <circle cx="38" cy="60" r="1.7" />
+          <circle cx="70" cy="52" r="1.7" />
+        </g>
+      </g>
+    )
+  }
+  {
+    kind === 'loop' && (
+      <g>
+        <circle class="hair dash" cx="48" cy="48" r="8" />
+        <circle class="td" cx="48" cy="48" r="3" />
+        <path class="ln" d="M58 21 C80 22 82 42 77 58" />
+        <path class="ln" {...h(77, 59, 107)} />
+        <path class="ln" d="M64 70 C54 86 42 86 32 70" />
+        <path class="ln" {...h(32, 70, -122)} />
+        <path class="ln" d="M22 60 C16 40 24 26 38 20" />
+        <path class="ln" {...h(38, 20, -23)} />
+        <rect class="t" x="38" y="12" width="20" height="14" rx="3" />
+        <rect class="t" x="12" y="60" width="20" height="14" rx="3" />
+        <rect class="td" x="64" y="60" width="20" height="14" rx="3" />
+      </g>
+    )
+  }
+  {
+    kind === 'records' && (
+      <g>
+        <rect class="t" x="10" y="10" width="76" height="76" rx="5" />
+        <path class="hair dash" d="M10 38 H86 M10 62 H86 M34 10 V86 M58 10 V86" />
+        <path class="paper" d="M10 10 H58 C58 22 48 26 44 34 C40 42 28 40 22 50 C16 58 12 62 10 66 Z" />
+        <g class="ink">
+          <circle cx="52" cy="46" r="1.8" />
+          <circle cx="76" cy="40" r="1.8" />
+          <circle cx="46" cy="60" r="1.8" />
+          <circle cx="76" cy="72" r="1.8" />
+          <circle cx="34" cy="70" r="1.8" />
+          <circle cx="82" cy="54" r="1.8" />
+        </g>
+        <circle class="td" cx="66" cy="30" r="3" />
+        <circle class="td" cx="72" cy="52" r="3" />
+        <circle class="td" cx="60" cy="66" r="3" />
+      </g>
+    )
+  }
+  {
+    kind === 'swatches' && (
+      <g>
+        <rect class="sw" style="fill: var(--tone-teal)" x="12" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-coral)" x="32" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-sea)" x="52" y="12" width="14" height="14" rx="3" />
+        <rect class="sw" style="fill: var(--tone-lilac)" x="72" y="12" width="14" height="14" rx="3" />
+        <rect class="paper" x="12" y="34" width="74" height="48" rx="4" />
+        <path class="hair" d="M12 50 H86 M12 66 H86 M37 34 V82 M62 34 V82" />
+        <path class="ln" d="M16 74 L30 62 L46 66 L62 48 L82 40" />
+        <circle class="sw" style="fill: var(--tone-teal)" cx="16" cy="74" r="3" />
+        <circle class="sw" style="fill: var(--tone-teal)" cx="30" cy="62" r="3" />
+        <circle class="sw" style="fill: var(--tone-coral)" cx="46" cy="66" r="3" />
+        <circle class="sw" style="fill: var(--tone-sea)" cx="62" cy="48" r="3" />
+        <circle class="sw" style="fill: var(--tone-lilac)" cx="82" cy="40" r="3" />
+      </g>
+    )
+  }
+  {
+    kind === 'tessera' && (
+      <g>
+        <rect class="band" x="10" y="14" width="22" height="68" rx="3" />
+        <rect class="band" x="37" y="14" width="22" height="68" rx="3" />
+        <rect class="band" x="64" y="14" width="22" height="68" rx="3" />
+        <path class="ln" d="M13 20 H29 M40 20 H56 M67 20 H83" />
+        <rect class="paper" x="13" y="26" width="16" height="10" rx="2" />
+        <rect class="paper" x="13" y="39" width="16" height="10" rx="2" />
+        <rect class="paper" x="13" y="52" width="16" height="10" rx="2" />
+        <rect class="paper" x="13" y="65" width="16" height="10" rx="2" />
+        <rect class="paper" x="40" y="26" width="16" height="10" rx="2" />
+        <rect class="paper" x="40" y="39" width="16" height="10" rx="2" />
+        <rect class="td" x="40" y="52" width="16" height="10" rx="2" />
+        <rect class="td" x="67" y="26" width="16" height="10" rx="2" />
+        <rect class="td" x="67" y="39" width="16" height="10" rx="2" />
+      </g>
+    )
+  }
+  {
+    kind === 'atlas' && (
+      <g>
+        <rect class="paper" x="8" y="8" width="38" height="38" rx="4" />
+        <path class="hair dash" d="M13 40 L42 11" />
+        <path class="ln" d="M13 40 Q27 4 41 40" />
+        <path class="deep" d="M18 40 V28.5 H23.5 V23 H29 V22.3 H29.7" />
+        <circle class="td" cx="29.7" cy="22.3" r="1.9" />
+
+        <rect class="paper" x="50" y="8" width="38" height="38" rx="4" />
+        <path class="ln" d="M55.5 14 H53.5 V40 H55.5 M83.5 14 H85.5 V40 H83.5" />
+        <rect class="l2" x="58" y="15" width="7" height="7" rx="1" />
+        <rect class="l4" x="66" y="15" width="7" height="7" rx="1" />
+        <rect class="l3" x="74" y="15" width="7" height="7" rx="1" />
+        <rect class="l5" x="58" y="23" width="7" height="7" rx="1" />
+        <rect class="l1" x="66" y="23" width="7" height="7" rx="1" />
+        <rect class="l1" x="74" y="23" width="7" height="7" rx="1" />
+        <rect class="l1" x="58" y="31" width="7" height="7" rx="1" />
+        <rect class="l5" x="66" y="31" width="7" height="7" rx="1" />
+        <rect class="l1" x="74" y="31" width="7" height="7" rx="1" />
+
+        <rect class="paper" x="8" y="50" width="38" height="38" rx="4" />
+        <path class="axis" d="M14 56 V82 H41" />
+        <path class="hair dash" d="M14 60 H41" />
+        <path class="deep" d="M14 79 C24 79 24 60 41 60" />
+
+        <rect class="paper" x="50" y="50" width="38" height="38" rx="4" />
+        <path class="axis" d="M56 56 V82 H83" />
+        <path class="deep" d="M56 78 H62 V74 H66 V70 H69 V74 H74 V68 H77 V64 H83" />
+        <g class="ink">
+          <circle cx="62" cy="82" r="1.3" />
+          <circle cx="66" cy="82" r="1.3" />
+          <circle cx="69" cy="82" r="1.3" />
+          <circle cx="74" cy="82" r="1.3" />
+          <circle cx="77" cy="82" r="1.3" />
+        </g>
+      </g>
+    )
+  }
+  {
+    kind === 'youth' && (
+      <g>
+        <circle class="hair dash" cx="48" cy="48" r="30" />
+        <circle class="t" cx="48" cy="48" r="11" />
+        <path class="hair" d="M37 48 H59 M48 37 C41 44 41 52 48 59 C55 52 55 44 48 37" />
+        {people.map((p, i) => (
+          <g transform={`translate(${p.x} ${p.y})`}>
+            <path class={i === 0 ? 'td' : 't'} d="M-5.5 6 C-5.5 0.4 -3 -0.4 0 -0.4 S5.5 0.4 5.5 6 Z" />
+            <circle class={i === 0 ? 'td' : 't'} cx="0" cy="-4.2" r="3.2" />
+          </g>
+        ))}
+      </g>
+    )
+  }
+  {
+    kind === 'lab' && (
+      <g>
+        <path class="t" d="M12 34 L48 14 L84 34 Z" />
+        {stripes.map((c, k) => (
+          <rect class={c} x={14 + k * 8.5} y="36" width="8.5" height="8" />
+        ))}
+        <rect class="outline" x="14" y="36" width="68" height="8" />
+        <rect class="paper" x="17" y="46" width="7" height="26" rx="1" />
+        <rect class="paper" x="36" y="46" width="7" height="26" rx="1" />
+        <rect class="paper" x="55" y="46" width="7" height="26" rx="1" />
+        <rect class="paper" x="74" y="46" width="7" height="26" rx="1" />
+        <rect class="t" x="12" y="72" width="72" height="5" rx="1" />
+        <rect class="t" x="8" y="77" width="80" height="5" rx="1" />
+      </g>
+    )
+  }
+  {
+    kind === 'europe' && (
+      <g>
+        <g class="ink">
+          {ring.map((p) => (
+            <circle cx={p.x} cy={p.y} r="1.8" />
+          ))}
+        </g>
+        <path class="t" d="M34 47 L48 52 L62 47 V58 C62 64 34 64 34 58 Z" />
+        <path class="t" d="M48 32 L72 42 L48 52 L24 42 Z" />
+        <path class="ln" d="M72 42 V56" />
+        <circle class="td" cx="72" cy="58.5" r="2.4" />
+      </g>
+    )
+  }
   {
     kind === 'compartments' && (
       <g>
@@ -273,6 +534,28 @@ const bars = [
   }
   .motif .td {
     fill: var(--_d);
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+  .motif .ts {
+    fill: color-mix(in srgb, var(--_t) 50%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  .motif .tds {
+    fill: color-mix(in srgb, var(--_d) 45%, transparent);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+  }
+  /* A fine followed line for the small panels: the deep mix, thinner than .stable */
+  .motif .deep {
+    stroke: var(--_d);
+    stroke-width: 1.8;
+    fill: none;
+  }
+  .motif .sw {
     stroke: currentColor;
     stroke-width: 1;
   }
