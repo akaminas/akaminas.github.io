@@ -1,10 +1,10 @@
 ---
 /**
- * A project as a row: the diorama on a tinted 4:3 panel in the lead column, the
+ * A project as a row: its line diagram on a tinted panel in the lead column, the
  * text beside it (Work page). The title link covers the whole item.
  */
 import type { CollectionEntry } from 'astro:content';
-import Diorama from './Diorama.astro';
+import Motif from './Motif.astro';
 import { domainTone, toneStyle } from '../data/tones';
 
 interface Props {
@@ -23,7 +23,7 @@ const statusLabel: Record<typeof data.status, string> = {
 
 <article class="pcard pcard--row" style={toneStyle(domainTone[data.domain])}>
   <div class="thumb pcard__fig" aria-hidden="true">
-    <Diorama kind={data.motif} />
+    <Motif kind={data.motif} size={96} />
   </div>
   <div class="pcard__body">
     <Heading class="pcard__title">

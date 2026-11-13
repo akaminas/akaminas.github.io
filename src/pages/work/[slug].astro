@@ -2,7 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Diorama from '../../components/Diorama.astro';
+import Motif from '../../components/Motif.astro';
 import PublicationItem from '../../components/PublicationItem.astro';
 import { site } from '../../data/site';
 import { domainTone, toneStyle } from '../../data/tones';
@@ -49,8 +49,8 @@ const schema = {
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
   <article style={toneStyle(domainTone[data.domain])}>
     <header class="page-head container project-head">
-      <div class="project-head__fig tint" aria-hidden="true">
-        <Diorama kind={data.motif} eager />
+      <div class="project-head__fig thumb" aria-hidden="true">
+        <Motif kind={data.motif} size={96} />
       </div>
       <div class="project-head__text">
         <p class="label">
@@ -205,15 +205,7 @@ const schema = {
     }
   }
   .project-head__fig {
-    border-radius: 8px;
-    width: min(100%, 14rem);
-    aspect-ratio: 4 / 3;
-    display: grid;
-    place-items: center;
-  }
-  .project-head__fig :global(img) {
-    width: 94%;
-    height: auto;
+    width: min(100%, 12rem);
   }
   .project-head .lede {
     margin: 0;
