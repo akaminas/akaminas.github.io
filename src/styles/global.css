@@ -596,6 +596,17 @@ abbr[title] {
     margin: 0.35rem var(--space-6) var(--space-4) 0;
   }
 }
+/* The portrait has a white backdrop. On the light scheme it is multiplied into the
+   paper, so the backdrop takes the paper colour and the figure stands on the page;
+   on the dark scheme it stays a rounded card, since multiplying would darken the face. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) :is(.hero__portrait, .bio__portrait) img {
+    mix-blend-mode: multiply;
+  }
+}
+:root[data-theme='light'] :is(.hero__portrait, .bio__portrait) img {
+  mix-blend-mode: multiply;
+}
 .ledger__when {
   font-family: var(--font-ui);
   font-weight: 600;
