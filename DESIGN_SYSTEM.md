@@ -1,6 +1,6 @@
 # Design system
 
-An illustrated personal site in the manner of an interactive academic homepage, in an Aegean palette: one blue (#007BA7) for the bar, links, sea and domes over white paper (#F4F4F4), deep slate text, monospaced headings over a slab-serif text face. The home page carries the site's one illustration: an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map.
+An illustrated personal site in the manner of an interactive academic homepage, in an Aegean palette: one blue (#007BA7) for the bar, links, sea and domes over white paper (#F4F4F4), deep slate text, monospaced headings over a slab-serif text face. The home page is short: the name, one paragraph with the portrait, one badge line for the PhD project, the site's one illustration (an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map) and four recent items. Everything else is a page of its own.
 
 ## Principles
 
@@ -57,21 +57,23 @@ To change the island, edit the scene section of the script and run `node scripts
 
 - **Two widths.** The column, `--container` (50 rem, about 800 px, as on the reference site), holds all text, lists and cards on every page, so every heading and paragraph starts at the same x. The page, `--wide` (72 rem), is the width of the header, the footer and the island, which is the only thing that leaves the column (`.breakout`, centred on it). Gutter `clamp(1.125rem, 5vw, 1.5rem)`. Body text runs the full column; there is no narrower measure.
 - **One lead column.** `--lead` (10 rem) plus a `--lead-gap` of 1.5 rem is the left column of every ledger (dates), thumbnail listing (project and method drawings) and key/value row (tools). Pages do not set their own widths for it.
-- **One rhythm.** Sections sit 3 rem apart (`--space-7`); an H2 has a hairline under it and 1 rem before the content; paragraphs and blocks are 1 rem apart; the page starts 3 rem under the header and ends 4.5 rem above the footer.
+- **One rhythm.** Sections sit `--section-gap` apart (3 rem on a phone, growing to 4.5 rem on a desktop); an H2 has a hairline under it and 1 rem before the content; paragraphs and blocks are 1 rem apart; the page starts 3 rem under the header and ends 4.5 rem above the footer.
 - No page nests a second grid beside the prose. Single-column pages (project, privacy) put the facts or contents in a panel above the text.
 - 4 px base grid via `--space-1` (0.25 rem) to `--space-9` (6 rem).
 - Corners: `--radius` 10 px on cards and panels; 8 px on thumbnails; `--radius-s` 6 px on badges; pills on buttons and chips.
-- Breakpoints: 42 rem (lead column beside content, portrait floats left, cards stop being a single column), 64 rem (mobile menu ↔ inline nav; seven links and three profiles need the room), also 64 rem (footer in three parts).
+- Breakpoints: 42 rem (lead column beside content, the home portrait sits beside its paragraph, the About portrait floats left, cards stop being a single column), 56 rem (mobile menu ↔ inline nav; four links, three icons and the toggle need the room), 64 rem (footer in three parts).
 
 ## Components
 
-- **Header** — the blue bar, with a soft shadow: name, navigation (Work, Methods, Publications, Teaching, About, CV, Contact; active item underlined), profile links (GitHub, ORCID, Scholar) and the theme toggle. Menu button and toggle appear only with JS.
-- **Footer** — a tinted bar in three parts as on the reference (name, position and affiliation; profile links; email), then the copyright line, which links to the privacy notice.
+- **Header** — the blue bar, with a faint shadow: name, four links (Work, Publications, About, Contact; active item underlined), the three profile links as icons (GitHub, ORCID, Google Scholar; 44 px targets, the name as tooltip and accessible name) and the theme toggle. Methods, Teaching and the CV are not in the bar: they are on the island and in the footer (`navMore` in `src/data/site.ts`). In the open mobile menu the icons carry their names. Menu button and toggle appear only with JS.
+- **Footer** — a tinted bar in three parts as on the reference (name, position and affiliation; profile links; email), then one line of the pages that are not in the header (Methods, Teaching, CV), then the copyright line, which links to the privacy notice.
 - **PageHeader** — H1, optional lede, slot.
 - **Section** — heading with a hairline, then content; always the width of the column. There are no subtitles under section headings. With a `tone` the rule under the heading takes that colour and everything inside inherits it.
-- **Island** — see above; the figure breaks out of the column to the page width and its key sits in the column as an even grid.
-- **Bio** — the portrait floats left and the text wraps it (home, About).
-- **ProjectCard** — one markup, two layouts. `row` (Work page): the project's diorama on a 4:3 panel tinted with its domain tone, in the lead column (14 rem on the Work page, set with the `lead` prop of `Base`), then title, question and a meta line (status, period, first methods). `card` (home gallery, three across): the diorama on top, the domain as a tinted tag, title, question and status centred below. The title link covers the whole item.
+- **Island** — see above; the figure breaks out of the column to the page width and its key sits in the column in two flowing columns (one on a phone).
+- **Hero** — on the home page only: the name, then the portrait beside one paragraph (set at `--step-1`), then the Badge. It is a two-column grid, not a float, and stacks on a phone.
+- **Bio** — the portrait floats left and the text wraps it (About).
+- **ProfileIcon** — three original line glyphs (angle brackets, an identity card, a mortarboard) for the header's profile links, in the stroke of the theme toggle. They are not the services' logos.
+- **ProjectCard** — one markup, two layouts. `row` (Work page): the project's diorama on a 4:3 panel tinted with its domain tone, in the lead column (14 rem on the Work page, set with the `lead` prop of `Base`), then title, question and a meta line (status, period, first methods). `card` (three across; no page uses it at present): the diorama on top, the domain as a tinted tag, title, question and status centred below. The title link covers the whole item.
 - **Listing** — thumbnail panel in the lead column and text beside it (method areas); `.rows` stacks project rows.
 - **PublicationItem** — title (DOI link), authors with the owner emphasised, venue, a mono identifier line (year, DOI, licence) and a note on its own line; a status only when the item is not yet published. The publications page sets these in a ledger by year.
 - **Diorama** — one toy-brick scene per project, drawn by `scripts/make-dioramas.mjs` (`npm run dioramas`) from the island's primitives (studded plates, bricks, cylinders, domes, three tones per colour, 2:1 isometric) and written to `public/dioramas/<kind>.svg` with a size manifest in `src/data/dioramas.json`. Each stands on a baseplate in its domain's tone and shows the subject as a built object: two islands and a gull crossing the channel (`isolation`), a bipartite network as pegs and rods (`bipartite`), a stability landscape in brick columns with a ball and its ghost (`fold`), a hull of stacked plates inside three axes (`hypervolume`), institutions joined by a feedback road (`loop`), buoys marking records at sea (`records`), a bar chart in the four discipline tones (`swatches`), a relief map with a route of deepening tiles from broad terraces of concepts to four peaks (`atlas`), a four-tile board of lists and pastel cards, one card picked up, with a flag at its centre (`tessera`; the tiles are the colours of that project's own mark), a ring of five people joined by rods to a globe (`youth`), a Greek-style building whose frieze is a band of climate warming stripes (`lab`), a graduation cap ringed by twelve gold studs on a blue dais (`europe`). The scenes for SDSN Youth Greece, the PESD Lab and the European programmes are original drawings, not those organisations' logos or the EU emblem. Fixed colours, as for the island; decorative, so empty alt text.
@@ -79,7 +81,7 @@ To change the island, edit the scene section of the script and run `node scripts
 - **Contact** — email, profile tiles (one tone each) and affiliation, from `site.ts`.
 - **Chips** — rounded tags for methods, tools and project domains, tinted with the tone of their section (the reference tints its blog categories the same way). Never proficiency bars.
 - **Buttons** — pill-shaped, purple; primary is filled. 44 px minimum height.
-- **Badge** — the dark rounded strip with a pale outline, for one highlighted line.
+- **Badge** — the dark rounded strip with a pale outline, for one highlighted line: the PhD project on the home page. Centred under the hero; on a phone its separator dot is dropped and it wraps.
 - **Status** — a coloured dot and a word; purple for "ongoing".
 - **Ledger** — dated rows: a mono period column (the lead column) and a content column, hairlines between rows. The same width on every page.
 
