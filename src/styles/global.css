@@ -804,29 +804,6 @@ abbr[title] {
   color: var(--badge-gold);
 }
 
-/* ---------- Cards ---------- */
-.card {
-  background: var(--surface);
-  border: var(--rule) solid var(--line);
-  border-radius: var(--radius);
-  padding: var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  min-width: 0;
-  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur) var(--ease-out);
-}
-.card:hover {
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-}
-/* Gallery: cards in as many columns as the column holds (three at 800 px). */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: var(--space-5);
-}
-
 /* ---------- Prose — long-form content rendered from Markdown ---------- */
 .prose {
   max-width: var(--measure);
