@@ -1,9 +1,7 @@
 ---
 /**
- * A project, in one of two layouts built from the same markup:
- * - row: the diorama on a tinted 4:3 panel in the lead column, the text beside it (Work page);
- * - card: the diorama on top, centred text below (gallery on the home page).
- * The title link covers the whole item.
+ * A project as a row: the diorama on a tinted 4:3 panel in the lead column, the
+ * text beside it (Work page). The title link covers the whole item.
  */
 import type { CollectionEntry } from 'astro:content';
 import Diorama from './Diorama.astro';
@@ -11,18 +9,11 @@ import { domainTone, toneStyle } from '../data/tones';
 
 interface Props {
   project: CollectionEntry<'projects'>;
-  layout?: 'row' | 'card';
   headingLevel?: 'h2' | 'h3';
 }
-const { project, layout = 'row', headingLevel = 'h3' } = Astro.props;
+const { project, headingLevel = 'h3' } = Astro.props;
 const { data } = project;
 const Heading = headingLevel;
-const domainLabel: Record<typeof data.domain, string> = {
-  'ecology-evolution': 'Ecology & evolution',
-  'sustainability-social': 'Sustainability & social systems',
-  'marine-systems': 'Marine systems & monitoring',
-  'tools-visualisation': 'Scientific tool development',
-};
 const statusLabel: Record<typeof data.status, string> = {
   ongoing: 'Ongoing',
   completed: 'Completed',
@@ -30,12 +21,11 @@ const statusLabel: Record<typeof data.status, string> = {
 };
 ---
 
-<article class:list={['pcard', `pcard--${layout}`]} style={toneStyle(domainTone[data.domain])}>
+<article class="pcard pcard--row" style={toneStyle(domainTone[data.domain])}>
   <div class="thumb pcard__fig" aria-hidden="true">
     <Diorama kind={data.motif} />
   </div>
   <div class="pcard__body">
-    {layout === 'card' && <p class="pcard__domain">{domainLabel[data.domain]}</p>}
     <Heading class="pcard__title">
       <a href={`/work/${project.id}/`}>{data.title}</a>
     </Heading>
@@ -43,7 +33,7 @@ const statusLabel: Record<typeof data.status, string> = {
     <p class="pcard__meta">
       <span class:list={['status', `status--${data.status}`]}>{statusLabel[data.status]}</span>
       <span class="mono">{data.period}</span>
-      {layout === 'row' && data.methods.length > 0 && <span class="muted">{data.methods.slice(0, 3).join(' · ')}</span>}
+      {data.methods.length > 0 && <span class="muted">{data.methods.slice(0, 3).join(' · ')}</span>}
     </p>
   </div>
 </article>
@@ -88,58 +78,5 @@ const statusLabel: Record<typeof data.status, string> = {
     flex-wrap: wrap;
     gap: var(--space-1) var(--space-4);
     max-width: none;
-  }
-  /* The domain as a tinted tag, as the reference tints its categories. */
-  .pcard__domain {
-    display: inline-block;
-    align-self: center;
-    margin: 0 0 var(--space-2);
-    padding: 0.1em 0.7em;
-    border-radius: 999px;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--step--1);
-    line-height: 1.6;
-    color: var(--ink);
-    background: color-mix(in srgb, var(--tone) 32%, var(--surface));
-    border: var(--rule) solid color-mix(in srgb, var(--tone) 55%, var(--line));
-  }
-
-  /* Card: drawing on top, centred text. */
-  .pcard--card {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    border: var(--rule) solid color-mix(in srgb, var(--tone) 40%, var(--line));
-    border-radius: var(--radius);
-    overflow: hidden;
-    text-align: center;
-    transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur) var(--ease-out);
-  }
-  .pcard--card:hover {
-    border-color: var(--line-strong);
-    transform: translateY(-3px);
-  }
-  .pcard--card .pcard__fig {
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    border: 0;
-    border-bottom: var(--rule) solid color-mix(in srgb, var(--tone) 50%, var(--line));
-    border-radius: 0;
-  }
-  @media (min-width: 42rem) {
-    .pcard--card .pcard__fig {
-      aspect-ratio: 4 / 3;
-    }
-  }
-  .pcard--card .pcard__body {
-    padding: var(--space-4) var(--space-4) var(--space-5);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  .pcard--card .pcard__meta {
-    justify-content: center;
-    margin-top: auto;
   }
 </style>
