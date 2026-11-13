@@ -69,6 +69,7 @@
   --space-7: 3rem;
   --space-8: 4.5rem;
   --space-9: 6rem;
+  --section-gap: clamp(3rem, 2.25rem + 2.5vw, 4.5rem); /* between sections: 3rem on a phone, 4.5rem on a desktop */
   --gutter: clamp(1.125rem, 5vw, 1.5rem);
 
   /* Layout. Two widths only: the column (all text and lists, one left edge)
@@ -336,7 +337,6 @@ h1 {
 }
 h2 {
   font-size: var(--disp-2);
-  font-weight: 600;
 }
 h3 {
   font-size: var(--disp-3);
@@ -455,7 +455,7 @@ abbr[title] {
 /* Section: a heading with a hairline under it, then content. Every section
    sits the same distance below the one before it. */
 .sec {
-  margin-top: var(--space-7);
+  margin-top: var(--section-gap);
 }
 .sec > h2,
 .sec__title {
@@ -799,6 +799,9 @@ abbr[title] {
 }
 .badge a {
   color: var(--badge-ink);
+}
+.badge a:hover {
+  color: var(--badge-gold);
 }
 
 /* ---------- Cards ---------- */
