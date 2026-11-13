@@ -1,15 +1,21 @@
 ---
 /**
- * The bar at the top of every page: name, navigation, profile links and the
+ * The bar at the top of every page: name, four links, profile icons and the
  * colour-scheme toggle. The menu button and the toggle appear only with JS;
  * without it the navigation is simply visible.
  */
 import { nav, site } from '../data/site';
+import ProfileIcon from './ProfileIcon.astro';
 
 interface Props {
   currentPath: string;
 }
 const { currentPath } = Astro.props;
+const profiles = [
+  { label: 'GitHub', icon: 'github', href: site.profiles.github, rel: 'me noopener' },
+  { label: 'ORCID', icon: 'orcid', href: site.profiles.orcid, rel: 'me noopener' },
+  { label: 'Google Scholar', icon: 'scholar', href: site.profiles.scholar, rel: 'noopener' },
+] as const;
 const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
 ---
 
@@ -35,9 +41,16 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
         }
       </ul>
       <ul class="site-nav__profiles" aria-label="Profiles">
-        <li><a href={site.profiles.github} rel="me noopener">GitHub</a></li>
-        <li><a href={site.profiles.orcid} rel="me noopener">ORCID</a></li>
-        <li><a href={site.profiles.scholar} rel="noopener">Scholar</a></li>
+        {
+          profiles.map((p) => (
+            <li>
+              <a href={p.href} rel={p.rel} title={p.label}>
+                <ProfileIcon name={p.icon} />
+                <span class="site-nav__label">{p.label}</span>
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
 
@@ -67,7 +80,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     color: var(--bar-ink);
     font-family: var(--font-ui);
     font-weight: 600;
-    box-shadow: 0 2px 8px color-mix(in srgb, #000 28%, transparent);
+    box-shadow: 0 1px 4px color-mix(in srgb, #000 16%, transparent);
   }
   .site-header__inner {
     display: flex;
@@ -137,9 +150,36 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   .site-nav__profiles {
     margin-left: auto !important;
   }
+  .site-nav__profiles {
+    gap: 0;
+  }
   .site-nav__profiles a {
-    font-size: 0.85rem;
-    opacity: 0.85;
+    gap: 0.6em;
+    min-width: 2.75rem;
+    justify-content: center;
+    padding: 0 0.7rem;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+  .site-nav__profiles a:hover {
+    opacity: 1;
+    text-decoration: none;
+    background: color-mix(in srgb, var(--bar-ink) 12%, transparent);
+  }
+  .site-nav__profiles svg {
+    flex: none;
+  }
+  /* In the bar the icons stand alone; the name is the link's accessible name and its tooltip. In the open menu it shows. */
+  @media (min-width: 56rem) {
+    .site-nav__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
   }
 
   .theme-toggle {
@@ -199,7 +239,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     transform: translateY(-3.5px) rotate(-45deg);
   }
 
-  @media (max-width: 63.99rem) {
+  @media (max-width: 55.99rem) {
     html.js .menu-button {
       display: inline-flex;
       margin-left: auto;
@@ -233,6 +273,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
       width: 100%;
       min-height: 3rem;
       padding: 0 0.25rem;
+      justify-content: flex-start;
     }
   }
   @media (max-width: 26rem) {
@@ -265,7 +306,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   const navEl = document.getElementById('site-nav');
   if (button && navEl) {
     button.hidden = false;
-    const mq = window.matchMedia('(max-width: 63.99rem)');
+    const mq = window.matchMedia('(max-width: 55.99rem)');
     const setOpen = (open: boolean) => {
       button.setAttribute('aria-expanded', String(open));
       navEl.dataset.open = String(open);
