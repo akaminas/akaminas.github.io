@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Section from '../../components/Section.astro';
+import { getPosts, isoDate } from '../../data/blog';
+
+const posts = await getPosts();
+const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
+---
+
+<Base
+  title="Blog"
+  description="A weekly blog by Alexandros Kaminas, PhD researcher in theoretical and evolutionary ecology at the University of Groningen."
+>
+  <PageHeader title="Blog" lede="Weekly notes.">
+    <p class="small muted blog__feed">Subscribe with <a href="/rss.xml">RSS</a>.</p>
+  </PageHeader>
+
+  {
+    posts.length === 0 ? (
+      <Section id="posts">
+        <p class="muted">No posts yet.</p>
+      </Section>
+    ) : (
+      years.map((y) => (
+        <Section id={`y-${y}`} title={String(y)}>
+          <ol class="ledger">
+            {posts
+              .filter((p) => p.data.date.getUTCFullYear() === y)
+              .map((p) => (
+                <li>
+                  <time class="ledger__when" datetime={isoDate(p.data.date)}>
+                    {isoDate(p.data.date)}
+                  </time>
+                  <div>
+                    <p class="ledger__title">
+                      <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+                      {p.data.draft && <span class="muted"> (draft)</span>}
+                    </p>
+                    <p class="blog__summary">{p.data.summary}</p>
+                  </div>
+                </li>
+              ))}
+          </ol>
+        </Section>
+      ))
+    )
+  }
+</Base>
+
+<style>
+  .blog__feed {
+    margin-top: var(--space-3);
+    font-family: var(--font-ui);
+  }
+  .blog__summary {
+    margin-top: var(--space-1) !important;
+    text-wrap: pretty;
+  }
+</style>

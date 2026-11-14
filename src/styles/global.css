@@ -852,6 +852,45 @@ abbr[title] {
   margin-top: var(--space-2);
 }
 
+/* Code, quotations and tables in a long text (the blog, the project pages). */
+.prose pre {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-s);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  line-height: 1.55;
+}
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--line-strong);
+  color: var(--muted);
+}
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0 0 var(--space-4);
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+.prose th,
+.prose td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--rule) solid var(--line);
+  text-align: left;
+}
+.prose th {
+  font-family: var(--font-ui);
+  color: var(--heading);
+}
+
 /* ---------- Utilities ---------- */
 .visually-hidden {
   position: absolute !important;

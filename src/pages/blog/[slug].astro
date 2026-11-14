@@ -1,0 +1,101 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, isoDate, longDate } from '../../data/blog';
+import type { Post } from '../../data/blog';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  // Newest first: the previous entry is the newer post, the next one the older.
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null },
+  }));
+}
+
+const { post, newer, older } = Astro.props as { post: Post; newer: Post | null; older: Post | null };
+const { data } = post;
+const { Content } = await render(post);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.summary,
+  datePublished: isoDate(data.date),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { '@id': `${site.url}/#person` },
+};
+---
+
+<Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
+  <article>
+    <header class="page-head container">
+      <p class="label"><a href="/blog/">Blog</a></p>
+      <h1>{data.title}</h1>
+      <p class="post__date">
+        <time datetime={isoDate(data.date)}>{longDate(data.date)}</time>
+        {data.draft && ' · Draft'}
+      </p>
+    </header>
+
+    <div class="container prose post__body">
+      <Content />
+    </div>
+
+    {
+      (newer || older) && (
+        <nav class="container post-nav" aria-label="Other posts">
+          {older && (
+            <div class="post-nav__older">
+              <p class="label">Older post</p>
+              <a href={`/blog/${older.id}/`}>{older.data.title}</a>
+            </div>
+          )}
+          {newer && (
+            <div class="post-nav__newer">
+              <p class="label">Newer post</p>
+              <a href={`/blog/${newer.id}/`}>{newer.data.title}</a>
+            </div>
+          )}
+        </nav>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .post__date {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  .post__body {
+    margin-top: var(--space-6);
+  }
+  .post-nav {
+    display: grid;
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: var(--rule) solid var(--line);
+  }
+  .post-nav p {
+    margin-bottom: var(--space-1);
+  }
+  @media (min-width: 42rem) {
+    .post-nav {
+      grid-template-columns: 1fr 1fr;
+    }
+    .post-nav__older {
+      grid-column: 1;
+    }
+    .post-nav__newer {
+      grid-column: 2;
+      text-align: right;
+    }
+  }
+</style>

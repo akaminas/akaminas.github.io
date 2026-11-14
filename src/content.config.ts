@@ -97,4 +97,18 @@ const teaching = defineCollection({
   }),
 });
 
-export const collections = { projects, publications, talks, teaching };
+/** The blog: one Markdown file per post. Files whose name starts with an underscore (the template) are not posts. */
+const blog = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/_*.md'], base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    /** Publication date, YYYY-MM-DD. */
+    date: z.coerce.date(),
+    /** One or two sentences for the list, the feed and the page description. */
+    summary: z.string().max(200),
+    /** A draft shows only under `npm run dev`; it is left out of the built site, the list and the feed. */
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, publications, talks, teaching, blog };
