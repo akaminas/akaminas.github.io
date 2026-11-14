@@ -1,11 +1,11 @@
 # Design system
 
-An illustrated personal site in the manner of an interactive academic homepage, in the Sand palette: warm cream paper (#FDF8F0), a tan bar (#F0D3AC) with brown text, deep brown headings, terracotta (#A6481C) for buttons and the active state, Greek blue (#1258A4) for links, monospaced headings over a slab-serif text face. The home page is short: the name, one paragraph with the portrait, one badge line for the PhD project, the site's one illustration (an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map) and four recent items. Everything else is a page of its own.
+An illustrated personal site in the manner of an interactive academic homepage, in the Meltemi palette: sea-mist paper (#F4F9FA), a pale sea-glass bar (#CDE3E8) with deep teal text, headings in deep Aegean ink (#0E3B4E), bougainvillea (#A11F5D) for buttons and the active state, blue (#0A5A8F) for links, monospaced headings over a slab-serif text face. The home page is short: the name, one paragraph with the portrait, one badge line for the PhD project, the site's one illustration (an island of white Cycladic houses drawn as a toy-brick model, whose parts are the site's map) and four recent items. Everything else is a page of its own.
 
 ## Principles
 
 1. **One illustration, and it is the map.** The island on the home page is the one large picture besides the portrait; every project and method area has a small line diagram of its own (see Motif). Every part of the island leads somewhere: the sea to marine work, the island and its gulls to island ecology, the three figures to social and economic systems, the wind turbine to sustainability, the lighthouse at the end of the pier to scientific tool development, and each house to a page. A plain-text key under the figure repeats every link.
-2. **Warm paper, one accent, and pastel tones for parts.** Cream paper, a tan bar with brown text, deep brown headings and pale sand surfaces; terracotta for buttons and the active state, Greek blue for links only. Eight muted pastel tones (below) colour the parts of a section: each project domain, each method area, each profile tile, and the chips that name them. A tone only ever sits on a drawing, a tinted panel, a chip or a rule under a heading; it never carries text. The island keeps its own fixed colours (blue sea and domes, white houses, sand, olive grass and wood): blue and orange are complements, so it stands off the page. Nothing is neon.
+2. **Pale paper, one accent, and pastel tones for parts.** Sea-mist paper, a pale sea-glass bar with deep teal text, headings in deep Aegean ink and pale blue-grey surfaces; bougainvillea for buttons and the active state, blue for links only. The palette comes from the subject, the Aegean and its islands, not from another site: cool and light, with the berry of the island gardens as its one warm colour. Eight muted pastel tones (below) colour the parts of a section: each project domain, each method area, each profile tile, and the chips that name them. A tone only ever sits on a drawing, a tinted panel, a chip or a rule under a heading; it never carries text. The island keeps its own fixed colours (blue sea and domes, white houses, sand, olive grass and wood), deeper and more saturated than the paper, so it stands off the page. Nothing is neon.
 3. **Mono over slab.** Headings, the wordmark, the navigation, labels, dates and buttons are Roboto Mono at 500–700; text is Roboto Slab at 400. The monospaced face is set small and tight (headings 1.9–2.5 rem) so it reads as a label, not a banner.
 4. **No annotation layer.** There are no figure numbers, plate numbers, zone numbers or clause numbers. Sections are headings with a hairline under them.
 5. **Progressive enhancement, no scripted motion.** Navigation, content and the island work without JavaScript; JavaScript adds only the mobile menu toggle and the colour-scheme toggle. The island's hover and focus effects are CSS transitions of 140–220 ms and collapse under `prefers-reduced-motion`.
@@ -27,21 +27,21 @@ Light and dark schemes follow `prefers-color-scheme` by default. A header toggle
 
 | Token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `--bg` | `#fdf8f0` | `#1e1813` | paper |
-| `--surface` | `#f8ecdb` | `#2b2219` | panels, asides |
-| `--bar` / `--bar-ink` | `#f0d3ac` / `#6b3a1e` | `#3d2c1d` / `#f3e3ce` | the header bar and its text (6.5:1 / 10.6:1) |
-| `--ink` | `#3a2d22` | `#f0e7db` | body text (12.6:1 / 14.4:1) |
-| `--heading` | `#7a3b22` | `#f8eddf` | headings (8.0:1 / 15.2:1) |
-| `--muted` | `#6d5a48` | `#c3af98` | secondary text (6.2:1 / 8.3:1) |
-| `--link` | `#1258a4` | `#8fbdf0` | links (6.7:1 / 9.0:1) |
-| `--accent` / `--accent-soft` | `#a6481c` / `#fae2d2` | `#f0a072` / `#3d2718` | terracotta: buttons, chips, active states, the "ongoing" dot (5.6:1 / 8.3:1) |
-| `--badge` / `--badge-ink` / `--badge-gold` | `#4a2716` / `#fdf3e8` / `#f0c48f` | `#f5e7d5` / `#1e1813` / `#945829` | the dark strip and the island's hover labels |
-| `--line` / `--line-strong` | `#f0e4d3` / `#d9bf9e` | `#342a20` / `#584631` | hairlines, panel borders |
-| `--focus` | `#1258a4` | `#8fbdf0` | focus ring |
+| `--bg` | `#f4f9fa` | `#0c1a20` | paper |
+| `--surface` | `#e6f0f2` | `#13262e` | panels, asides |
+| `--bar` / `--bar-ink` | `#cde3e8` / `#0c3446` | `#12343f` / `#dcedf1` | the header bar and its text (9.9:1 / 11.0:1) |
+| `--ink` | `#1a2e37` | `#e2eef2` | body text (13.3:1 / 15.0:1) |
+| `--heading` | `#0e3b4e` | `#f0f8fa` | headings (11.3:1 / 16.5:1) |
+| `--muted` | `#4a626c` | `#9fb6bf` | secondary text (6.1:1 / 8.4:1) |
+| `--link` | `#0a5a8f` | `#7cc4ef` | links (6.9:1 / 9.3:1) |
+| `--accent` / `--accent-soft` | `#a11f5d` / `#f6dce8` | `#f08fb8` / `#3a1a2a` | bougainvillea: buttons, chips, active states, the "ongoing" dot (6.9:1 / 7.9:1) |
+| `--badge` / `--badge-ink` / `--badge-gold` | `#0e3b4e` / `#f4f9fa` / `#f4b6cf` | `#e2eef2` / `#0c1a20` / `#a11f5d` | the dark strip and the island's hover labels |
+| `--line` / `--line-strong` | `#dde9ec` / `#b4c9d0` | `#1f3640` / `#36525e` | hairlines, panel borders |
+| `--focus` | `#0a5a8f` | `#7cc4ef` | focus ring |
 
 **Tones.** Eight muted pastels, defined once as `--tone-*` and the same on both schemes: teal `#86c1b3`, sea `#86b4cd`, sand `#dfc88f`, coral `#dfa795`, lilac `#b9adda`, sage `#aec693`, rose `#d9a8ba`, apricot `#e2b48f`. `src/data/tones.ts` says which belongs to what: the four project domains (ecology and evolution teal, sustainability and social systems coral, marine systems sea, scientific tool development lilac) and, on the Methods page, one tone per area. An element sets `--tone` (inline, via `toneStyle`) and everything inside reads it. A panel is the tone mixed into `--surface` (`--tint-amt`, 24 % light and 30 % dark); a chip is the same mix with a border; the "deep" accent inside a drawing is the tone darkened in its own hue on the light scheme and lightened on the dark one (`--deep-shade`, `--deep-amt`). Text on a tinted ground stays `--ink`, so contrast is that of ink on a pale or dark tint.
 
-The other palette, **Aegean** (white paper `#f4f4f4`, one blue `#007ba7` for the bar, links and controls, deep slate text), is the default token set in the stylesheet and comes back when `data-palette="sand"` is removed from `<html>` in `src/layouts/Base.astro`. The comment above the tokens lists the other places that carry a hard-coded colour and must change with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons) and `scripts/og.html` (then re-render the social image). Both palettes, in both schemes, were checked against every text/background pair.
+The other palette, **Aegean** (white paper `#f4f4f4`, one blue `#007ba7` for the bar, links and controls, deep slate text), is the default token set in the stylesheet and comes back when `data-palette="meltemi"` is removed from `<html>` in `src/layouts/Base.astro`. The comment above the tokens lists the other places that carry a hard-coded colour and must change with it: the theme-color meta tags and the pre-paint script in `Base.astro`, `src/scripts/theme.ts`, `public/site.webmanifest`, `public/favicon.svg` (then re-render the icons) and `scripts/og.html` (then re-render the social image). Both palettes, in both schemes, were checked against every text/background pair.
 
 The island itself uses fixed colours (sea and domes `#007ba7`, houses `#f4f4f4`, sand `#e6d2a0`, grass `#7fb069`) in both schemes, with three tones per colour (top lighter, left as is, right darker) and studs on every top surface.
 
@@ -79,9 +79,9 @@ To change the island, edit the scene section of the script and run `node scripts
 - **Motif** — twenty-one original line diagrams: one per project (`isolation`, `bipartite`, `fold`, `hypervolume`, `loop`, `records`, `swatches`, `tessera`, `atlas`, `youth`, `lab`, `europe`), one per method area (`compartments`, `walks`, `phase`, `graph`, `tree`, `scatter`, `survey`, `contours`) and one for the 404 page (`lost`); no two share a picture. The drawings for SDSN Youth Greece, the PESD Lab and the European programmes (people round a globe, a Greek-style building with a frieze of warming stripes, a graduation cap in a ring of twelve dots) are original, not those organisations' logos or the EU emblem. One grammar: ink outlines in `currentColor`, the tone for fills, its deep mix for the thing being followed, dashes for what is not present. `aria-hidden`; the tone comes from the element around it.
 - **Contact** — email, profile tiles (one tone each) and affiliation, from `site.ts`.
 - **Chips** — rounded tags for methods, tools and project domains, tinted with the tone of their section (the reference tints its blog categories the same way). Never proficiency bars.
-- **Buttons** — pill-shaped, terracotta; primary is filled. 44 px minimum height.
+- **Buttons** — pill-shaped, bougainvillea; primary is filled. 44 px minimum height.
 - **Badge** — the dark rounded strip with a pale outline, for one highlighted line: the PhD project on the home page. Centred under the hero; on a phone its separator dot is dropped and it wraps.
-- **Status** — a coloured dot and a word; terracotta for "ongoing".
+- **Status** — a coloured dot and a word; bougainvillea for "ongoing".
 - **Ledger** — dated rows: a mono period column (the lead column) and a content column, hairlines between rows. The same width on every page.
 
 ## Interaction and motion rules
