@@ -852,6 +852,142 @@ abbr[title] {
   margin-top: var(--space-2);
 }
 
+/* Figures in a post (scripts/figures draws them, src/plugins/figure.mjs places them).
+   The same grammar as the motifs: ink outlines, one tone for areas, the deep mix of it
+   for the thing followed, a second tone for the comparison, dashes for what is not there.
+   480 units wide; the drawing is at most 40rem, so its type stays near 16 px on a desktop. */
+.fig svg {
+  --_a: var(--tone, var(--accent));
+  --_b: var(--tone-b, var(--tone-coral));
+  --_ad: color-mix(in oklch, var(--_a), var(--deep-shade) var(--deep-amt));
+  --_bd: color-mix(in oklch, var(--_b), var(--deep-shade) var(--deep-amt));
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+  height: auto;
+  overflow: visible;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Lines */
+.fig .ax {
+  stroke: currentColor;
+  stroke-width: 1.2;
+  opacity: 0.6;
+  fill: none;
+}
+.fig .gr {
+  stroke: currentColor;
+  stroke-width: 0.8;
+  opacity: 0.16;
+  fill: none;
+}
+.fig .ln {
+  stroke: currentColor;
+  stroke-width: 1.3;
+  opacity: 0.85;
+  fill: none;
+}
+.fig .dash {
+  stroke-dasharray: 4 4;
+}
+.fig .la,
+.fig .lb,
+.fig .sa,
+.fig .sb {
+  fill: none;
+}
+.fig .la {
+  stroke: var(--_ad);
+  stroke-width: 2.6;
+}
+.fig .lb {
+  stroke: var(--_bd);
+  stroke-width: 2.6;
+}
+.fig .sa {
+  stroke: var(--_a);
+  stroke-width: 2;
+}
+.fig .sb {
+  stroke: var(--_b);
+  stroke-width: 2;
+}
+.fig .ah {
+  fill: none;
+}
+/* Shapes: a tone with an ink outline */
+.fig .fa,
+.fig .fb,
+.fig .fad,
+.fig .fbd,
+.fig .fas,
+.fig .fbs,
+.fig .fn,
+.fig .fp {
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+.fig .fa {
+  fill: var(--_a);
+}
+.fig .fb {
+  fill: var(--_b);
+}
+.fig .fad {
+  fill: var(--_ad);
+}
+.fig .fbd {
+  fill: var(--_bd);
+}
+.fig .fas {
+  fill: color-mix(in srgb, var(--_a) 45%, transparent);
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+}
+.fig .fbs {
+  fill: color-mix(in srgb, var(--_b) 45%, transparent);
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+}
+.fig .fn {
+  fill: var(--surface);
+}
+.fig .fp {
+  fill: var(--bg);
+}
+/* Type: ink and muted for most, the deep tones for a label that belongs to a line */
+.fig text {
+  fill: currentColor;
+  stroke: none;
+}
+.fig .halo {
+  stroke: var(--bg);
+  stroke-width: 4px;
+  paint-order: stroke;
+}
+.fig .tm {
+  fill: var(--muted);
+}
+.fig .ta {
+  fill: var(--_ad);
+  font-weight: 600;
+}
+.fig .tb {
+  fill: var(--_bd);
+  font-weight: 600;
+}
+.fig .tt {
+  font-weight: 600;
+}
+.fig .ts {
+  font-size: 10.5px;
+  fill: var(--muted);
+}
+
 /* Code, quotations and tables in a long text (the blog, the project pages). */
 .prose pre {
   margin: 0 0 var(--space-4);
