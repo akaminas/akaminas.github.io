@@ -35,9 +35,9 @@ Any pipeline that reduces per-unit quantities to one summary has this exposure. 
 
 The pattern appears in sustainability work too. Life-cycle assessment depends on a functional unit and a system boundary, input-output analysis on how sectors are aggregated, and circularity indicators on how the dimensions are weighted. Each is an analyst's choice that can decide a conclusion, and rarely does anyone ask how much of a published conclusion is the system and how much is the method.
 
-## An example from my own work
+## A familiar example
 
-In one of my own analyses, a claim's text described one estimator while its table reported another. Both looked correct on their own. A colleague who reproduced the number found the difference. Switching to the correct form strengthened one half of the result and weakened the other, which is what an unbiased correction tends to look like. It did not rescue the comparison, since the comparison had its own flaw: a right estimator on a wrong comparison is still a wrong comparison.
+A claim's text describes one estimator while its table reports another. Both look correct on their own. A colleague who reproduces the number finds the difference. Switching to the correct form may strengthen one half of a result and weaken the other, which is what an unbiased correction tends to look like. It does not rescue a comparison that has its own flaw: a right estimator on a wrong comparison is still a wrong comparison.
 
 ## Three habits
 

@@ -25,9 +25,9 @@ A report is transparent when a reader can tell what a number means, how it was o
 
 **Make the number reproducible.** Another person should be able to arrive at it from what you provide.
 
-## An example from my own work
+## A familiar example
 
-The text of one claim in my own work described one way of averaging, while the table reported another. Each looked correct on its own. A colleague who reproduced the number found the difference, and an internal check had not. The corrected form changed the size of the effect, and a right estimator did not rescue a comparison that had its own flaw. I take two lessons from this. Independent reproduction catches what self-review misses, and a correct estimator on the wrong comparison is still wrong.
+The text of a claim describes one way of averaging, while its table reports another. Each looks correct on its own. A colleague who reproduces the number finds the difference, and an internal check does not. Correcting the estimator changes the size of the effect, and it does not rescue a comparison that has its own flaw. Two lessons follow. Independent reproduction catches what self-review misses, and a correct estimator on the wrong comparison is still wrong.
 
 ## Why every room needs one
 

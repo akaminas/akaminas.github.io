@@ -35,4 +35,4 @@ This is a stance about when to stop building, not a claim that fit to data is un
 
 ## What it predicts
 
-A model built under these rules should shrink during development. If it keeps growing, the reasons for each addition are worth rereading. In my experience the improvements have come from asking a specific question, never from the general doubt.
+A model built under these rules should shrink during development. If it keeps growing, the reasons for each addition are worth rereading. Improvements tend to come from asking a specific question, and not from general doubt.

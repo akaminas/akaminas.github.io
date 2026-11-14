@@ -15,7 +15,7 @@ Suppose a model returns only the product y = a × b. The pairs (a, b) = (2, 3) a
 
 A standard way to infer how a community assembled is to count its species and measure how closely related or similar they are. Strong competition removes species by crowding. A low rate of arrival supplies fewer species to begin with. Both can produce the same pattern from the point of view of richness or of tree-based statistics: fewer species, similarly structured. If so, those statistics cannot separate the two processes on a single island, and an inference built on them inherits the confound.
 
-One way out is a statistic that cuts across the ridge. Competition acts on traits directly and colonisation does not, so the spread of traits could vary along the ridge and so identify the position. Whether it does is an empirical question about a model, and one I am studying in my doctoral work. I will not claim an answer here, since nothing from it has been through peer review.
+One way out is a statistic that cuts across the ridge. Competition acts on traits directly and colonisation does not, so the spread of traits could vary along the ridge and so identify the position. Whether it does is an empirical question about a model, and the answer may differ from one system to another.
 
 ## Check before you fit
 

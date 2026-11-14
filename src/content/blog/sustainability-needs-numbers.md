@@ -23,9 +23,9 @@ A handful of ideas from the field show how much hangs on a number.
 
 ## Commitment and practice
 
-My co-authors and I studied how fifty Greek environmental organisations committed to sustainable development and circular-economy principles. We built an index from public information and read it through three frameworks from organisational sociology. The finding was that commitment is predominantly conceptual, with gradual efforts to turn it into concrete practice.
+A study I contributed to, on how non-governmental organisations commit to sustainability, found that commitment is mostly conceptual, with gradual efforts to turn it into practice.
 
-That is a cross-section: one moment, fifty organisations. It cannot say how quickly stated commitment becomes practice, whether the gap is closing, or whether it stalls. Those are questions about rates, and answering them needs a model with the two quantities as state variables and data over time. The same applies to many sustainability claims. A snapshot shows a gap, and only dynamics show whether it is narrowing.
+That is a cross-section: one moment, one set of organisations. It cannot say how quickly stated commitment becomes practice, whether the gap is closing, or whether it stalls. Those are questions about rates, and answering them needs a model with the two quantities as state variables and data over time. The same applies to many sustainability claims. A snapshot shows a gap, and only dynamics show whether it is narrowing.
 
 ## Where the numbers are thin
 

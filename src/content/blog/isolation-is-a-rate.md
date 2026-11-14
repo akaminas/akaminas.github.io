@@ -5,7 +5,7 @@ summary: "Isolation is usually a fixed label on a place. Treating it as the rate
 draft: true
 ---
 
-Islands are isolated, habitat fragments are isolated, and the usual way to treat this is as a property of the place: how far away it is, how big, how connected. That is a useful simplification. My doctoral project asks what changes if isolation is treated instead as a rate, because the rate may depend on the community that receives the arrivals.
+Islands are isolated, habitat fragments are isolated, and the usual way to treat this is as a property of the place: how far away it is, how big, how connected. That is a useful simplification. It is worth asking what changes if isolation is treated instead as a rate, because the rate may depend on the community that receives the arrivals.
 
 ## The classical picture
 
@@ -21,14 +21,14 @@ So the rate of arrival and the community are coupled. The central question becom
 
 ## Four processes
 
-The framework couples four processes that are often studied separately:
+A model of this could couple four processes that are often studied separately:
 
 - **Immigration**, the rate at which new lineages arrive.
 - **Ecological interactions** among the resident populations.
 - **Diversification**, the origin of new lineages in place.
 - **Extinction**, the loss of lineages.
 
-Evolutionary change acts on the traits that govern the interactions. Ecology and evolution are then coupled directly, instead of being separated by a difference in timescale. The models are stochastic and are studied by simulation, with the simulation engine in C++ and analysis in R and Python.
+Evolutionary change acts on the traits that govern the interactions. Ecology and evolution are then coupled directly, instead of being separated by a difference in timescale. Such models are stochastic and are usually studied by simulation.
 
 ## What the rate view allows
 
@@ -38,11 +38,11 @@ Evolutionary change acts on the traits that govern the interactions. Ecology and
 
 **Timescales.** Arrival, ecological sorting and evolution each take their own time. The reading of a result depends on whether the process had time to act within the run, and a result should name the age at which a community is read.
 
-## What I do not know yet
+## What is not settled
 
-This is a framework under development. I presented it at the Annual Schoorl Meeting of the Netherlands Society for Theoretical Biology in June 2026, and nothing from the project has been through peer review. The aim of this post is to state the question and the reasoning for it.
+This is a way of framing a question, and not a result. The aim of this post is to state the question and the reasoning for it, and the answer may well be that the simple label is close enough.
 
-The question is a general one. The motivation is the ecology and evolution of islands and habitat fragments, but the framework is formulated generally. It could apply wherever lineages, ideas, firms or people arrive from outside at a rate that depends on what is already there.
+The question is a general one. The motivation is the ecology and evolution of islands and habitat fragments, but it could apply wherever lineages, ideas, firms or people arrive from outside at a rate that depends on what is already there.
 
 ## Why it is worth the trouble
 

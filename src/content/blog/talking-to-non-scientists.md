@@ -5,7 +5,7 @@ summary: "Start from the listener's decision, give one number with its uncertain
 draft: true
 ---
 
-Much of what I do is mathematical, and many of the people who might use it are not mathematicians. Part of my work with the Political Economy of Sustainable Development Lab is climate-change reporting, data visualisation and scientific storytelling, and I coordinate a network of young people who work on the Sustainable Development Goals. Explaining a quantitative result to someone who has no reason to read the methods section is a skill with rules, and these are the ones I try to follow.
+Much of what I do is mathematical, and many of the people who might use it are not mathematicians. Explaining a quantitative result to someone who has no reason to read the methods section is a skill with rules, and these are the ones I try to follow.
 
 ## Start from their decision
 
@@ -37,8 +37,7 @@ The mixing of the three is what makes a confident-sounding report fragile. Marki
 
 ## One figure, one message
 
-A figure should make one point, and the point should be in its title. Check that it survives for readers with colour-vision differences and when printed in grey. The style I use for my own figures was built with these checks in mind.
-
+A figure should make one point, and the point should be in its title. Check that it survives for readers with colour-vision differences and when printed in grey.
 ## Mind the words
 
 Several scientific terms mean something else in ordinary speech: significant, random, error, theory, model, positive, uncertain. "Uncertain" is the dangerous one. To a scientist it can mean a well-quantified range, and to a listener it can sound like "we don't know". Say "we know this to within about ten per cent" rather than "this is uncertain".

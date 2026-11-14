@@ -30,7 +30,7 @@ The last row is the important one. It contains zero, so a test of difference pas
 
 The width of the interval depends on the number of replicates, so the number needed can be worked out in advance. Take a margin of 0.5 units and a true difference of zero. If the standard error is 0.31, the 90 per cent interval is about 0.51 on each side and does not fit. At a standard error of 0.22 it is about 0.36 and fits. Those figures are an illustration, but the lesson is general: work out which effect size the design can resolve before reading its output, then choose the replication.
 
-In one of my own simulation checks, the same comparison was unresolved with ten pairs and equivalent with twenty. The difference between the two outcomes was the width of the interval, not the size of the effect, and the new pairs were run on new random seeds. The earlier cells were not patched.
+In a simulation check, the same comparison can be unresolved with ten replicate pairs and equivalent with twenty. The difference between the two outcomes is the width of the interval, not the size of the effect. The extra pairs should be run on new random seeds, and the earlier cells should not be patched.
 
 ## A bounded null is informative
 

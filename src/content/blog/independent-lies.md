@@ -21,7 +21,7 @@ It helps to separate at least five layers: the mathematics, the numerics, the im
 
 A check is worth something only if it could fail. If the second piece of code is written by the same hand from the first, or shares an assumption, it agrees by construction. An independent implementation, in a different language and written from the specification rather than from the first program, can disagree, and the disagreement is the information.
 
-In my doctoral work the main simulator is written in C++ and a second implementation in R is written to check it. Identities taken from the literature are tested against code written by others, and not against my own algebra restated. In practice a check that I wrote with both sides scaled the same way would agree automatically, so the real test is whether an outside implementation, with its own conventions, reproduces the number.
+A common arrangement is a main simulator in one language and a second implementation in another, written to check it. Identities taken from the literature are best tested against code written by others, and not against one's own algebra restated. A check written with both sides scaled the same way will agree automatically, so the real test is whether an outside implementation, with its own conventions, reproduces the number.
 
 Reading other people's source code, and not only their papers, belongs in the same practice. It can settle questions that the paper leaves open, and it can expose an error in a published coefficient.
 

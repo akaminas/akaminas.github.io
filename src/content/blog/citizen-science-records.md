@@ -5,13 +5,13 @@ summary: "Records from divers, fishers and the public can show a first occurrenc
 draft: true
 ---
 
-From 2018 to 2023 I was a volunteer research fellow with the environmental organisation iSea, monitoring non-indigenous species and elasmobranchs in the eastern Mediterranean. The programmes I contributed to included public engagement and alien-species monitoring under a research permit, a project on population densities of alien species in Greece and Cyprus, and a collaborative network for shark and ray sightings. The work produced seven papers, and it taught me what records of this kind can support and where they run out.
+I have worked with records of marine species contributed by divers, fishers and the public. They are useful, and they have limits, and it helps to know where the one ends and the other begins.
 
 ## What they are good at
 
 **Coverage.** Divers, fishers and the public are in more places, for more of the year, than any survey team. For species that spread faster than formal surveys can follow, their observations may be the first sign.
 
-**First records.** A single well-documented sighting is evidence that a species is present somewhere it was not known to be. A photograph can be checked by a taxonomist, which turns an anecdote into a record. A paper I led on the jellyfish *Phyllorhiza punctata* in Cyprus, titled "Filling gaps via citizen science", was built on records of this kind.
+**First records.** A single well-documented sighting is evidence that a species is present somewhere it was not known to be. A photograph can be checked by a taxonomist, which turns an anecdote into a record. Many published first records rest on observations of this kind.
 
 **Range changes.** A series of records, checked and dated, shows where a species has been found over time.
 
@@ -39,6 +39,6 @@ Practical steps follow.
 
 ## A matter of method
 
-The work was data-gathering and monitoring, not modelling. It is the empirical ground for my later work on marine communities, and it left me with a respect for the people who collect the data and a wariness about what the data can carry. A model fitted to records without regard to the effort behind them can produce a confident answer to the wrong question.
+Collecting records is data-gathering and monitoring, not modelling. It gives a respect for the people who collect the data and a wariness about what the data can carry. A model fitted to records without regard to the effort behind them can produce a confident answer to the wrong question.
 
 Collecting the records is also a form of public engagement. Participants who know why effort matters tend to report better, and that makes a better dataset.

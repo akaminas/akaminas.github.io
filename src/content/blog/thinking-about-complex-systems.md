@@ -59,4 +59,4 @@ A model needs a stopping rule that is written before the results are known. "Doe
 7. Check the code against the equations, then run, then read the output against the question.
 8. Stop when the conditions you wrote at the start are met.
 
-None of this is specific to ecology. I have found the same questions useful for a model of a community, a network of mutualists, and a set of organisations under institutional pressure.
+None of this is specific to ecology. The same questions apply to a model of almost any system.

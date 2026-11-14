@@ -21,7 +21,7 @@ where a and b are the two controls. Inside a wedge-shaped region of the (a, b) p
 
 The picture was taken up in ecology early. Ludwig, Jones and Holling's 1978 model of spruce budworm outbreaks has the structure of a fold. Scheffer and colleagues' 2001 review of catastrophic shifts in ecosystems collects lakes, coral reefs, drylands and others that appear to have alternative stable states. The state variable might be clear water or turbid, coral or algae, and the controls nutrients, grazing or fishing, and temperature.
 
-In my master's research I asked whether this picture suits Mediterranean fish and macroinvertebrate communities exposed to climate change and fishing. The two pressures are natural candidates for the control variables of a cusp, and the question was whether the data support gradual reorganisation or jumps between alternative states, and how the pressures act together. I presented the work at the 2024 colloquium of the Association Française d'Halieutique. It has not been published.
+I have used the framework to ask whether marine communities under two pressures, such as climate change and fishing, reorganise gradually or jump between alternative states, and how the pressures act together. The two pressures are natural candidates for the control variables of a cusp.
 
 ## Economies and societies
 
@@ -37,7 +37,7 @@ Second, a catastrophe is a testable claim only with data that can show it. The s
 
 ## Noise
 
-With random variation, a system near a fold does not wait for the equilibrium to vanish. It can flicker between the two states, the more so the closer it gets to the edge. A transition at a threshold then looks like a change in the proportion of time spent in each state. Models that combine the deterministic skeleton with a stochastic component, as mine did, are the natural way to describe this.
+With random variation, a system near a fold does not wait for the equilibrium to vanish. It can flicker between the two states, the more so the closer it gets to the edge. A transition at a threshold then looks like a change in the proportion of time spent in each state. Models that combine a deterministic skeleton with a stochastic component are the natural way to describe this.
 
 ## What it is good for
 

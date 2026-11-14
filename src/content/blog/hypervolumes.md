@@ -17,8 +17,7 @@ The simplest estimate is the **convex hull**, the smallest convex shape that con
 
 This is an opinion from my own reading, so treat it accordingly. The method seems to me to be used mostly for niche overlap and functional richness in plants and animals, and less for questions where its answer would be informative:
 
-- **Change under pressure.** Does the occupied volume shrink, shift or fragment when a community is fished, warmed or invaded? This was the question of my research internships at UMR MARBEC, on Mediterranean fish communities and global change.
-- **Invasion.** Does an alien species fill empty parts of the trait space or overlap with residents? That is more informative than the fact that it has arrived.
+- **Change under pressure.** Does the occupied volume shrink, shift or fragment when a community is fished, warmed or invaded?- **Invasion.** Does an alien species fill empty parts of the trait space or overlap with residents? That is more informative than the fact that it has arrived.
 - **Evolution.** In models where traits evolve, the shape of the cloud is itself a result. Whether diversification fills the space or spreads along one axis says something about the processes behind it.
 - **Beyond biology.** Any set of things described by many measurements has a trait space, including organisations described by sustainability indicators.
 
@@ -34,12 +33,9 @@ I suspect the main reason for the slight use is the number of choices involved, 
 
 **How to compare communities of different size?** A larger community will tend to have a larger hull. Compare after rarefaction, or against null communities of the same number of species drawn from the regional pool, never raw.
 
-**What about missing traits?** Trait databases are incomplete. One option is to impute missing values from the phylogeny, since related species tend to be similar. That requires a phylogeny, which for some groups must itself be inferred, and the imputation error should be carried through to the final volume. This is what my fish analyses did.
-
+**What about missing traits?** Trait databases are incomplete. One option is to impute missing values from the phylogeny, since related species tend to be similar. That requires a phylogeny, which for some groups must itself be inferred, and the imputation error should be carried through to the final volume.
 **How sure are we?** A volume without an interval is a number without a meaning. Resample the species, perturb the traits and see how far the answer moves.
 
 ## An honest verdict
 
 The hypervolume is neither a replacement for species richness nor a cure for its limits. It is a good tool for a specific question: how much of a space of possible ways of living does this community use, and is that changing? It deserves more use, together with the discipline of reporting the choices that go into it.
-
-My own hypervolume work, from two research internships, has not been published.

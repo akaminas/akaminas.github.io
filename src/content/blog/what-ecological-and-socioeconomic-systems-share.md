@@ -5,7 +5,7 @@ summary: "Both are many unlike parts with feedback, delay and noise. The mathema
 draft: false
 ---
 
-I trained as a marine scientist, I now build models of ecological communities, and part of my work is on organisations and sustainability. That can look like two fields. For the purposes of modelling it is closer to one, and this first post says why, and where the resemblance stops.
+I work on both ecological and socioeconomic systems, and people sometimes ask whether that is two fields. For the purposes of modelling it is closer to one, and this first post says why, and where the resemblance stops.
 
 ## What carries over
 

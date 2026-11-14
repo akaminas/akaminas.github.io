@@ -25,7 +25,7 @@ The separation fails when the fast variable slows down. Near a tipping point the
 
 A common mistake concerns the length of the run and the per-step rates. Suppose a model runs on a fixed history, for example a branching schedule given in advance. Stretching the run over more steps, with every per-step rate unchanged, applies more selection, growth and mutation over the same stretch of history. The horizon and the per-step rates form one quantity. Changing one without the other changes the dynamics. If you refine the time step, rescale the rates by the same factor.
 
-Not everything can be rescaled in this way. In one model I worked with, heritability could not be, because it enters in two places and no single rescaling satisfies both. The honest approach is to say which quantities were rescaled and which were not.
+Not everything can be rescaled in this way. A parameter that enters a model in two places may satisfy only one of the conditions, and no single rescaling serves both. The honest approach is to say which quantities were rescaled and which were not.
 
 ## A null is about the horizon
 
@@ -39,4 +39,4 @@ Mismatched timescales are a common cause of policy trouble. A fish stock can tak
 
 ## A habit
 
-Before a grid of runs, write a short table: each process, its time, the length of the run, and the ratio. If a ratio is far from where you need it, change the design. The table takes minutes and has saved me days.
+Before a grid of runs, write a short table: each process, its time, the length of the run, and the ratio. If a ratio is far from where you need it, change the design. The table takes minutes and can save days.

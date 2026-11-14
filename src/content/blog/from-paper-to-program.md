@@ -49,10 +49,6 @@ Simulation experiments need a design. Use the same random numbers for the two co
 
 What a simulation shows is that, under the stated rules, something follows. That is a claim about the model. It becomes a claim about the world only through a further argument, which has its own evidence. Simulation output is easily over-read: a pattern in the output can be produced by more than one mechanism, and a run too short will say nothing about a slow process.
 
-## A course built on this
+## Teaching it
 
-These steps are the outline of C++ Atlas, a course site I wrote that teaches C++ as a route to scientific modelling, for biologists. It is laid out as a map. The foundations of the language lie on one side. Four modelling destinations lie on the other: algorithm design, numerical integration, stochastic modelling and individual-based modelling. A final region is about what simulation can and cannot support. It has 124 concepts and 74 lessons with worked examples and knowledge checks, and progress stays in the browser.
-
-The browser laboratories are written in TypeScript and labelled as simulations, since the site does not run C++. The C++ programs in the lessons are compiled and run in continuous integration and checked against the laboratories. The site follows the University of Groningen course manual for Programming in C++ for Biologists, is independent of the University, and reproduces none of the manual's exercises.
-
-I am also a teaching assistant on that course in 2026 and 2027, and on two others in mathematical modelling for biologists.
+These steps are also the outline of a course for biologists who learn programming as a route to scientific modelling. Each step can be taught on its own, and the order matters: a student who has not read the model carefully cannot check the code, and one who has not checked the code cannot trust the experiment.
