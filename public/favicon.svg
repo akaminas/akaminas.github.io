@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="A small network: three connected nodes and one outlying node">
-  <rect width="64" height="64" rx="14" fill="#a6481c"/>
-  <g stroke="#fdf8f0" stroke-width="3.3" stroke-linecap="round">
+  <rect width="64" height="64" rx="14" fill="#0e3b4e"/>
+  <g stroke="#f4f9fa" stroke-width="3.3" stroke-linecap="round">
     <line x1="16" y1="20" x2="39" y2="15"/>
     <line x1="39" y1="15" x2="22" y2="42"/>
     <line x1="22" y1="42" x2="16" y2="20"/>
     <line x1="22" y1="42" x2="48" y2="44"/>
   </g>
-  <circle cx="16" cy="20" r="6.4" fill="#fdf8f0"/>
-  <circle cx="39" cy="15" r="6" fill="#fdf8f0"/>
-  <circle cx="22" cy="42" r="6.2" fill="#fdf8f0"/>
-  <circle cx="48" cy="44" r="6.6" fill="#f0c48f"/>
+  <circle cx="16" cy="20" r="6.4" fill="#f4f9fa"/>
+  <circle cx="39" cy="15" r="6" fill="#f4f9fa"/>
+  <circle cx="22" cy="42" r="6.2" fill="#f4f9fa"/>
+  <circle cx="48" cy="44" r="6.6" fill="#f4b6cf"/>
 </svg>
