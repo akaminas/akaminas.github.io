@@ -1,7 +1,9 @@
 ---
 /**
- * The bar at the top of every page: name, four links, profile icons and the
- * colour-scheme toggle. The menu button and the toggle appear only with JS;
+ * The bar at the top of every page: name, every page of the site, profile icons
+ * and the colour-scheme toggle. From 70rem the eight links sit in the bar; below
+ * that they fold into a menu (keep the two 70rem queries and the matchMedia
+ * below in step). The menu button and the toggle appear only with JS;
  * without it the navigation is simply visible.
  */
 import { nav, site } from '../data/site';
@@ -170,7 +172,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     flex: none;
   }
   /* In the bar the icons stand alone; the name is the link's accessible name and its tooltip. In the open menu it shows. */
-  @media (min-width: 56rem) {
+  @media (min-width: 70rem) {
     .site-nav__label {
       position: absolute;
       width: 1px;
@@ -239,7 +241,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     transform: translateY(-3.5px) rotate(-45deg);
   }
 
-  @media (max-width: 55.99rem) {
+  @media (max-width: 69.99rem) {
     html.js .menu-button {
       display: inline-flex;
       margin-left: auto;
@@ -306,7 +308,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
   const navEl = document.getElementById('site-nav');
   if (button && navEl) {
     button.hidden = false;
-    const mq = window.matchMedia('(max-width: 55.99rem)');
+    const mq = window.matchMedia('(max-width: 69.99rem)');
     const setOpen = (open: boolean) => {
       button.setAttribute('aria-expanded', String(open));
       navEl.dataset.open = String(open);

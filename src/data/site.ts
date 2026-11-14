@@ -34,17 +34,14 @@ export const site = {
   privacyRevised: '2026-09-06',
 } as const;
 
-/** The header: four links. Everything else is reached from the island, the footer or the pages themselves. */
+/** The header: every page of the site, research first. The island repeats most of them. */
 export const nav = [
   { href: '/work/', label: 'Work' },
-  { href: '/publications/', label: 'Publications' },
-  { href: '/about/', label: 'About' },
-  { href: '/contact/', label: 'Contact' },
-] as const;
-
-/** Pages that are not in the header; the footer lists them. */
-export const navMore = [
   { href: '/methods/', label: 'Methods' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/blog/', label: 'Blog' },
   { href: '/teaching/', label: 'Teaching' },
+  { href: '/about/', label: 'About' },
   { href: '/cv/', label: 'CV' },
+  { href: '/contact/', label: 'Contact' },
 ] as const;
