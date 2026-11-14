@@ -41,7 +41,7 @@ const store = (theme: Theme): void => {
 const applyMeta = (theme: Theme): void => {
   // Keep the browser chrome colour in step with an explicit choice.
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
-    m.content = theme === 'dark' ? '#3d2c1d' : '#f0d3ac';
+    m.content = theme === 'dark' ? '#12343f' : '#cde3e8';
     m.removeAttribute('media');
   });
 };

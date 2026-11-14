@@ -26,7 +26,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr" data-palette="sand">
+<html lang="en" dir="ltr" data-palette="meltemi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,8 +35,8 @@ const currentPath = Astro.url.pathname;
     <link rel="canonical" href={canonical} />
     <meta name="author" content={site.name} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f0d3ac" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#3d2c1d" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#cde3e8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12343f" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>
       // Apply a stored theme choice before first paint. Reads one localStorage key
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
             document.documentElement.setAttribute('data-theme', o.v);
             var metas = document.getElementsByName('theme-color');
             for (var i = 0; i < metas.length; i++) {
-              metas[i].setAttribute('content', o.v === 'dark' ? '#3d2c1d' : '#f0d3ac');
+              metas[i].setAttribute('content', o.v === 'dark' ? '#12343f' : '#cde3e8');
               metas[i].removeAttribute('media');
             }
           } else {

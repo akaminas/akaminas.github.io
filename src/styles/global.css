@@ -1,10 +1,10 @@
 /* ==========================================================================
    Global styles — see DESIGN_SYSTEM.md.
 
-   An illustrated personal site on warm cream paper (the Sand palette): a tan
-   bar, monospaced headings in deep brown over a slab-serif text face, Greek
-   blue for links and a terracotta accent. The home page carries an interactive
-   island drawn as a toy-brick model (src/components/Island.astro).
+   An illustrated personal site on sea-mist paper (the Meltemi palette): a pale
+   sea-glass bar, monospaced headings in deep Aegean ink over a slab-serif text
+   face, blue links and a bougainvillea accent. The home page carries an
+   interactive island drawn as a toy-brick model (src/components/Island.astro).
 
    Structure: fonts → tokens → reset → typography → layout → lists → controls
    → prose → utilities → motion/print.
@@ -88,9 +88,9 @@
      one blue (#007ba7) for the bar, links and controls, deep slate text, pale
      blue-grey surfaces.
 
-     The site runs the "Sand" palette, defined below, which data-palette="sand"
-     on <html> in src/layouts/Base.astro switches on; remove that attribute to
-     return to Aegean. When switching, also change the two theme-color values
+     The site runs the "Meltemi" palette, defined below, which
+     data-palette="meltemi" on <html> in src/layouts/Base.astro switches on;
+     remove that attribute to return to Aegean. When switching, also change the two theme-color values
      in Base.astro (the meta tags and the inline pre-paint script), the two in
      src/scripts/theme.ts, the two in public/site.webmanifest, the tile colour
      in public/favicon.svg (then re-render the icons), and the colours in
@@ -193,71 +193,71 @@
   color-scheme: light;
 }
 
-/* ---------- Alternative palette: "Sand" ----------
-   Warm apricot ground against the cool island; blue and orange are
-   complements, so the model stands further off the page. Switch it on with
-   data-palette="sand" on <html> (see the note above the tokens). */
-:root[data-palette='sand'] {
-  --bg: #fdf8f0;
-  --surface: #f8ecdb;
-  --bar: #f0d3ac;
-  --bar-ink: #6b3a1e;
-  --ink: #3a2d22;
-  --heading: #7a3b22;
-  --muted: #6d5a48;
-  --line: #f0e4d3;
-  --line-strong: #d9bf9e;
-  --link: #1258a4;
-  --accent: #a6481c;
-  --accent-soft: #fae2d2;
+/* ---------- The site's palette: "Meltemi" ----------
+   Sea-mist paper, a pale sea-glass bar and deep ink in the blue-green of the
+   Aegean, with bougainvillea (a deep berry) as the one warm accent. Switched
+   on by data-palette="meltemi" on <html> (see the note above the tokens). */
+:root[data-palette='meltemi'] {
+  --bg: #f4f9fa;
+  --surface: #e6f0f2;
+  --bar: #cde3e8;
+  --bar-ink: #0c3446;
+  --ink: #1a2e37;
+  --heading: #0e3b4e;
+  --muted: #4a626c;
+  --line: #dde9ec;
+  --line-strong: #b4c9d0;
+  --link: #0a5a8f;
+  --accent: #a11f5d;
+  --accent-soft: #f6dce8;
   --on-accent: #ffffff;
-  --badge: #4a2716;
-  --badge-ink: #fdf3e8;
-  --badge-gold: #f0c48f;
-  --focus: #1258a4;
-  --selection: #f7ddc2;
+  --badge: #0e3b4e;
+  --badge-ink: #f4f9fa;
+  --badge-gold: #f4b6cf;
+  --focus: #0a5a8f;
+  --selection: #cfe6ee;
 }
 @media (prefers-color-scheme: dark) {
-  :root[data-palette='sand']:not([data-theme='light']) {
-    --bg: #1e1813;
-    --surface: #2b2219;
-    --bar: #3d2c1d;
-    --bar-ink: #f3e3ce;
-    --ink: #f0e7db;
-    --heading: #f8eddf;
-    --muted: #c3af98;
-    --line: #342a20;
-    --line-strong: #584631;
-    --link: #8fbdf0;
-    --accent: #f0a072;
-    --accent-soft: #3d2718;
-    --on-accent: #1e1813;
-    --badge: #f5e7d5;
-    --badge-ink: #1e1813;
-    --badge-gold: #945829;
-    --focus: #8fbdf0;
-    --selection: #4a3826;
+  :root[data-palette='meltemi']:not([data-theme='light']) {
+    --bg: #0c1a20;
+    --surface: #13262e;
+    --bar: #12343f;
+    --bar-ink: #dcedf1;
+    --ink: #e2eef2;
+    --heading: #f0f8fa;
+    --muted: #9fb6bf;
+    --line: #1f3640;
+    --line-strong: #36525e;
+    --link: #7cc4ef;
+    --accent: #f08fb8;
+    --accent-soft: #3a1a2a;
+    --on-accent: #0c1a20;
+    --badge: #e2eef2;
+    --badge-ink: #0c1a20;
+    --badge-gold: #a11f5d;
+    --focus: #7cc4ef;
+    --selection: #1d4254;
   }
 }
-:root[data-palette='sand'][data-theme='dark'] {
-  --bg: #1e1813;
-  --surface: #2b2219;
-  --bar: #3d2c1d;
-  --bar-ink: #f3e3ce;
-  --ink: #f0e7db;
-  --heading: #f8eddf;
-  --muted: #c3af98;
-  --line: #342a20;
-  --line-strong: #584631;
-  --link: #8fbdf0;
-  --accent: #f0a072;
-  --accent-soft: #3d2718;
-  --on-accent: #1e1813;
-  --badge: #f5e7d5;
-  --badge-ink: #1e1813;
-  --badge-gold: #945829;
-  --focus: #8fbdf0;
-  --selection: #4a3826;
+:root[data-palette='meltemi'][data-theme='dark'] {
+  --bg: #0c1a20;
+  --surface: #13262e;
+  --bar: #12343f;
+  --bar-ink: #dcedf1;
+  --ink: #e2eef2;
+  --heading: #f0f8fa;
+  --muted: #9fb6bf;
+  --line: #1f3640;
+  --line-strong: #36525e;
+  --link: #7cc4ef;
+  --accent: #f08fb8;
+  --accent-soft: #3a1a2a;
+  --on-accent: #0c1a20;
+  --badge: #e2eef2;
+  --badge-ink: #0c1a20;
+  --badge-gold: #a11f5d;
+  --focus: #7cc4ef;
+  --selection: #1d4254;
 }
 
 /* ---------- Reset ---------- */
