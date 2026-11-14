@@ -3,7 +3,9 @@ import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Section from '../../components/Section.astro';
 import { getPosts, isoDate } from '../../data/blog';
+import { site } from '../../data/site';
 
+const feedUrl = `${site.url}/rss.xml`;
 const posts = await getPosts();
 const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
 ---
@@ -13,7 +15,12 @@ const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
   description="A blog by Alexandros Kaminas, PhD researcher in theoretical and evolutionary ecology at the University of Groningen, with a new note about every two weeks."
 >
   <PageHeader title="Blog" lede="Notes, about every two weeks.">
-    <p class="small muted blog__feed">Subscribe with <a href="/rss.xml">RSS</a>.</p>
+    <p class="small muted blog__feed">
+      Subscribe with RSS: paste <code class="blog__feedurl">{feedUrl}</code> into a feed reader such as Feedly or
+      NetNewsWire.
+      <button type="button" class="blog__copy" data-feed={feedUrl} hidden>Copy the address</button>
+      The <a href="/rss.xml">feed itself</a> is plain XML, for readers rather than people.
+    </p>
   </PageHeader>
 
   {
@@ -48,10 +55,47 @@ const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
   }
 </Base>
 
+<script>
+  // The copy button only makes sense with JavaScript, so it is hidden in the markup and shown here.
+  const button = document.querySelector<HTMLButtonElement>('.blog__copy');
+  if (button) {
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      const url = button.dataset.feed ?? '';
+      try {
+        await navigator.clipboard.writeText(url);
+        button.textContent = 'Copied';
+      } catch {
+        // Clipboard access can be refused; select the address instead so it can be copied by hand.
+        const code = document.querySelector('.blog__feedurl');
+        if (code) window.getSelection()?.selectAllChildren(code);
+        button.textContent = 'Press Ctrl+C to copy';
+      }
+    });
+  }
+</script>
+
 <style>
   .blog__feed {
     margin-top: var(--space-3);
     font-family: var(--font-ui);
+  }
+  .blog__feedurl {
+    overflow-wrap: anywhere;
+    user-select: all;
+  }
+  .blog__copy {
+    margin: 0 var(--space-2);
+    padding: 0 var(--space-2);
+    border: var(--rule) solid var(--line-strong);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--link);
+    font: inherit;
+    cursor: pointer;
+  }
+  .blog__copy:hover {
+    border-color: var(--link);
   }
   .blog__summary {
     margin-top: var(--space-1) !important;

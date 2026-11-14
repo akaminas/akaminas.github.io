@@ -44,5 +44,5 @@ export const GET: APIRoute = async () => {
     .filter((line) => line !== '')
     .join('\n');
 
-  return new Response(xml, { headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' } });
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });
 };
