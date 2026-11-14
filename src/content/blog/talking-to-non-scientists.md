@@ -5,11 +5,11 @@ summary: "Start from the listener's decision, give one number with its uncertain
 draft: true
 ---
 
-Much of what I do is mathematical, and many of the people who might use it are not mathematicians. Explaining a quantitative result to someone who has no reason to read the methods section is a skill with rules, and these are the ones I try to follow.
+Much of what I do is mathematical, and many of the people who might use it are not mathematicians. Explaining a quantitative result to someone who has no reason to read the methods section takes some discipline. These are the rules I try to follow.
 
 ## Start from their decision
 
-Before explaining anything, find out what the listener has to decide, or what they want to understand. A result that bears on that decision is interesting to them. One that does not is a digression, however elegant. This also forces you to decide which part of your work matters for the question.
+Before explaining anything, find out what the listener has to decide, or what they want to understand. A result that bears on that decision is interesting to them. One that does not is a digression, however elegant. It also forces you to decide which part of your work matters for the question.
 
 ## Say what the model is for
 
@@ -17,19 +17,17 @@ One sentence is enough: "This model asks how much of the stock would remain in t
 
 ## Give one number, and say how sure you are
 
-Choose the number that carries the message, and give its uncertainty in words as well as an interval: "most likely around 40, and very unlikely to be below 20". People remember the central value, so the range has to be said aloud and written beside it.
+Choose the number that carries the message, and give its uncertainty in words as well as an interval: "most likely around 40, very unlikely to be below 20, and nine times in ten between 23 and 60". People remember the central value, so the range has to be said aloud and written beside it.
 
-Frequencies are easier to grasp than probabilities. "About 1 in 4" lands better than "25 per cent", and much better than "a probability of 0.25". Gerd Gigerenzer has shown this for risks in medicine, and I have no reason to think other fields are different.
+Frequencies are usually easier to grasp than probabilities. "About 1 in 4" tends to land better than "25 per cent", and better still than "a probability of 0.25". Gigerenzer and Hoffrage (1995) found that people reason about medical test results more accurately when the information comes as natural frequencies than when it comes as probabilities, and I have no reason to think other fields differ.
+
+![A bell-shaped curve over the share of today's stock left in twenty years, with a line at the most likely value, 40, a bar over the range from 23 to 60, and a shaded tail below 20.](figure:talking-to-non-scientists "One made-up result, said three ways: the most likely value, the range that holds nine outcomes in ten, and the chance of falling below 20, about 1 in 40.")
 
 ## Separate three kinds of statement
 
-Tell the listener which is which:
+Measured quantities are observed, with the instruments and sample size named. Assumed ones are chosen because the model needs them, with the alternatives named. Estimated ones are inferred from the measured, given the assumed.
 
-- **Measured**: observed, with the instruments and sample size named.
-- **Assumed**: chosen because the model needs it, with the alternatives named.
-- **Estimated**: inferred from the measured, given the assumed.
-
-The mixing of the three is what makes a confident-sounding report fragile. Marking them lets the listener put their trust where it belongs.
+A report that mixes the three without saying so sounds confident and is fragile. Marking them lets the listener put their trust where it belongs.
 
 ## Say what would change the answer
 
@@ -38,17 +36,18 @@ The mixing of the three is what makes a confident-sounding report fragile. Marki
 ## One figure, one message
 
 A figure should make one point, and the point should be in its title. Check that it survives for readers with colour-vision differences and when printed in grey.
+
 ## Mind the words
 
 Several scientific terms mean something else in ordinary speech: significant, random, error, theory, model, positive, uncertain. "Uncertain" is the dangerous one. To a scientist it can mean a well-quantified range, and to a listener it can sound like "we don't know". Say "we know this to within about ten per cent" rather than "this is uncertain".
 
 ## Predictions and scenarios
 
-A model that says "if emissions follow this path, then" is giving a scenario. A forecast says what will happen. Using the first as the second is a common source of misunderstanding. State which one it is.
+A model that says "if emissions follow this path, then" is giving a scenario. A forecast says what will happen. Using the first as the second is a common source of misunderstanding, so state which one it is.
 
 ## Do not apologise, and do not talk down
 
-Say what you know well, what roughly, and what not at all. Apologising for uncertainty makes it sound like a flaw in the person rather than a feature of the problem. Talking down is no better. The listener may well know their own field far better than you do, and what they lack is only your vocabulary.
+Say what you know well, what roughly, and what not at all. Apologising for uncertainty makes it sound like a flaw in the person, when it is a feature of the problem. Talking down is no better. The listener may well know their own field far better than you do, and what they lack is only your vocabulary.
 
 ## Ask what they heard
 

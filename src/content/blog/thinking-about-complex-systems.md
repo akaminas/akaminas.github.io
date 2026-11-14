@@ -28,21 +28,23 @@ The kinds combine, and most working models do. The analytical form gives the equ
 
 ## Generality, realism and precision
 
-Richard Levins pointed out in 1966 that a model of a population cannot maximise generality, realism and precision at once. Improving two usually costs the third. Knowing which one you have given up is part of describing the model honestly.
+Richard Levins argued in 1966 that a model of a population cannot maximise generality, realism and precision at once. Improving two usually costs the third. His three strategies map roughly onto three of the kinds above. A verbal or qualitative model keeps generality and realism and gives up precision. An analytical model keeps generality and precision and gives up realism. A detailed simulation is usually built for one system, so it keeps realism and precision and gives up generality. Knowing which one you have given up is part of describing the model honestly.
+
+![A triangle with generality at the top, realism at the bottom left and precision at the bottom right. Verbal models sit on the left side, analytical models on the right side and simulations on the bottom side, each between the two things it keeps.](figure:thinking-about-complex-systems "Each kind of model keeps two of the three and gives up the third. The positions are schematic, not measured.")
 
 ## States, parameters and loops
 
-A **state variable** changes during a run. A **parameter** stays fixed during it. Which is which is a choice, and a different choice gives a different model. If a quantity you treat as fixed would in fact drift, it needs a rule of its own.
+A state variable changes during a run. A parameter stays fixed during it. Which is which is a choice, and a different choice gives a different model. If a quantity you treat as fixed would in fact drift, it needs a rule of its own.
 
-Then look for loops. A chain of links in which a change comes back to its own source is a feedback loop, and its sign is the product of the signs of its links. Density raises crowding (plus), crowding lowers growth (minus), growth raises density (plus): the product is minus, and the density settles. Two plus signs make a loop that runs away or locks in. Write the signs down before naming the loop, since the sign of a link depends on how the quantities are defined.
+Then look for loops. A chain of links in which a change comes back to its own source is a feedback loop, and its sign is the product of the signs of its links. Density raises crowding (plus), crowding lowers growth (minus), growth raises density (plus): the product is minus, and the density settles. A loop whose signs multiply to a plus runs away or locks in, whether it has two plus links or two minus links. Write the signs down before naming the loop, since the sign of a link depends on how the quantities are defined.
 
 ## Scale
 
-If one process is much faster than another, the fast one settles to a value set by the slow one, and it can be treated as already settled. This is the main way to shrink a model without damaging it. It stops working when the fast variable slows down, as it does near a threshold.
+If one process is much faster than another, the fast one settles to a value set by the slow one, and it can be treated as already settled. This is a common way to shrink a model without damaging it. It stops working when the fast variable slows down, as it does near a threshold.
 
 ## Mechanism or shape
 
-A mechanistic term stands for a process that happens. A phenomenological term is a curve chosen because it has about the right shape. Most models contain both. The shape needs a reason written next to it, because a curve chosen freely is where wrong results usually enter.
+A mechanistic term stands for a process that happens. A phenomenological term is a curve chosen because it has about the right shape. Most models contain both. The shape needs a reason written next to it, because a curve chosen freely is a common place for wrong results to enter.
 
 ## Decide when to stop
 
