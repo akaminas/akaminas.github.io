@@ -30,7 +30,7 @@ const schema = {
 ---
 
 <Base title={data.title} description={data.summary} schema={[schema]} ogType="article">
-  <article>
+  <article lang="en-GB">
     <header class="page-head container">
       <p class="label"><a href="/blog/">Blog</a></p>
       <h1>{data.title}</h1>
@@ -75,6 +75,15 @@ const schema = {
   }
   .post__body {
     margin-top: var(--space-6);
+  }
+  /* The text of a post is fully justified: both edges are straight. Words are hyphenated (the article is
+     lang="en-GB") so the gaps between them stay small. The last line of a paragraph stays as it falls.
+     Code, tables, headings and the drawing keep their own alignment. */
+  .post__body :global(:is(p, li, blockquote, figcaption)) {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    overflow-wrap: break-word;
   }
   .post-nav {
     display: grid;
