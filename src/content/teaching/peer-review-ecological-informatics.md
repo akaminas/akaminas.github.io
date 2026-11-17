@@ -2,7 +2,7 @@
 title: Peer review
 role: Reviewer
 institution: Ecological Informatics
-period: Sep 2026 – present
+period: Nov 2026 – present
 kind: service
 order: 18
 ---
