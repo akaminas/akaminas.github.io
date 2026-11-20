@@ -11,9 +11,9 @@ const isMe = (a: string) => /^Kaminas,\s*A\.?$/.test(a.trim());
 
 const rows = {
   education: [
-    ['Oct 2025 – present', 'PhD student, The Evolutionary Consequences of Isolation', 'University of Groningen'],
+    ['Oct 2025 – present', 'PhD, The Evolutionary Consequences of Isolation', 'University of Groningen, TRÊS. Working under Rampal S. Etienne and G. Sander van Doorn'],
     ['Sep 2022 – Jun 2024', 'MSc, Applied Ecological and Evolutionary Sciences (2nd in class)', 'University of Montpellier'],
-    ['Sep 2017 – Dec 2021', 'BSc, Marine Science (1st in class)', 'University of the Aegean'],
+    ['Sep 2017 – Dec 2021', 'BSc, Marine Science (1st in class, top 1%)', 'University of the Aegean'],
   ],
   awards: [
     ['Oct 2025', 'EVOLVE fellowship', 'EU EVOLVE MSCA COFUND'],
@@ -21,53 +21,63 @@ const rows = {
     ['Jan 2022', 'Academic excellence award', 'Greek State Scholarships Foundation (IKY)'],
     ['Dec 2021', 'Valedictorian', 'University of the Aegean'],
   ],
-  experience: [
-    ['Oct 2024 – Sep 2025', 'Meteorology & oceanography officer (METOC)', 'Hydrographic Service, Hellenic Navy, Athens'],
-    ['Jan – Jun 2024', 'Research intern', 'UMR MARBEC, Montpellier'],
-    ['Jan – Jun 2023', 'Research intern', 'UMR MARBEC, Sète'],
-    ['Sep – Dec 2021', 'Erasmus research intern', 'UMR MARBEC, Sète'],
-    ['Jun – Sep 2020', 'Research intern', 'Hellenic Centre for Marine Research, Athens'],
-    ['Jan 2018 – Jun 2021', 'Academic tutor (biology, geology, physics, chemistry)', 'Mytilene'],
-  ],
-  roles: [
-    ['Oct 2025 – present', 'Research group member, Etienne group and Van Doorn group', 'University of Groningen, TRÊS'],
-    ['May 2025 – present', 'Network coordinator', 'SDSN Youth Greece'],
-    ['Jan 2025 – present', 'Research associate', 'Political Economy of Sustainable Development Lab, University of Athens'],
-    ['Jan 2024 – present', 'International student ambassador', 'Université de Montpellier'],
-    ['Nov 2023 – May 2025', 'Sustainability research fellow', 'SDSN Youth Greece'],
+  research: [
+    ['Jan – Jun 2024', 'Research intern: regime shifts under climate change and fishing', 'UMR MARBEC, Montpellier'],
+    ['Jan – Jun 2023', 'Research intern: functional diversity of fish communities', 'UMR MARBEC, Sète'],
+    ['Sep – Dec 2021', 'Erasmus research intern: functional diversity under global change', 'UMR MARBEC, Sète'],
+    ['Jun – Sep 2020', 'Research intern: diet of commercial fish species', 'Hellenic Centre for Marine Research, Athens'],
+    ['2018 – 2023', 'Volunteer research fellow: invasive species and elasmobranchs', 'iSea Environmental Organisation'],
     ['2021 – present', 'Working group member', 'WGCOMEDA'],
-    ['Sep 2024 – Sep 2025', 'Administration officer', 'Hellenic Navy, Athens – Poros'],
-    ['2018 – 2023', 'Volunteer research fellow', 'iSea Environmental Organisation'],
-    ['2018 – 2019', 'Club member, Plastic Litter Project', 'Marine Remote Sensing Club, Lesvos'],
   ],
   service: [
     ['2026', 'MSc research project supervisor', 'University of Groningen, TRÊS'],
-    ['Jun 2026', 'Financial auditor', 'Netherlands Society for Theoretical Biology (NVTB)'],
     ['Nov 2026 – present', 'Peer reviewer', 'Ecological Informatics'],
     ['Sep 2026 – present', 'Peer reviewer', 'Ecological Modelling'],
     ['Jan 2025 – present', 'Peer reviewer', 'Heliyon'],
+    ['Jun 2026', 'Financial auditor', 'Netherlands Society for Theoretical Biology (NVTB)'],
+    ['Jan 2024 – present', 'International student ambassador', 'Université de Montpellier'],
   ],
-  projects: [
+  software: [
+    ['2026', 'Vellum: a visual style for scientific figures', 'Author'],
+    ['2026', 'C++ Atlas: a course in scientific modelling through C++, for biologists', 'Author'],
+    ['2026', 'Tessera: project management for funded multi-partner projects', 'Author'],
+    ['Jan 2018 – Jun 2021', 'Academic tutor (biology, geology, physics, chemistry)', 'Mytilene'],
+  ],
+  policy: [
+    ['May 2025 – present', 'Network coordinator (sustainability research fellow, Nov 2023 – May 2025)', 'SDSN Youth Greece'],
+    ['Jan 2025 – present', 'Research associate', 'Political Economy of Sustainable Development Lab, University of Athens'],
     ['2024 – 2025', 'SDG4U — Sustainable Development Goal 4 for Universities (EU-funded)', 'Research, writing, dissemination'],
+  ],
+  outreach: [
     ['2019 – 2023', 'Marine alien species population density in Greece and Cyprus', 'Citizen science'],
     ['2018 – 2023', 'Is it Alien to you? Share it!!!', 'Public engagement and citizen science'],
     ['2018 – 2023', 'MECO project', 'Collaborative elasmobranch-sightings network'],
+    ['2018 – 2019', 'Plastic Litter Project', 'Marine Remote Sensing Club, Lesvos'],
+  ],
+  professional: [
+    ['Oct 2024 – Sep 2025', 'Meteorology & oceanography officer (METOC)', 'Hydrographic Service, Hellenic Navy, Athens'],
+    ['Sep 2024 – Sep 2025', 'Administration officer', 'Hellenic Navy, Athens – Poros'],
   ],
 };
 
-const groups = [
+const before = [
   { id: 'education', title: 'Education', list: rows.education },
   { id: 'awards', title: 'Fellowships and awards', list: rows.awards },
-  { id: 'experience', title: 'Research and professional experience', list: rows.experience },
-  { id: 'roles', title: 'Academic roles and affiliations', list: rows.roles },
-  { id: 'service', title: 'Supervision and academic service', list: rows.service },
-  { id: 'projects', title: 'Projects and initiatives', list: rows.projects },
+  { id: 'research', title: 'Research experience', list: rows.research },
+] as const;
+
+const after = [
+  { id: 'service', title: 'Supervision, peer review and service', list: rows.service },
+  { id: 'software', title: 'Scientific software and teaching', list: rows.software },
+  { id: 'policy', title: 'Sustainability and science policy', list: rows.policy },
+  { id: 'outreach', title: 'Citizen science and public engagement', list: rows.outreach },
+  { id: 'professional', title: 'Professional experience', list: rows.professional },
 ] as const;
 ---
 
 <Base
   title="Curriculum vitae"
-  description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, roles, supervision, presentations and publications. PDF available for download."
+  description="Curriculum vitae of Alexandros Kaminas: education, fellowships, research experience, publications, presentations, peer review, software, sustainability work and public engagement. PDF available for download."
 >
   <PageHeader title="Curriculum vitae">
     <p class="cv__download">
@@ -77,7 +87,7 @@ const groups = [
   </PageHeader>
 
   {
-    groups.map((g) => (
+    before.map((g) => (
       <Section id={`cv-${g.id}`} title={g.title}>
         <ol class="ledger cv__rows">
           {g.list.map(([when, what, where]) => (
@@ -112,7 +122,7 @@ const groups = [
     </ol>
   </Section>
 
-  <Section id="cv-pubs" title="Publications">
+  <Section id="cv-pubs" title="Selected publications">
     <ol class="ledger cv__rows">
       {
         pubs.map((p) => (
@@ -143,10 +153,30 @@ const groups = [
     </ol>
   </Section>
 
+  {
+    after.map((g) => (
+      <Section id={`cv-${g.id}`} title={g.title}>
+        <ol class="ledger cv__rows">
+          {g.list.map(([when, what, where]) => (
+            <li>
+              <span class="ledger__when">{when}</span>
+              <span class="cv__what">
+                {what}
+                {where && <span class="cv__where">{where}</span>}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </Section>
+    ))
+  }
+
   <Section id="cv-skills" title="Skills">
     <dl class="spec cv__skills">
       <dt>Programming</dt>
       <dd>C++ (advanced), Python (advanced), R (advanced), MATLAB (basic)</dd>
+      <dt>Methods</dt>
+      <dd>Stochastic simulation, eco-evolutionary models, catastrophe theory, trait-space (hypervolume) analysis, phylogenetic inference and trait imputation</dd>
       <dt>Spatial</dt>
       <dd>QGIS / ArcGIS, Image-Pro</dd>
       <dt>Languages</dt>

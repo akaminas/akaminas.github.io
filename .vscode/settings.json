@@ -1,5 +1,8 @@
 {
   "files.eol": "\n",
   "editor.formatOnSave": false,
-  "[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" }
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "overtex.build.onSave": false
 }
